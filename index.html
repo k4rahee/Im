@@ -2849,223 +2849,7 @@
   .reveal.delay-1{ transition-delay: 0.08s; }
   .reveal.delay-2{ transition-delay: 0.16s; }
 
-  
-
-/* ==============================
-   DARKWEB SNAP MODE
-   초반엔 원본 페이지가 미묘하게 틀어지다가, 후반에 사이트가 순간적으로 다른 페이지처럼 변질됨
-============================== */
-body.rahee-darkweb-shift{
-  background:#020403!important;
-  color:#baffc7!important;
-}
-body.rahee-darkweb-shift header,
-body.rahee-darkweb-shift main,
-body.rahee-darkweb-shift section,
-body.rahee-darkweb-shift footer{
-  filter: grayscale(.65) contrast(1.95) brightness(.46) saturate(1.85) hue-rotate(78deg)!important;
-}
-body.rahee-darkweb-shift a,
-body.rahee-darkweb-shift button,
-body.rahee-darkweb-shift .nav-link,
-body.rahee-darkweb-shift .section-title,
-body.rahee-darkweb-shift #heroTitle{
-  color:#baffc7!important;
-  text-shadow:0 0 8px rgba(55,255,115,.42), 2px 0 rgba(255,0,75,.24), -2px 0 rgba(0,180,255,.18)!important;
-}
-body.rahee-darkweb-shift .card,
-body.rahee-darkweb-shift .project-card,
-body.rahee-darkweb-shift .work-card,
-body.rahee-darkweb-shift .status-card,
-body.rahee-darkweb-shift .glass,
-body.rahee-darkweb-shift .email-card,
-body.rahee-darkweb-shift .comment-card,
-body.rahee-darkweb-shift input,
-body.rahee-darkweb-shift textarea{
-  background:rgba(0,9,3,.86)!important;
-  border-color:rgba(75,255,118,.25)!important;
-  box-shadow:inset 0 0 22px rgba(20,255,70,.05), 0 0 28px rgba(20,255,70,.08)!important;
-}
-#raheeDarkWebSnap{
-  position:fixed;
-  inset:0;
-  z-index:999996;
-  display:none;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(0,255,80,.11), transparent 33%),
-    linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.78)),
-    repeating-linear-gradient(90deg, rgba(0,255,85,.07) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.055) 0 1px, transparent 1px 6px);
-  mix-blend-mode:screen;
-  opacity:0;
-}
-#raheeDarkWebSnap.on{
-  display:block;
-  animation:raheeDarkwebSnapIn 1.55s steps(2,end) forwards, raheeDarkwebScan .085s steps(1,end) infinite;
-}
-#raheeDarkWebSnap::before,
-#raheeDarkWebSnap::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-#raheeDarkWebSnap::before{
-  background:
-    linear-gradient(90deg, rgba(255,0,70,.11), transparent 24%, rgba(0,255,105,.13) 56%, transparent 78%),
-    repeating-linear-gradient(0deg, transparent 0 19px, rgba(0,255,80,.18) 20px 21px);
-  clip-path:polygon(0 0,100% 0,100% 17%,0 24%,0 42%,100% 38%,100% 49%,0 57%,0 100%,100% 100%,100% 100%,0 100%);
-  transform:translateX(0);
-  animation:raheeDarkwebTear .17s steps(2,end) infinite;
-}
-#raheeDarkWebSnap::after{
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.68'/%3E%3C/svg%3E");
-  opacity:.38;
-}
-@keyframes raheeDarkwebSnapIn{
-  0%{ opacity:0; filter:brightness(1); }
-  8%{ opacity:1; filter:brightness(3.4) contrast(3); }
-  15%{ opacity:.18; }
-  23%{ opacity:.82; }
-  40%{ opacity:.34; }
-  56%{ opacity:.72; }
-  100%{ opacity:.46; filter:brightness(.8) contrast(1.6); }
-}
-@keyframes raheeDarkwebScan{
-  0%{ transform:translate(0,0); }
-  25%{ transform:translate(-8px,3px); }
-  50%{ transform:translate(6px,-2px); }
-  75%{ transform:translate(-3px,-4px); }
-  100%{ transform:translate(0,0); }
-}
-@keyframes raheeDarkwebTear{
-  0%{ transform:translateX(-34px); opacity:.2; }
-  50%{ transform:translateX(42px); opacity:.72; }
-  100%{ transform:translateX(-12px); opacity:.34; }
-}
-body.rahee-darkweb-shift .rahee-ghost-text{
-  color:#baffc7!important;
-  opacity:.72!important;
-  text-shadow:0 0 10px rgba(0,255,80,.5)!important;
-}
-
-
-/* ==============================
-   SECRET DARKWEB PAGE MODE
-   비밀 페이지를 별도 모달로 열지 않고, 기존 UI/UX 레이아웃 자체를 감염된 다크웹 화면처럼 변질
-============================== */
-body.rahee-secret-darkweb-mode{
-  background:#010302!important;
-  color:#b8ffc2!important;
-  cursor:crosshair;
-}
-body.rahee-secret-darkweb-mode header,
-body.rahee-secret-darkweb-mode main,
-body.rahee-secret-darkweb-mode section,
-body.rahee-secret-darkweb-mode footer{
-  filter:grayscale(.78) contrast(1.9) brightness(.58) saturate(1.55) hue-rotate(84deg)!important;
-  animation:raheeDarkwebBreath 5.7s ease-in-out infinite;
-}
-body.rahee-secret-darkweb-mode *:not(script):not(style){
-  text-shadow:
-    0 0 6px rgba(70,255,110,.25),
-    1px 0 rgba(255,0,80,.22),
-    -1px 0 rgba(0,160,255,.16)!important;
-}
-body.rahee-secret-darkweb-mode .card,
-body.rahee-secret-darkweb-mode .project-card,
-body.rahee-secret-darkweb-mode .work-card,
-body.rahee-secret-darkweb-mode .status-card,
-body.rahee-secret-darkweb-mode .glass,
-body.rahee-secret-darkweb-mode .email-card,
-body.rahee-secret-darkweb-mode .comment-card,
-body.rahee-secret-darkweb-mode input,
-body.rahee-secret-darkweb-mode textarea,
-body.rahee-secret-darkweb-mode .topbar,
-body.rahee-secret-darkweb-mode .nav-panel{
-  background:rgba(0,8,3,.82)!important;
-  border-color:rgba(91,255,120,.18)!important;
-  box-shadow:
-    inset 0 0 22px rgba(20,255,80,.045),
-    0 0 26px rgba(20,255,80,.07)!important;
-}
-body.rahee-secret-darkweb-mode img,
-body.rahee-secret-darkweb-mode video,
-body.rahee-secret-darkweb-mode iframe{
-  filter:grayscale(1) contrast(1.9) brightness(.48) hue-rotate(82deg)!important;
-  mix-blend-mode:luminosity;
-}
-@keyframes raheeDarkwebBreath{
-  0%,100%{ transform:none; filter:grayscale(.78) contrast(1.9) brightness(.58) saturate(1.55) hue-rotate(84deg); }
-  48%{ transform:translate(.4px,-.2px); filter:grayscale(.86) contrast(2.12) brightness(.49) saturate(1.75) hue-rotate(94deg); }
-  52%{ transform:translate(-1.2px,.5px) skewX(.12deg); filter:grayscale(.9) contrast(2.35) brightness(.44) saturate(1.95) hue-rotate(104deg); }
-}
-body.rahee-secret-darkweb-mode .rahee-corrupted-node{
-  font-family:var(--mono, monospace)!important;
-  letter-spacing:.055em!important;
-  word-break:break-all;
-  animation:raheeCorruptNodeFlicker 3.4s steps(2,end) infinite;
-}
-@keyframes raheeCorruptNodeFlicker{
-  0%,100%{ opacity:1; filter:none; }
-  42%{ opacity:.88; filter:blur(.12px); }
-  44%{ opacity:.58; filter:blur(.45px) contrast(1.8); }
-  46%{ opacity:1; filter:none; }
-}
-#raheeDarkwebBack{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:1000002;
-  display:none;
-  border:1px solid rgba(125,255,145,.34);
-  background:rgba(0,8,3,.84);
-  color:#baffc7;
-  font-family:var(--mono, monospace);
-  font-size:.76rem;
-  font-weight:700;
-  letter-spacing:.12em;
-  padding:.8rem 1rem;
-  border-radius:999px;
-  box-shadow:0 0 22px rgba(40,255,90,.12), inset 0 0 18px rgba(40,255,90,.05);
-  cursor:pointer;
-}
-#raheeDarkwebBack.on{ display:block; animation:raheeBackIn .5s ease both; }
-#raheeDarkwebBack:hover{ border-color:#baffc7; box-shadow:0 0 28px rgba(70,255,110,.2); }
-@keyframes raheeBackIn{
-  from{ opacity:0; transform:translateY(8px); }
-  to{ opacity:1; transform:translateY(0); }
-}
-#raheeDarkwebStatic{
-  position:fixed;
-  inset:0;
-  z-index:8996;
-  pointer-events:none;
-  display:none;
-  opacity:.28;
-  mix-blend-mode:screen;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(0,255,85,.08), transparent 33%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 5px),
-    repeating-linear-gradient(90deg, rgba(0,255,100,.045) 0 1px, transparent 1px 21px);
-}
-#raheeDarkwebStatic.on{ display:block; animation:raheeDarkStatic .11s steps(1,end) infinite; }
-#raheeDarkwebStatic::before{
-  content:"";
-  position:absolute; inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-  opacity:.28;
-}
-@keyframes raheeDarkStatic{
-  0%{ transform:translate(0,0); opacity:.22; }
-  22%{ transform:translate(4px,-2px); opacity:.34; }
-  50%{ transform:translate(-3px,3px); opacity:.26; }
-  76%{ transform:translate(2px,1px); opacity:.39; }
-  100%{ transform:translate(0,0); opacity:.24; }
-}
-
-@media (prefers-reduced-motion: reduce){
+  @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
@@ -3442,209 +3226,72 @@ body.rahee-secret-darkweb-mode .rahee-corrupted-node{
     50%{ box-shadow: 0 0 0 8px rgba(212, 255, 58, 0.08); }
   }
   .email-card{ animation: cardPulse 3s ease-in-out infinite; }
+</style>
 
 
-/* ==============================
-   RAHEE SUBTLE → SHOCK CORRUPTION
-   기존 페이지가 천천히 이상해지다가 마지막에 확 터지는 진입 연출
-============================== */
-body.rahee-creep-lock{ overflow:hidden; }
-body.rahee-creep-freeze header,
-body.rahee-creep-freeze main,
-body.rahee-creep-freeze section{
-  animation:none!important;
-  transform:none!important;
-  filter:contrast(1.01) brightness(.985) saturate(.94)!important;
-}
-body.rahee-creep-freeze #raheeCreepLayer.on,
-body.rahee-creep-freeze #raheeCreepSlice.on,
-body.rahee-creep-freeze #raheeCreepBlack.on,
-body.rahee-creep-freeze #raheeDarkWebSnap.on{
-  animation:none!important;
-}
-body.rahee-creep-freeze #raheeCreepLayer{ opacity:.032!important; }
-body.rahee-creep-slow header,
-body.rahee-creep-slow main,
-body.rahee-creep-slow section{
-  animation: raheeSlowWrongness 4.8s ease-in-out infinite;
-}
-body.rahee-creep-mid header,
-body.rahee-creep-mid main,
-body.rahee-creep-mid section{
-  animation: raheeMidWrongness .72s steps(2,end) infinite;
-}
-body.rahee-creep-snap header,
-body.rahee-creep-snap main,
-body.rahee-creep-snap section{
-  animation: raheeSnapWrongness .11s steps(2,end) infinite;
-}
-@keyframes raheeSlowWrongness{
-  0%,100%{ filter:none; transform:none; }
-  42%{ filter:contrast(1.04) saturate(.96); transform:translate(.3px,0); }
-  63%{ filter:contrast(1.08) brightness(.97); transform:translate(-.5px,.3px); }
-}
-@keyframes raheeMidWrongness{
-  0%,100%{ transform:none; filter:none; }
-  25%{ transform:translate(-2px,1px); filter:contrast(1.22) brightness(.91) saturate(.9); }
-  55%{ transform:translate(2px,-1px) skewX(.2deg); filter:contrast(1.35) brightness(.86) hue-rotate(-5deg); }
-  75%{ transform:translate(-1px,-1px); filter:invert(.035) contrast(1.28); }
-}
-@keyframes raheeSnapWrongness{
-  0%{ transform:translate(0,0); filter:contrast(1.1); }
-  25%{ transform:translate(-9px,4px) skewX(1.4deg); filter:contrast(2.4) brightness(.55) saturate(1.6); }
-  50%{ transform:translate(7px,-4px) skewX(-1.8deg); filter:invert(.18) contrast(2.8); }
-  75%{ transform:translate(-4px,-2px); filter:hue-rotate(-22deg) contrast(2.1) brightness(.7); }
-  100%{ transform:translate(0,0); filter:contrast(1.1); }
-}
-#raheeCreepLayer,
-#raheeCreepSlice,
-#raheeCreepBlack,
-#raheeCreepLog{
-  position:fixed;
-  pointer-events:none;
-  display:none;
-}
-#raheeCreepLayer{
-  inset:0;
-  z-index:8998;
-  opacity:0;
-  mix-blend-mode:screen;
+<style id="rahee-darkweb-effect-style">
+/* Darkweb effect - no layout replacement, no hero/card hiding */
+.rahee-dw-vignette{
+  position:fixed; inset:0; z-index:9990; pointer-events:none; opacity:0;
   background:
-    radial-gradient(circle at 50% 46%, rgba(255,255,255,.04), transparent 32%),
-    linear-gradient(90deg, rgba(255,0,70,.04), transparent 24%, rgba(0,190,255,.035) 72%, transparent),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 5px);
+    radial-gradient(circle at 50% 36%, transparent 0 38%, rgba(0,0,0,.30) 72%, rgba(0,0,0,.72) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 5px);
+  mix-blend-mode:screen;
+  transition:opacity .45s ease;
 }
-#raheeCreepLayer.on{ display:block; animation: raheeCreepNoise .16s steps(1,end) infinite; }
-#raheeCreepLayer::before{
-  content:"";
-  position:absolute; inset:0;
-  opacity:.24;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+.rahee-dw-vignette.on{ opacity:.12; animation:raheeDwNoise 1.1s steps(2,end) infinite; }
+.rahee-dw-vignette.panic{ opacity:.35; animation:raheeDwNoisePanic .14s steps(2,end) infinite; }
+.rahee-dw-cut{
+  position:fixed; left:-10vw; right:-10vw; top:50vh; height:0; z-index:9991; pointer-events:none;
+  background:rgba(190,255,35,.28); box-shadow:0 0 34px rgba(190,255,35,.32), 0 18px 0 rgba(105,0,28,.20);
+  mix-blend-mode:screen; opacity:0;
 }
-@keyframes raheeCreepNoise{
-  0%{ opacity:.025; transform:translate(0,0); }
-  28%{ opacity:.08; transform:translate(2px,-1px); }
-  54%{ opacity:.045; transform:translate(-3px,1px); }
-  74%{ opacity:.13; transform:translate(1px,2px); }
-  100%{ opacity:.035; transform:translate(0,0); }
+.rahee-dw-cut.on{ height:2px; opacity:1; animation:raheeDwCut .55s steps(2,end) 6; }
+.rahee-dw-flash{
+  position:fixed; inset:0; z-index:9992; pointer-events:none; opacity:0; background:#000;
 }
-#raheeCreepLayer.heavy{ animation-duration:.055s; }
-#raheeCreepLayer.heavy::before{ opacity:.56; }
-body.rahee-rgb-drift::before,
-body.rahee-rgb-drift::after{
-  content:""; position:fixed; inset:0; z-index:8997; pointer-events:none; mix-blend-mode:screen; opacity:.08;
+.rahee-dw-flash.on{ opacity:.94; }
+.rahee-dw-stain{
+  position:fixed; z-index:9989; pointer-events:none; opacity:0;
+  background:radial-gradient(circle at 42% 28%, rgba(80,0,20,.55), transparent 35%),
+             radial-gradient(circle at 68% 72%, rgba(0,0,0,.24), transparent 44%);
+  border-radius:48% 52% 60% 40% / 58% 42% 55% 45%;
+  filter:blur(.7px); mix-blend-mode:multiply;
+  transition:opacity 1.1s ease, transform 1.5s ease;
 }
-body.rahee-rgb-drift::before{ background:rgba(255,0,70,.8); transform:translate(4px,0); }
-body.rahee-rgb-drift::after{ background:rgba(0,180,255,.75); transform:translate(-4px,0); }
-body.rahee-rgb-panic::before,
-body.rahee-rgb-panic::after{ opacity:.22; }
-body.rahee-rgb-panic::before{ transform:translate(14px,-2px); }
-body.rahee-rgb-panic::after{ transform:translate(-14px,2px); }
-#raheeCreepSlice{
-  inset:0; z-index:8999; overflow:hidden; opacity:0;
+.rahee-dw-stain.show{ opacity:.42; transform:scale(1.04) rotate(var(--r,-8deg)); }
+.rahee-dw-corrupt{
+  text-shadow:1px 0 rgba(200,255,35,.56), -1px 0 rgba(255,0,80,.34);
+  letter-spacing:.04em;
 }
-#raheeCreepSlice.on{ display:block; opacity:1; }
-#raheeCreepSlice i{
-  position:absolute; left:-8%; width:116%; height:10%; display:block;
-  background:rgba(255,255,255,.16); mix-blend-mode:difference;
-  animation: raheeSliceMove .18s steps(2,end) infinite;
+body.rahee-dw-subtle main,
+body.rahee-dw-subtle header,
+body.rahee-dw-subtle footer{ filter:contrast(1.03) saturate(.92) brightness(.96); }
+body.rahee-dw-laggy main,
+body.rahee-dw-laggy header,
+body.rahee-dw-laggy footer{ animation:raheeDwJitter .65s steps(2,end) infinite; filter:contrast(1.1) saturate(.72) brightness(.88); }
+body.rahee-dw-final{
+  background:
+    radial-gradient(circle at 20% 16%, rgba(155,0,40,.15), transparent 34%),
+    radial-gradient(circle at 84% 22%, rgba(190,255,35,.07), transparent 30%),
+    #050506 !important;
 }
-#raheeCreepSlice i:nth-child(1){ top:23%; animation-duration:.22s; }
-#raheeCreepSlice i:nth-child(2){ top:49%; height:7%; animation-duration:.13s; }
-#raheeCreepSlice i:nth-child(3){ top:72%; height:14%; animation-duration:.17s; }
-@keyframes raheeSliceMove{
-  0%{ transform:translateX(-44px); opacity:.05; }
-  50%{ transform:translateX(52px); opacity:.42; }
-  100%{ transform:translateX(-16px); opacity:.1; }
+body.rahee-dw-final main,
+body.rahee-dw-final header,
+body.rahee-dw-final footer{
+  filter:contrast(1.2) saturate(.52) brightness(.76) hue-rotate(126deg);
 }
-.rahee-ghost-text{
-  position:fixed; z-index:9000; pointer-events:none;
-  color:inherit; font:inherit; letter-spacing:inherit; line-height:inherit;
-  opacity:.22; transform:translate(3px,-2px); mix-blend-mode:difference;
-  white-space:nowrap; max-width:92vw; overflow:hidden;
+.rahee-dw-return{
+  position:fixed; right:18px; bottom:86px; z-index:10005;
+  border:1px solid rgba(205,255,35,.35); border-radius:999px;
+  background:rgba(0,0,0,.78); color:#d8ff3a;
+  padding:11px 15px; font-size:13px; letter-spacing:.08em;
+  box-shadow:0 0 28px rgba(190,255,30,.18); backdrop-filter:blur(12px);
 }
-.rahee-ghost-text.fast{ opacity:.45; transform:translate(-8px,3px) skewX(-4deg); filter:blur(.3px); }
-#raheeCreepLog{
-  left:50%; bottom:8.5vh; transform:translateX(-50%);
-  z-index:1000000; width:min(560px,calc(100vw - 34px));
-  padding:14px 16px; border:1px solid rgba(255,255,255,.16);
-  background:rgba(0,0,0,.74); color:rgba(255,255,255,.86);
-  font-family:var(--mono, monospace); font-size:.72rem; letter-spacing:.08em; line-height:1.75;
-  opacity:0; text-transform:lowercase;
-}
-#raheeCreepLog.on{ display:block; animation: raheeLogBlink 1.05s steps(2,end) forwards; }
-#raheeCreepLog b{ color:#ff6681; font-weight:700; }
-@keyframes raheeLogBlink{
-  0%{ opacity:0; transform:translateX(-50%) translateY(8px); }
-  16%,72%{ opacity:1; transform:translateX(-50%) translateY(0); }
-  100%{ opacity:0; transform:translateX(-50%) translateY(-3px); }
-}
-#raheeCreepBlack{
-  inset:0; z-index:1000001; background:#000; opacity:0;
-}
-#raheeCreepBlack.on{ display:block; animation: raheeCreepBlackout 1.05s steps(2,end) forwards; }
-@keyframes raheeCreepBlackout{
-  0%{ opacity:0; }
-  16%{ opacity:1; }
-  34%{ opacity:.18; }
-  54%{ opacity:1; background:#080808; }
-  72%{ opacity:.42; }
-  100%{ opacity:0; background:#000; }
-}
-body.rahee-return-restore header,
-body.rahee-return-restore main,
-body.rahee-return-restore section{
-  animation: raheeReturnRestore .95s steps(2,end) both;
-}
-@keyframes raheeReturnRestore{
-  0%{ filter:contrast(2.2) brightness(.55); transform:translate(-6px,2px); }
-  38%{ filter:invert(.12) contrast(2.5); transform:translate(5px,-3px); }
-  100%{ filter:none; transform:none; }
-}
-
-
-/* ==============================
-   NATURAL DARKWEB CORRUPTION REFINEMENT
-   인위적인 전체 외계어 대신, 기존 문장의 일부만 어긋나게 변질
-============================== */
-body.rahee-creep-quiet header,
-body.rahee-creep-quiet main,
-body.rahee-creep-quiet section{
-  animation:none!important;
-  filter:contrast(1.03) brightness(.98) saturate(.92)!important;
-  transform:none!important;
-}
-body.rahee-secret-darkweb-mode .rahee-mutated-node{
-  font-family:inherit!important;
-  letter-spacing:.015em!important;
-  word-break:keep-all;
-  opacity:.94;
-  animation:raheeMutatedNodePulse 4.8s steps(2,end) infinite;
-}
-@keyframes raheeMutatedNodePulse{
-  0%,100%{ filter:none; opacity:.96; }
-  49%{ filter:none; opacity:.96; }
-  50%{ filter:blur(.24px) contrast(1.5); opacity:.66; }
-  51%{ filter:none; opacity:.98; }
-}
-body.rahee-secret-darkweb-mode .rahee-corrupted-node{
-  font-family:inherit!important;
-  letter-spacing:.02em!important;
-  word-break:break-word;
-}
-body.rahee-secret-darkweb-mode .rahee-darkweb-redacted{ position:relative; }
-body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
-  content:""; position:absolute; left:0; right:0; top:48%; height:1px;
-  background:rgba(155,255,170,.35); box-shadow:0 0 8px rgba(80,255,120,.22);
-  transform:translateY(-50%); pointer-events:none;
-}
-
-@media (prefers-reduced-motion: reduce){
-  body.rahee-creep-slow header, body.rahee-creep-slow main, body.rahee-creep-slow section,
-  body.rahee-creep-mid header, body.rahee-creep-mid main, body.rahee-creep-mid section,
-  body.rahee-creep-snap header, body.rahee-creep-snap main, body.rahee-creep-snap section{ animation:none!important; }
-}
-
+@keyframes raheeDwNoise{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(-1px,1px); filter:brightness(1.18)} }
+@keyframes raheeDwNoisePanic{ 0%{transform:translate(-4px,2px)} 50%{transform:translate(5px,-4px)} 100%{transform:translate(-2px,3px)} }
+@keyframes raheeDwJitter{ 0%,100%{transform:translate3d(0,0,0)} 33%{transform:translate3d(.7px,-.4px,0)} 66%{transform:translate3d(-.6px,.5px,0)} }
+@keyframes raheeDwCut{ 0%{transform:translateY(-20vh) skewX(-16deg)} 35%{transform:translateY(8vh) skewX(20deg)} 100%{transform:translateY(22vh) skewX(8deg)} }
 </style>
 
 </head>
@@ -3701,7 +3348,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>k4rahee@naver.com</span>
     </div>
 
-
 <div class="hero-grid">
   <div>
     <h1 id="heroTitle">
@@ -3738,7 +3384,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   </div>
 </div>
 
-
   </div>
 </section>
 
@@ -3750,7 +3395,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span><span class="num">01</span> &nbsp;/&nbsp; <span class="name">About Me</span></span>
       <span>Origin</span>
     </div>
-
 
 <div class="about-grid">
   <div class="about-image reveal tilt" data-tilt-max="4">
@@ -3804,7 +3448,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   </div>
 </div>
 
-
   </div>
 </section>
 
@@ -3816,7 +3459,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span><span class="num">02</span> &nbsp;/&nbsp; <span class="name">Work History</span></span>
       <span>2014 → 2025</span>
     </div>
-
 
 <h2 class="sec-heading reveal">Work <em>History.</em></h2>
 
@@ -3865,7 +3507,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 
 </div>
 
-
   </div>
 </section>
 
@@ -3878,7 +3519,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>2023 → 2026</span>
     </div>
 
-
 <div class="projects-head reveal">
   <h2 class="sec-heading" style="margin-bottom: 0;">Personal <em>Project.</em></h2>
   <div class="carousel-controls">
@@ -3888,11 +3528,9 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   </div>
 </div>
 
-
   </div>
 
   <div class="gallery reveal" id="carousel">
-
 
   <div class="item reveal" data-idx="0">
     <div class="img-wrapper">
@@ -3946,7 +3584,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <div class="item-title"><em>콘텐츠 제작</em> Commission</div>
   </div>
 
-
   </div>
 
   <div class="scroll-progress"><div class="bar" id="scroll-bar"></div></div>
@@ -3976,7 +3613,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span><span class="num">04</span> &nbsp;/&nbsp; <span class="name">Now Focus On</span></span>
       <span>Currently</span>
     </div>
-
 
 <h2 class="sec-heading reveal">Now <em>Focus On.</em></h2>
 
@@ -4012,7 +3648,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   </div>
 </div>
 
-
   </div>
 </section>
 
@@ -4024,7 +3659,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span><span class="num">05</span> &nbsp;/&nbsp; <span class="name">Thoughts</span></span>
       <span>Notes</span>
     </div>
-
 
 <h2 class="sec-heading reveal">Thoughts <em>&amp; Notes.</em></h2>
 
@@ -4041,7 +3675,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <!-- cards rendered by JS -->
 </div>
 
-
   </div>
 </section>
 
@@ -4051,7 +3684,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <div class="thought-modal-backdrop" data-modal-close></div>
   <div class="thought-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <button class="thought-modal-close" type="button" aria-label="닫기" data-modal-close>×</button>
-
 
 <!-- READ MODE -->
 <div class="thought-modal-read" id="modal-read">
@@ -4141,7 +3773,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   </div>
 </form>
 
-
   </div>
 </div>
 
@@ -4182,7 +3813,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>Say hi</span>
     </div>
 
-
 <div class="contact-intro reveal">
   <div class="label"><span class="pulse"></span><span id="contact-label">Available for collaboration</span></div>
   <div class="closing-sub" id="contact-desc">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
@@ -4208,7 +3838,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 <!-- 관리자 수정 버튼 -->
 <button class="contact-edit-btn" id="contact-edit-btn" type="button" style="display:none;">✎ Contact 수정</button>
 
-
   </div>
 </section>
 
@@ -4219,7 +3848,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <div class="contact-edit-panel">
     <button class="contact-edit-close" id="contact-edit-close" type="button">×</button>
     <h3 class="write-heading">Contact 수정</h3>
-
 
 <div class="write-row">
   <label class="write-label">라벨 (상단 뱃지)</label>
@@ -4238,7 +3866,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <button type="button" class="write-btn-cancel" id="contact-edit-cancel">취소</button>
   <button type="button" class="write-btn-save" id="contact-edit-save">저장하기</button>
 </div>
-
 
   </div>
 </div>
@@ -4522,7 +4149,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       if (e.target.closest(interactive)) cursor.classList.remove('expand');
     });
     const tick = () => {
-      cursor.style.transform = translate(${mx}px, ${my}px) translate(-50%, -50%);
+      cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
       requestAnimationFrame(tick);
     };
     tick();
@@ -4551,7 +4178,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const max = 160;
         if (dist < max){
           const lift = (1 - dist / max) * 18;
-          ch.style.transform = translateY(-${lift.toFixed(1)}px);
+          ch.style.transform = `translateY(-${lift.toFixed(1)}px)`;
         } else {
           ch.style.transform = 'translateY(0)';
         }
@@ -4575,7 +4202,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       scrollY = newY;
       rot += delta * 0.8;
       sparkles.forEach(s => {
-        s.style.transform = translateY(-0.5em) rotate(${rot}deg);
+        s.style.transform = `translateY(-0.5em) rotate(${rot}deg)`;
       });
     };
     window.addEventListener('scroll', update, { passive: true });
@@ -4594,7 +4221,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const y = (e.clientY - rect.top) / rect.height - 0.5;
         const rx = (-y * max).toFixed(2);
         const ry = (x * max).toFixed(2);
-        el.style.transform = perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg);
+        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
       el.addEventListener('mouseleave', () => {
         el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
@@ -4722,7 +4349,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     const tick = () => {
       cx += (mx - cx) * 0.08;
       cy += (my - cy) * 0.08;
-      glow.style.transform = translate(${cx}px, ${cy}px) translate(-50%, -50%);
+      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
       requestAnimationFrame(tick);
     };
     tick();
@@ -4800,7 +4427,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const rect = wrapper.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        ph.style.transform = scale(1.05) translate(${x * -8}px, ${y * -8}px);
+        ph.style.transform = `scale(1.05) translate(${x * -8}px, ${y * -8}px)`;
       });
       item.addEventListener('mouseleave', () => {
         ph.style.transform = '';
@@ -4873,7 +4500,7 @@ function parseMediaUrl(url){
   // imgur album/page (single image fallback - imgur direct image works as image)
   m = u.match(/imgur\.com\/(?!a\/|gallery\/)([\w]+)$/);
   if (m && !u.match(/\.(jpg|jpeg|png|gif|webp)$/i)){
-    return { type: 'image', src: https://i.imgur.com/${m[1]}.jpg };
+    return { type: 'image', src: `https://i.imgur.com/${m[1]}.jpg` };
   }
   // Direct image
   if (u.match(/\.(jpg|jpeg|png|gif|webp|avif)(\?.*)?$/i)) return { type: 'image', src: u };
@@ -4889,19 +4516,19 @@ function renderMediaHTML(urls){
     if (!m) return '';
     const safeUrl = escapeHTML(url);
     if (m.type === 'youtube'){
-      return <div class="media-item"><div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>;
+      return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
     }
     if (m.type === 'vimeo'){
-      return <div class="media-item"><div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>;
+      return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
     }
     if (m.type === 'image'){
-      return <div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.parentElement.innerHTML='<div class=&quot;media-item-error&quot;>이미지를 불러올 수 없습니다: ${safeUrl}</div>'"></a></div>;
+      return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.parentElement.innerHTML='<div class=&quot;media-item-error&quot;>이미지를 불러올 수 없습니다: ${safeUrl}</div>'"></a></div>`;
     }
     if (m.type === 'video'){
-      return <div class="media-item"><video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>;
+      return `<div class="media-item"><video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>`;
     }
     // unknown — try as image, fallback to link
-    return <div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;media-item-error&quot;><a href=&quot;${safeUrl}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;color:inherit;&quot;>${safeUrl}</a></div>'"></a></div>;
+    return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;media-item-error&quot;><a href=&quot;${safeUrl}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;color:inherit;&quot;>${safeUrl}</a></div>'"></a></div>`;
   }).join('');
 }
 function tsToDate(ts){
@@ -4914,7 +4541,7 @@ function formatDateLong(ts){
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,'0');
   const day = String(d.getDate()).padStart(2,'0');
-  return ${y}. ${m}. ${day};
+  return `${y}. ${m}. ${day}`;
 }
 function formatTime(ts){
   const d = tsToDate(ts);
@@ -5111,37 +4738,37 @@ function renderCards(){
   const cards = visible.map(p => {
     const dateStr = formatDateLong(p.createdAt);
     const relStr = relativeTime(p.createdAt);
-    return 
+    return `
       <article class="thought-card" data-post-id="${escapeHTML(p.id)}" tabindex="0" role="button" aria-label="${escapeHTML(p.title)} 읽기">
         <div class="thought-meta">
           <span class="thought-tag">${escapeHTML(p.tag)}</span>
           <span class="thought-date-rel">${escapeHTML(relStr)}<span class="dot">·</span>${escapeHTML(dateStr)}</span>
-          ${p.views ? <span class="thought-views">👁 ${p.views}</span> : ''}
+          ${p.views ? `<span class="thought-views">👁 ${p.views}</span>` : ''}
         </div>
         <h3 class="thought-title">${escapeHTML(p.title)}</h3>
         <p class="thought-excerpt">${escapeHTML(p.excerpt)}</p>
-        ${p.media && p.media.length ? <span class="thought-media-mark" aria-label="미디어 ${p.media.length}개"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> ${p.media.length}</span> : ''}
+        ${p.media && p.media.length ? `<span class="thought-media-mark" aria-label="미디어 ${p.media.length}개"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> ${p.media.length}</span>` : ''}
         <span class="thought-more">계속 읽기 <span class="arr">↗</span></span>
       </article>
-    ;
+    `;
   }).join('');
 
-  const addCard = currentUser ? 
+  const addCard = currentUser ? `
     <article class="thought-card thought-add" data-action="new" tabindex="0" role="button" aria-label="새 글 작성하기">
       <div class="thought-add-inner">
         <span class="thought-add-icon">+</span>
         <span class="thought-add-label">새 글 작성하기</span>
       </div>
     </article>
-   : '';
+  ` : '';
 
-  const loadMore = hasMore ? 
+  const loadMore = hasMore ? `
     <div class="load-more-wrap">
       <button class="load-more-btn" id="load-more-btn" type="button">
         더 보기 (${filtered.length - visibleCount}개) ↓
       </button>
     </div>
-   : '';
+  ` : '';
 
   if (!filtered.length && !currentUser){
     list.innerHTML = '<div class="thoughts-loading">아직 작성된 글이 없습니다.</div>' + addCard;
@@ -5182,7 +4809,7 @@ function openRead(post){
   // 조회수 표시 & 증가
   const viewsEl = document.getElementById('modal-views');
   const newViews = (post.views || 0) + 1;
-  viewsEl.textContent = 👁 ${newViews};
+  viewsEl.textContent = `👁 ${newViews}`;
   // Firestore에 views 업데이트 (비동기)
   updateDoc(doc(db, 'thoughts', post.id), { views: increment(1) }).catch(() => {});
 
@@ -5238,7 +4865,7 @@ function openWrite(post = null){
   if (post){
     editingPostId = post.id;
     document.getElementById('write-heading').textContent = '글 수정';
-    document.querySelector(input[name="tag"][value="${post.tag}"]).checked = true;
+    document.querySelector(`input[name="tag"][value="${post.tag}"]`).checked = true;
     document.getElementById('write-title').value = post.title;
     document.getElementById('write-body').value = post.body;
     document.getElementById('write-count').textContent = post.body.length;
@@ -5296,10 +4923,10 @@ const mediaAddBtn = document.getElementById('media-add-btn');
 function makeMediaInputRow(value = ''){
   const row = document.createElement('div');
   row.className = 'media-input-row';
-  row.innerHTML = 
+  row.innerHTML = `
     <input type="url" placeholder="https://youtube.com/watch?v=... 또는 https://i.imgur.com/abc.jpg" value="${value.replace(/"/g, '&quot;')}">
     <button type="button" class="media-input-remove" aria-label="삭제" title="삭제">×</button>
-  ;
+  `;
   row.querySelector('.media-input-remove').addEventListener('click', () => row.remove());
   return row;
 }
@@ -5332,9 +4959,9 @@ function addPreviewItem(previewUrl, type, idx){
   item.className = 'media-preview-item';
   item.dataset.idx = idx;
   if(type.startsWith('video')){
-    item.innerHTML = <video src="${previewUrl}" muted></video><button class="preview-remove" type="button">×</button>;
+    item.innerHTML = `<video src="${previewUrl}" muted></video><button class="preview-remove" type="button">×</button>`;
   } else {
-    item.innerHTML = <img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>;
+    item.innerHTML = `<img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>`;
   }
   item.querySelector('.preview-remove').addEventListener('click', () => {
     const i = parseInt(item.dataset.idx);
@@ -5354,8 +4981,8 @@ function renderPreviews(){
 async function handleFiles(files){
   const MAX = 20 * 1024 * 1024;
   for(const file of Array.from(files)){
-    if(file.size > MAX){ toast(${file.name}: 20MB 초과, 'error'); continue; }
-    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(지원하지 않는 파일 형식, 'error'); continue; }
+    if(file.size > MAX){ toast(`${file.name}: 20MB 초과`, 'error'); continue; }
+    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(`지원하지 않는 파일 형식`, 'error'); continue; }
     const previewUrl = URL.createObjectURL(file);
     uploadedFiles.push({ file, previewUrl, type: file.type });
   }
@@ -5365,7 +4992,7 @@ async function handleFiles(files){
 async function uploadFilesToStorage(){
   const urls = [];
   for(const f of uploadedFiles){
-    const path = thoughts/${currentUser.uid}/${Date.now()}_${f.file.name};
+    const path = `thoughts/${currentUser.uid}/${Date.now()}_${f.file.name}`;
     const ref = storageRef(storage, path);
     try {
       const snap = await uploadBytes(ref, f.file);
@@ -5373,7 +5000,7 @@ async function uploadFilesToStorage(){
       urls.push(url);
     } catch(err){
       console.error('Storage upload error', err);
-      toast(${f.file.name} 업로드 실패, 'error');
+      toast(`${f.file.name} 업로드 실패`, 'error');
     }
   }
   return urls;
@@ -5555,13 +5182,13 @@ function renderContactSection(data){
   const socials = document.getElementById('contact-socials');
   socials.innerHTML = (d.links || DEFAULT_CONTACT.links).map(l => {
     const isEmpty = !l.url;
-    return 
+    return `
       <a href="${isEmpty ? '#' : l.url}" ${isEmpty ? '' : 'target="_blank" rel="noopener"'}
          class="social-link${isEmpty ? ' placeholder' : ''}">
         <span class="social-name">${escHTML(l.name)}</span>
         <span class="social-handle">${escHTML(l.handle)}</span>
         <span class="social-arr">↗</span>
-      </a>;
+      </a>`;
   }).join('');
 }
 
@@ -5589,21 +5216,21 @@ function updateContactEditAdminUI(){
 function makeLinkRow(link = {}){
   const row = document.createElement('div');
   row.className = 'ce-link-row';
-  row.innerHTML = 
+  row.innerHTML = `
     <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
     <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
     <input type="url"  placeholder="https://..." maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/3;">
     <button class="ce-link-remove" type="button">×</button>
-  ;
+  `;
   // url input 3번째 row
   const inputs = row.querySelectorAll('input');
   // reorganize: name | handle | remove / url full width
-  row.innerHTML = 
+  row.innerHTML = `
     <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
     <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
     <button class="ce-link-remove" type="button">×</button>
     <input type="url" placeholder="URL (https://...)" maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/4;">
-  ;
+  `;
   row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
   return row;
 }
@@ -5777,401 +5404,155 @@ function flashArrow(i, done = false){
   setTimeout(() => { el.classList.remove('pop','done'); }, 600);
 }
 
-let raheeCreepRunning = false;
-let raheeCreepTimers = [];
-
-function ensureRaheeCreepNodes(){
-  if (!document.getElementById('raheeCreepLayer')){
-    const layer = document.createElement('div');
-    layer.id = 'raheeCreepLayer';
-    layer.setAttribute('aria-hidden','true');
-    document.body.appendChild(layer);
-  }
-  if (!document.getElementById('raheeCreepSlice')){
-    const slice = document.createElement('div');
-    slice.id = 'raheeCreepSlice';
-    slice.setAttribute('aria-hidden','true');
-    slice.innerHTML = '<i></i><i></i><i></i>';
-    document.body.appendChild(slice);
-  }
-  if (!document.getElementById('raheeCreepLog')){
-    const log = document.createElement('div');
-    log.id = 'raheeCreepLog';
-    log.setAttribute('aria-hidden','true');
-    document.body.appendChild(log);
-  }
-  if (!document.getElementById('raheeCreepBlack')){
-    const black = document.createElement('div');
-    black.id = 'raheeCreepBlack';
-    black.setAttribute('aria-hidden','true');
-    document.body.appendChild(black);
-  }
-  if (!document.getElementById('raheeDarkWebSnap')){
-    const dark = document.createElement('div');
-    dark.id = 'raheeDarkWebSnap';
-    dark.setAttribute('aria-hidden','true');
-    document.body.appendChild(dark);
-  }
-  if (!document.getElementById('raheeDarkwebStatic')){
-    const stat = document.createElement('div');
-    stat.id = 'raheeDarkwebStatic';
-    stat.setAttribute('aria-hidden','true');
-    document.body.appendChild(stat);
-  }
-  if (!document.getElementById('raheeDarkwebBack')){
-    const back = document.createElement('button');
-    back.id = 'raheeDarkwebBack';
-    back.type = 'button';
-    back.textContent = '← 돌아가기';
-    back.setAttribute('aria-label','메인 페이지로 돌아가기');
-    document.body.appendChild(back);
-    back.addEventListener('click', exitSecretDarkwebPage);
-  }
-}
-
-function clearRaheeCreepTimers(){
-  raheeCreepTimers.forEach(t => clearTimeout(t));
-  raheeCreepTimers = [];
-}
-
-function later(ms, fn){
-  const t = setTimeout(fn, ms);
-  raheeCreepTimers.push(t);
-  return t;
-}
-
-let raheeScrollStage = 'free';
-const raheeScrollState = {
-  lastTouchY: null,
-  lagTimers: []
-};
-
-function clearRaheeLagTimers(){
-  raheeScrollState.lagTimers.forEach(t => clearTimeout(t));
-  raheeScrollState.lagTimers = [];
-}
-
-function setRaheeScrollStage(stage){
-  raheeScrollStage = stage;
-  if (stage === 'freeze') {
-    document.body.classList.add('rahee-creep-lock','rahee-creep-freeze');
-  } else {
-    document.body.classList.remove('rahee-creep-freeze');
-    if (stage === 'free') document.body.classList.remove('rahee-creep-lock');
-  }
-}
-
-function resetRaheeScrollState(){
-  clearRaheeLagTimers();
-  raheeScrollStage = 'free';
-  raheeScrollState.lastTouchY = null;
-  document.body.classList.remove('rahee-creep-freeze');
-}
-
-function applyLaggedScroll(delta){
-  if (!delta || Math.abs(delta) < 1) return;
-  const isMid = document.body.classList.contains('rahee-creep-mid');
-  const strength = isMid ? 0.24 : 0.42;
-  const delay = isMid ? (110 + Math.random() * 170) : (65 + Math.random() * 90);
-  const jitter = (Math.random() * 10) - 5;
-  const timer = setTimeout(() => {
-    window.scrollBy({ top: (delta * strength) + jitter, behavior: 'auto' });
-  }, delay);
-  raheeScrollState.lagTimers.push(timer);
-}
-
-window.addEventListener('wheel', (e) => {
-  if (!raheeCreepRunning || raheeSecretDarkwebActive) return;
-  if (raheeScrollStage === 'free') return;
-  if (raheeScrollStage === 'freeze') {
-    e.preventDefault();
-    return;
-  }
-  if (raheeScrollStage === 'lag') {
-    e.preventDefault();
-    applyLaggedScroll(e.deltaY);
-  }
-}, { passive: false });
-
-window.addEventListener('touchmove', (e) => {
-  if (!raheeCreepRunning || raheeSecretDarkwebActive) return;
-  if (e.touches.length !== 1) return;
-  const currentY = e.touches[0].clientY;
-  const lastY = raheeScrollState.lastTouchY == null ? currentY : raheeScrollState.lastTouchY;
-  const delta = lastY - currentY;
-  raheeScrollState.lastTouchY = currentY;
-
-  if (raheeScrollStage === 'free') return;
-  if (raheeScrollStage === 'freeze') {
-    e.preventDefault();
-    return;
-  }
-  if (raheeScrollStage === 'lag') {
-    e.preventDefault();
-    applyLaggedScroll(delta);
-  }
-}, { passive: false });
-
-function ghostRealText(selector, fast = false){
-  const targets = Array.from(document.querySelectorAll(selector)).filter(el => {
-    const r = el.getBoundingClientRect();
-    return r.width > 20 && r.height > 8 && r.bottom > 0 && r.top < window.innerHeight;
-  });
-  if (!targets.length) return;
-  const el = targets[Math.floor(Math.random() * targets.length)];
-  const text = (el.innerText || el.textContent || '').trim();
-  if (!text) return;
-
-  const r = el.getBoundingClientRect();
-  const ghost = document.createElement('div');
-  ghost.className = 'rahee-ghost-text' + (fast ? ' fast' : '');
-  ghost.textContent = text;
-  ghost.style.left = r.left + 'px';
-  ghost.style.top = r.top + 'px';
-  ghost.style.width = Math.min(r.width + 60, window.innerWidth - r.left - 8) + 'px';
-  const cs = getComputedStyle(el);
-  ghost.style.font = cs.font;
-  ghost.style.letterSpacing = cs.letterSpacing;
-  ghost.style.color = cs.color;
-  document.body.appendChild(ghost);
-  setTimeout(() => ghost.remove(), fast ? 260 : 520);
-}
-
-let raheeSecretDarkwebActive = false;
-let raheeScrambledTextNodes = [];
-
-function softCorruptText(text, intensity = 0.28){
-  if (!text || !text.trim()) return text;
-  const trimmed = text.trim();
-  const semanticMap = [
-    [/문의|연락|contact/i, '연결 불안정'],
-    [/포트폴리오|portfolio/i, '기록 손상'],
-    [/작업|제작|편집/i, '작업 로그 불일치'],
-    [/가격|요금|원|min|분당/i, '금액 검증 실패'],
-    [/소개|프로필|profile/i, '프로필 상태 불일치'],
-    [/댓글|방명록/i, '열람 기록 남음'],
-    [/신청|보내기|submit/i, '전송 보류'],
-    [/RAHEE|라희|냐희/i, 'RAHEE_//_복구중']
-  ];
-  const glitchPool = ['�','▒','░','/','\\','_','·','…','0','1','⌁','∴'];
-  if (trimmed.length <= 5){
-    return text.replace(/[가-힣A-Za-z0-9]/, ch => Math.random() < .55 ? ch : glitchPool[Math.floor(Math.random()*glitchPool.length)]);
-  }
-  if (Math.random() < intensity * .36){
-    for (const [re, replacement] of semanticMap){
-      if (re.test(trimmed)) return text.replace(trimmed, replacement);
-    }
-  }
-  let out = '';
-  let changed = 0;
-  const maxChange = Math.max(1, Math.floor(trimmed.length * intensity));
-  for (const ch of text){
-    if (/\s/.test(ch)){ out += ch; continue; }
-    if (/[.,!?;:()\[\]{}<>“”‘’'"·•|]/.test(ch)){ out += Math.random() < .18 ? glitchPool[Math.floor(Math.random()*glitchPool.length)] : ch; continue; }
-    if (changed < maxChange && /[가-힣A-Za-z0-9]/.test(ch) && Math.random() < intensity){
-      out += glitchPool[Math.floor(Math.random()*glitchPool.length)];
-      changed++;
-    } else {
-      out += ch;
-    }
-  }
-  return out;
-}
-
-function shouldScrambleNode(node){
-  if (!node || node.nodeType !== Node.TEXT_NODE) return false;
-  const text = node.nodeValue || '';
-  if (!text.trim() || text.trim().length < 2) return false;
-  const parent = node.parentElement;
-  if (!parent) return false;
-  if (parent.closest('script, style, noscript, svg, canvas, #secret-overlay, #raheeDarkwebBack, #raheeCreepLog')) return false;
-  const tag = parent.tagName;
-  if (['SCRIPT','STYLE','TEXTAREA','INPUT','OPTION'].includes(tag)) return false;
-  const rect = parent.getBoundingClientRect();
-  if (rect.width === 0 || rect.height === 0) return false;
-  return true;
-}
-
-function scrambleExistingPageText(finalMode = true){
-  raheeScrambledTextNodes = [];
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode(node){ return shouldScrambleNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
-  });
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  const visibleNodes = nodes.filter(node => {
-    const el = node.parentElement;
-    if (!el) return false;
-    const r = el.getBoundingClientRect();
-    return r.bottom > -200 && r.top < window.innerHeight + 900;
-  });
-  visibleNodes.forEach((node) => {
-    const original = node.nodeValue;
-    const parent = node.parentElement;
-    const isImportant = parent && parent.matches('h1,h2,h3,p,a,button,.section-title,.tagline,.nav-link,.chip,.price,.card-title,.work-title');
-    const chance = finalMode ? (isImportant ? .62 : .34) : (isImportant ? .18 : .08);
-    if (Math.random() > chance) return;
-    const intensity = finalMode ? (isImportant ? .34 : .22) : .12;
-    const mutated = softCorruptText(original, intensity);
-    if (mutated === original) return;
-    raheeScrambledTextNodes.push([node, original]);
-    node.nodeValue = mutated;
-    if (parent){
-      parent.classList.add(isImportant ? 'rahee-mutated-node' : 'rahee-corrupted-node');
-      if (Math.random() < .08) parent.classList.add('rahee-darkweb-redacted');
-    }
-  });
-}
-
-function restoreExistingPageText(){
-  raheeScrambledTextNodes.forEach(([node, original]) => {
-    if (node) node.nodeValue = original;
-    if (node && node.parentElement){
-      node.parentElement.classList.remove('rahee-corrupted-node','rahee-mutated-node','rahee-darkweb-redacted');
-    }
-  });
-  raheeScrambledTextNodes = [];
-  document.querySelectorAll('.rahee-corrupted-node,.rahee-mutated-node,.rahee-darkweb-redacted').forEach(el => {
-    el.classList.remove('rahee-corrupted-node','rahee-mutated-node','rahee-darkweb-redacted');
-  });
-}
-
-function enterSecretDarkwebPage(){
-  ensureRaheeCreepNodes();
-  const stat = document.getElementById('raheeDarkwebStatic');
-  const back = document.getElementById('raheeDarkwebBack');
-  raheeSecretDarkwebActive = true;
-  document.body.classList.remove('rahee-creep-lock');
-  document.body.classList.add('rahee-secret-darkweb-mode');
-  scrambleExistingPageText();
-  if (stat) stat.classList.add('on');
-  if (back) back.classList.add('on');
-}
-
-function exitSecretDarkwebPage(){
-  if (!raheeSecretDarkwebActive) return;
-  ensureRaheeCreepNodes();
-  const layer = document.getElementById('raheeCreepLayer');
-  const stat = document.getElementById('raheeDarkwebStatic');
-  const back = document.getElementById('raheeDarkwebBack');
-  document.body.classList.add('rahee-return-restore');
-  if (layer) { layer.classList.add('on','heavy'); layer.style.opacity = '.28'; }
-  setTimeout(() => {
-    restoreExistingPageText();
-    document.body.classList.remove('rahee-secret-darkweb-mode');
-    if (stat) stat.classList.remove('on');
-    if (back) back.classList.remove('on');
-    raheeSecretDarkwebActive = false;
-  }, 620);
-  setTimeout(() => {
-    document.body.classList.remove('rahee-return-restore');
-    if (layer) { layer.className = ''; layer.style.opacity = ''; }
-  }, 1300);
-}
-
-function openSecretDirect(){
-  // 비밀 페이지를 별도 모달로 열지 않고, 현재 페이지 레이아웃 자체를 다크웹/감염 모드로 변질시킨다.
-  enterSecretDarkwebPage();
-}
-
-function resetRaheeCreep(){
-  clearRaheeCreepTimers();
-  document.body.classList.remove(
-    'rahee-creep-lock','rahee-creep-slow','rahee-creep-mid','rahee-creep-snap','rahee-creep-quiet','rahee-creep-freeze',
-    'rahee-rgb-drift','rahee-rgb-panic','rahee-darkweb-shift'
-  );
-  resetRaheeScrollState();
-  document.querySelectorAll('.rahee-ghost-text').forEach(el => el.remove());
-  ['raheeCreepLayer','raheeCreepSlice','raheeCreepLog','raheeCreepBlack','raheeDarkWebSnap','raheeDarkwebStatic'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.className = '';
-    if (id === 'raheeCreepLog') el.innerHTML = '';
-  });
-  raheeCreepRunning = false;
-}
 
 function openSecret(){
-  if (raheeCreepRunning || raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
-  raheeCreepRunning = true;
+  if (window.__raheeDwActive) return;
+  window.__raheeDwActive = true;
   konamiIdx = 0;
   swipeIdx = 0;
-  ensureRaheeCreepNodes();
-  resetRaheeScrollState();
-  setRaheeScrollStage('free');
 
-  const layer = document.getElementById('raheeCreepLayer');
-  const slice = document.getElementById('raheeCreepSlice');
-  const log = document.getElementById('raheeCreepLog');
-  const black = document.getElementById('raheeCreepBlack');
-  const dark = document.getElementById('raheeDarkWebSnap');
+  const originalScroll = window.scrollY;
+  const timers = [];
+  const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+  let stage = 'normal';
+  let lastTouchY = null;
+  const chars = '▓▒░█▣▤▥▧▨▩⌁⌬⌖☒☣◌◍◎◇◆△▽ㅁㅂㅅㅇㅈㅎㄱㄷㄹㅏㅓㅗㅜㅣ';
 
-  // 0~11.5초: 정상처럼 스크롤 가능. 이상징후는 아주 미세하게만.
-  later(900, () => document.body.classList.add('rahee-creep-slow'));
-  later(2200, () => { layer.classList.add('on'); layer.style.opacity = '.016'; });
-  later(4100, () => ghostRealText('#heroTitle, .tagline, .chip', false));
-  later(6700, () => { layer.style.opacity = '.03'; ghostRealText('.nav-link, .section-title, .micro-top span', false); });
-  later(9300, () => { document.body.classList.add('rahee-rgb-drift'); layer.style.opacity = '.048'; ghostRealText('.card, .project-card, .tagline', false); });
+  const layer = document.createElement('div');
+  layer.className = 'rahee-dw-vignette';
+  const cut = document.createElement('div');
+  cut.className = 'rahee-dw-cut';
+  const flash = document.createElement('div');
+  flash.className = 'rahee-dw-flash';
+  document.body.append(layer, cut, flash);
 
-  // 11.5~16.8초: 스크롤 가능하지만 프레임 드랍처럼 끊김. 점점 더 버벅거림.
-  later(11500, () => {
-    document.body.classList.remove('rahee-creep-slow');
-    document.body.classList.add('rahee-creep-mid');
-    setRaheeScrollStage('lag');
-    layer.style.opacity = '.072';
-  });
-  later(12600, () => ghostRealText('#heroTitle, .tagline, .section-title', false));
-  later(13800, () => { slice.classList.add('on'); layer.style.opacity = '.11'; });
-  later(14900, () => ghostRealText('.hero-meta, .about-text, .work-card, .project-card', true));
-  later(15850, () => {
-    document.body.classList.add('rahee-rgb-panic');
-    layer.classList.add('heavy');
-    layer.style.opacity = '.18';
-    ghostRealText('#heroTitle, .tagline, .nav-link', true);
-  });
+  const preventWheel = (e) => {
+    if (!window.__raheeDwActive) return;
+    if (stage === 'normal') return;
+    e.preventDefault();
+    if (stage === 'lag') {
+      setTimeout(() => window.scrollBy({ top: e.deltaY * .24, behavior:'auto' }), 120 + Math.random() * 180);
+    }
+  };
+  const touchStart = (e) => { if (e.touches.length === 1) lastTouchY = e.touches[0].clientY; };
+  const touchMove = (e) => {
+    if (!window.__raheeDwActive || e.touches.length !== 1) return;
+    const y = e.touches[0].clientY;
+    const delta = (lastTouchY == null ? y : lastTouchY) - y;
+    lastTouchY = y;
+    if (stage === 'normal') return;
+    e.preventDefault();
+    if (stage === 'lag') {
+      setTimeout(() => window.scrollBy({ top: delta * .24, behavior:'auto' }), 120 + Math.random() * 180);
+    }
+  };
+  window.addEventListener('wheel', preventWheel, {passive:false});
+  window.addEventListener('touchstart', touchStart, {passive:true});
+  window.addEventListener('touchmove', touchMove, {passive:false});
 
-  // 16.8~19.8초: 페이지 자체가 멎은 것처럼 3초 프리징.
+  function pickText(selector, hard=false){
+    const nodes = Array.from(document.querySelectorAll(selector))
+      .filter(el => el && el.children.length === 0 && el.textContent.trim().length > 1 && !el.closest('.secret-overlay'));
+    nodes.sort(() => Math.random() - .5).slice(0, hard ? 30 : 9).forEach(el => {
+      if (!el.dataset.raheeOrigin) el.dataset.raheeOrigin = el.textContent;
+      const src = el.dataset.raheeOrigin;
+      const rate = hard ? .52 : .16;
+      let out = '';
+      for (const ch of src){
+        out += ch.trim() && Math.random() < rate ? chars[Math.floor(Math.random()*chars.length)] : ch;
+      }
+      el.textContent = out;
+      el.classList.add('rahee-dw-corrupt');
+    });
+  }
+  function finalText(){
+    document.querySelectorAll('h1,h2,h3,p,a,button,.chip,.tagline,.section-title,.nav-link,.hero-meta span').forEach((el, i) => {
+      if (!el || el.closest('.secret-overlay') || el.children.length > 0) return;
+      if (!el.dataset.raheeOrigin) el.dataset.raheeOrigin = el.textContent;
+      if (i % 3 === 0) {
+        const len = Math.max(3, Math.min(18, el.dataset.raheeOrigin.trim().length));
+        el.textContent = Array.from({length:len}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+        el.classList.add('rahee-dw-corrupt');
+      }
+    });
+  }
+  function stains(count){
+    for (let i=0; i<count; i++){
+      const s = document.createElement('div');
+      s.className = 'rahee-dw-stain';
+      s.style.left = (8 + Math.random()*78) + 'vw';
+      s.style.top = (14 + Math.random()*68) + 'vh';
+      s.style.width = (55 + Math.random()*130) + 'px';
+      s.style.height = (80 + Math.random()*190) + 'px';
+      s.style.setProperty('--r', (-28 + Math.random()*56) + 'deg');
+      document.body.appendChild(s);
+      requestAnimationFrame(() => s.classList.add('show'));
+    }
+  }
+  function restore(){
+    timers.forEach(clearTimeout);
+    window.__raheeDwActive = false;
+    stage = 'normal';
+    window.removeEventListener('wheel', preventWheel);
+    window.removeEventListener('touchstart', touchStart);
+    window.removeEventListener('touchmove', touchMove);
+    document.body.classList.remove('rahee-dw-subtle','rahee-dw-laggy','rahee-dw-final');
+    document.querySelectorAll('[data-rahee-origin]').forEach(el => {
+      el.textContent = el.dataset.raheeOrigin;
+      el.classList.remove('rahee-dw-corrupt');
+      delete el.dataset.raheeOrigin;
+    });
+    document.querySelectorAll('.rahee-dw-vignette,.rahee-dw-cut,.rahee-dw-flash,.rahee-dw-stain,.rahee-dw-return').forEach(el => el.remove());
+    window.scrollTo({ top: originalScroll, behavior:'auto' });
+  }
+
+  // 기존 페이지는 절대 덮지 않음. 0~11.5초: 정상 페이지 위에서 미세 변화.
+  later(900, () => document.body.classList.add('rahee-dw-subtle'));
+  later(2400, () => layer.classList.add('on'));
+  later(4500, () => pickText('h1,.tagline,.chip', false));
+  later(7200, () => pickText('.nav-link,.section-title,.hero-meta span', false));
+  later(9800, () => pickText('.card p,.work-card p,.project-card p,.about-text', false));
+
+  // 11.5~16.8초: 스크롤이 되긴 되는데 지연됨.
+  later(11500, () => { stage = 'lag'; document.body.classList.add('rahee-dw-laggy'); });
+  later(13200, () => pickText('h1,.tagline,.section-title,.nav-link,.hero-meta span', true));
+  later(14500, () => { cut.classList.add('on'); stains(2); });
+  later(15800, () => pickText('.about-text,.work-card p,.project-card p,.btn,.chip', true));
+
+  // 16.8~19.8초: 완전 프리징.
   later(16800, () => {
-    clearRaheeLagTimers();
-    document.body.classList.remove('rahee-creep-mid','rahee-rgb-panic','rahee-rgb-drift');
-    document.body.classList.add('rahee-creep-quiet');
-    setRaheeScrollStage('freeze');
-    if (slice) slice.classList.remove('on');
-    if (layer) {
-      layer.classList.remove('heavy');
-      layer.style.opacity = '.028';
-    }
+    stage = 'freeze';
+    document.body.classList.remove('rahee-dw-laggy');
+    layer.style.opacity = '.04';
+    cut.classList.remove('on');
   });
 
-  // 19.8초: 멎어 있던 화면이 확 뒤집히면서 감염.
+  // 19.8초 이후: 기존 레이아웃은 그대로 두고 감염 상태로 전환.
   later(19800, () => {
-    document.body.classList.remove('rahee-creep-quiet','rahee-creep-freeze');
-    document.body.classList.add('rahee-creep-snap', 'rahee-darkweb-shift', 'rahee-rgb-panic');
-    setRaheeScrollStage('freeze');
-    if (dark) dark.classList.add('on');
-    if (slice) slice.classList.add('on');
-    if (layer) {
-      layer.classList.add('on','heavy');
-      layer.style.opacity = '.44';
-    }
-    ghostRealText('#heroTitle, .tagline, .section-title, .nav-link', true);
+    stage = 'final';
+    document.body.classList.add('rahee-dw-final');
+    layer.classList.add('panic');
+    cut.classList.add('on');
+    finalText();
+    stains(5);
   });
-
-  // 마지막 짧은 로그 + 블랙아웃 후 현재 페이지 감염 상태로 고정.
-  later(20350, () => {
-    log.innerHTML = '<span>&gt; frame stall detected</span><br><span>&gt; restore failed</span>';
-    log.classList.add('on');
-  });
-  later(20700, () => { black.classList.add('on'); if (layer) layer.style.opacity = '.74'; });
-  later(21350, () => {
-    resetRaheeCreep();
-    openSecretDirect();
+  later(20300, () => flash.classList.add('on'));
+  later(20650, () => {
+    flash.classList.remove('on');
+    const back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'rahee-dw-return';
+    back.textContent = '↩ 돌아가기';
+    back.addEventListener('click', restore);
+    document.body.appendChild(back);
+    window.__raheeDwActive = false;
   });
 }
-// ── 키보드 (방향키) ──
 
+
+// ── 키보드 (방향키) ──
 document.addEventListener('keydown', (e) => {
-  if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
+  if (secretOverlay.classList.contains('open')) return;
   if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
   e.preventDefault();
   if (e.key === KONAMI[konamiIdx]){
@@ -6184,13 +5565,6 @@ document.addEventListener('keydown', (e) => {
     konamiIdx = 0;
   }
 });
-
-window.addEventListener('touchstart', (e) => {
-  if (e.touches.length === 1) raheeScrollState.lastTouchY = e.touches[0].clientY;
-}, { passive: true });
-window.addEventListener('touchend', () => {
-  raheeScrollState.lastTouchY = null;
-}, { passive: true });
 
 // ── 두 손가락 스와이프 (모바일) ──
 let twoFingerStart = null;
@@ -6209,7 +5583,7 @@ document.addEventListener('touchstart', (e) => {
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
-  if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
+  if (secretOverlay.classList.contains('open')) return;
   if (!twoFingerStart) return;
   // 두 손가락이 모두 떼졌는지 확인
   if (e.touches.length > 0) return;
@@ -6257,13 +5631,13 @@ document.addEventListener('touchend', (e) => {
   let progressEl = null;
 
   function startPress(e){
-    if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
+    if (secretOverlay.classList.contains('open')) return;
     if (e.touches && e.touches.length > 1) return; // 멀티터치 무시
     pressStart = Date.now();
 
     // 진행 링 생성
     progressEl = document.createElement('div');
-    progressEl.style.cssText = 
+    progressEl.style.cssText = `
       position:fixed;
       bottom:6rem;left:50%;transform:translateX(-50%);
       font-family:var(--mono);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;
@@ -6272,7 +5646,7 @@ document.addEventListener('touchend', (e) => {
       box-shadow:0 0 20px var(--lime-glow);
       pointer-events:none;z-index:9600;opacity:0;
       transition:opacity 0.25s ease;white-space:nowrap;
-    ;
+    `;
     progressEl.textContent = '꾹 누르는 중...';
     document.body.appendChild(progressEl);
     requestAnimationFrame(() => progressEl && (progressEl.style.opacity = '1'));
@@ -6305,20 +5679,9 @@ document.addEventListener('touchend', (e) => {
 })();
 
 secretClose.addEventListener('click', () => {
-  const layer = document.getElementById('raheeCreepLayer');
-  document.body.classList.add('rahee-return-restore');
-  if (layer) { layer.classList.add('on','heavy'); layer.style.opacity = '.22'; }
-
-  setTimeout(() => {
-    secretOverlay.classList.remove('open');
-    secretOverlay.setAttribute('aria-hidden','true');
-    document.body.classList.remove('modal-open');
-  }, 420);
-
-  setTimeout(() => {
-    document.body.classList.remove('rahee-return-restore');
-    if (layer) { layer.className = ''; layer.style.opacity = ''; }
-  }, 1050);
+  secretOverlay.classList.remove('open');
+  secretOverlay.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
 });
 const commentsList = document.getElementById('comments-list');
 const commentsEmpty = document.getElementById('comments-empty');
@@ -6355,7 +5718,7 @@ function renderComments(comments){
     return;
   }
   commentsEmpty.style.display = 'none';
-  commentsCount.textContent = (${comments.length});
+  commentsCount.textContent = `(${comments.length})`;
 
   const maxLikes = Math.max(0, ...comments.map(c => c.likes || 0));
   const bestId = maxLikes >= 1 ? (comments.find(c => (c.likes||0) === maxLikes) || {}).id : null;
@@ -6368,17 +5731,17 @@ function renderComments(comments){
     const likeCount = c.likes || 0;
     const isSecret = !!c.secret;
     const msgHTML = isSecret && !currentUser
-      ? <div class="comment-msg secret-hidden">🔒 비밀 댓글입니다.</div>
-      : <div class="comment-msg">${escHTML(c.message || '')}</div>;
-    const secretBadge = isSecret ? <span class="secret-badge">🔒</span> : '';
+      ? `<div class="comment-msg secret-hidden">🔒 비밀 댓글입니다.</div>`
+      : `<div class="comment-msg">${escHTML(c.message || '')}</div>`;
+    const secretBadge = isSecret ? `<span class="secret-badge">🔒</span>` : '';
     const delBtn = currentUser
-      ? <button class="comment-del" data-comment-id="${escHTML(c.id)}" type="button" aria-label="삭제" title="삭제">×</button>
+      ? `<button class="comment-del" data-comment-id="${escHTML(c.id)}" type="button" aria-label="삭제" title="삭제">×</button>`
       : '';
-    const bestBadge = isBest ? <div class="best-badge">★ BEST</div> : '';
+    const bestBadge = isBest ? `<div class="best-badge">★ BEST</div>` : '';
     const likedCls = isLiked ? 'liked' : '';
     const bestCls = isBest ? 'best' : '';
 
-    return 
+    return `
       <div class="comment ${bestCls}" data-comment-id="${escHTML(c.id)}">
         ${bestBadge}
         <div class="comment-head">
@@ -6386,14 +5749,14 @@ function renderComments(comments){
           <span class="comment-time">${escHTML(time)}</span>
           <div class="comment-head-right">
             <button class="comment-like-btn ${likedCls}" data-comment-id="${escHTML(c.id)}" type="button" aria-label="댓글 좋아요">
-              ✦${likeCount > 0 ? <span class="comment-like-count">${likeCount}</span> : ''}
+              ✦${likeCount > 0 ? `<span class="comment-like-count">${likeCount}</span>` : ''}
             </button>
             ${delBtn}
           </div>
         </div>
         ${msgHTML}
       </div>
-    ;
+    `;
   }).join('');
 }
 
@@ -6681,6 +6044,75 @@ commentForm.addEventListener('submit', async (e) => {
   }
 </style>
 
+<div id="raheeHackFx" aria-hidden="true"></div>
 
+<div id="raheeHackTerminal" aria-hidden="true">
+  <span class="hack-line">&gt; SYSTEM BREACH DETECTED...</span>
+  <span class="hack-line">&gt; BYPASSING SECURITY LAYER 1... OK</span>
+  <span class="hack-line">&gt; BYPASSING SECURITY LAYER 2... OK</span>
+  <span class="hack-line">&gt; ACCESS GRANTED — WELCOME, STRANGER.</span>
+  <span class="hack-line">&gt; OPENING HIDDEN MEMORY...</span>
+</div>
+
+<script>
+  (function () {
+    const konamiCode = [
+      "ArrowUp",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowLeft",
+      "ArrowRight"
+    ];
+
+    let konamiIndex = 0;
+    let lastPlayedAt = 0;
+
+    function playRaheeHackEffect() {
+      const now = Date.now();
+
+      if (now - lastPlayedAt < 1400) return;
+      lastPlayedAt = now;
+
+      const fx = document.getElementById("raheeHackFx");
+      const terminal = document.getElementById("raheeHackTerminal");
+
+      if (!fx || !terminal) return;
+
+      fx.classList.remove("is-active");
+      terminal.classList.remove("is-active");
+      document.body.classList.remove("rahee-hack-shake");
+
+      void fx.offsetWidth;
+
+      fx.classList.add("is-active");
+      terminal.classList.add("is-active");
+      document.body.classList.add("rahee-hack-shake");
+
+      setTimeout(function () {
+        fx.classList.remove("is-active");
+        terminal.classList.remove("is-active");
+        document.body.classList.remove("rahee-hack-shake");
+      }, 1300);
+    }
+
+    window.addEventListener("keydown", function (event) {
+      const key = event.key;
+
+      if (key === konamiCode[konamiIndex]) {
+        konamiIndex += 1;
+
+        if (konamiIndex === konamiCode.length) {
+          konamiIndex = 0;
+          playRaheeHackEffect();
+        }
+      } else {
+        konamiIndex = key === konamiCode[0] ? 1 : 0;
+      }
+    });
+  })();
+</script>
 </body>
 </html>
