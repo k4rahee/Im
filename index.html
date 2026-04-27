@@ -3227,126 +3227,75 @@
   }
   .email-card{ animation: cardPulse 3s ease-in-out infinite; }
 
-/* ===== SAFE DARKWEB EFFECT: overlay-only, existing page layout untouched ===== */
-#dwfxLayer, #dwfxText, #dwfxCut, #dwfxFreeze, #dwfxReturn {
-  box-sizing: border-box;
-}
-#dwfxLayer {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483000;
-  pointer-events: none;
-  opacity: 0;
-  mix-blend-mode: screen;
+/* ===== DARKWEB HORROR V2: overlay-only / layout-safe ===== */
+#dw2Shade,#dw2Noise,#dw2Glyphs,#dw2Rip,#dw2Eye,#dw2Black,#dw2Return{box-sizing:border-box}
+#dw2Shade{
+  position:fixed;inset:0;z-index:2147483000;pointer-events:none;opacity:0;
   background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px),
-    radial-gradient(circle at 18% 20%, rgba(190,255,40,.12), transparent 26%),
-    radial-gradient(circle at 72% 80%, rgba(120,0,34,.18), transparent 34%);
-  transition: opacity .35s ease;
+    radial-gradient(circle at 50% 42%, transparent 0 26%, rgba(0,0,0,.35) 52%, rgba(0,0,0,.86) 100%),
+    radial-gradient(circle at 20% 18%, rgba(190,255,35,.12), transparent 22%),
+    radial-gradient(circle at 76% 72%, rgba(95,0,24,.34), transparent 32%);
+  mix-blend-mode:multiply;transition:opacity .5s ease;
 }
-#dwfxLayer.on { opacity: .08; animation: dwfxNoise 1.2s steps(2,end) infinite; }
-#dwfxLayer.hard { opacity: .33; animation: dwfxPanic .13s steps(2,end) infinite; }
-#dwfxText {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483001;
-  pointer-events: none;
-  opacity: 0;
-  overflow: hidden;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  color: rgba(210,255,45,.72);
-  text-shadow: 1px 0 rgba(255,0,72,.35), -1px 0 rgba(40,255,220,.22);
-  transition: opacity .35s ease;
+#dw2Shade.on{opacity:.44}
+#dw2Shade.final{opacity:.78}
+#dw2Noise{
+  position:fixed;inset:0;z-index:2147483001;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(210,255,40,.018) 0 1px, transparent 1px 7px);
+  transition:opacity .35s ease;
 }
-#dwfxText.on { opacity: .72; }
-.dwfx-fragment {
-  position: absolute;
-  white-space: nowrap;
-  font-size: clamp(11px, 2.5vw, 15px);
-  letter-spacing: .08em;
-  opacity: .0;
-  transform: translate3d(0,0,0);
-  animation: dwfxFloat 2.4s steps(3,end) infinite;
+#dw2Noise.on{opacity:.08;animation:dw2Noise 1.1s steps(2,end) infinite}
+#dw2Noise.hard{opacity:.42;animation:dw2Panic .11s steps(2,end) infinite}
+#dw2Glyphs{
+  position:fixed;inset:0;z-index:2147483002;pointer-events:none;overflow:hidden;opacity:0;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:rgba(214,255,38,.82);text-shadow:1px 0 rgba(255,0,70,.44),-1px 0 rgba(0,255,220,.22);
+  transition:opacity .4s ease;
 }
-#dwfxCut {
-  position: fixed;
-  left: -10vw;
-  right: -10vw;
-  top: 48vh;
-  height: 0;
-  z-index: 2147483002;
-  pointer-events: none;
-  background: rgba(210,255,45,.38);
-  box-shadow:
-    0 0 26px rgba(210,255,45,.45),
-    0 13px 0 rgba(120,0,34,.20),
-    0 -18px 0 rgba(40,255,220,.10);
-  opacity: 0;
+#dw2Glyphs.on{opacity:1}
+.dw2g{
+  position:absolute;white-space:nowrap;font-size:clamp(10px,2.5vw,15px);letter-spacing:.08em;
+  opacity:.0;filter:blur(.15px);animation:dw2Glyph 2.3s steps(3,end) infinite;
 }
-#dwfxCut.on {
-  height: 2px;
-  opacity: 1;
-  animation: dwfxRip .62s steps(2,end) 6;
+.dw2g.big{font-size:clamp(18px,8vw,54px);letter-spacing:.02em;color:rgba(225,255,45,.30);filter:blur(.6px)}
+#dw2Rip{
+  position:fixed;left:-15vw;right:-15vw;top:48vh;height:0;z-index:2147483003;pointer-events:none;
+  opacity:0;background:rgba(220,255,35,.48);
+  box-shadow:0 0 28px rgba(220,255,35,.55),0 22px 0 rgba(115,0,28,.25),0 -18px 0 rgba(0,255,210,.12);
 }
-#dwfxFreeze {
-  position: fixed;
-  inset: 0;
-  z-index: 2147483003;
-  pointer-events: none;
-  opacity: 0;
-  background: rgba(0,0,0,.04);
+#dw2Rip.on{height:2px;opacity:1;animation:dw2Rip .62s steps(2,end) 7}
+#dw2Eye{
+  position:fixed;left:50%;top:43%;width:min(70vw,360px);height:min(70vw,360px);
+  transform:translate(-50%,-50%) scale(.86);z-index:2147483004;pointer-events:none;opacity:0;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,.90) 0 8%, rgba(205,255,30,.18) 9% 14%, rgba(0,0,0,.18) 16% 27%, transparent 28%),
+    radial-gradient(circle at 50% 50%, rgba(120,0,30,.28), transparent 52%);
+  filter:blur(.2px) contrast(1.2);
 }
-#dwfxFreeze.on { opacity: 1; }
-.dwfx-page-soft {
-  filter: contrast(1.025) saturate(.94) brightness(.985);
+#dw2Eye.peek{animation:dw2Peek .7s steps(2,end) 1}
+#dw2Eye.final{opacity:.22;transform:translate(-50%,-50%) scale(1.15)}
+#dw2Black{
+  position:fixed;inset:0;z-index:2147483005;pointer-events:none;background:#000;opacity:0;
 }
-.dwfx-page-mid {
-  filter: contrast(1.06) saturate(.86) brightness(.94);
-  animation: dwfxPageJitter .85s steps(2,end) infinite;
+#dw2Black.flash{animation:dw2Flash .55s steps(2,end) 1}
+#dw2Return{
+  position:fixed;right:18px;bottom:86px;z-index:2147483006;border:1px solid rgba(210,255,38,.34);
+  border-radius:999px;background:rgba(0,0,0,.82);color:#d9ff35;padding:11px 15px;font-size:13px;
+  letter-spacing:.08em;box-shadow:0 0 24px rgba(210,255,45,.20);backdrop-filter:blur(12px)
 }
-.dwfx-page-final {
-  filter: contrast(1.16) saturate(.58) brightness(.76) hue-rotate(118deg);
-}
-#dwfxReturn {
-  position: fixed;
-  right: 18px;
-  bottom: 86px;
-  z-index: 2147483005;
-  border: 1px solid rgba(210,255,45,.34);
-  border-radius: 999px;
-  background: rgba(0,0,0,.78);
-  color: #d9ff35;
-  padding: 11px 15px;
-  font-size: 13px;
-  letter-spacing: .08em;
-  box-shadow: 0 0 24px rgba(210,255,45,.18);
-  backdrop-filter: blur(12px);
-}
-@keyframes dwfxNoise {
-  0%,100% { transform: translate3d(0,0,0); filter: brightness(1); }
-  50% { transform: translate3d(-1px,1px,0); filter: brightness(1.22); }
-}
-@keyframes dwfxPanic {
-  0% { transform: translate3d(-5px,2px,0); }
-  50% { transform: translate3d(5px,-4px,0); }
-  100% { transform: translate3d(-2px,3px,0); }
-}
-@keyframes dwfxPageJitter {
-  0%,100% { transform: translate3d(0,0,0); }
-  50% { transform: translate3d(.7px,-.5px,0); }
-}
-@keyframes dwfxRip {
-  0% { transform: translateY(-18vh) skewX(-18deg); }
-  25% { transform: translateY(7vh) skewX(20deg); }
-  50% { transform: translateY(-5vh) skewX(-28deg); }
-  100% { transform: translateY(22vh) skewX(10deg); }
-}
-@keyframes dwfxFloat {
-  0%,100% { opacity: .0; transform: translate3d(0,0,0); }
-  15% { opacity: .54; }
-  55% { opacity: .18; transform: translate3d(8px,-5px,0); }
-  70% { opacity: .66; transform: translate3d(-4px,3px,0); }
-}
+html.dw2Sick{filter:contrast(1.05) saturate(.86) brightness(.93)}
+html.dw2Lag{animation:dw2PageJitter .72s steps(2,end) infinite;filter:contrast(1.08) saturate(.72) brightness(.86) hue-rotate(20deg)}
+html.dw2Final{filter:contrast(1.18) saturate(.45) brightness(.64) hue-rotate(120deg)}
+@keyframes dw2Noise{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-2px,1px,0)}}
+@keyframes dw2Panic{0%{transform:translate3d(-7px,3px,0)}50%{transform:translate3d(6px,-5px,0)}100%{transform:translate3d(-2px,4px,0)}}
+@keyframes dw2Glyph{0%,100%{opacity:0;transform:translate3d(0,0,0)}12%{opacity:.7}38%{opacity:.22;transform:translate3d(10px,-6px,0)}56%{opacity:.85;transform:translate3d(-8px,4px,0)}}
+@keyframes dw2Rip{0%{transform:translateY(-24vh) skewX(-22deg)}25%{transform:translateY(10vh) skewX(24deg)}50%{transform:translateY(-7vh) skewX(-34deg)}100%{transform:translateY(26vh) skewX(12deg)}}
+@keyframes dw2Peek{0%,100%{opacity:0}42%{opacity:.30}50%{opacity:.05}58%{opacity:.25}}
+@keyframes dw2Flash{0%{opacity:0}18%{opacity:.94}24%{opacity:.12}37%{opacity:1}48%{opacity:.0}66%{opacity:.72}100%{opacity:0}}
+@keyframes dw2PageJitter{0%,100%{transform:translate3d(0,0,0)}33%{transform:translate3d(1px,-.7px,0)}66%{transform:translate3d(-.8px,.8px,0)}}
 
 </style>
 
@@ -6127,185 +6076,73 @@ commentForm.addEventListener('submit', async (e) => {
     });
   })();
 </script>
-<script>
-// ===== SAFE DARKWEB EFFECT: overlay-only logic =====
-(function(){
-  let running = false;
-  let stage = 'free';
-  let timers = [];
-  let lagTimers = [];
-  let lastTouchY = null;
 
-  function later(ms, fn){
-    const t = setTimeout(fn, ms);
-    timers.push(t);
-    return t;
-  }
-  function clearTimers(){
-    timers.forEach(clearTimeout);
-    timers = [];
-    lagTimers.forEach(clearTimeout);
-    lagTimers = [];
-  }
-  function make(id, cls, parent=document.body){
-    let el = document.getElementById(id);
-    if (!el) {
-      el = document.createElement('div');
-      el.id = id;
-      if (cls) el.className = cls;
-      parent.appendChild(el);
+<script>
+(function(){
+  let running=false, stage='free', timers=[], lagTimers=[], lastY=null;
+  const chars='▓▒░█▣▤▥▧▨▩⌁⌬⌖☒☣◌◍◎◇◆△▽ㅁㅂㅅㅇㅈㅎㄱㄷㄹㅏㅓㅗㅜㅣ//_ERROR_NULL_VOID_';
+  function later(ms,fn){const t=setTimeout(fn,ms);timers.push(t);return t}
+  function el(id){return document.getElementById(id)}
+  function add(id,parent=document.body){let x=el(id);if(!x){x=document.createElement('div');x.id=id;parent.appendChild(x)}return x}
+  function ensure(){['dw2Shade','dw2Noise','dw2Glyphs','dw2Rip','dw2Eye','dw2Black'].forEach(id=>add(id))}
+  function glyph(len){let s='';for(let i=0;i<len;i++)s+=chars[Math.floor(Math.random()*chars.length)];return s}
+  function fragments(n,big=false){
+    const box=el('dw2Glyphs'); if(!box)return;
+    for(let i=0;i<n;i++){
+      const s=document.createElement('span'); s.className='dw2g'+(big&&i%7===0?' big':'');
+      s.textContent=glyph(big ? 12+Math.floor(Math.random()*28) : 5+Math.floor(Math.random()*16));
+      s.style.left=(Math.random()*96)+'vw'; s.style.top=(Math.random()*95)+'vh';
+      s.style.animationDelay=(Math.random()*1.4)+'s';
+      box.appendChild(s);
     }
-    return el;
+    while(box.children.length>140) box.removeChild(box.children[0]);
   }
-  function ensure(){
-    make('dwfxLayer');
-    make('dwfxText');
-    make('dwfxCut');
-    make('dwfxFreeze');
+  function setStage(s){
+    stage=s;
+    document.documentElement.classList.toggle('dw2Sick',s==='sick');
+    document.documentElement.classList.toggle('dw2Lag',s==='lag');
+    document.documentElement.classList.toggle('dw2Final',s==='final');
+    if(s==='freeze'){document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden'}
+    else{document.documentElement.style.overflow='';document.body.style.overflow=''}
   }
-  function randomGlyphs(len){
-    const chars = '▓▒░█▣▤▥▧▨▩⌁⌬⌖☒☣◌◍◎◇◆△▽ㅁㅂㅅㅇㅈㅎㄱㄷㄹㅏㅓㅗㅜㅣ//_';
-    let out = '';
-    for (let i=0; i<len; i++) out += chars[Math.floor(Math.random()*chars.length)];
-    return out;
-  }
-  function addFragments(count, intense=false){
-    const box = document.getElementById('dwfxText');
-    if (!box) return;
-    for (let i=0; i<count; i++){
-      const sp = document.createElement('span');
-      sp.className = 'dwfx-fragment';
-      sp.textContent = randomGlyphs(intense ? 14 + Math.floor(Math.random()*18) : 5 + Math.floor(Math.random()*12));
-      sp.style.left = (Math.random()*92) + 'vw';
-      sp.style.top = (Math.random()*92) + 'vh';
-      sp.style.animationDelay = (Math.random()*1.2) + 's';
-      sp.style.opacity = intense ? (.25 + Math.random()*.42) : (.08 + Math.random()*.25);
-      box.appendChild(sp);
-    }
-    while (box.children.length > 95) box.removeChild(box.children[0]);
-  }
-  function setStage(next){
-    stage = next;
-    document.documentElement.classList.toggle('dwfx-page-mid', next === 'lag');
-    document.documentElement.classList.toggle('dwfx-page-soft', next === 'soft');
-    document.documentElement.classList.toggle('dwfx-page-final', next === 'final');
-    if (next === 'freeze') {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-    }
-  }
-  function lagScroll(delta){
-    if (!delta || Math.abs(delta) < 1) return;
-    const severe = stage === 'lag';
-    const strength = severe ? .22 : .48;
-    const delay = severe ? (130 + Math.random()*210) : (60 + Math.random()*100);
-    const jitter = (Math.random()*10) - 5;
-    const t = setTimeout(() => window.scrollBy({ top: delta*strength + jitter, behavior:'auto' }), delay);
+  function lag(delta){
+    if(!delta||Math.abs(delta)<1)return;
+    const t=setTimeout(()=>window.scrollBy({top:delta*.18+(Math.random()*12-6),behavior:'auto'}),160+Math.random()*260);
     lagTimers.push(t);
   }
-  window.addEventListener('wheel', function(e){
-    if (!running) return;
-    if (stage === 'free' || stage === 'soft') return;
-    e.preventDefault();
-    if (stage === 'lag') lagScroll(e.deltaY);
-  }, { passive:false });
-  window.addEventListener('touchstart', function(e){
-    if (e.touches && e.touches.length === 1) lastTouchY = e.touches[0].clientY;
-  }, { passive:true });
-  window.addEventListener('touchend', function(){ lastTouchY = null; }, { passive:true });
-  window.addEventListener('touchmove', function(e){
-    if (!running) return;
-    if (stage === 'free' || stage === 'soft') return;
-    if (!e.touches || e.touches.length !== 1) return;
-    const y = e.touches[0].clientY;
-    const last = lastTouchY == null ? y : lastTouchY;
-    const delta = last - y;
-    lastTouchY = y;
-    e.preventDefault();
-    if (stage === 'lag') lagScroll(delta);
-  }, { passive:false });
-
-  function restoreDwfx(){
-    clearTimers();
-    running = false;
-    stage = 'free';
-    document.documentElement.classList.remove('dwfx-page-soft','dwfx-page-mid','dwfx-page-final');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    ['dwfxLayer','dwfxText','dwfxCut','dwfxFreeze','dwfxReturn'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    });
-    if (typeof konamiIdx !== 'undefined') konamiIdx = 0;
-    if (typeof swipeIdx !== 'undefined') swipeIdx = 0;
+  window.addEventListener('wheel',e=>{if(!running)return;if(stage==='free'||stage==='sick')return;e.preventDefault();if(stage==='lag')lag(e.deltaY)},{passive:false});
+  window.addEventListener('touchstart',e=>{if(e.touches&&e.touches.length===1)lastY=e.touches[0].clientY},{passive:true});
+  window.addEventListener('touchend',()=>lastY=null,{passive:true});
+  window.addEventListener('touchmove',e=>{
+    if(!running)return;if(stage==='free'||stage==='sick')return;if(!e.touches||e.touches.length!==1)return;
+    const y=e.touches[0].clientY, d=(lastY==null?y:lastY)-y; lastY=y; e.preventDefault(); if(stage==='lag')lag(d);
+  },{passive:false});
+  function restore(){
+    timers.forEach(clearTimeout);lagTimers.forEach(clearTimeout);timers=[];lagTimers=[];running=false;stage='free';
+    document.documentElement.classList.remove('dw2Sick','dw2Lag','dw2Final');
+    document.documentElement.style.overflow='';document.body.style.overflow='';
+    ['dw2Shade','dw2Noise','dw2Glyphs','dw2Rip','dw2Eye','dw2Black','dw2Return'].forEach(id=>{const x=el(id);if(x)x.remove()});
+    if(typeof konamiIdx!=='undefined')konamiIdx=0;if(typeof swipeIdx!=='undefined')swipeIdx=0;
   }
-  window.restoreDwfx = restoreDwfx;
-
-  window.openSecret = function(){
-    if (running) return;
-    running = true;
-    if (typeof konamiIdx !== 'undefined') konamiIdx = 0;
-    if (typeof swipeIdx !== 'undefined') swipeIdx = 0;
-    ensure();
-
-    const layer = document.getElementById('dwfxLayer');
-    const text = document.getElementById('dwfxText');
-    const cut = document.getElementById('dwfxCut');
-    const freeze = document.getElementById('dwfxFreeze');
-
-    // 0~10.5s: page intact, only suspicious layer slowly appears
-    setStage('soft');
-    later(1200, () => { layer.classList.add('on'); layer.style.opacity = '.025'; });
-    later(3300, () => { text.classList.add('on'); addFragments(5, false); });
-    later(5600, () => { layer.style.opacity = '.045'; addFragments(8, false); });
-    later(8200, () => { layer.style.opacity = '.07'; addFragments(12, false); });
-
-    // 10.5~16.8s: scroll starts to lag, page feels sick
-    later(10500, () => {
-      setStage('lag');
-      layer.style.opacity = '.10';
-      addFragments(18, false);
-    });
-    later(12200, () => { cut.classList.add('on'); addFragments(22, true); });
-    later(14500, () => { layer.style.opacity = '.18'; addFragments(30, true); });
-
-    // 16.8~19.8s: freeze
-    later(16800, () => {
-      setStage('freeze');
-      freeze.classList.add('on');
-      cut.classList.remove('on');
-      layer.style.opacity = '.035';
-    });
-
-    // 19.8s: snap, but still overlay-only
-    later(19800, () => {
-      setStage('final');
-      freeze.classList.remove('on');
-      layer.classList.add('hard');
-      layer.style.opacity = '.30';
-      text.classList.add('on');
-      cut.classList.add('on');
-      addFragments(52, true);
-    });
-
-    // short impact black-flash feeling without deleting page
-    later(20500, () => {
-      layer.style.opacity = '.48';
-    });
-    later(21100, () => {
-      running = false;
-      const btn = document.createElement('button');
-      btn.id = 'dwfxReturn';
-      btn.type = 'button';
-      btn.textContent = '↩ 돌아가기';
-      btn.addEventListener('click', restoreDwfx);
-      document.body.appendChild(btn);
-    });
+  window.openSecret=function(){
+    if(running)return; running=true; ensure();
+    const shade=el('dw2Shade'), noise=el('dw2Noise'), glyphs=el('dw2Glyphs'), rip=el('dw2Rip'), eye=el('dw2Eye'), black=el('dw2Black');
+    setStage('free');
+    later(1200,()=>{shade.classList.add('on');noise.classList.add('on');noise.style.opacity='.035'});
+    later(3200,()=>{setStage('sick');glyphs.classList.add('on');fragments(4,false)});
+    later(5600,()=>{noise.style.opacity='.07';fragments(9,false)});
+    later(7600,()=>{eye.classList.add('peek');fragments(12,false)});
+    later(9200,()=>{shade.style.opacity='.56';noise.style.opacity='.11';fragments(18,false)});
+    later(10800,()=>{setStage('lag');fragments(24,true);rip.classList.add('on')});
+    later(13200,()=>{noise.style.opacity='.20';fragments(34,true)});
+    later(15400,()=>{shade.style.opacity='.66';noise.classList.add('hard');fragments(44,true)});
+    later(16800,()=>{setStage('freeze');noise.classList.remove('hard');noise.style.opacity='.025';shade.style.opacity='.30';rip.classList.remove('on')});
+    later(19800,()=>{setStage('final');black.classList.add('flash');noise.classList.add('hard');noise.style.opacity='.40';shade.classList.add('final');rip.classList.add('on');eye.classList.add('final');fragments(80,true)});
+    later(20700,()=>{fragments(55,true)});
+    later(21500,()=>{running=false;const b=document.createElement('button');b.id='dw2Return';b.type='button';b.textContent='↩ 돌아가기';b.onclick=restore;document.body.appendChild(b)});
   };
 })();
 </script>
+
 </body>
 </html>
