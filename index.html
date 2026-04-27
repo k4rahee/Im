@@ -2950,6 +2950,121 @@ body.rahee-darkweb-shift .rahee-ghost-text{
   text-shadow:0 0 10px rgba(0,255,80,.5)!important;
 }
 
+
+/* ==============================
+   SECRET DARKWEB PAGE MODE
+   비밀 페이지를 별도 모달로 열지 않고, 기존 UI/UX 레이아웃 자체를 감염된 다크웹 화면처럼 변질
+============================== */
+body.rahee-secret-darkweb-mode{
+  background:#010302!important;
+  color:#b8ffc2!important;
+  cursor:crosshair;
+}
+body.rahee-secret-darkweb-mode header,
+body.rahee-secret-darkweb-mode main,
+body.rahee-secret-darkweb-mode section,
+body.rahee-secret-darkweb-mode footer{
+  filter:grayscale(.78) contrast(1.9) brightness(.58) saturate(1.55) hue-rotate(84deg)!important;
+  animation:raheeDarkwebBreath 5.7s ease-in-out infinite;
+}
+body.rahee-secret-darkweb-mode *:not(script):not(style){
+  text-shadow:
+    0 0 6px rgba(70,255,110,.25),
+    1px 0 rgba(255,0,80,.22),
+    -1px 0 rgba(0,160,255,.16)!important;
+}
+body.rahee-secret-darkweb-mode .card,
+body.rahee-secret-darkweb-mode .project-card,
+body.rahee-secret-darkweb-mode .work-card,
+body.rahee-secret-darkweb-mode .status-card,
+body.rahee-secret-darkweb-mode .glass,
+body.rahee-secret-darkweb-mode .email-card,
+body.rahee-secret-darkweb-mode .comment-card,
+body.rahee-secret-darkweb-mode input,
+body.rahee-secret-darkweb-mode textarea,
+body.rahee-secret-darkweb-mode .topbar,
+body.rahee-secret-darkweb-mode .nav-panel{
+  background:rgba(0,8,3,.82)!important;
+  border-color:rgba(91,255,120,.18)!important;
+  box-shadow:
+    inset 0 0 22px rgba(20,255,80,.045),
+    0 0 26px rgba(20,255,80,.07)!important;
+}
+body.rahee-secret-darkweb-mode img,
+body.rahee-secret-darkweb-mode video,
+body.rahee-secret-darkweb-mode iframe{
+  filter:grayscale(1) contrast(1.9) brightness(.48) hue-rotate(82deg)!important;
+  mix-blend-mode:luminosity;
+}
+@keyframes raheeDarkwebBreath{
+  0%,100%{ transform:none; filter:grayscale(.78) contrast(1.9) brightness(.58) saturate(1.55) hue-rotate(84deg); }
+  48%{ transform:translate(.4px,-.2px); filter:grayscale(.86) contrast(2.12) brightness(.49) saturate(1.75) hue-rotate(94deg); }
+  52%{ transform:translate(-1.2px,.5px) skewX(.12deg); filter:grayscale(.9) contrast(2.35) brightness(.44) saturate(1.95) hue-rotate(104deg); }
+}
+body.rahee-secret-darkweb-mode .rahee-corrupted-node{
+  font-family:var(--mono, monospace)!important;
+  letter-spacing:.055em!important;
+  word-break:break-all;
+  animation:raheeCorruptNodeFlicker 3.4s steps(2,end) infinite;
+}
+@keyframes raheeCorruptNodeFlicker{
+  0%,100%{ opacity:1; filter:none; }
+  42%{ opacity:.88; filter:blur(.12px); }
+  44%{ opacity:.58; filter:blur(.45px) contrast(1.8); }
+  46%{ opacity:1; filter:none; }
+}
+#raheeDarkwebBack{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:1000002;
+  display:none;
+  border:1px solid rgba(125,255,145,.34);
+  background:rgba(0,8,3,.84);
+  color:#baffc7;
+  font-family:var(--mono, monospace);
+  font-size:.76rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  padding:.8rem 1rem;
+  border-radius:999px;
+  box-shadow:0 0 22px rgba(40,255,90,.12), inset 0 0 18px rgba(40,255,90,.05);
+  cursor:pointer;
+}
+#raheeDarkwebBack.on{ display:block; animation:raheeBackIn .5s ease both; }
+#raheeDarkwebBack:hover{ border-color:#baffc7; box-shadow:0 0 28px rgba(70,255,110,.2); }
+@keyframes raheeBackIn{
+  from{ opacity:0; transform:translateY(8px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+#raheeDarkwebStatic{
+  position:fixed;
+  inset:0;
+  z-index:8996;
+  pointer-events:none;
+  display:none;
+  opacity:.28;
+  mix-blend-mode:screen;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(0,255,85,.08), transparent 33%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(90deg, rgba(0,255,100,.045) 0 1px, transparent 1px 21px);
+}
+#raheeDarkwebStatic.on{ display:block; animation:raheeDarkStatic .11s steps(1,end) infinite; }
+#raheeDarkwebStatic::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  opacity:.28;
+}
+@keyframes raheeDarkStatic{
+  0%{ transform:translate(0,0); opacity:.22; }
+  22%{ transform:translate(4px,-2px); opacity:.34; }
+  50%{ transform:translate(-3px,3px); opacity:.26; }
+  76%{ transform:translate(2px,1px); opacity:.39; }
+  100%{ transform:translate(0,0); opacity:.24; }
+}
+
 @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{
       animation-duration: 0.01ms !important;
@@ -5645,6 +5760,21 @@ function ensureRaheeCreepNodes(){
     dark.setAttribute('aria-hidden','true');
     document.body.appendChild(dark);
   }
+  if (!document.getElementById('raheeDarkwebStatic')){
+    const stat = document.createElement('div');
+    stat.id = 'raheeDarkwebStatic';
+    stat.setAttribute('aria-hidden','true');
+    document.body.appendChild(stat);
+  }
+  if (!document.getElementById('raheeDarkwebBack')){
+    const back = document.createElement('button');
+    back.id = 'raheeDarkwebBack';
+    back.type = 'button';
+    back.textContent = '← 돌아가기';
+    back.setAttribute('aria-label','메인 페이지로 돌아가기');
+    document.body.appendChild(back);
+    back.addEventListener('click', exitSecretDarkwebPage);
+  }
 }
 
 function clearRaheeCreepTimers(){
@@ -5683,39 +5813,94 @@ function ghostRealText(selector, fast = false){
   setTimeout(() => ghost.remove(), fast ? 260 : 520);
 }
 
-function openSecretDirect(){
-  const overlay = secretOverlay;
-  const terminal = document.getElementById('secret-terminal');
-  const inner = document.getElementById('secret-inner');
-  const lines = [
-    document.getElementById('st-0'),
-    document.getElementById('st-1'),
-    document.getElementById('st-2'),
-    document.getElementById('st-3'),
-  ];
+let raheeSecretDarkwebActive = false;
+let raheeScrambledTextNodes = [];
 
-  document.body.classList.add('modal-open');
-  overlay.classList.add('open');
-  overlay.setAttribute('aria-hidden','false');
-  overlay.style.opacity = '1';
-  overlay.style.background = '#0a0a0d';
-  overlay.style.transform = '';
-
-  if (terminal) terminal.style.opacity = '0';
-  if (inner){
-    inner.style.opacity = '0';
-    inner.classList.remove('show');
-  }
-  lines.forEach(l => {
-    if (!l) return;
-    l.classList.remove('type');
-    l.style.opacity = '0';
-    l.style.width = '0';
+function alienScrambleText(text){
+  if (!text || !text.trim()) return text;
+  const pool = ['�','▒','▓','░','⌁','⟟','⧉','∴','◌','◍','0','1','/','\\','_', '-', '뷁','릐','흫','겲','쀍','꿹','읅','몫','넋'];
+  return text.replace(/[^\s]/g, (ch, i) => {
+    if (/[.,!?;:()\[\]{}<>“”‘’'"·•|]/.test(ch)) return Math.random() < .45 ? ch : pool[Math.floor(Math.random()*pool.length)];
+    if (/[0-9]/.test(ch)) return Math.random() < .55 ? String(Math.floor(Math.random()*10)) : pool[Math.floor(Math.random()*pool.length)];
+    if (Math.random() < .10) return ch;
+    return pool[Math.floor(Math.random()*pool.length)];
   });
+}
 
+function shouldScrambleNode(node){
+  if (!node || node.nodeType !== Node.TEXT_NODE) return false;
+  const text = node.nodeValue || '';
+  if (!text.trim() || text.trim().length < 2) return false;
+  const parent = node.parentElement;
+  if (!parent) return false;
+  if (parent.closest('script, style, noscript, svg, canvas, #secret-overlay, #raheeDarkwebBack, #raheeCreepLog')) return false;
+  const tag = parent.tagName;
+  if (['SCRIPT','STYLE','TEXTAREA','INPUT','OPTION'].includes(tag)) return false;
+  const rect = parent.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) return false;
+  return true;
+}
+
+function scrambleExistingPageText(){
+  raheeScrambledTextNodes = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node){ return shouldScrambleNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    const original = node.nodeValue;
+    raheeScrambledTextNodes.push([node, original]);
+    node.nodeValue = alienScrambleText(original);
+    if (node.parentElement) node.parentElement.classList.add('rahee-corrupted-node');
+  });
+}
+
+function restoreExistingPageText(){
+  raheeScrambledTextNodes.forEach(([node, original]) => {
+    if (node) node.nodeValue = original;
+    if (node && node.parentElement) node.parentElement.classList.remove('rahee-corrupted-node');
+  });
+  raheeScrambledTextNodes = [];
+  document.querySelectorAll('.rahee-corrupted-node').forEach(el => el.classList.remove('rahee-corrupted-node'));
+}
+
+function enterSecretDarkwebPage(){
+  ensureRaheeCreepNodes();
+  const stat = document.getElementById('raheeDarkwebStatic');
+  const back = document.getElementById('raheeDarkwebBack');
+  raheeSecretDarkwebActive = true;
+  document.body.classList.remove('rahee-creep-lock');
+  document.body.classList.add('rahee-secret-darkweb-mode');
+  scrambleExistingPageText();
+  if (stat) stat.classList.add('on');
+  if (back) back.classList.add('on');
+}
+
+function exitSecretDarkwebPage(){
+  if (!raheeSecretDarkwebActive) return;
+  ensureRaheeCreepNodes();
+  const layer = document.getElementById('raheeCreepLayer');
+  const stat = document.getElementById('raheeDarkwebStatic');
+  const back = document.getElementById('raheeDarkwebBack');
+  document.body.classList.add('rahee-return-restore');
+  if (layer) { layer.classList.add('on','heavy'); layer.style.opacity = '.28'; }
   setTimeout(() => {
-    if (inner) inner.classList.add('show');
-  }, 180);
+    restoreExistingPageText();
+    document.body.classList.remove('rahee-secret-darkweb-mode');
+    if (stat) stat.classList.remove('on');
+    if (back) back.classList.remove('on');
+    raheeSecretDarkwebActive = false;
+  }, 620);
+  setTimeout(() => {
+    document.body.classList.remove('rahee-return-restore');
+    if (layer) { layer.className = ''; layer.style.opacity = ''; }
+  }, 1300);
+}
+
+function openSecretDirect(){
+  // 비밀 페이지를 별도 모달로 열지 않고, 현재 페이지 레이아웃 자체를 다크웹/감염 모드로 변질시킨다.
+  enterSecretDarkwebPage();
 }
 
 function resetRaheeCreep(){
@@ -5725,7 +5910,7 @@ function resetRaheeCreep(){
     'rahee-rgb-drift','rahee-rgb-panic','rahee-darkweb-shift'
   );
   document.querySelectorAll('.rahee-ghost-text').forEach(el => el.remove());
-  ['raheeCreepLayer','raheeCreepSlice','raheeCreepLog','raheeCreepBlack','raheeDarkWebSnap'].forEach(id => {
+  ['raheeCreepLayer','raheeCreepSlice','raheeCreepLog','raheeCreepBlack','raheeDarkWebSnap','raheeDarkwebStatic'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.className = '';
@@ -5735,7 +5920,7 @@ function resetRaheeCreep(){
 }
 
 function openSecret(){
-  if (raheeCreepRunning || secretOverlay.classList.contains('open')) return;
+  if (raheeCreepRunning || raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
   raheeCreepRunning = true;
   konamiIdx = 0;
   swipeIdx = 0;
@@ -5747,7 +5932,8 @@ function openSecret(){
   const black = document.getElementById('raheeCreepBlack');
   const dark = document.getElementById('raheeDarkWebSnap');
 
-  document.body.classList.add('rahee-creep-lock');
+  // 0~9초는 스크롤 가능. 페이지가 아직 정상인 척해야 하므로 바로 잠그지 않는다.
+  later(9000, () => document.body.classList.add('rahee-creep-lock'));
 
   // 0~8초: 거의 티 안 나게 시작. 기존 페이지가 아주 조금씩 어긋나는 단계.
   later(700, () => document.body.classList.add('rahee-creep-slow'));
@@ -5794,7 +5980,7 @@ function openSecret(){
 }
 // ── 키보드 (방향키) ──
 document.addEventListener('keydown', (e) => {
-  if (secretOverlay.classList.contains('open')) return;
+  if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
   if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
   e.preventDefault();
   if (e.key === KONAMI[konamiIdx]){
@@ -5825,7 +6011,7 @@ document.addEventListener('touchstart', (e) => {
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
-  if (secretOverlay.classList.contains('open')) return;
+  if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
   if (!twoFingerStart) return;
   // 두 손가락이 모두 떼졌는지 확인
   if (e.touches.length > 0) return;
@@ -5873,7 +6059,7 @@ document.addEventListener('touchend', (e) => {
   let progressEl = null;
 
   function startPress(e){
-    if (secretOverlay.classList.contains('open')) return;
+    if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
     if (e.touches && e.touches.length > 1) return; // 멀티터치 무시
     pressStart = Date.now();
 
