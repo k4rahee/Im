@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="ko">
 <head>
@@ -1815,55 +1815,74 @@
     margin-bottom: 1.2rem;
   }
   .comments-list:empty{ display: none; }
-  /* ============== COMMENT LIKES ============== */
-  .comment{
-    padding: 0.8rem 1rem;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    position: relative;
-  }
-  .comment.best{
-    border-color: rgba(255,68,68,0.35);
-    background: rgba(255,68,68,0.04);
-  }
+  /* ── 댓글 좋아요 & BEST ── */
   .comment-footer{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 0.6rem;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
   }
   .best-badge{
     font-family: var(--mono);
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #ff4444;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid rgba(255,68,68,0.4);
+    border-radius: 999px;
+    flex-shrink: 0;
+    margin-right: auto;
   }
   .comment-like-btn{
     background: transparent;
-    border: none;
+    border: 1px solid var(--line);
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     line-height: 1;
     color: var(--ink-3);
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.2rem 0.4rem;
-    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
     transition: all 0.2s ease;
     user-select: none;
+    flex-shrink: 0;
   }
-  .comment-like-btn:hover{ color: var(--lime); }
-  .comment-like-btn.liked{ color: var(--lime); text-shadow: 0 0 8px var(--lime-glow); }
-  .comment-like-count{
-    font-family: var(--mono);
+  .comment-like-btn:hover{
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+  .comment-like-btn.liked{
+    border-color: transparent;
+    background: linear-gradient(90deg, var(--pink), var(--lime));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    border-image: linear-gradient(90deg, var(--pink), var(--lime)) 1;
+    box-shadow: 0 0 10px rgba(212,255,58,0.2);
+    animation: clikePulse 2s ease-in-out infinite;
+  }
+  @keyframes clikePulse{
+    0%,100%{ filter: brightness(1); }
+    50%{ filter: brightness(1.2); }
+  }
+  .secret-badge{
     font-size: 0.65rem;
-    letter-spacing: 0.05em;
+    margin-left: 0.3rem;
+    opacity: 0.7;
   }
-  .comment.best .comment-like-btn.liked{ color: var(--lime); }
+  .secret-hidden{
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-3);
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
   .comment.has-del{
     padding-right: 2.4rem;
   }
@@ -1928,8 +1947,23 @@
   .comment-form .name-row{
     display: flex;
     gap: 0.5rem;
+    align-items: center;
   }
-  .comment-form .name-row input{ flex: 1; }
+  .comment-form .name-row input[type="text"]{ flex: 1; }
+  .secret-label{
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--ink-3);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .secret-label input{ cursor: pointer; accent-color: var(--lime); }
+  .secret-label:hover{ color: var(--ink); }
   .comment-input{
     background: rgba(255,255,255,0.02);
     border: 1px solid var(--line);
@@ -2370,7 +2404,270 @@
     .sec-heading{ font-size: 2rem !important; }
   }
 
-  /* ============== REVEAL ============== */
+  /* ============== STATUS WIDGET ============== */
+  .status-widget{
+    position: fixed;
+    bottom: 1.8rem;
+    right: 1.8rem;
+    z-index: 180;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+  }
+  .status-toggle{
+    background: rgba(10,10,13,0.85);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .status-toggle:hover{ border-color: var(--lime); color: var(--lime); }
+  .status-toggle .status-dot{
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 6px var(--lime-glow);
+    animation: statusPulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes statusPulse{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:0.5; transform:scale(0.8); }
+  }
+  .status-panel{
+    background: rgba(10,10,13,0.92);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 0.5rem;
+    backdrop-filter: blur(16px);
+    min-width: 220px;
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(.2,.7,.3,1);
+  }
+  .status-panel.open{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .status-row{
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .status-row:last-child{ border-bottom: none; padding-bottom: 0; }
+  .status-row:first-child{ padding-top: 0; }
+  .status-key{
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    flex-shrink: 0;
+    padding-top: 1px;
+    min-width: 60px;
+  }
+  .status-val{
+    font-family: var(--display);
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  .status-val.lime{ color: var(--lime); }
+  .status-edit-btn{
+    display: none;
+    width: 100%;
+    margin-top: 0.8rem;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.35rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .status-edit-btn.visible{ display: block; }
+  .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .status-edit-form{ display: none; margin-top: 0.8rem; }
+  .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.4rem; }
+  .status-edit-row{
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .status-edit-row label{
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    color: var(--ink-3);
+    min-width: 54px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .status-edit-row input{
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-family: var(--display);
+    font-size: 0.75rem;
+    color: var(--ink);
+  }
+  .status-edit-row input:focus{ outline: none; border-color: var(--lime); }
+  .status-save-btn{
+    background: var(--lime);
+    border: none;
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 0.2rem;
+  }
+  @media (max-width: 700px){
+    .status-widget{ bottom: 5rem; right: 1rem; }
+    .status-panel{ min-width: 180px; }
+  }
+
+  /* ============== VIEWS COUNT ============== */
+  .thought-views{
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .modal-views{
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin-left: auto;
+  }
+
+  /* ============== SECRET PAGE ============== */
+  .secret-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: #0a0a0d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .secret-overlay.open{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .secret-inner{
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    padding: 2rem;
+  }
+  .secret-eyebrow{
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 1.5rem;
+  }
+  .secret-title{
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+  .secret-title em{ color: var(--lime); font-style: italic; }
+  .secret-body{
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin-bottom: 2.5rem;
+    white-space: pre-line;
+  }
+  .secret-close{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.4rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .secret-close:hover{ border-color: var(--lime); color: var(--lime); }
+  .secret-hint{
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    pointer-events: none;
+    z-index: 9500;
+  }
+  .secret-arrow{
+    font-size: 1.2rem;
+    color: var(--lime);
+    text-shadow: 0 0 12px var(--lime-glow);
+    opacity: 0;
+    transform: scale(0.4);
+    transition: none;
+    font-family: var(--display);
+    font-weight: 700;
+  }
+  .secret-arrow.pop{
+    animation: arrowPop 0.55s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .secret-arrow.done{
+    color: var(--pink);
+    text-shadow: 0 0 12px var(--pink-glow);
+  }
+  @keyframes arrowPop{
+    0%  { opacity:0; transform: scale(0.3) translateY(6px); }
+    30% { opacity:1; transform: scale(1.3) translateY(-2px); }
+    60% { opacity:1; transform: scale(1);  }
+    100%{ opacity:0; transform: scale(0.8) translateY(-4px); }
+  }
   .reveal{
     opacity: 0;
     transform: translateY(20px);
@@ -3171,6 +3468,7 @@
     <span class="thought-tag" id="modal-tag">Note</span>
     <span class="thought-date" id="modal-date">2026. 04. 12</span>
     <span class="modal-meta-time" id="modal-time"></span>
+    <span class="modal-views" id="modal-views"></span>
   </div>
   <h3 class="modal-title" id="modal-title">제목</h3>
   <div class="modal-body" id="modal-body"></div>
@@ -3193,7 +3491,11 @@
     <div class="comments-empty" id="comments-empty">아직 댓글이 없습니다. 첫 댓글을 남겨보세요.</div>
     <form class="comment-form" id="comment-form" autocomplete="off">
       <div class="name-row">
-        <input class="comment-input" id="comment-name" type="text" placeholder="이름 (최대 30자)" maxlength="30" required>
+        <input class="comment-input" id="comment-name" type="text" placeholder="이름 (비워두면 익명)" maxlength="30">
+        <label class="secret-label">
+          <input type="checkbox" id="comment-secret">
+          <span>🔒 비밀</span>
+        </label>
       </div>
       <textarea class="comment-input comment-textarea" id="comment-message" placeholder="댓글을 작성해주세요... (최대 500자)" maxlength="500" required></textarea>
       <button class="comment-submit" id="comment-submit" type="submit">댓글 작성</button>
@@ -3344,6 +3646,67 @@
     <span>© 2026 · k4rahee@naver.com</span>
   </div>
 </footer>
+
+<!-- ============== STATUS WIDGET ============== -->
+
+<div class="status-widget" id="status-widget">
+  <div class="status-panel" id="status-panel">
+    <div class="status-row">
+      <span class="status-key">상태</span>
+      <span class="status-val lime" id="sv-status">—</span>
+    </div>
+    <div class="status-row">
+      <span class="status-key">기분</span>
+      <span class="status-val" id="sv-mood">—</span>
+    </div>
+    <div class="status-row">
+      <span class="status-key">음악</span>
+      <span class="status-val" id="sv-music">—</span>
+    </div>
+    <div class="status-row">
+      <span class="status-key">관심사</span>
+      <span class="status-val" id="sv-interest">—</span>
+    </div>
+    <button class="status-edit-btn" id="status-edit-btn">✎ 수정</button>
+    <div class="status-edit-form" id="status-edit-form">
+      <div class="status-edit-row"><label>상태</label><input id="se-status" type="text" maxlength="30" placeholder="작업 중"></div>
+      <div class="status-edit-row"><label>기분</label><input id="se-mood" type="text" maxlength="30" placeholder="약간 피곤함"></div>
+      <div class="status-edit-row"><label>음악</label><input id="se-music" type="text" maxlength="40" placeholder="city pop"></div>
+      <div class="status-edit-row"><label>관심사</label><input id="se-interest" type="text" maxlength="60" placeholder="UI/UX, 모션그래픽"></div>
+      <button class="status-save-btn" id="status-save-btn" type="button">저장</button>
+    </div>
+  </div>
+  <button class="status-toggle" id="status-toggle" type="button">
+    <span class="status-dot"></span>
+    <span id="status-label">상태 보기</span>
+  </button>
+</div>
+
+<!-- ============== SECRET PAGE ============== -->
+
+<div class="secret-overlay" id="secret-overlay" aria-hidden="true">
+  <div class="secret-inner">
+    <div class="secret-eyebrow">✦ you found it ✦</div>
+    <div class="secret-title">Hi,<br><em>진짜 나</em>야.</div>
+    <div class="secret-body" id="secret-body">여기는 포트폴리오 밖의 공간이에요.
+아직 뭘 채울지 모르겠지만,
+일단 발견해줘서 고마워요. 🙂
+
+— Rahee</div>
+<button class="secret-close" id="secret-close" type="button">← 돌아가기</button>
+
+  </div>
+</div>
+<div class="secret-hint" id="secret-hint">
+  <span class="secret-arrow" id="sa-0">↑</span>
+  <span class="secret-arrow" id="sa-1">↑</span>
+  <span class="secret-arrow" id="sa-2">↓</span>
+  <span class="secret-arrow" id="sa-3">↓</span>
+  <span class="secret-arrow" id="sa-4">←</span>
+  <span class="secret-arrow" id="sa-5">→</span>
+  <span class="secret-arrow" id="sa-6">←</span>
+  <span class="secret-arrow" id="sa-7">→</span>
+</div>
 
 <script>
   const io = new IntersectionObserver((entries) => {
@@ -3840,6 +4203,9 @@ import {
   getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, getDoc, setDoc,
   query, orderBy, onSnapshot, serverTimestamp, increment
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+  getStorage, ref as storageRef, uploadBytes, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyArax_BspfgtDATUHT11wnPeJN8A-iWF1Y",
@@ -3854,6 +4220,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // ============== UTILITIES ==============
 const toastEl = document.getElementById('toast');
@@ -3966,6 +4333,7 @@ onAuthStateChanged(auth, (user) => {
     lockBtn.title = '관리자 로그인';
   }
   renderCards();
+  updateStatusAdminUI();
   if (modal.classList.contains('open') && modal.classList.contains('read-mode') && currentReadPost){
     refreshModalActions();
   }
@@ -4130,6 +4498,7 @@ function renderCards(){
         <div class="thought-meta">
           <span class="thought-tag">${escapeHTML(p.tag)}</span>
           <span class="thought-date-rel">${escapeHTML(relStr)}<span class="dot">·</span>${escapeHTML(dateStr)}</span>
+          ${p.views ? `<span class="thought-views">👁 ${p.views}</span>` : ''}
         </div>
         <h3 class="thought-title">${escapeHTML(p.title)}</h3>
         <p class="thought-excerpt">${escapeHTML(p.excerpt)}</p>
@@ -4184,7 +4553,6 @@ function openRead(post){
   document.getElementById('modal-date').textContent = formatDateLong(post.createdAt);
   const timeEl = document.getElementById('modal-time');
   if (post.createdAt){
-    const d = tsToDate(post.createdAt);
     timeEl.textContent = formatTime(post.createdAt) + (post.updatedAt ? ' · 수정됨' : '');
   } else {
     timeEl.textContent = '';
@@ -4192,6 +4560,14 @@ function openRead(post){
   document.getElementById('modal-title').textContent = post.title;
   document.getElementById('modal-body').textContent = post.body;
   document.getElementById('modal-media').innerHTML = renderMediaHTML(post.media);
+
+  // 조회수 표시 & 증가
+  const viewsEl = document.getElementById('modal-views');
+  const newViews = (post.views || 0) + 1;
+  viewsEl.textContent = `👁 ${newViews}`;
+  // Firestore에 views 업데이트 (비동기)
+  updateDoc(doc(db, 'thoughts', post.id), { views: increment(1) }).catch(() => {});
+
   refreshModalActions();
   attachLike(post);
   attachComments(post);
@@ -4327,29 +4703,20 @@ mediaAddBtn.addEventListener('click', () => {
   last && last.querySelector('input').focus();
 });
 
-// ── 파일 업로드 ──
+// ── 파일 업로드 (Firebase Storage) ──
 const mediaFileInput = document.getElementById('media-file-input');
 const mediaPreviewList = document.getElementById('media-preview-list');
 const mediaUploadArea = document.getElementById('media-upload-area');
-let uploadedFiles = []; // {dataUrl, type}
+let uploadedFiles = []; // {file, previewUrl, type}
 
-function readFileAsDataURL(file){
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result);
-    r.onerror = () => rej(new Error('파일 읽기 실패'));
-    r.readAsDataURL(file);
-  });
-}
-
-function addPreviewItem(dataUrl, type, idx){
+function addPreviewItem(previewUrl, type, idx){
   const item = document.createElement('div');
   item.className = 'media-preview-item';
   item.dataset.idx = idx;
   if(type.startsWith('video')){
-    item.innerHTML = `<video src="${dataUrl}" muted></video><button class="preview-remove" type="button">×</button>`;
+    item.innerHTML = `<video src="${previewUrl}" muted></video><button class="preview-remove" type="button">×</button>`;
   } else {
-    item.innerHTML = `<img src="${dataUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>`;
+    item.innerHTML = `<img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>`;
   }
   item.querySelector('.preview-remove').addEventListener('click', () => {
     const i = parseInt(item.dataset.idx);
@@ -4362,7 +4729,7 @@ function addPreviewItem(dataUrl, type, idx){
 function renderPreviews(){
   mediaPreviewList.innerHTML = '';
   uploadedFiles.forEach((f, i) => {
-    mediaPreviewList.appendChild(addPreviewItem(f.dataUrl, f.type, i));
+    mediaPreviewList.appendChild(addPreviewItem(f.previewUrl, f.type, i));
   });
 }
 
@@ -4370,17 +4737,31 @@ async function handleFiles(files){
   const MAX = 20 * 1024 * 1024;
   for(const file of Array.from(files)){
     if(file.size > MAX){ toast(`${file.name}: 20MB 초과`, 'error'); continue; }
-    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(`지원하지 않는 파일 형식: ${file.name}`, 'error'); continue; }
-    try {
-      const dataUrl = await readFileAsDataURL(file);
-      uploadedFiles.push({ dataUrl, type: file.type, name: file.name });
-    } catch(_){ toast(`${file.name} 읽기 실패`, 'error'); }
+    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(`지원하지 않는 파일 형식`, 'error'); continue; }
+    const previewUrl = URL.createObjectURL(file);
+    uploadedFiles.push({ file, previewUrl, type: file.type });
   }
   renderPreviews();
 }
 
-mediaFileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+async function uploadFilesToStorage(){
+  const urls = [];
+  for(const f of uploadedFiles){
+    const path = `thoughts/${currentUser.uid}/${Date.now()}_${f.file.name}`;
+    const ref = storageRef(storage, path);
+    try {
+      const snap = await uploadBytes(ref, f.file);
+      const url = await getDownloadURL(snap.ref);
+      urls.push(url);
+    } catch(err){
+      console.error('Storage upload error', err);
+      toast(`${f.file.name} 업로드 실패`, 'error');
+    }
+  }
+  return urls;
+}
 
+mediaFileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 mediaUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); mediaUploadArea.classList.add('drag-over'); });
 mediaUploadArea.addEventListener('dragleave', () => mediaUploadArea.classList.remove('drag-over'));
 mediaUploadArea.addEventListener('drop', (e) => {
@@ -4396,12 +4777,14 @@ document.getElementById('modal-write').addEventListener('submit', async (e) => {
   const title = document.getElementById('write-title').value.trim();
   const body = document.getElementById('write-body').value.trim();
   if (!title || !body) return;
-  const media = [...getMediaInputValues(), ...uploadedFiles.map(f => f.dataUrl)];
 
   const saveBtn = e.target.querySelector('.write-btn-save');
   saveBtn.disabled = true;
-  saveBtn.textContent = '저장 중...';
+  saveBtn.textContent = uploadedFiles.length ? '업로드 중...' : '저장 중...';
   try {
+    const uploadedUrls = uploadedFiles.length ? await uploadFilesToStorage() : [];
+    const media = [...getMediaInputValues(), ...uploadedUrls];
+    saveBtn.textContent = '저장 중...';
     if (editingPostId){
       await updateDoc(doc(db, 'thoughts', editingPostId), {
         tag, title, body, excerpt: makeExcerpt(body),
@@ -4531,7 +4914,175 @@ likeBtn.addEventListener('click', async () => {
   }
 });
 
-// ============== COMMENTS ==============
+// ============== STATUS WIDGET ==============
+const statusPanel = document.getElementById('status-panel');
+const statusToggle = document.getElementById('status-toggle');
+const statusLabel = document.getElementById('status-label');
+const statusEditBtn = document.getElementById('status-edit-btn');
+const statusEditForm = document.getElementById('status-edit-form');
+const statusSaveBtn = document.getElementById('status-save-btn');
+let statusOpen = false;
+
+const STATUS_FIELDS = [
+  { id: 'sv-status', key: 'status', edit: 'se-status' },
+  { id: 'sv-mood',   key: 'mood',   edit: 'se-mood'   },
+  { id: 'sv-music',  key: 'music',  edit: 'se-music'  },
+  { id: 'sv-interest', key: 'interest', edit: 'se-interest' }
+];
+
+function renderStatus(data){
+  if (!data) return;
+  STATUS_FIELDS.forEach(f => {
+    const el = document.getElementById(f.id);
+    if (el) el.textContent = data[f.key] || '—';
+  });
+}
+
+// Firestore 실시간 구독
+const statusRef = doc(db, 'status', 'current');
+onSnapshot(statusRef, (snap) => {
+  if (snap.exists()) renderStatus(snap.data());
+}, () => {});
+
+statusToggle.addEventListener('click', () => {
+  statusOpen = !statusOpen;
+  statusPanel.classList.toggle('open', statusOpen);
+  statusLabel.textContent = statusOpen ? '닫기' : '상태 보기';
+});
+
+// 관리자 수정 버튼
+function updateStatusAdminUI(){
+  if (currentUser){
+    statusEditBtn.classList.add('visible');
+  } else {
+    statusEditBtn.classList.remove('visible');
+    statusEditForm.classList.remove('open');
+  }
+}
+
+statusEditBtn.addEventListener('click', () => {
+  statusEditForm.classList.toggle('open');
+  if (statusEditForm.classList.contains('open')){
+    STATUS_FIELDS.forEach(f => {
+      const el = document.getElementById(f.edit);
+      const valEl = document.getElementById(f.id);
+      if (el && valEl) el.value = valEl.textContent === '—' ? '' : valEl.textContent;
+    });
+    document.getElementById('se-status').focus();
+  }
+});
+
+statusSaveBtn.addEventListener('click', async () => {
+  if (!currentUser) return;
+  const data = {};
+  STATUS_FIELDS.forEach(f => {
+    const el = document.getElementById(f.edit);
+    data[f.key] = el ? el.value.trim() : '';
+  });
+  try {
+    await setDoc(statusRef, data);
+    statusEditForm.classList.remove('open');
+    toast('상태 저장 완료', 'success');
+  } catch(err){
+    console.error(err);
+    toast('저장 실패', 'error');
+  }
+});
+
+// ============== SECRET PAGE (코나미 코드 + 두 손가락 스와이프) ==============
+const secretOverlay = document.getElementById('secret-overlay');
+const secretClose   = document.getElementById('secret-close');
+
+const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight'];
+const ARROW_CHARS = ['↑','↑','↓','↓','←','→','←','→'];
+let konamiIdx = 0;
+let konamiResetTimer;
+
+function getArrowEl(i){ return document.getElementById('sa-' + i); }
+
+function flashArrow(i, done = false){
+  const el = getArrowEl(i);
+  if (!el) return;
+  if (done) el.classList.add('done');
+  el.classList.remove('pop');
+  void el.offsetWidth; // reflow
+  el.classList.add('pop');
+  setTimeout(() => { el.classList.remove('pop','done'); }, 600);
+}
+
+function openSecret(){
+  secretOverlay.classList.add('open');
+  secretOverlay.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+  konamiIdx = 0;
+}
+
+// ── 키보드 (방향키) ──
+document.addEventListener('keydown', (e) => {
+  if (secretOverlay.classList.contains('open')) return;
+  if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
+  e.preventDefault();
+  if (e.key === KONAMI[konamiIdx]){
+    flashArrow(konamiIdx);
+    konamiIdx++;
+    clearTimeout(konamiResetTimer);
+    konamiResetTimer = setTimeout(() => { konamiIdx = 0; }, 2000);
+    if (konamiIdx === KONAMI.length) openSecret();
+  } else {
+    konamiIdx = 0;
+  }
+});
+
+// ── 두 손가락 스와이프 (모바일) ──
+let touches = [];
+let swipeStartX = 0, swipeStartY = 0;
+let swipeIdx = 0;
+let swipeResetTimer;
+
+document.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 2){
+    swipeStartX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    swipeStartY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+  }
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+  if (secretOverlay.classList.contains('open')) return;
+  // 손가락 2개 뗐을 때만
+  if (e.changedTouches.length !== 2 && e.touches.length !== 0) return;
+  if (swipeStartX === 0 && swipeStartY === 0) return;
+
+  const endX = (e.changedTouches[0].clientX + (e.changedTouches[1]?.clientX ?? e.changedTouches[0].clientX)) / 2;
+  const endY = (e.changedTouches[0].clientY + (e.changedTouches[1]?.clientY ?? e.changedTouches[0].clientY)) / 2;
+  const dx = endX - swipeStartX;
+  const dy = endY - swipeStartY;
+  swipeStartX = 0; swipeStartY = 0;
+
+  if (Math.abs(dx) < 20 && Math.abs(dy) < 20) return; // 너무 짧으면 무시
+
+  let dir;
+  if (Math.abs(dy) > Math.abs(dx)){
+    dir = dy < 0 ? 'ArrowUp' : 'ArrowDown';
+  } else {
+    dir = dx < 0 ? 'ArrowLeft' : 'ArrowRight';
+  }
+
+  if (dir === KONAMI[swipeIdx]){
+    flashArrow(swipeIdx);
+    swipeIdx++;
+    clearTimeout(swipeResetTimer);
+    swipeResetTimer = setTimeout(() => { swipeIdx = 0; }, 2500);
+    if (swipeIdx === KONAMI.length) openSecret();
+  } else {
+    swipeIdx = 0;
+  }
+}, { passive: true });
+
+secretClose.addEventListener('click', () => {
+  secretOverlay.classList.remove('open');
+  secretOverlay.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+});
 const commentsList = document.getElementById('comments-list');
 const commentsEmpty = document.getElementById('comments-empty');
 const commentsCount = document.getElementById('comments-count');
@@ -4569,7 +5120,6 @@ function renderComments(comments){
   commentsEmpty.style.display = 'none';
   commentsCount.textContent = `(${comments.length})`;
 
-  // find best comment (most likes, ≥1)
   const maxLikes = Math.max(0, ...comments.map(c => c.likes || 0));
   const bestId = maxLikes >= 1 ? (comments.find(c => (c.likes||0) === maxLikes) || {}).id : null;
 
@@ -4579,22 +5129,28 @@ function renderComments(comments){
     const isBest = c.id === bestId;
     const isLiked = !!myLikes[c.id];
     const likeCount = c.likes || 0;
+    const isSecret = !!c.secret;
+    const canSee = !isSecret || currentUser;
+    const secretMsg = isSecret && !currentUser
+      ? `<div class="comment-msg secret-hidden">🔒 비밀 댓글입니다.</div>`
+      : `<div class="comment-msg">${escapeHTML(c.message || '')}</div>`;
+    const secretBadge = isSecret ? `<span class="secret-badge">🔒</span>` : '';
     const delBtn = currentUser ? `<button class="comment-del" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="댓글 삭제" title="삭제">×</button>` : '';
     const hasDel = currentUser ? 'has-del' : '';
     const bestCls = isBest ? 'best' : '';
     const likedCls = isLiked ? 'liked' : '';
-    const bestBadge = isBest ? `<span class="best-badge">★ BEST</span>` : `<span></span>`;
+    const bestBadge = isBest ? `<span class="best-badge">★ BEST</span>` : '';
     return `
       <div class="comment ${hasDel} ${bestCls}" data-comment-id="${escapeHTML(c.id)}">
         <div class="comment-head">
-          <span class="comment-name">${escapeHTML(c.name || '익명')}</span>
+          <span class="comment-name">${escapeHTML(c.name || '익명')}${secretBadge}</span>
           <span class="comment-time">${escapeHTML(time)}</span>
         </div>
-        <div class="comment-msg">${escapeHTML(c.message || '')}</div>
+        ${secretMsg}
         <div class="comment-footer">
           ${bestBadge}
-          <button class="comment-like-btn ${likedCls}" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="좋아요">
-            ✦ <span class="comment-like-count">${likeCount > 0 ? likeCount : ''}</span>
+          <button class="comment-like-btn ${likedCls}" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="댓글 좋아요">
+            ✦<span class="comment-like-count">${likeCount > 0 ? ' '+likeCount : ''}</span>
           </button>
         </div>
         ${delBtn}
@@ -4641,9 +5197,11 @@ commentsList.addEventListener('click', async (e) => {
 commentForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!currentReadPost) return;
-  const name = document.getElementById('comment-name').value.trim();
+  const rawName = document.getElementById('comment-name').value.trim();
+  const name = rawName || '익명';
   const message = document.getElementById('comment-message').value.trim();
-  if (!name || !message) return;
+  const secret = document.getElementById('comment-secret').checked;
+  if (!message) return;
 
   const submit = document.getElementById('comment-submit');
   submit.disabled = true;
@@ -4652,6 +5210,7 @@ commentForm.addEventListener('submit', async (e) => {
     await addDoc(collection(db, 'thoughts', currentReadPost.id, 'comments'), {
       name: name.slice(0, 30),
       message: message.slice(0, 500),
+      secret: secret,
       createdAt: serverTimestamp()
     });
     commentForm.reset();
