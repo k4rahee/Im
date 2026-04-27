@@ -5867,7 +5867,7 @@ function softCorruptText(text, intensity = 0.28){
     [/신청|보내기|submit/i, '전송 보류'],
     [/RAHEE|라희|냐희/i, 'RAHEE_//_복구중']
   ];
-  const glitchPool = ['�','▒','░','/','\','_','·','…','0','1','⌁','∴'];
+  const glitchPool = ['�','▒','░','/','\\','_','·','…','0','1','⌁','∴'];
   if (trimmed.length <= 5){
     return text.replace(/[가-힣A-Za-z0-9]/, ch => Math.random() < .55 ? ch : glitchPool[Math.floor(Math.random()*glitchPool.length)]);
   }
@@ -6572,75 +6572,6 @@ commentForm.addEventListener('submit', async (e) => {
   }
 </style>
 
-<div id="raheeHackFx" aria-hidden="true"></div>
 
-<div id="raheeHackTerminal" aria-hidden="true">
-  <span class="hack-line">&gt; SYSTEM BREACH DETECTED...</span>
-  <span class="hack-line">&gt; BYPASSING SECURITY LAYER 1... OK</span>
-  <span class="hack-line">&gt; BYPASSING SECURITY LAYER 2... OK</span>
-  <span class="hack-line">&gt; ACCESS GRANTED — WELCOME, STRANGER.</span>
-  <span class="hack-line">&gt; OPENING HIDDEN MEMORY...</span>
-</div>
-
-<script>
-  (function () {
-    const konamiCode = [
-      "ArrowUp",
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      "ArrowLeft",
-      "ArrowRight"
-    ];
-
-    let konamiIndex = 0;
-    let lastPlayedAt = 0;
-
-    function playRaheeHackEffect() {
-      const now = Date.now();
-
-      if (now - lastPlayedAt < 1400) return;
-      lastPlayedAt = now;
-
-      const fx = document.getElementById("raheeHackFx");
-      const terminal = document.getElementById("raheeHackTerminal");
-
-      if (!fx || !terminal) return;
-
-      fx.classList.remove("is-active");
-      terminal.classList.remove("is-active");
-      document.body.classList.remove("rahee-hack-shake");
-
-      void fx.offsetWidth;
-
-      fx.classList.add("is-active");
-      terminal.classList.add("is-active");
-      document.body.classList.add("rahee-hack-shake");
-
-      setTimeout(function () {
-        fx.classList.remove("is-active");
-        terminal.classList.remove("is-active");
-        document.body.classList.remove("rahee-hack-shake");
-      }, 1300);
-    }
-
-    window.addEventListener("keydown", function (event) {
-      const key = event.key;
-
-      if (key === konamiCode[konamiIndex]) {
-        konamiIndex += 1;
-
-        if (konamiIndex === konamiCode.length) {
-          konamiIndex = 0;
-          playRaheeHackEffect();
-        }
-      } else {
-        konamiIndex = key === konamiCode[0] ? 1 : 0;
-      }
-    });
-  })();
-</script>
 </body>
 </html>
