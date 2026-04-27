@@ -1723,7 +1723,7 @@
     line-height: 1;
     color: var(--ink-3);
     font-family: var(--display);
-    font-size: 1.4rem;
+    font-size: 2rem;
     font-weight: 700;
     transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), color 0.4s ease;
     user-select: none;
@@ -1733,16 +1733,26 @@
     transform: scale(1.1);
   }
   .like-btn.liked{
-    color: var(--lime);
-    text-shadow: 0 0 16px var(--lime-glow);
+    background: linear-gradient(135deg, var(--pink) 0%, var(--lime) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 0 8px var(--lime-glow));
+    animation: likeGradientPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes likeGradientPulse{
+    0%,100%{ filter: drop-shadow(0 0 8px var(--lime-glow)) brightness(1); }
+    50%{ filter: drop-shadow(0 0 18px var(--lime-glow)) brightness(1.3); }
   }
   .like-btn.bursting{
-    animation: starBurst 0.7s cubic-bezier(.34,1.56,.64,1);
+    animation: likeGradientPulse 2.5s ease-in-out infinite, starBurst 0.7s cubic-bezier(.34,1.56,.64,1);
   }
   @keyframes starBurst{
     0%{ transform: scale(1) rotate(0deg); }
-    20%{ transform: scale(1.5) rotate(-12deg); }
-    50%{ transform: scale(1.7) rotate(8deg); }
+    20%{ transform: scale(1.8) rotate(-15deg); }
+    50%{ transform: scale(2.2) rotate(10deg); }
+    70%{ transform: scale(1.4) rotate(-5deg); }
     100%{ transform: scale(1) rotate(0deg); }
   }
   .like-count{
@@ -1819,9 +1829,8 @@
   .comment-footer{
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 0.5rem;
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
   }
   .best-badge{
     font-family: var(--mono);
@@ -1834,42 +1843,39 @@
     border: 1px solid rgba(255,68,68,0.4);
     border-radius: 999px;
     flex-shrink: 0;
-    margin-right: auto;
   }
   .comment-like-btn{
     background: transparent;
     border: 1px solid var(--line);
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 1rem;
     line-height: 1;
     color: var(--ink-3);
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.25rem 0.6rem;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
     border-radius: 999px;
     transition: all 0.2s ease;
     user-select: none;
     flex-shrink: 0;
+    margin-left: auto;
   }
-  .comment-like-btn:hover{
-    border-color: var(--lime);
-    color: var(--lime);
-  }
+  .comment-like-btn:hover{ border-color: var(--lime); color: var(--lime); }
   .comment-like-btn.liked{
-    border-color: transparent;
-    background: linear-gradient(90deg, var(--pink), var(--lime));
+    background: linear-gradient(135deg, var(--pink) 0%, var(--lime) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-    border-image: linear-gradient(90deg, var(--pink), var(--lime)) 1;
-    box-shadow: 0 0 10px rgba(212,255,58,0.2);
-    animation: clikePulse 2s ease-in-out infinite;
+    border-color: transparent;
+    filter: drop-shadow(0 0 6px var(--lime-glow));
+    animation: likeGradientPulse 2.5s ease-in-out infinite;
   }
-  @keyframes clikePulse{
-    0%,100%{ filter: brightness(1); }
-    50%{ filter: brightness(1.2); }
+  .comment-like-count{
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
   }
   .secret-badge{
     font-size: 0.65rem;
@@ -2404,7 +2410,95 @@
     .sec-heading{ font-size: 2rem !important; }
   }
 
-  /* ============== STATUS WIDGET ============== */
+  /* ============== CONTACT EDIT ============== */
+  .contact-edit-btn{
+    margin-top: 1.5rem;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .contact-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
+
+  .contact-edit-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 8000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .contact-edit-modal.open{ opacity: 1; pointer-events: auto; }
+  .contact-edit-backdrop{
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+  }
+  .contact-edit-panel{
+    position: relative;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 2rem;
+    width: min(520px, 92vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    z-index: 1;
+  }
+  .contact-edit-close{
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--ink-3);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    transition: color 0.2s;
+  }
+  .contact-edit-close:hover{ color: var(--ink); }
+  .ce-link-row{
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  .ce-link-row input{
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-family: var(--display);
+    font-size: 0.8rem;
+    color: var(--ink);
+    transition: border-color 0.2s ease;
+  }
+  .ce-link-row input:focus{ outline: none; border-color: var(--lime); }
+  .ce-link-row input::placeholder{ color: var(--ink-3); }
+  .ce-link-remove{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .ce-link-remove:hover{ border-color: var(--pink); color: var(--pink); }
   .status-widget{
     position: fixed;
     bottom: 1.8rem;
@@ -2576,31 +2670,106 @@
     position: fixed;
     inset: 0;
     z-index: 9000;
-    background: #0a0a0d;
+    background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease;
+    overflow: hidden;
   }
-  .secret-overlay.open{
-    opacity: 1;
-    pointer-events: auto;
+  .secret-overlay.open{ pointer-events: auto; }
+
+  /* 스캔라인 */
+  .secret-overlay::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,255,80,0.03) 2px,
+      rgba(0,255,80,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
   }
+
+  /* 글리치 노이즈 오버레이 */
+  .secret-noise{
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: screen;
+  }
+  .secret-overlay.glitching .secret-noise{ animation: noiseFlicker 0.08s steps(1) infinite; }
+  @keyframes noiseFlicker{
+    0%,100%{ opacity:0.15; transform: translate(0,0); }
+    25%{ opacity:0.3; transform: translate(-2px, 1px); }
+    50%{ opacity:0.1; transform: translate(2px, -1px); }
+    75%{ opacity:0.25; transform: translate(-1px, 2px); }
+  }
+
   .secret-inner{
     max-width: 600px;
     width: 90%;
     text-align: center;
     padding: 2rem;
+    position: relative;
+    z-index: 3;
+    opacity: 0;
   }
+  .secret-inner.show{ animation: secretReveal 0.6s ease forwards; }
+  @keyframes secretReveal{
+    0%{ opacity:0; transform: translateY(12px); }
+    100%{ opacity:1; transform: translateY(0); }
+  }
+
+  /* 터미널 텍스트 오버레이 */
+  .secret-terminal{
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 3rem;
+    opacity: 0;
+    pointer-events: none;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: #00ff50;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    text-shadow: 0 0 8px rgba(0,255,80,0.6);
+  }
+  .secret-terminal-line{
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+  }
+  .secret-terminal-line.type{
+    animation: termType 0.4s steps(30) forwards;
+  }
+  @keyframes termType{
+    from{ width: 0; opacity: 1; }
+    to{ width: 100%; opacity: 1; }
+  }
+
   .secret-eyebrow{
     font-family: var(--mono);
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--lime);
+    color: #00ff50;
     margin-bottom: 1.5rem;
+    text-shadow: 0 0 12px rgba(0,255,80,0.8);
   }
   .secret-title{
     font-family: var(--display);
@@ -2623,8 +2792,8 @@
   }
   .secret-close{
     background: transparent;
-    border: 1px solid var(--line);
-    color: var(--ink-2);
+    border: 1px solid rgba(0,255,80,0.4);
+    color: #00ff50;
     font-family: var(--mono);
     font-size: 0.65rem;
     letter-spacing: 0.12em;
@@ -3593,8 +3762,8 @@
 
 ```
 <div class="contact-intro reveal">
-  <div class="label"><span class="pulse"></span>Available for collaboration</div>
-  <div class="closing-sub">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
+  <div class="label"><span class="pulse"></span><span id="contact-label">Available for collaboration</span></div>
+  <div class="closing-sub" id="contact-desc">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
 </div>
 
 <div class="email-card reveal" id="email-card">
@@ -3610,32 +3779,47 @@
   <span class="act-tooltip" id="email-tooltip">Copied</span>
 </div>
 
-<div class="contact-socials reveal">
-  <a href="https://www.youtube.com/@animeatre/featured" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">YouTube</span>
-    <span class="social-handle">@animeatre</span>
-    <span class="social-arr">↗</span>
-  </a>
-  <a href="https://www.youtube.com/@KawaiiMesuni" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">YouTube</span>
-    <span class="social-handle">@KawaiiMesuni</span>
-    <span class="social-arr">↗</span>
-  </a>
-  <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">GitHub Pages</span>
-    <span class="social-handle">Churro_Video</span>
-    <span class="social-arr">↗</span>
-  </a>
-  <a href="#" class="social-link placeholder">
-    <span class="social-name">Instagram</span>
-    <span class="social-handle">+ 추가</span>
-    <span class="social-arr">↗</span>
-  </a>
+<div class="contact-socials reveal" id="contact-socials">
+  <!-- rendered by JS -->
 </div>
+
+<!-- 관리자 수정 버튼 -->
+<button class="contact-edit-btn" id="contact-edit-btn" type="button" style="display:none;">✎ Contact 수정</button>
 ```
 
   </div>
 </section>
+
+<!-- Contact 수정 모달 -->
+
+<div class="contact-edit-modal" id="contact-edit-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="contact-edit-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="contact-edit-close" type="button">×</button>
+    <h3 class="write-heading">Contact 수정</h3>
+
+```
+<div class="write-row">
+  <label class="write-label">라벨 (상단 뱃지)</label>
+  <input class="write-input" id="ce-label" type="text" maxlength="50" placeholder="Available for collaboration">
+</div>
+<div class="write-row">
+  <label class="write-label">설명 문구</label>
+  <input class="write-input" id="ce-desc" type="text" maxlength="100" placeholder="새로운 프로젝트나 협업 제안은 언제든지 환영합니다.">
+</div>
+
+<div class="write-label" style="margin-bottom:0.6rem;">링크 (최대 6개)</div>
+<div id="ce-links-list"></div>
+<button class="media-add-btn" id="ce-add-link" type="button" style="margin-top:0.5rem;">+ 링크 추가</button>
+
+<div class="write-foot" style="margin-top:1.5rem;">
+  <button type="button" class="write-btn-cancel" id="contact-edit-cancel">취소</button>
+  <button type="button" class="write-btn-save" id="contact-edit-save">저장하기</button>
+</div>
+```
+
+  </div>
+</div>
 
 <footer>
   <div class="footer-inner">
@@ -3652,27 +3836,31 @@
 <div class="status-widget" id="status-widget">
   <div class="status-panel" id="status-panel">
     <div class="status-row">
-      <span class="status-key">상태</span>
+      <span class="status-key" id="sk-status">상태</span>
       <span class="status-val lime" id="sv-status">—</span>
     </div>
     <div class="status-row">
-      <span class="status-key">기분</span>
+      <span class="status-key" id="sk-mood">기분</span>
       <span class="status-val" id="sv-mood">—</span>
     </div>
     <div class="status-row">
-      <span class="status-key">음악</span>
+      <span class="status-key" id="sk-music">음악</span>
       <span class="status-val" id="sv-music">—</span>
     </div>
     <div class="status-row">
-      <span class="status-key">관심사</span>
+      <span class="status-key" id="sk-interest">관심사</span>
       <span class="status-val" id="sv-interest">—</span>
     </div>
     <button class="status-edit-btn" id="status-edit-btn">✎ 수정</button>
     <div class="status-edit-form" id="status-edit-form">
-      <div class="status-edit-row"><label>상태</label><input id="se-status" type="text" maxlength="30" placeholder="작업 중"></div>
-      <div class="status-edit-row"><label>기분</label><input id="se-mood" type="text" maxlength="30" placeholder="약간 피곤함"></div>
-      <div class="status-edit-row"><label>음악</label><input id="se-music" type="text" maxlength="40" placeholder="city pop"></div>
-      <div class="status-edit-row"><label>관심사</label><input id="se-interest" type="text" maxlength="60" placeholder="UI/UX, 모션그래픽"></div>
+      <div class="status-edit-row"><label>라벨1</label><input id="sl-status" type="text" maxlength="10" placeholder="상태"></div>
+      <div class="status-edit-row"><label>값1</label><input id="se-status" type="text" maxlength="30" placeholder="작업 중"></div>
+      <div class="status-edit-row"><label>라벨2</label><input id="sl-mood" type="text" maxlength="10" placeholder="기분"></div>
+      <div class="status-edit-row"><label>값2</label><input id="se-mood" type="text" maxlength="30" placeholder="약간 피곤함"></div>
+      <div class="status-edit-row"><label>라벨3</label><input id="sl-music" type="text" maxlength="10" placeholder="음악"></div>
+      <div class="status-edit-row"><label>값3</label><input id="se-music" type="text" maxlength="40" placeholder="city pop"></div>
+      <div class="status-edit-row"><label>라벨4</label><input id="sl-interest" type="text" maxlength="10" placeholder="관심사"></div>
+      <div class="status-edit-row"><label>값4</label><input id="se-interest" type="text" maxlength="60" placeholder="UI/UX, 모션그래픽"></div>
       <button class="status-save-btn" id="status-save-btn" type="button">저장</button>
     </div>
   </div>
@@ -3685,7 +3873,14 @@
 <!-- ============== SECRET PAGE ============== -->
 
 <div class="secret-overlay" id="secret-overlay" aria-hidden="true">
-  <div class="secret-inner">
+  <div class="secret-noise"></div>
+  <div class="secret-terminal" id="secret-terminal">
+    <div class="secret-terminal-line" id="st-0">&gt; SYSTEM BREACH DETECTED...</div>
+    <div class="secret-terminal-line" id="st-1">&gt; BYPASSING SECURITY LAYER 1... OK</div>
+    <div class="secret-terminal-line" id="st-2">&gt; BYPASSING SECURITY LAYER 2... OK</div>
+    <div class="secret-terminal-line" id="st-3">&gt; ACCESS GRANTED — WELCOME, STRANGER.</div>
+  </div>
+  <div class="secret-inner" id="secret-inner">
     <div class="secret-eyebrow">✦ you found it ✦</div>
     <div class="secret-title">Hi,<br><em>진짜 나</em>야.</div>
     <div class="secret-body" id="secret-body">여기는 포트폴리오 밖의 공간이에요.
@@ -4240,7 +4435,7 @@ function escapeHTML(s){
 }
 function makeExcerpt(body){
   const flat = body.replace(/\s+/g, ' ').trim();
-  return flat.length > 110 ? flat.slice(0, 110) + '…' : flat;
+  return flat.length > 110 ? flat.slice(0, 110) : flat;
 }
 
 // ============== MEDIA HELPERS ==============
@@ -4334,6 +4529,7 @@ onAuthStateChanged(auth, (user) => {
   }
   renderCards();
   updateStatusAdminUI();
+  updateContactEditAdminUI();
   if (modal.classList.contains('open') && modal.classList.contains('read-mode') && currentReadPost){
     refreshModalActions();
   }
@@ -4914,7 +5110,147 @@ likeBtn.addEventListener('click', async () => {
   }
 });
 
-// ============== STATUS WIDGET ==============
+// ============== CONTACT (Firebase) ==============
+function escHTML(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+const contactRef = doc(db, 'contact', 'main');
+
+const DEFAULT_CONTACT = {
+  label: 'Available for collaboration',
+  desc: '새로운 프로젝트나 협업 제안은 언제든지 환영합니다.',
+  links: [
+    { name: 'YouTube', handle: '@animeatre',    url: 'https://www.youtube.com/@animeatre/featured' },
+    { name: 'YouTube', handle: '@KawaiiMesuni', url: 'https://www.youtube.com/@KawaiiMesuni' },
+    { name: 'GitHub Pages', handle: 'Churro_Video', url: 'https://k4rahee.github.io/Churro_Video/' },
+    { name: 'Instagram', handle: '+ 추가', url: '' }
+  ]
+};
+
+function renderContactSection(data){
+  const d = data || DEFAULT_CONTACT;
+  document.getElementById('contact-label').textContent = d.label || DEFAULT_CONTACT.label;
+  document.getElementById('contact-desc').textContent = d.desc || DEFAULT_CONTACT.desc;
+
+  const socials = document.getElementById('contact-socials');
+  socials.innerHTML = (d.links || DEFAULT_CONTACT.links).map(l => {
+    const isEmpty = !l.url;
+    return `
+      <a href="${isEmpty ? '#' : l.url}" ${isEmpty ? '' : 'target="_blank" rel="noopener"'}
+         class="social-link${isEmpty ? ' placeholder' : ''}">
+        <span class="social-name">${escHTML(l.name)}</span>
+        <span class="social-handle">${escHTML(l.handle)}</span>
+        <span class="social-arr">↗</span>
+      </a>`;
+  }).join('');
+}
+
+// 실시간 구독
+onSnapshot(contactRef, (snap) => {
+  renderContactSection(snap.exists() ? snap.data() : null);
+}, () => renderContactSection(null));
+
+// 초기 렌더 (스냅샷 오기 전)
+renderContactSection(null);
+
+// 관리자 수정 UI
+const contactEditBtn  = document.getElementById('contact-edit-btn');
+const contactEditModal= document.getElementById('contact-edit-modal');
+const contactEditClose= document.getElementById('contact-edit-close');
+const contactEditCancel=document.getElementById('contact-edit-cancel');
+const contactEditSave = document.getElementById('contact-edit-save');
+const ceLinksList     = document.getElementById('ce-links-list');
+const ceAddLink       = document.getElementById('ce-add-link');
+
+function updateContactEditAdminUI(){
+  contactEditBtn.style.display = currentUser ? 'inline-block' : 'none';
+}
+
+function makeLinkRow(link = {}){
+  const row = document.createElement('div');
+  row.className = 'ce-link-row';
+  row.innerHTML = `
+    <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
+    <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
+    <input type="url"  placeholder="https://..." maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/3;">
+    <button class="ce-link-remove" type="button">×</button>
+  `;
+  // url input 3번째 row
+  const inputs = row.querySelectorAll('input');
+  // reorganize: name | handle | remove / url full width
+  row.innerHTML = `
+    <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
+    <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
+    <button class="ce-link-remove" type="button">×</button>
+    <input type="url" placeholder="URL (https://...)" maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/4;">
+  `;
+  row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
+  return row;
+}
+
+function openContactEdit(){
+  // 현재 표시 값 불러오기
+  document.getElementById('ce-label').value = document.getElementById('contact-label').textContent;
+  document.getElementById('ce-desc').value  = document.getElementById('contact-desc').textContent;
+  ceLinksList.innerHTML = '';
+  const anchors = document.querySelectorAll('#contact-socials .social-link');
+  anchors.forEach(a => {
+    makeLinkRow({
+      name:   a.querySelector('.social-name')?.textContent || '',
+      handle: a.querySelector('.social-handle')?.textContent || '',
+      url:    a.getAttribute('href') === '#' ? '' : a.getAttribute('href')
+    });
+    ceLinksList.appendChild(makeLinkRow({
+      name:   a.querySelector('.social-name')?.textContent || '',
+      handle: a.querySelector('.social-handle')?.textContent || '',
+      url:    a.getAttribute('href') === '#' ? '' : a.getAttribute('href')
+    }));
+  });
+  contactEditModal.classList.add('open');
+  contactEditModal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+}
+
+function closeContactEdit(){
+  contactEditModal.classList.remove('open');
+  contactEditModal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+}
+
+contactEditBtn.addEventListener('click', openContactEdit);
+contactEditClose.addEventListener('click', closeContactEdit);
+contactEditCancel.addEventListener('click', closeContactEdit);
+document.getElementById('contact-edit-backdrop').addEventListener('click', closeContactEdit);
+
+ceAddLink.addEventListener('click', () => {
+  if (ceLinksList.children.length >= 6){ toast('링크는 최대 6개까지 가능합니다', 'error'); return; }
+  ceLinksList.appendChild(makeLinkRow());
+});
+
+contactEditSave.addEventListener('click', async () => {
+  if (!currentUser) return;
+  const label = document.getElementById('ce-label').value.trim();
+  const desc  = document.getElementById('ce-desc').value.trim();
+  const links = [];
+  ceLinksList.querySelectorAll('.ce-link-row').forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const name   = inputs[0].value.trim();
+    const handle = inputs[1].value.trim();
+    const url    = inputs[2].value.trim();
+    if (name || handle || url) links.push({ name, handle, url });
+  });
+  contactEditSave.disabled = true;
+  contactEditSave.textContent = '저장 중...';
+  try {
+    await setDoc(contactRef, { label, desc, links });
+    toast('Contact 저장 완료', 'success');
+    closeContactEdit();
+  } catch(err){
+    console.error(err);
+    toast('저장 실패', 'error');
+  } finally {
+    contactEditSave.disabled = false;
+    contactEditSave.textContent = '저장하기';
+  }
+});
 const statusPanel = document.getElementById('status-panel');
 const statusToggle = document.getElementById('status-toggle');
 const statusLabel = document.getElementById('status-label');
@@ -4924,17 +5260,21 @@ const statusSaveBtn = document.getElementById('status-save-btn');
 let statusOpen = false;
 
 const STATUS_FIELDS = [
-  { id: 'sv-status', key: 'status', edit: 'se-status' },
-  { id: 'sv-mood',   key: 'mood',   edit: 'se-mood'   },
-  { id: 'sv-music',  key: 'music',  edit: 'se-music'  },
-  { id: 'sv-interest', key: 'interest', edit: 'se-interest' }
+  { id: 'sv-status',   key: 'status',   edit: 'se-status',   labelId: 'sk-status',   labelKey: 'label_status',   labelEdit: 'sl-status'   },
+  { id: 'sv-mood',     key: 'mood',     edit: 'se-mood',     labelId: 'sk-mood',     labelKey: 'label_mood',     labelEdit: 'sl-mood'     },
+  { id: 'sv-music',    key: 'music',    edit: 'se-music',    labelId: 'sk-music',    labelKey: 'label_music',    labelEdit: 'sl-music'    },
+  { id: 'sv-interest', key: 'interest', edit: 'se-interest', labelId: 'sk-interest', labelKey: 'label_interest', labelEdit: 'sl-interest' }
 ];
+
+const DEFAULT_LABELS = { label_status:'상태', label_mood:'기분', label_music:'음악', label_interest:'관심사' };
 
 function renderStatus(data){
   if (!data) return;
   STATUS_FIELDS.forEach(f => {
-    const el = document.getElementById(f.id);
-    if (el) el.textContent = data[f.key] || '—';
+    const valEl = document.getElementById(f.id);
+    const keyEl = document.getElementById(f.labelId);
+    if (valEl) valEl.textContent = data[f.key] || '—';
+    if (keyEl) keyEl.textContent = data[f.labelKey] || DEFAULT_LABELS[f.labelKey];
   });
 }
 
@@ -4964,11 +5304,14 @@ statusEditBtn.addEventListener('click', () => {
   statusEditForm.classList.toggle('open');
   if (statusEditForm.classList.contains('open')){
     STATUS_FIELDS.forEach(f => {
-      const el = document.getElementById(f.edit);
       const valEl = document.getElementById(f.id);
-      if (el && valEl) el.value = valEl.textContent === '—' ? '' : valEl.textContent;
+      const keyEl = document.getElementById(f.labelId);
+      const editEl = document.getElementById(f.edit);
+      const labelEditEl = document.getElementById(f.labelEdit);
+      if (editEl && valEl) editEl.value = valEl.textContent === '—' ? '' : valEl.textContent;
+      if (labelEditEl && keyEl) labelEditEl.value = keyEl.textContent === DEFAULT_LABELS[f.labelKey] ? '' : keyEl.textContent;
     });
-    document.getElementById('se-status').focus();
+    document.getElementById('sl-status').focus();
   }
 });
 
@@ -4976,8 +5319,10 @@ statusSaveBtn.addEventListener('click', async () => {
   if (!currentUser) return;
   const data = {};
   STATUS_FIELDS.forEach(f => {
-    const el = document.getElementById(f.edit);
-    data[f.key] = el ? el.value.trim() : '';
+    const valEl = document.getElementById(f.edit);
+    const labelEl = document.getElementById(f.labelEdit);
+    data[f.key] = valEl ? valEl.value.trim() : '';
+    data[f.labelKey] = labelEl && labelEl.value.trim() ? labelEl.value.trim() : DEFAULT_LABELS[f.labelKey];
   });
   try {
     await setDoc(statusRef, data);
@@ -5011,10 +5356,72 @@ function flashArrow(i, done = false){
 }
 
 function openSecret(){
-  secretOverlay.classList.add('open');
-  secretOverlay.setAttribute('aria-hidden','false');
   document.body.classList.add('modal-open');
   konamiIdx = 0;
+  swipeIdx = 0;
+
+  const overlay = secretOverlay;
+  const terminal = document.getElementById('secret-terminal');
+  const inner = document.getElementById('secret-inner');
+  const lines = [
+    document.getElementById('st-0'),
+    document.getElementById('st-1'),
+    document.getElementById('st-2'),
+    document.getElementById('st-3'),
+  ];
+
+  // 초기화
+  overlay.style.opacity = '0';
+  overlay.style.background = '#000';
+  terminal.style.opacity = '0';
+  inner.style.opacity = '0';
+  inner.classList.remove('show');
+  lines.forEach(l => { l.classList.remove('type'); l.style.opacity = '0'; l.style.width = '0'; });
+
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden','false');
+
+  // 1. 화면 깜빡이며 등장
+  let flickers = 0;
+  const flicker = setInterval(() => {
+    overlay.style.opacity = Math.random() > 0.4 ? '1' : '0.2';
+    overlay.style.background = Math.random() > 0.7 ? '#001a00' : '#000';
+    flickers++;
+    if (flickers > 10){
+      clearInterval(flicker);
+      overlay.style.opacity = '1';
+      overlay.style.background = '#000';
+      startTerminal();
+    }
+  }, 60);
+
+  // 2. 터미널 타이핑
+  function startTerminal(){
+    overlay.classList.add('glitching');
+    terminal.style.opacity = '1';
+    lines.forEach((line, i) => {
+      setTimeout(() => {
+        line.style.opacity = '1';
+        line.classList.add('type');
+        // 글리치 효과
+        if (i < 2){
+          overlay.style.transform = `translate(${(Math.random()-0.5)*6}px, ${(Math.random()-0.5)*4}px)`;
+          setTimeout(() => overlay.style.transform = '', 80);
+        }
+      }, i * 520);
+    });
+
+    // 3. 터미널 사라지고 실제 콘텐츠 등장
+    setTimeout(() => {
+      overlay.classList.remove('glitching');
+      terminal.style.transition = 'opacity 0.4s ease';
+      terminal.style.opacity = '0';
+      overlay.style.background = '#0a0a0d';
+      setTimeout(() => {
+        inner.classList.add('show');
+      }, 300);
+    }, 520 * 4 + 400);
+  }
 }
 
 // ── 키보드 (방향키) ──
@@ -5034,31 +5441,42 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ── 두 손가락 스와이프 (모바일) ──
-let touches = [];
-let swipeStartX = 0, swipeStartY = 0;
+let twoFingerStart = null;
 let swipeIdx = 0;
 let swipeResetTimer;
 
 document.addEventListener('touchstart', (e) => {
   if (e.touches.length === 2){
-    swipeStartX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    swipeStartY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    twoFingerStart = {
+      x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+      y: (e.touches[0].clientY + e.touches[1].clientY) / 2
+    };
+  } else {
+    twoFingerStart = null;
   }
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
   if (secretOverlay.classList.contains('open')) return;
-  // 손가락 2개 뗐을 때만
-  if (e.changedTouches.length !== 2 && e.touches.length !== 0) return;
-  if (swipeStartX === 0 && swipeStartY === 0) return;
+  if (!twoFingerStart) return;
+  // 두 손가락이 모두 떼졌는지 확인
+  if (e.touches.length > 0) return;
 
-  const endX = (e.changedTouches[0].clientX + (e.changedTouches[1]?.clientX ?? e.changedTouches[0].clientX)) / 2;
-  const endY = (e.changedTouches[0].clientY + (e.changedTouches[1]?.clientY ?? e.changedTouches[0].clientY)) / 2;
-  const dx = endX - swipeStartX;
-  const dy = endY - swipeStartY;
-  swipeStartX = 0; swipeStartY = 0;
+  const endTouches = e.changedTouches;
+  if (endTouches.length < 1) return;
 
-  if (Math.abs(dx) < 20 && Math.abs(dy) < 20) return; // 너무 짧으면 무시
+  const endX = endTouches.length >= 2
+    ? (endTouches[0].clientX + endTouches[1].clientX) / 2
+    : endTouches[0].clientX;
+  const endY = endTouches.length >= 2
+    ? (endTouches[0].clientY + endTouches[1].clientY) / 2
+    : endTouches[0].clientY;
+
+  const dx = endX - twoFingerStart.x;
+  const dy = endY - twoFingerStart.y;
+  twoFingerStart = null;
+
+  if (Math.abs(dx) < 25 && Math.abs(dy) < 25) return;
 
   let dir;
   if (Math.abs(dy) > Math.abs(dx)){
@@ -5133,23 +5551,23 @@ function renderComments(comments){
     const canSee = !isSecret || currentUser;
     const secretMsg = isSecret && !currentUser
       ? `<div class="comment-msg secret-hidden">🔒 비밀 댓글입니다.</div>`
-      : `<div class="comment-msg">${escapeHTML(c.message || '')}</div>`;
+      : `<div class="comment-msg">${escHTML(c.message || '')}</div>`;
     const secretBadge = isSecret ? `<span class="secret-badge">🔒</span>` : '';
-    const delBtn = currentUser ? `<button class="comment-del" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="댓글 삭제" title="삭제">×</button>` : '';
+    const delBtn = currentUser ? `<button class="comment-del" data-comment-id="${escHTML(c.id)}" type="button" aria-label="댓글 삭제" title="삭제">×</button>` : '';
     const hasDel = currentUser ? 'has-del' : '';
     const bestCls = isBest ? 'best' : '';
     const likedCls = isLiked ? 'liked' : '';
     const bestBadge = isBest ? `<span class="best-badge">★ BEST</span>` : '';
     return `
-      <div class="comment ${hasDel} ${bestCls}" data-comment-id="${escapeHTML(c.id)}">
+      <div class="comment ${hasDel} ${bestCls}" data-comment-id="${escHTML(c.id)}">
         <div class="comment-head">
-          <span class="comment-name">${escapeHTML(c.name || '익명')}${secretBadge}</span>
-          <span class="comment-time">${escapeHTML(time)}</span>
+          <span class="comment-name">${escHTML(c.name || '익명')}${secretBadge}</span>
+          <span class="comment-time">${escHTML(time)}</span>
         </div>
         ${secretMsg}
         <div class="comment-footer">
           ${bestBadge}
-          <button class="comment-like-btn ${likedCls}" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="댓글 좋아요">
+          <button class="comment-like-btn ${likedCls}" data-comment-id="${escHTML(c.id)}" type="button" aria-label="댓글 좋아요">
             ✦<span class="comment-like-count">${likeCount > 0 ? ' '+likeCount : ''}</span>
           </button>
         </div>
@@ -5186,10 +5604,14 @@ commentsList.addEventListener('click', async (e) => {
     const countEl = likeBtn.querySelector('.comment-like-count');
     const cur = parseInt(countEl.textContent) || 0;
     const next = Math.max(0, cur + delta);
-    countEl.textContent = next > 0 ? next : '';
+    countEl.textContent = next > 0 ? ' ' + next : '';
     try {
       const cref = doc(db, 'thoughts', currentReadPost.id, 'comments', cid);
-      await updateDoc(cref, { likes: increment(delta) });
+      const snap = await getDoc(cref);
+      if (snap.exists()){
+        const curLikes = snap.data().likes || 0;
+        await updateDoc(cref, { likes: Math.max(0, curLikes + delta) });
+      }
     } catch(err){ console.error('comment like error', err); }
   }
 });
@@ -5207,12 +5629,13 @@ commentForm.addEventListener('submit', async (e) => {
   submit.disabled = true;
   submit.textContent = '작성 중...';
   try {
-    await addDoc(collection(db, 'thoughts', currentReadPost.id, 'comments'), {
+    const commentData = {
       name: name.slice(0, 30),
       message: message.slice(0, 500),
-      secret: secret,
       createdAt: serverTimestamp()
-    });
+    };
+    if (secret) commentData.secret = true;
+    await addDoc(collection(db, 'thoughts', currentReadPost.id, 'comments'), commentData);
     commentForm.reset();
     toast('댓글이 작성되었습니다', 'success');
   } catch(err){
