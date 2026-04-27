@@ -3449,6 +3449,20 @@ body.rahee-secret-darkweb-mode .rahee-corrupted-node{
    기존 페이지가 천천히 이상해지다가 마지막에 확 터지는 진입 연출
 ============================== */
 body.rahee-creep-lock{ overflow:hidden; }
+body.rahee-creep-freeze header,
+body.rahee-creep-freeze main,
+body.rahee-creep-freeze section{
+  animation:none!important;
+  transform:none!important;
+  filter:contrast(1.01) brightness(.985) saturate(.94)!important;
+}
+body.rahee-creep-freeze #raheeCreepLayer.on,
+body.rahee-creep-freeze #raheeCreepSlice.on,
+body.rahee-creep-freeze #raheeCreepBlack.on,
+body.rahee-creep-freeze #raheeDarkWebSnap.on{
+  animation:none!important;
+}
+body.rahee-creep-freeze #raheeCreepLayer{ opacity:.032!important; }
 body.rahee-creep-slow header,
 body.rahee-creep-slow main,
 body.rahee-creep-slow section{
@@ -3687,7 +3701,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>k4rahee@naver.com</span>
     </div>
 
-```
+
 <div class="hero-grid">
   <div>
     <h1 id="heroTitle">
@@ -3723,7 +3737,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     </div>
   </div>
 </div>
-```
+
 
   </div>
 </section>
@@ -3737,7 +3751,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>Origin</span>
     </div>
 
-```
+
 <div class="about-grid">
   <div class="about-image reveal tilt" data-tilt-max="4">
     <!-- TODO: <img> 교체 시 div.img-ph 전체를 <img src="about.jpg" alt="Rahee" style="border-radius:16px;width:100%;aspect-ratio:3/4;object-fit:cover;"> 로 변경 -->
@@ -3789,7 +3803,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     </div>
   </div>
 </div>
-```
+
 
   </div>
 </section>
@@ -3803,7 +3817,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>2014 → 2025</span>
     </div>
 
-```
+
 <h2 class="sec-heading reveal">Work <em>History.</em></h2>
 
 <div class="vtimeline reveal">
@@ -3850,7 +3864,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   </div>
 
 </div>
-```
+
 
   </div>
 </section>
@@ -3864,7 +3878,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>2023 → 2026</span>
     </div>
 
-```
+
 <div class="projects-head reveal">
   <h2 class="sec-heading" style="margin-bottom: 0;">Personal <em>Project.</em></h2>
   <div class="carousel-controls">
@@ -3873,13 +3887,13 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <button class="nav-btn" id="carousel-next" aria-label="Next">→</button>
   </div>
 </div>
-```
+
 
   </div>
 
   <div class="gallery reveal" id="carousel">
 
-```
+
   <div class="item reveal" data-idx="0">
     <div class="img-wrapper">
       <div class="img-ph g3">
@@ -3931,7 +3945,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <div class="item-num">04</div>
     <div class="item-title"><em>콘텐츠 제작</em> Commission</div>
   </div>
-```
+
 
   </div>
 
@@ -3963,7 +3977,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>Currently</span>
     </div>
 
-```
+
 <h2 class="sec-heading reveal">Now <em>Focus On.</em></h2>
 
 <div class="now-list reveal">
@@ -3997,7 +4011,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <span class="status"><span class="blink"></span>Active</span>
   </div>
 </div>
-```
+
 
   </div>
 </section>
@@ -4011,7 +4025,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>Notes</span>
     </div>
 
-```
+
 <h2 class="sec-heading reveal">Thoughts <em>&amp; Notes.</em></h2>
 
 <div class="thoughts-toolbar reveal">
@@ -4026,7 +4040,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 <div class="thoughts-list" id="thoughts-list">
   <!-- cards rendered by JS -->
 </div>
-```
+
 
   </div>
 </section>
@@ -4038,7 +4052,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <div class="thought-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <button class="thought-modal-close" type="button" aria-label="닫기" data-modal-close>×</button>
 
-```
+
 <!-- READ MODE -->
 <div class="thought-modal-read" id="modal-read">
   <div class="modal-meta">
@@ -4126,7 +4140,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <button type="submit" class="write-btn-save">저장하기</button>
   </div>
 </form>
-```
+
 
   </div>
 </div>
@@ -4168,7 +4182,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>Say hi</span>
     </div>
 
-```
+
 <div class="contact-intro reveal">
   <div class="label"><span class="pulse"></span><span id="contact-label">Available for collaboration</span></div>
   <div class="closing-sub" id="contact-desc">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
@@ -4193,7 +4207,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 
 <!-- 관리자 수정 버튼 -->
 <button class="contact-edit-btn" id="contact-edit-btn" type="button" style="display:none;">✎ Contact 수정</button>
-```
+
 
   </div>
 </section>
@@ -4206,7 +4220,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <button class="contact-edit-close" id="contact-edit-close" type="button">×</button>
     <h3 class="write-heading">Contact 수정</h3>
 
-```
+
 <div class="write-row">
   <label class="write-label">라벨 (상단 뱃지)</label>
   <input class="write-input" id="ce-label" type="text" maxlength="50" placeholder="Available for collaboration">
@@ -4224,7 +4238,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <button type="button" class="write-btn-cancel" id="contact-edit-cancel">취소</button>
   <button type="button" class="write-btn-save" id="contact-edit-save">저장하기</button>
 </div>
-```
+
 
   </div>
 </div>
@@ -4508,7 +4522,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       if (e.target.closest(interactive)) cursor.classList.remove('expand');
     });
     const tick = () => {
-      cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+      cursor.style.transform = translate(${mx}px, ${my}px) translate(-50%, -50%);
       requestAnimationFrame(tick);
     };
     tick();
@@ -4537,7 +4551,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const max = 160;
         if (dist < max){
           const lift = (1 - dist / max) * 18;
-          ch.style.transform = `translateY(-${lift.toFixed(1)}px)`;
+          ch.style.transform = translateY(-${lift.toFixed(1)}px);
         } else {
           ch.style.transform = 'translateY(0)';
         }
@@ -4561,7 +4575,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       scrollY = newY;
       rot += delta * 0.8;
       sparkles.forEach(s => {
-        s.style.transform = `translateY(-0.5em) rotate(${rot}deg)`;
+        s.style.transform = translateY(-0.5em) rotate(${rot}deg);
       });
     };
     window.addEventListener('scroll', update, { passive: true });
@@ -4580,7 +4594,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const y = (e.clientY - rect.top) / rect.height - 0.5;
         const rx = (-y * max).toFixed(2);
         const ry = (x * max).toFixed(2);
-        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        el.style.transform = perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg);
       });
       el.addEventListener('mouseleave', () => {
         el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
@@ -4708,7 +4722,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     const tick = () => {
       cx += (mx - cx) * 0.08;
       cy += (my - cy) * 0.08;
-      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+      glow.style.transform = translate(${cx}px, ${cy}px) translate(-50%, -50%);
       requestAnimationFrame(tick);
     };
     tick();
@@ -4786,7 +4800,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const rect = wrapper.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width - 0.5;
         const y = (e.clientY - rect.top) / rect.height - 0.5;
-        ph.style.transform = `scale(1.05) translate(${x * -8}px, ${y * -8}px)`;
+        ph.style.transform = scale(1.05) translate(${x * -8}px, ${y * -8}px);
       });
       item.addEventListener('mouseleave', () => {
         ph.style.transform = '';
@@ -4859,7 +4873,7 @@ function parseMediaUrl(url){
   // imgur album/page (single image fallback - imgur direct image works as image)
   m = u.match(/imgur\.com\/(?!a\/|gallery\/)([\w]+)$/);
   if (m && !u.match(/\.(jpg|jpeg|png|gif|webp)$/i)){
-    return { type: 'image', src: `https://i.imgur.com/${m[1]}.jpg` };
+    return { type: 'image', src: https://i.imgur.com/${m[1]}.jpg };
   }
   // Direct image
   if (u.match(/\.(jpg|jpeg|png|gif|webp|avif)(\?.*)?$/i)) return { type: 'image', src: u };
@@ -4875,19 +4889,19 @@ function renderMediaHTML(urls){
     if (!m) return '';
     const safeUrl = escapeHTML(url);
     if (m.type === 'youtube'){
-      return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
+      return <div class="media-item"><div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>;
     }
     if (m.type === 'vimeo'){
-      return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
+      return <div class="media-item"><div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>;
     }
     if (m.type === 'image'){
-      return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.parentElement.innerHTML='<div class=&quot;media-item-error&quot;>이미지를 불러올 수 없습니다: ${safeUrl}</div>'"></a></div>`;
+      return <div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.parentElement.innerHTML='<div class=&quot;media-item-error&quot;>이미지를 불러올 수 없습니다: ${safeUrl}</div>'"></a></div>;
     }
     if (m.type === 'video'){
-      return `<div class="media-item"><video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>`;
+      return <div class="media-item"><video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>;
     }
     // unknown — try as image, fallback to link
-    return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;media-item-error&quot;><a href=&quot;${safeUrl}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;color:inherit;&quot;>${safeUrl}</a></div>'"></a></div>`;
+    return <div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;media-item-error&quot;><a href=&quot;${safeUrl}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;color:inherit;&quot;>${safeUrl}</a></div>'"></a></div>;
   }).join('');
 }
 function tsToDate(ts){
@@ -4900,7 +4914,7 @@ function formatDateLong(ts){
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,'0');
   const day = String(d.getDate()).padStart(2,'0');
-  return `${y}. ${m}. ${day}`;
+  return ${y}. ${m}. ${day};
 }
 function formatTime(ts){
   const d = tsToDate(ts);
@@ -5097,37 +5111,37 @@ function renderCards(){
   const cards = visible.map(p => {
     const dateStr = formatDateLong(p.createdAt);
     const relStr = relativeTime(p.createdAt);
-    return `
+    return 
       <article class="thought-card" data-post-id="${escapeHTML(p.id)}" tabindex="0" role="button" aria-label="${escapeHTML(p.title)} 읽기">
         <div class="thought-meta">
           <span class="thought-tag">${escapeHTML(p.tag)}</span>
           <span class="thought-date-rel">${escapeHTML(relStr)}<span class="dot">·</span>${escapeHTML(dateStr)}</span>
-          ${p.views ? `<span class="thought-views">👁 ${p.views}</span>` : ''}
+          ${p.views ? <span class="thought-views">👁 ${p.views}</span> : ''}
         </div>
         <h3 class="thought-title">${escapeHTML(p.title)}</h3>
         <p class="thought-excerpt">${escapeHTML(p.excerpt)}</p>
-        ${p.media && p.media.length ? `<span class="thought-media-mark" aria-label="미디어 ${p.media.length}개"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> ${p.media.length}</span>` : ''}
+        ${p.media && p.media.length ? <span class="thought-media-mark" aria-label="미디어 ${p.media.length}개"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> ${p.media.length}</span> : ''}
         <span class="thought-more">계속 읽기 <span class="arr">↗</span></span>
       </article>
-    `;
+    ;
   }).join('');
 
-  const addCard = currentUser ? `
+  const addCard = currentUser ? 
     <article class="thought-card thought-add" data-action="new" tabindex="0" role="button" aria-label="새 글 작성하기">
       <div class="thought-add-inner">
         <span class="thought-add-icon">+</span>
         <span class="thought-add-label">새 글 작성하기</span>
       </div>
     </article>
-  ` : '';
+   : '';
 
-  const loadMore = hasMore ? `
+  const loadMore = hasMore ? 
     <div class="load-more-wrap">
       <button class="load-more-btn" id="load-more-btn" type="button">
         더 보기 (${filtered.length - visibleCount}개) ↓
       </button>
     </div>
-  ` : '';
+   : '';
 
   if (!filtered.length && !currentUser){
     list.innerHTML = '<div class="thoughts-loading">아직 작성된 글이 없습니다.</div>' + addCard;
@@ -5168,7 +5182,7 @@ function openRead(post){
   // 조회수 표시 & 증가
   const viewsEl = document.getElementById('modal-views');
   const newViews = (post.views || 0) + 1;
-  viewsEl.textContent = `👁 ${newViews}`;
+  viewsEl.textContent = 👁 ${newViews};
   // Firestore에 views 업데이트 (비동기)
   updateDoc(doc(db, 'thoughts', post.id), { views: increment(1) }).catch(() => {});
 
@@ -5224,7 +5238,7 @@ function openWrite(post = null){
   if (post){
     editingPostId = post.id;
     document.getElementById('write-heading').textContent = '글 수정';
-    document.querySelector(`input[name="tag"][value="${post.tag}"]`).checked = true;
+    document.querySelector(input[name="tag"][value="${post.tag}"]).checked = true;
     document.getElementById('write-title').value = post.title;
     document.getElementById('write-body').value = post.body;
     document.getElementById('write-count').textContent = post.body.length;
@@ -5282,10 +5296,10 @@ const mediaAddBtn = document.getElementById('media-add-btn');
 function makeMediaInputRow(value = ''){
   const row = document.createElement('div');
   row.className = 'media-input-row';
-  row.innerHTML = `
+  row.innerHTML = 
     <input type="url" placeholder="https://youtube.com/watch?v=... 또는 https://i.imgur.com/abc.jpg" value="${value.replace(/"/g, '&quot;')}">
     <button type="button" class="media-input-remove" aria-label="삭제" title="삭제">×</button>
-  `;
+  ;
   row.querySelector('.media-input-remove').addEventListener('click', () => row.remove());
   return row;
 }
@@ -5318,9 +5332,9 @@ function addPreviewItem(previewUrl, type, idx){
   item.className = 'media-preview-item';
   item.dataset.idx = idx;
   if(type.startsWith('video')){
-    item.innerHTML = `<video src="${previewUrl}" muted></video><button class="preview-remove" type="button">×</button>`;
+    item.innerHTML = <video src="${previewUrl}" muted></video><button class="preview-remove" type="button">×</button>;
   } else {
-    item.innerHTML = `<img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>`;
+    item.innerHTML = <img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>;
   }
   item.querySelector('.preview-remove').addEventListener('click', () => {
     const i = parseInt(item.dataset.idx);
@@ -5340,8 +5354,8 @@ function renderPreviews(){
 async function handleFiles(files){
   const MAX = 20 * 1024 * 1024;
   for(const file of Array.from(files)){
-    if(file.size > MAX){ toast(`${file.name}: 20MB 초과`, 'error'); continue; }
-    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(`지원하지 않는 파일 형식`, 'error'); continue; }
+    if(file.size > MAX){ toast(${file.name}: 20MB 초과, 'error'); continue; }
+    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(지원하지 않는 파일 형식, 'error'); continue; }
     const previewUrl = URL.createObjectURL(file);
     uploadedFiles.push({ file, previewUrl, type: file.type });
   }
@@ -5351,7 +5365,7 @@ async function handleFiles(files){
 async function uploadFilesToStorage(){
   const urls = [];
   for(const f of uploadedFiles){
-    const path = `thoughts/${currentUser.uid}/${Date.now()}_${f.file.name}`;
+    const path = thoughts/${currentUser.uid}/${Date.now()}_${f.file.name};
     const ref = storageRef(storage, path);
     try {
       const snap = await uploadBytes(ref, f.file);
@@ -5359,7 +5373,7 @@ async function uploadFilesToStorage(){
       urls.push(url);
     } catch(err){
       console.error('Storage upload error', err);
-      toast(`${f.file.name} 업로드 실패`, 'error');
+      toast(${f.file.name} 업로드 실패, 'error');
     }
   }
   return urls;
@@ -5541,13 +5555,13 @@ function renderContactSection(data){
   const socials = document.getElementById('contact-socials');
   socials.innerHTML = (d.links || DEFAULT_CONTACT.links).map(l => {
     const isEmpty = !l.url;
-    return `
+    return 
       <a href="${isEmpty ? '#' : l.url}" ${isEmpty ? '' : 'target="_blank" rel="noopener"'}
          class="social-link${isEmpty ? ' placeholder' : ''}">
         <span class="social-name">${escHTML(l.name)}</span>
         <span class="social-handle">${escHTML(l.handle)}</span>
         <span class="social-arr">↗</span>
-      </a>`;
+      </a>;
   }).join('');
 }
 
@@ -5575,21 +5589,21 @@ function updateContactEditAdminUI(){
 function makeLinkRow(link = {}){
   const row = document.createElement('div');
   row.className = 'ce-link-row';
-  row.innerHTML = `
+  row.innerHTML = 
     <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
     <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
     <input type="url"  placeholder="https://..." maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/3;">
     <button class="ce-link-remove" type="button">×</button>
-  `;
+  ;
   // url input 3번째 row
   const inputs = row.querySelectorAll('input');
   // reorganize: name | handle | remove / url full width
-  row.innerHTML = `
+  row.innerHTML = 
     <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
     <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
     <button class="ce-link-remove" type="button">×</button>
     <input type="url" placeholder="URL (https://...)" maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/4;">
-  `;
+  ;
   row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
   return row;
 }
@@ -5826,6 +5840,78 @@ function later(ms, fn){
   return t;
 }
 
+let raheeScrollStage = 'free';
+const raheeScrollState = {
+  lastTouchY: null,
+  lagTimers: []
+};
+
+function clearRaheeLagTimers(){
+  raheeScrollState.lagTimers.forEach(t => clearTimeout(t));
+  raheeScrollState.lagTimers = [];
+}
+
+function setRaheeScrollStage(stage){
+  raheeScrollStage = stage;
+  if (stage === 'freeze') {
+    document.body.classList.add('rahee-creep-lock','rahee-creep-freeze');
+  } else {
+    document.body.classList.remove('rahee-creep-freeze');
+    if (stage === 'free') document.body.classList.remove('rahee-creep-lock');
+  }
+}
+
+function resetRaheeScrollState(){
+  clearRaheeLagTimers();
+  raheeScrollStage = 'free';
+  raheeScrollState.lastTouchY = null;
+  document.body.classList.remove('rahee-creep-freeze');
+}
+
+function applyLaggedScroll(delta){
+  if (!delta || Math.abs(delta) < 1) return;
+  const isMid = document.body.classList.contains('rahee-creep-mid');
+  const strength = isMid ? 0.24 : 0.42;
+  const delay = isMid ? (110 + Math.random() * 170) : (65 + Math.random() * 90);
+  const jitter = (Math.random() * 10) - 5;
+  const timer = setTimeout(() => {
+    window.scrollBy({ top: (delta * strength) + jitter, behavior: 'auto' });
+  }, delay);
+  raheeScrollState.lagTimers.push(timer);
+}
+
+window.addEventListener('wheel', (e) => {
+  if (!raheeCreepRunning || raheeSecretDarkwebActive) return;
+  if (raheeScrollStage === 'free') return;
+  if (raheeScrollStage === 'freeze') {
+    e.preventDefault();
+    return;
+  }
+  if (raheeScrollStage === 'lag') {
+    e.preventDefault();
+    applyLaggedScroll(e.deltaY);
+  }
+}, { passive: false });
+
+window.addEventListener('touchmove', (e) => {
+  if (!raheeCreepRunning || raheeSecretDarkwebActive) return;
+  if (e.touches.length !== 1) return;
+  const currentY = e.touches[0].clientY;
+  const lastY = raheeScrollState.lastTouchY == null ? currentY : raheeScrollState.lastTouchY;
+  const delta = lastY - currentY;
+  raheeScrollState.lastTouchY = currentY;
+
+  if (raheeScrollStage === 'free') return;
+  if (raheeScrollStage === 'freeze') {
+    e.preventDefault();
+    return;
+  }
+  if (raheeScrollStage === 'lag') {
+    e.preventDefault();
+    applyLaggedScroll(delta);
+  }
+}, { passive: false });
+
 function ghostRealText(selector, fast = false){
   const targets = Array.from(document.querySelectorAll(selector)).filter(el => {
     const r = el.getBoundingClientRect();
@@ -5991,9 +6077,10 @@ function openSecretDirect(){
 function resetRaheeCreep(){
   clearRaheeCreepTimers();
   document.body.classList.remove(
-    'rahee-creep-lock','rahee-creep-slow','rahee-creep-mid','rahee-creep-snap','rahee-creep-quiet',
+    'rahee-creep-lock','rahee-creep-slow','rahee-creep-mid','rahee-creep-snap','rahee-creep-quiet','rahee-creep-freeze',
     'rahee-rgb-drift','rahee-rgb-panic','rahee-darkweb-shift'
   );
+  resetRaheeScrollState();
   document.querySelectorAll('.rahee-ghost-text').forEach(el => el.remove());
   ['raheeCreepLayer','raheeCreepSlice','raheeCreepLog','raheeCreepBlack','raheeDarkWebSnap','raheeDarkwebStatic'].forEach(id => {
     const el = document.getElementById(id);
@@ -6010,64 +6097,79 @@ function openSecret(){
   konamiIdx = 0;
   swipeIdx = 0;
   ensureRaheeCreepNodes();
+  resetRaheeScrollState();
+  setRaheeScrollStage('free');
+
   const layer = document.getElementById('raheeCreepLayer');
   const slice = document.getElementById('raheeCreepSlice');
   const log = document.getElementById('raheeCreepLog');
   const black = document.getElementById('raheeCreepBlack');
   const dark = document.getElementById('raheeDarkWebSnap');
 
-  // 0~9초: 스크롤 가능. 연출 시작 티를 줄이고, 페이지 자체의 미세한 이상만 남김.
-  later(9000, () => document.body.classList.add('rahee-creep-lock'));
+  // 0~11.5초: 정상처럼 스크롤 가능. 이상징후는 아주 미세하게만.
   later(900, () => document.body.classList.add('rahee-creep-slow'));
-  later(2300, () => { layer.classList.add('on'); layer.style.opacity = '.018'; });
-  later(3600, () => ghostRealText('#heroTitle, .tagline, .chip', false));
-  later(5200, () => { layer.style.opacity = '.034'; ghostRealText('.nav-link, .section-title, .micro-top span', false); });
-  later(7300, () => { document.body.classList.add('rahee-rgb-drift'); layer.style.opacity = '.052'; ghostRealText('.card, .project-card, .tagline', false); });
+  later(2200, () => { layer.classList.add('on'); layer.style.opacity = '.016'; });
+  later(4100, () => ghostRealText('#heroTitle, .tagline, .chip', false));
+  later(6700, () => { layer.style.opacity = '.03'; ghostRealText('.nav-link, .section-title, .micro-top span', false); });
+  later(9300, () => { document.body.classList.add('rahee-rgb-drift'); layer.style.opacity = '.048'; ghostRealText('.card, .project-card, .tagline', false); });
 
-  // 9~14.5초: 이상함이 명확해짐. 아직 설명하지 않고, 기존 페이지가 버벅이는 느낌만 유지.
-  later(9200, () => { document.body.classList.remove('rahee-creep-slow'); document.body.classList.add('rahee-creep-mid'); layer.style.opacity = '.075'; });
-  later(10400, () => ghostRealText('#heroTitle, .tagline, .section-title', false));
-  later(11600, () => { slice.classList.add('on'); layer.style.opacity = '.105'; });
-  later(12800, () => ghostRealText('.hero-meta, .about-text, .work-card, .project-card', true));
-  later(14000, () => { ghostRealText('#heroTitle, .tagline, .nav-link', true); layer.style.opacity = '.145'; });
-
-  // 14.5~16초: 무너질 준비.
-  later(14600, () => { document.body.classList.add('rahee-rgb-panic'); layer.classList.add('heavy'); layer.style.opacity = '.22'; });
-  later(15300, () => { ghostRealText('.card, .project-card, .status-card, .tagline, .section-title', true); });
-
-  // 16~17초: 일부러 조용해짐. 이 정적 뒤에 순간 변질.
-  later(16000, () => {
-    document.body.classList.remove('rahee-creep-mid','rahee-rgb-panic','rahee-rgb-drift');
-    document.body.classList.add('rahee-creep-quiet');
-    if (slice) slice.classList.remove('on');
-    if (layer) { layer.classList.remove('heavy'); layer.style.opacity = '.018'; }
+  // 11.5~16.8초: 스크롤 가능하지만 프레임 드랍처럼 끊김. 점점 더 버벅거림.
+  later(11500, () => {
+    document.body.classList.remove('rahee-creep-slow');
+    document.body.classList.add('rahee-creep-mid');
+    setRaheeScrollStage('lag');
+    layer.style.opacity = '.072';
+  });
+  later(12600, () => ghostRealText('#heroTitle, .tagline, .section-title', false));
+  later(13800, () => { slice.classList.add('on'); layer.style.opacity = '.11'; });
+  later(14900, () => ghostRealText('.hero-meta, .about-text, .work-card, .project-card', true));
+  later(15850, () => {
+    document.body.classList.add('rahee-rgb-panic');
+    layer.classList.add('heavy');
+    layer.style.opacity = '.18';
+    ghostRealText('#heroTitle, .tagline, .nav-link', true);
   });
 
-  // 17초: 기존 UI/UX 레이아웃은 유지한 채 순간 다크웹/감염 상태로 확 변질.
-  later(17000, () => {
-    document.body.classList.remove('rahee-creep-quiet');
-    document.body.classList.add('rahee-creep-snap', 'rahee-darkweb-shift');
+  // 16.8~19.8초: 페이지 자체가 멎은 것처럼 3초 프리징.
+  later(16800, () => {
+    clearRaheeLagTimers();
+    document.body.classList.remove('rahee-creep-mid','rahee-rgb-panic','rahee-rgb-drift');
+    document.body.classList.add('rahee-creep-quiet');
+    setRaheeScrollStage('freeze');
+    if (slice) slice.classList.remove('on');
+    if (layer) {
+      layer.classList.remove('heavy');
+      layer.style.opacity = '.028';
+    }
+  });
+
+  // 19.8초: 멎어 있던 화면이 확 뒤집히면서 감염.
+  later(19800, () => {
+    document.body.classList.remove('rahee-creep-quiet','rahee-creep-freeze');
+    document.body.classList.add('rahee-creep-snap', 'rahee-darkweb-shift', 'rahee-rgb-panic');
+    setRaheeScrollStage('freeze');
     if (dark) dark.classList.add('on');
     if (slice) slice.classList.add('on');
-    if (layer) { layer.classList.add('on','heavy'); layer.style.opacity = '.42'; }
+    if (layer) {
+      layer.classList.add('on','heavy');
+      layer.style.opacity = '.44';
+    }
     ghostRealText('#heroTitle, .tagline, .section-title, .nav-link', true);
   });
 
-  // 코딩 로그는 마지막 10% 안쪽만 짧게.
-  later(18400, () => {
-    log.innerHTML = '<span>&gt; state mismatch</span><br><span>&gt; restore failed</span>';
+  // 마지막 짧은 로그 + 블랙아웃 후 현재 페이지 감염 상태로 고정.
+  later(20350, () => {
+    log.innerHTML = '<span>&gt; frame stall detected</span><br><span>&gt; restore failed</span>';
     log.classList.add('on');
   });
-
-  // 18.8~20초: 치지직 → 암전 → 새 페이지 이동이 아니라 현재 페이지 감염 상태로 고정.
-  later(18800, () => { black.classList.add('on'); if (layer) layer.style.opacity = '.72'; });
-  later(19400, () => { if (slice) slice.classList.add('on'); ghostRealText('#heroTitle, .tagline, .section-title', true); });
-  later(20000, () => {
+  later(20700, () => { black.classList.add('on'); if (layer) layer.style.opacity = '.74'; });
+  later(21350, () => {
     resetRaheeCreep();
     openSecretDirect();
   });
 }
 // ── 키보드 (방향키) ──
+
 document.addEventListener('keydown', (e) => {
   if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
   if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
@@ -6082,6 +6184,13 @@ document.addEventListener('keydown', (e) => {
     konamiIdx = 0;
   }
 });
+
+window.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 1) raheeScrollState.lastTouchY = e.touches[0].clientY;
+}, { passive: true });
+window.addEventListener('touchend', () => {
+  raheeScrollState.lastTouchY = null;
+}, { passive: true });
 
 // ── 두 손가락 스와이프 (모바일) ──
 let twoFingerStart = null;
@@ -6154,7 +6263,7 @@ document.addEventListener('touchend', (e) => {
 
     // 진행 링 생성
     progressEl = document.createElement('div');
-    progressEl.style.cssText = `
+    progressEl.style.cssText = 
       position:fixed;
       bottom:6rem;left:50%;transform:translateX(-50%);
       font-family:var(--mono);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;
@@ -6163,7 +6272,7 @@ document.addEventListener('touchend', (e) => {
       box-shadow:0 0 20px var(--lime-glow);
       pointer-events:none;z-index:9600;opacity:0;
       transition:opacity 0.25s ease;white-space:nowrap;
-    `;
+    ;
     progressEl.textContent = '꾹 누르는 중...';
     document.body.appendChild(progressEl);
     requestAnimationFrame(() => progressEl && (progressEl.style.opacity = '1'));
@@ -6246,7 +6355,7 @@ function renderComments(comments){
     return;
   }
   commentsEmpty.style.display = 'none';
-  commentsCount.textContent = `(${comments.length})`;
+  commentsCount.textContent = (${comments.length});
 
   const maxLikes = Math.max(0, ...comments.map(c => c.likes || 0));
   const bestId = maxLikes >= 1 ? (comments.find(c => (c.likes||0) === maxLikes) || {}).id : null;
@@ -6259,17 +6368,17 @@ function renderComments(comments){
     const likeCount = c.likes || 0;
     const isSecret = !!c.secret;
     const msgHTML = isSecret && !currentUser
-      ? `<div class="comment-msg secret-hidden">🔒 비밀 댓글입니다.</div>`
-      : `<div class="comment-msg">${escHTML(c.message || '')}</div>`;
-    const secretBadge = isSecret ? `<span class="secret-badge">🔒</span>` : '';
+      ? <div class="comment-msg secret-hidden">🔒 비밀 댓글입니다.</div>
+      : <div class="comment-msg">${escHTML(c.message || '')}</div>;
+    const secretBadge = isSecret ? <span class="secret-badge">🔒</span> : '';
     const delBtn = currentUser
-      ? `<button class="comment-del" data-comment-id="${escHTML(c.id)}" type="button" aria-label="삭제" title="삭제">×</button>`
+      ? <button class="comment-del" data-comment-id="${escHTML(c.id)}" type="button" aria-label="삭제" title="삭제">×</button>
       : '';
-    const bestBadge = isBest ? `<div class="best-badge">★ BEST</div>` : '';
+    const bestBadge = isBest ? <div class="best-badge">★ BEST</div> : '';
     const likedCls = isLiked ? 'liked' : '';
     const bestCls = isBest ? 'best' : '';
 
-    return `
+    return 
       <div class="comment ${bestCls}" data-comment-id="${escHTML(c.id)}">
         ${bestBadge}
         <div class="comment-head">
@@ -6277,14 +6386,14 @@ function renderComments(comments){
           <span class="comment-time">${escHTML(time)}</span>
           <div class="comment-head-right">
             <button class="comment-like-btn ${likedCls}" data-comment-id="${escHTML(c.id)}" type="button" aria-label="댓글 좋아요">
-              ✦${likeCount > 0 ? `<span class="comment-like-count">${likeCount}</span>` : ''}
+              ✦${likeCount > 0 ? <span class="comment-like-count">${likeCount}</span> : ''}
             </button>
             ${delBtn}
           </div>
         </div>
         ${msgHTML}
       </div>
-    `;
+    ;
   }).join('');
 }
 
