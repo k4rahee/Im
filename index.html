@@ -5381,22 +5381,57 @@ function openSecret(){
   inner.classList.remove('show');
   lines.forEach(l => { l.classList.remove('type'); l.style.opacity = '0'; l.style.width = '0'; });
 
-  overlay.classList.add('open');
-  overlay.setAttribute('aria-hidden','false');
+  // ── 0. 전조 노이즈 — 실제 페이지 위에서 지직지직 ──
+  let preCount = 0;
+  const PRE_FLASHES = 6;
+  const glitchLayer = document.createElement('div');
+  glitchLayer.style.cssText = `
+    position:fixed;inset:0;z-index:8999;pointer-events:none;
+    background:rgba(0,255,80,0.06);mix-blend-mode:screen;
+    opacity:0;transition:none;
+  `;
+  document.body.appendChild(glitchLayer);
 
-  // 1. 화면 깜빡이며 등장
-  let flickers = 0;
-  const flicker = setInterval(() => {
-    overlay.style.opacity = Math.random() > 0.4 ? '1' : '0.2';
-    overlay.style.background = Math.random() > 0.7 ? '#001a00' : '#000';
-    flickers++;
-    if (flickers > 10){
-      clearInterval(flicker);
-      overlay.style.opacity = '1';
-      overlay.style.background = '#000';
-      startTerminal();
+  function preGlitch(){
+    if (preCount >= PRE_FLASHES){
+      glitchLayer.remove();
+      startOverlay();
+      return;
     }
-  }, 60);
+    // 지직 on
+    glitchLayer.style.opacity = String(0.08 + Math.random() * 0.12);
+    glitchLayer.style.transform = `translate(${(Math.random()-0.5)*8}px,${(Math.random()-0.5)*6}px)`;
+    document.body.style.filter = `brightness(${0.85 + Math.random()*0.3})`;
+    setTimeout(() => {
+      // 지직 off
+      glitchLayer.style.opacity = '0';
+      glitchLayer.style.transform = '';
+      document.body.style.filter = '';
+      preCount++;
+      // 간격을 불규칙하게
+      setTimeout(preGlitch, 80 + Math.random() * 180);
+    }, 40 + Math.random() * 60);
+  }
+  preGlitch();
+
+  function startOverlay(){
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden','false');
+
+    // 1. 화면 깜빡이며 등장
+    let flickers = 0;
+    const flicker = setInterval(() => {
+      overlay.style.opacity = Math.random() > 0.4 ? '1' : '0.15';
+      overlay.style.background = Math.random() > 0.7 ? '#001a00' : '#000';
+      flickers++;
+      if (flickers > 10){
+        clearInterval(flicker);
+        overlay.style.opacity = '1';
+        overlay.style.background = '#000';
+        startTerminal();
+      }
+    }, 60);
+  }
 
   // 2. 터미널 타이핑
   function startTerminal(){
@@ -5406,7 +5441,6 @@ function openSecret(){
       setTimeout(() => {
         line.style.opacity = '1';
         line.classList.add('type');
-        // 글리치 효과
         if (i < 2){
           overlay.style.transform = `translate(${(Math.random()-0.5)*6}px, ${(Math.random()-0.5)*4}px)`;
           setTimeout(() => overlay.style.transform = '', 80);
@@ -5516,11 +5550,13 @@ document.addEventListener('touchend', (e) => {
     progressEl = document.createElement('div');
     progressEl.style.cssText = `
       position:fixed;
-      bottom:1.5rem;left:50%;transform:translateX(-50%);
-      font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;
-      color:var(--lime);text-shadow:0 0 8px var(--lime-glow);
-      pointer-events:none;z-index:9500;opacity:0;
-      transition:opacity 0.2s ease;white-space:nowrap;
+      bottom:6rem;left:50%;transform:translateX(-50%);
+      font-family:var(--mono);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;
+      color:#0a0a0d;background:var(--lime);
+      padding:0.45rem 1.1rem;border-radius:999px;
+      box-shadow:0 0 20px var(--lime-glow);
+      pointer-events:none;z-index:9600;opacity:0;
+      transition:opacity 0.25s ease;white-space:nowrap;
     `;
     progressEl.textContent = '꾹 누르는 중...';
     document.body.appendChild(progressEl);
@@ -5554,6 +5590,7 @@ document.addEventListener('touchend', (e) => {
 })();
 
 secretClose.addEventListener('click', () => {
+  secretOverlay.classList.remove('open');
   secretOverlay.setAttribute('aria-hidden','true');
   document.body.classList.remove('modal-open');
 });
