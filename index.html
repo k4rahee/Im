@@ -3587,6 +3587,44 @@ body.rahee-return-restore section{
   38%{ filter:invert(.12) contrast(2.5); transform:translate(5px,-3px); }
   100%{ filter:none; transform:none; }
 }
+
+
+/* ==============================
+   NATURAL DARKWEB CORRUPTION REFINEMENT
+   인위적인 전체 외계어 대신, 기존 문장의 일부만 어긋나게 변질
+============================== */
+body.rahee-creep-quiet header,
+body.rahee-creep-quiet main,
+body.rahee-creep-quiet section{
+  animation:none!important;
+  filter:contrast(1.03) brightness(.98) saturate(.92)!important;
+  transform:none!important;
+}
+body.rahee-secret-darkweb-mode .rahee-mutated-node{
+  font-family:inherit!important;
+  letter-spacing:.015em!important;
+  word-break:keep-all;
+  opacity:.94;
+  animation:raheeMutatedNodePulse 4.8s steps(2,end) infinite;
+}
+@keyframes raheeMutatedNodePulse{
+  0%,100%{ filter:none; opacity:.96; }
+  49%{ filter:none; opacity:.96; }
+  50%{ filter:blur(.24px) contrast(1.5); opacity:.66; }
+  51%{ filter:none; opacity:.98; }
+}
+body.rahee-secret-darkweb-mode .rahee-corrupted-node{
+  font-family:inherit!important;
+  letter-spacing:.02em!important;
+  word-break:break-word;
+}
+body.rahee-secret-darkweb-mode .rahee-darkweb-redacted{ position:relative; }
+body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
+  content:""; position:absolute; left:0; right:0; top:48%; height:1px;
+  background:rgba(155,255,170,.35); box-shadow:0 0 8px rgba(80,255,120,.22);
+  transform:translateY(-50%); pointer-events:none;
+}
+
 @media (prefers-reduced-motion: reduce){
   body.rahee-creep-slow header, body.rahee-creep-slow main, body.rahee-creep-slow section,
   body.rahee-creep-mid header, body.rahee-creep-mid main, body.rahee-creep-mid section,
@@ -5816,15 +5854,42 @@ function ghostRealText(selector, fast = false){
 let raheeSecretDarkwebActive = false;
 let raheeScrambledTextNodes = [];
 
-function alienScrambleText(text){
+function softCorruptText(text, intensity = 0.28){
   if (!text || !text.trim()) return text;
-  const pool = ['�','▒','▓','░','⌁','⟟','⧉','∴','◌','◍','0','1','/','\\','_', '-', '뷁','릐','흫','겲','쀍','꿹','읅','몫','넋'];
-  return text.replace(/[^\s]/g, (ch, i) => {
-    if (/[.,!?;:()\[\]{}<>“”‘’'"·•|]/.test(ch)) return Math.random() < .45 ? ch : pool[Math.floor(Math.random()*pool.length)];
-    if (/[0-9]/.test(ch)) return Math.random() < .55 ? String(Math.floor(Math.random()*10)) : pool[Math.floor(Math.random()*pool.length)];
-    if (Math.random() < .10) return ch;
-    return pool[Math.floor(Math.random()*pool.length)];
-  });
+  const trimmed = text.trim();
+  const semanticMap = [
+    [/문의|연락|contact/i, '연결 불안정'],
+    [/포트폴리오|portfolio/i, '기록 손상'],
+    [/작업|제작|편집/i, '작업 로그 불일치'],
+    [/가격|요금|원|min|분당/i, '금액 검증 실패'],
+    [/소개|프로필|profile/i, '프로필 상태 불일치'],
+    [/댓글|방명록/i, '열람 기록 남음'],
+    [/신청|보내기|submit/i, '전송 보류'],
+    [/RAHEE|라희|냐희/i, 'RAHEE_//_복구중']
+  ];
+  const glitchPool = ['�','▒','░','/','\','_','·','…','0','1','⌁','∴'];
+  if (trimmed.length <= 5){
+    return text.replace(/[가-힣A-Za-z0-9]/, ch => Math.random() < .55 ? ch : glitchPool[Math.floor(Math.random()*glitchPool.length)]);
+  }
+  if (Math.random() < intensity * .36){
+    for (const [re, replacement] of semanticMap){
+      if (re.test(trimmed)) return text.replace(trimmed, replacement);
+    }
+  }
+  let out = '';
+  let changed = 0;
+  const maxChange = Math.max(1, Math.floor(trimmed.length * intensity));
+  for (const ch of text){
+    if (/\s/.test(ch)){ out += ch; continue; }
+    if (/[.,!?;:()\[\]{}<>“”‘’'"·•|]/.test(ch)){ out += Math.random() < .18 ? glitchPool[Math.floor(Math.random()*glitchPool.length)] : ch; continue; }
+    if (changed < maxChange && /[가-힣A-Za-z0-9]/.test(ch) && Math.random() < intensity){
+      out += glitchPool[Math.floor(Math.random()*glitchPool.length)];
+      changed++;
+    } else {
+      out += ch;
+    }
+  }
+  return out;
 }
 
 function shouldScrambleNode(node){
@@ -5841,28 +5906,48 @@ function shouldScrambleNode(node){
   return true;
 }
 
-function scrambleExistingPageText(){
+function scrambleExistingPageText(finalMode = true){
   raheeScrambledTextNodes = [];
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode(node){ return shouldScrambleNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
   });
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
-  nodes.forEach(node => {
+  const visibleNodes = nodes.filter(node => {
+    const el = node.parentElement;
+    if (!el) return false;
+    const r = el.getBoundingClientRect();
+    return r.bottom > -200 && r.top < window.innerHeight + 900;
+  });
+  visibleNodes.forEach((node) => {
     const original = node.nodeValue;
+    const parent = node.parentElement;
+    const isImportant = parent && parent.matches('h1,h2,h3,p,a,button,.section-title,.tagline,.nav-link,.chip,.price,.card-title,.work-title');
+    const chance = finalMode ? (isImportant ? .62 : .34) : (isImportant ? .18 : .08);
+    if (Math.random() > chance) return;
+    const intensity = finalMode ? (isImportant ? .34 : .22) : .12;
+    const mutated = softCorruptText(original, intensity);
+    if (mutated === original) return;
     raheeScrambledTextNodes.push([node, original]);
-    node.nodeValue = alienScrambleText(original);
-    if (node.parentElement) node.parentElement.classList.add('rahee-corrupted-node');
+    node.nodeValue = mutated;
+    if (parent){
+      parent.classList.add(isImportant ? 'rahee-mutated-node' : 'rahee-corrupted-node');
+      if (Math.random() < .08) parent.classList.add('rahee-darkweb-redacted');
+    }
   });
 }
 
 function restoreExistingPageText(){
   raheeScrambledTextNodes.forEach(([node, original]) => {
     if (node) node.nodeValue = original;
-    if (node && node.parentElement) node.parentElement.classList.remove('rahee-corrupted-node');
+    if (node && node.parentElement){
+      node.parentElement.classList.remove('rahee-corrupted-node','rahee-mutated-node','rahee-darkweb-redacted');
+    }
   });
   raheeScrambledTextNodes = [];
-  document.querySelectorAll('.rahee-corrupted-node').forEach(el => el.classList.remove('rahee-corrupted-node'));
+  document.querySelectorAll('.rahee-corrupted-node,.rahee-mutated-node,.rahee-darkweb-redacted').forEach(el => {
+    el.classList.remove('rahee-corrupted-node','rahee-mutated-node','rahee-darkweb-redacted');
+  });
 }
 
 function enterSecretDarkwebPage(){
@@ -5906,7 +5991,7 @@ function openSecretDirect(){
 function resetRaheeCreep(){
   clearRaheeCreepTimers();
   document.body.classList.remove(
-    'rahee-creep-lock','rahee-creep-slow','rahee-creep-mid','rahee-creep-snap',
+    'rahee-creep-lock','rahee-creep-slow','rahee-creep-mid','rahee-creep-snap','rahee-creep-quiet',
     'rahee-rgb-drift','rahee-rgb-panic','rahee-darkweb-shift'
   );
   document.querySelectorAll('.rahee-ghost-text').forEach(el => el.remove());
@@ -5924,7 +6009,6 @@ function openSecret(){
   raheeCreepRunning = true;
   konamiIdx = 0;
   swipeIdx = 0;
-
   ensureRaheeCreepNodes();
   const layer = document.getElementById('raheeCreepLayer');
   const slice = document.getElementById('raheeCreepSlice');
@@ -5932,47 +6016,52 @@ function openSecret(){
   const black = document.getElementById('raheeCreepBlack');
   const dark = document.getElementById('raheeDarkWebSnap');
 
-  // 0~9초는 스크롤 가능. 페이지가 아직 정상인 척해야 하므로 바로 잠그지 않는다.
+  // 0~9초: 스크롤 가능. 연출 시작 티를 줄이고, 페이지 자체의 미세한 이상만 남김.
   later(9000, () => document.body.classList.add('rahee-creep-lock'));
+  later(900, () => document.body.classList.add('rahee-creep-slow'));
+  later(2300, () => { layer.classList.add('on'); layer.style.opacity = '.018'; });
+  later(3600, () => ghostRealText('#heroTitle, .tagline, .chip', false));
+  later(5200, () => { layer.style.opacity = '.034'; ghostRealText('.nav-link, .section-title, .micro-top span', false); });
+  later(7300, () => { document.body.classList.add('rahee-rgb-drift'); layer.style.opacity = '.052'; ghostRealText('.card, .project-card, .tagline', false); });
 
-  // 0~8초: 거의 티 안 나게 시작. 기존 페이지가 아주 조금씩 어긋나는 단계.
-  later(700, () => document.body.classList.add('rahee-creep-slow'));
-  later(1600, () => { layer.classList.add('on'); layer.style.opacity = '.025'; });
-  later(2800, () => ghostRealText('#heroTitle, .tagline, .chip', false));
-  later(4300, () => { layer.style.opacity = '.045'; ghostRealText('.micro-top span, .nav-link, .section-title', false); });
-  later(5900, () => ghostRealText('.card, .project-card, .status-card, .tagline', false));
-  later(7200, () => { document.body.classList.add('rahee-rgb-drift'); layer.style.opacity = '.07'; });
+  // 9~14.5초: 이상함이 명확해짐. 아직 설명하지 않고, 기존 페이지가 버벅이는 느낌만 유지.
+  later(9200, () => { document.body.classList.remove('rahee-creep-slow'); document.body.classList.add('rahee-creep-mid'); layer.style.opacity = '.075'; });
+  later(10400, () => ghostRealText('#heroTitle, .tagline, .section-title', false));
+  later(11600, () => { slice.classList.add('on'); layer.style.opacity = '.105'; });
+  later(12800, () => ghostRealText('.hero-meta, .about-text, .work-card, .project-card', true));
+  later(14000, () => { ghostRealText('#heroTitle, .tagline, .nav-link', true); layer.style.opacity = '.145'; });
 
-  // 8~14초: 사용자가 “뭐가 좀 이상한데?”라고 느끼는 구간. 아직 공포를 설명하지 않음.
-  later(8600, () => { document.body.classList.remove('rahee-creep-slow'); document.body.classList.add('rahee-creep-mid'); layer.style.opacity = '.10'; });
-  later(9800, () => ghostRealText('#heroTitle, .tagline, .section-title', false));
-  later(11100, () => { slice.classList.add('on'); layer.style.opacity = '.135'; });
-  later(12300, () => ghostRealText('.hero-meta, .about-text, .work-card, .project-card', true));
-  later(13600, () => { ghostRealText('#heroTitle, .tagline, .section-title, .nav-link', true); layer.style.opacity = '.18'; });
+  // 14.5~16초: 무너질 준비.
+  later(14600, () => { document.body.classList.add('rahee-rgb-panic'); layer.classList.add('heavy'); layer.style.opacity = '.22'; });
+  later(15300, () => { ghostRealText('.card, .project-card, .status-card, .tagline, .section-title', true); });
 
-  // 14~17초: 급가속 직전. 레이아웃과 색이 더 이상 정상처럼 보이지 않기 시작함.
-  later(14600, () => { document.body.classList.add('rahee-rgb-panic'); layer.classList.add('heavy'); });
-  later(15400, () => { ghostRealText('.card, .project-card, .status-card, .tagline, .section-title', true); layer.style.opacity = '.24'; });
-  later(16200, () => { slice.classList.add('on'); ghostRealText('#heroTitle, .tagline, .nav-link', true); });
+  // 16~17초: 일부러 조용해짐. 이 정적 뒤에 순간 변질.
+  later(16000, () => {
+    document.body.classList.remove('rahee-creep-mid','rahee-rgb-panic','rahee-rgb-drift');
+    document.body.classList.add('rahee-creep-quiet');
+    if (slice) slice.classList.remove('on');
+    if (layer) { layer.classList.remove('heavy'); layer.style.opacity = '.018'; }
+  });
 
-  // 17초대: 순간 다크웹/감염 페이지처럼 변질. 여기서 확 터짐.
+  // 17초: 기존 UI/UX 레이아웃은 유지한 채 순간 다크웹/감염 상태로 확 변질.
   later(17000, () => {
-    document.body.classList.remove('rahee-creep-mid');
+    document.body.classList.remove('rahee-creep-quiet');
     document.body.classList.add('rahee-creep-snap', 'rahee-darkweb-shift');
     if (dark) dark.classList.add('on');
-    layer.style.opacity = '.38';
+    if (slice) slice.classList.add('on');
+    if (layer) { layer.classList.add('on','heavy'); layer.style.opacity = '.42'; }
     ghostRealText('#heroTitle, .tagline, .section-title, .nav-link', true);
   });
 
-  // 코딩 로그는 전체 20초 중 마지막 2초 안쪽만 짧게. 화면 변질이 주인공.
-  later(18200, () => {
-    log.innerHTML = '<span>&gt; profile mismatch</span><br><span>&gt; restore failed</span>';
+  // 코딩 로그는 마지막 10% 안쪽만 짧게.
+  later(18400, () => {
+    log.innerHTML = '<span>&gt; state mismatch</span><br><span>&gt; restore failed</span>';
     log.classList.add('on');
   });
 
-  // 18.8~20초: 치지직 → 암전 → 비밀 페이지 진입.
-  later(18800, () => { black.classList.add('on'); layer.style.opacity = '.78'; });
-  later(19300, () => { slice.classList.add('on'); ghostRealText('#heroTitle, .tagline, .section-title', true); });
+  // 18.8~20초: 치지직 → 암전 → 새 페이지 이동이 아니라 현재 페이지 감염 상태로 고정.
+  later(18800, () => { black.classList.add('on'); if (layer) layer.style.opacity = '.72'; });
+  later(19400, () => { if (slice) slice.classList.add('on'); ghostRealText('#heroTitle, .tagline, .section-title', true); });
   later(20000, () => {
     resetRaheeCreep();
     openSecretDirect();
