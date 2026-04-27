@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
@@ -7,6 +8,7 @@
 <meta name="description" content="콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
 
 <!-- OG / Twitter -->
+
 <meta property="og:type" content="website" />
 <meta property="og:title" content="RAHEE✦ — Personal Branding" />
 <meta property="og:description" content="영상 제작부터 마케팅, 매니지먼트까지 콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
@@ -1424,6 +1426,81 @@
     color: var(--lime);
   }
 
+  /* File upload area */
+  .media-upload-area{
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+  }
+  .media-upload-area:hover, .media-upload-area.drag-over{
+    border-color: var(--lime);
+    background: rgba(212,255,58,0.03);
+  }
+  .media-file-label{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-2);
+    letter-spacing: 0.06em;
+  }
+  .media-file-icon{
+    font-size: 1.4rem;
+    color: var(--lime);
+    line-height: 1;
+  }
+  .media-file-sub{
+    font-size: 0.6rem;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .media-preview-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .media-preview-item{
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .media-preview-item img,
+  .media-preview-item video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-preview-item .preview-remove{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.7);
+    border: none;
+    color: #fff;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
   /* Media DISPLAY in read mode */
   .modal-media{
     margin-top: 1.4rem;
@@ -1656,17 +1733,8 @@
     transform: scale(1.1);
   }
   .like-btn.liked{
-    background: linear-gradient(45deg, var(--pink), var(--lime));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    text-shadow: 0 0 12px rgba(255, 68, 136, 0.3);
-    animation: likedGradient 3s ease-in-out infinite;
-  }
-  @keyframes likedGradient{
-    0%, 100%{ filter: hue-rotate(0deg); }
-    50%{ filter: hue-rotate(-10deg) brightness(1.15); }
+    color: var(--lime);
+    text-shadow: 0 0 16px var(--lime-glow);
   }
   .like-btn.bursting{
     animation: starBurst 0.7s cubic-bezier(.34,1.56,.64,1);
@@ -1747,6 +1815,7 @@
     margin-bottom: 1.2rem;
   }
   .comments-list:empty{ display: none; }
+  /* ============== COMMENT LIKES ============== */
   .comment{
     padding: 0.8rem 1rem;
     background: rgba(255,255,255,0.02);
@@ -1754,6 +1823,47 @@
     border-radius: 10px;
     position: relative;
   }
+  .comment.best{
+    border-color: rgba(255,68,68,0.35);
+    background: rgba(255,68,68,0.04);
+  }
+  .comment-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+  }
+  .best-badge{
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ff4444;
+  }
+  .comment-like-btn{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .comment-like-btn:hover{ color: var(--lime); }
+  .comment-like-btn.liked{ color: var(--lime); text-shadow: 0 0 8px var(--lime-glow); }
+  .comment-like-count{
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+  }
+  .comment.best .comment-like-btn.liked{ color: var(--lime); }
   .comment.has-del{
     padding-right: 2.4rem;
   }
@@ -2648,26 +2758,31 @@
   }
   .email-card{ animation: cardPulse 3s ease-in-out infinite; }
 </style>
+
 </head>
 <body>
 
 <!-- Top scroll progress bar -->
+
 <div class="scroll-progress-top" id="scrollProgress" aria-hidden="true"></div>
 
 <!-- Custom star cursor -->
+
 <div class="star-cursor" id="starCursor" aria-hidden="true"><span class="star-glyph">✦</span></div>
 
 <!-- Custom cursor follower -->
 
-
 <!-- Mouse-tracked page glow -->
+
 <div class="mouse-glow" id="mouseGlow" aria-hidden="true"></div>
 
 <!-- Floating background orbs -->
+
 <div class="bg-orb lime" aria-hidden="true"></div>
 <div class="bg-orb pink" aria-hidden="true"></div>
 
 <!-- TOP BAR -->
+
 <div class="topbar">
   <a href="#" class="logo">
     <span class="word">Rahee</span>
@@ -2687,6 +2802,7 @@
 </div>
 
 <!-- ============== HERO ============== -->
+
 <section class="hero" id="hero">
   <div class="hero-star-deco" aria-hidden="true">
     <svg viewBox="0 0 100 100"><path d="M50 0 L55 45 L100 50 L55 55 L50 100 L45 55 L0 50 L45 45 Z"/></svg>
@@ -2697,46 +2813,49 @@
       <span>k4rahee@naver.com</span>
     </div>
 
-    <div class="hero-grid">
-      <div>
-        <h1 id="heroTitle">
-          <span class="ch">R</span><span class="ch">a</span><span class="ch">h</span><span class="ch">e</span><span class="ch">e</span><span class="sparkle ch">✦</span><span class="cursor-glow" aria-hidden="true"></span>
-        </h1>
+```
+<div class="hero-grid">
+  <div>
+    <h1 id="heroTitle">
+      <span class="ch">R</span><span class="ch">a</span><span class="ch">h</span><span class="ch">e</span><span class="ch">e</span><span class="sparkle ch">✦</span><span class="cursor-glow" aria-hidden="true"></span>
+    </h1>
 
-        <p class="tagline">
-          콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.
-        </p>
+    <p class="tagline">
+      콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.
+    </p>
 
-        <div class="hero-meta">
-          <span class="chip lime">마케터</span>
-          <span class="chip lime">크리에이터</span>
-          <span class="chip">기획</span>
-          <span class="chip">UI / UX</span>
-          <span class="chip">HTML</span>
-        </div>
-      </div>
-
-      <div class="hero-image tilt" data-tilt-max="6">
-        <span class="floater f1 lime-tag">CONTENT</span>
-        <span class="floater f2">크리에이터</span>
-        <span class="floater f3">EST. 2014</span>
-        <span class="floater f4">SEOUL ✦ GA</span>
-        <!-- TODO: <img> 교체 시 아래 div.img-ph 전체를 <img src="프로필.jpg" alt="Rahee 프로필" style="border-radius:16px;width:100%;aspect-ratio:4/5;object-fit:cover;"> 로 변경 -->
-        <div class="img-ph g2 ar-4-5">
-          <div class="ph-grad"></div>
-          <div class="ph-noise"></div>
-          <div class="ph-corner tl"></div>
-          <div class="ph-corner tr"></div>
-          <div class="ph-corner bl"></div>
-          <div class="ph-corner br"></div>
-        </div>
-      </div>
+    <div class="hero-meta">
+      <span class="chip lime">마케터</span>
+      <span class="chip lime">크리에이터</span>
+      <span class="chip">기획</span>
+      <span class="chip">UI / UX</span>
+      <span class="chip">HTML</span>
     </div>
+  </div>
+
+  <div class="hero-image tilt" data-tilt-max="6">
+    <span class="floater f1 lime-tag">CONTENT</span>
+    <span class="floater f2">크리에이터</span>
+    <span class="floater f3">EST. 2014</span>
+    <span class="floater f4">SEOUL ✦ GA</span>
+    <!-- TODO: <img> 교체 시 아래 div.img-ph 전체를 <img src="프로필.jpg" alt="Rahee 프로필" style="border-radius:16px;width:100%;aspect-ratio:4/5;object-fit:cover;"> 로 변경 -->
+    <div class="img-ph g2 ar-4-5">
+      <div class="ph-grad"></div>
+      <div class="ph-noise"></div>
+      <div class="ph-corner tl"></div>
+      <div class="ph-corner tr"></div>
+      <div class="ph-corner bl"></div>
+      <div class="ph-corner br"></div>
+    </div>
+  </div>
+</div>
+```
+
   </div>
 </section>
 
-
 <!-- ============== ABOUT ============== -->
+
 <section class="about" id="about">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -2744,62 +2863,65 @@
       <span>Origin</span>
     </div>
 
-    <div class="about-grid">
-      <div class="about-image reveal tilt" data-tilt-max="4">
-        <!-- TODO: <img> 교체 시 div.img-ph 전체를 <img src="about.jpg" alt="Rahee" style="border-radius:16px;width:100%;aspect-ratio:3/4;object-fit:cover;"> 로 변경 -->
-        <div class="img-ph g3 ar-3-4">
-          <div class="ph-grad"></div>
-          <div class="ph-noise"></div>
-          <div class="ph-corner tl"></div>
-          <div class="ph-corner tr"></div>
-          <div class="ph-corner bl"></div>
-          <div class="ph-corner br"></div>
-        </div>
-      </div>
+```
+<div class="about-grid">
+  <div class="about-image reveal tilt" data-tilt-max="4">
+    <!-- TODO: <img> 교체 시 div.img-ph 전체를 <img src="about.jpg" alt="Rahee" style="border-radius:16px;width:100%;aspect-ratio:3/4;object-fit:cover;"> 로 변경 -->
+    <div class="img-ph g3 ar-3-4">
+      <div class="ph-grad"></div>
+      <div class="ph-noise"></div>
+      <div class="ph-corner tl"></div>
+      <div class="ph-corner tr"></div>
+      <div class="ph-corner bl"></div>
+      <div class="ph-corner br"></div>
+    </div>
+  </div>
 
-      <div class="reveal delay-1">
-        <h2 class="sec-heading">About <em>Me.</em></h2>
-        <div class="about-body">
-          <p>
-            중학생 때 <em>미국</em>으로 건너가 <strong>9년</strong>을 살았습니다.<br/>
-            아르바이트로 모은 돈으로 <em>뷰티커머스 사업</em>을 운영하다,<br/>
-            어렸을 적 나고 자란 <em>한국</em>에 대한 향수병에 의해 돌아오게 되었습니다.
-          </p>
-          <p>
-            한국에 돌아온 후 어렸을 적 꿈꿔왔던 <em>콘텐츠 산업</em>에 뛰어들었고,<br/>
-            지금까지 <strong>영상 제작부터 마케팅, 매니지먼트까지</strong><br/>
-            콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.
-          </p>
-        </div>
-        <div class="personal-meta">
-          <div class="meta-row">
-            <span class="meta-label">MBTI</span>
-            <span class="meta-value">ENTJ-T</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Born</span>
-            <span class="meta-value">2002. 11. 27</span>
-          </div>
-        </div>
-        <div class="interests">
-          <div class="interests-label">Interest</div>
-          <div class="hashtags">
-            <span class="chip">#바이크</span>
-            <span class="chip">#맛집</span>
-            <span class="chip">#여행</span>
-            <span class="chip">#음악</span>
-            <span class="chip">#게임</span>
-            <span class="chip">#애니</span>
-            <span class="chip">#영화</span>
-          </div>
-        </div>
+  <div class="reveal delay-1">
+    <h2 class="sec-heading">About <em>Me.</em></h2>
+    <div class="about-body">
+      <p>
+        중학생 때 <em>미국</em>으로 건너가 <strong>9년</strong>을 살았습니다.<br/>
+        아르바이트로 모은 돈으로 <em>뷰티커머스 사업</em>을 운영하다,<br/>
+        어렸을 적 나고 자란 <em>한국</em>에 대한 향수병에 의해 돌아오게 되었습니다.
+      </p>
+      <p>
+        한국에 돌아온 후 어렸을 적 꿈꿔왔던 <em>콘텐츠 산업</em>에 뛰어들었고,<br/>
+        지금까지 <strong>영상 제작부터 마케팅, 매니지먼트까지</strong><br/>
+        콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.
+      </p>
+    </div>
+    <div class="personal-meta">
+      <div class="meta-row">
+        <span class="meta-label">MBTI</span>
+        <span class="meta-value">ENTJ-T</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Born</span>
+        <span class="meta-value">2002. 11. 27</span>
+      </div>
+    </div>
+    <div class="interests">
+      <div class="interests-label">Interest</div>
+      <div class="hashtags">
+        <span class="chip">#바이크</span>
+        <span class="chip">#맛집</span>
+        <span class="chip">#여행</span>
+        <span class="chip">#음악</span>
+        <span class="chip">#게임</span>
+        <span class="chip">#애니</span>
+        <span class="chip">#영화</span>
       </div>
     </div>
   </div>
+</div>
+```
+
+  </div>
 </section>
 
-
 <!-- ============== WORK HISTORY ============== -->
+
 <section class="work" id="work">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -2807,68 +2929,60 @@
       <span>2014 → 2025</span>
     </div>
 
-    <h2 class="sec-heading reveal">Work <em>History.</em></h2>
+```
+<h2 class="sec-heading reveal">Work <em>History.</em></h2>
 
-    <div class="vtimeline reveal">
+<div class="vtimeline reveal">
 
-      <div class="vt-event vt-first">
-        <div class="vt-node"></div>
-        <div class="vt-content">
-          <div class="vt-when">2014 — 2023. 06</div>
-          <div class="vt-where">미국 거주 / 뷰티커머스 사업 <em>3년간 운영</em></div>
-          <ul>
-            <li>Blackmon Road Middle School 재학</li>
-            <li>Shaw High School 재학 및 졸업</li>
-            <li>아르바이트로 모은 돈으로 뷰티커머스 사업 3년간 운영</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="vt-event">
-        <div class="vt-node"></div>
-        <div class="vt-content">
-          <div class="vt-when">2023. 06 — 2024. 01</div>
-          <div class="vt-where">(주)<em>데브언리밋</em></div>
-          <div class="vt-tags">
-            <span>영상제작</span>
-            <span>콘텐츠기획</span>
-            <span>SNS마케팅</span>
-          </div>
-          <ul>
-            <li>K-POP 댄스게임 Sparky SNS 마케팅 및 기업 홍보 영상 및 댄스 영상 제작</li>
-            <li>Jersey Club(져지 클럽) SNS 마케팅 영상 제작</li>
-            <li>한국관광공사 협업</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="vt-event">
-        <div class="vt-node"></div>
-        <div class="vt-content">
-          <div class="vt-when">2024. 08 — 2025. 09</div>
-          <div class="vt-where">주식회사 <em>파워드랩</em></div>
-          <div class="vt-tags">
-            <span>영상제작</span>
-            <span>콘텐츠기획</span>
-            <span>SEO</span>
-            <span>SNS마케팅</span>
-          </div>
-          <ul>
-            <li>반려동물 파양 서비스 PetRehome 사이트 배너 / 마케팅 영상 제작</li>
-            <li>Quantum Chain, Saseul gold 등 다수의 IT기업 블록체인 제작 과정 서포팅 및 기업 홍보 영상 제작</li>
-            <li>라키아 선수 다큐멘터리 제작 참여</li>
-            <li>다수의 정부지원사업 문서 작업 경험</li>
-            <li>양자컴퓨터 관련 특허 출원 경험</li>
-          </ul>
-        </div>
-      </div>
-
+  <div class="vt-event vt-first">
+    <div class="vt-node"></div>
+    <div class="vt-content">
+      <div class="vt-when">2014 — 2023. 06</div>
+      <div class="vt-where">미국 거주 / 뷰티커머스 사업 <em>3년간 운영</em></div>
+      <ul>
+        <li>Blackmon Road Middle School 재학</li>
+        <li>Shaw High School 재학 및 졸업</li>
+        <li>아르바이트로 모은 돈으로 뷰티커머스 사업 3년간 운영</li>
+      </ul>
     </div>
+  </div>
+
+  <div class="vt-event">
+    <div class="vt-node"></div>
+    <div class="vt-content">
+      <div class="vt-when">2023. 06 — 2024. 01</div>
+      <div class="vt-where">(주)<em>데브언리밋</em></div>
+      <ul>
+        <li>K-POP 댄스게임 Sparky SNS 마케팅 및 기업 홍보 영상 및 댄스 영상 제작</li>
+        <li>Jersey Club(져지 클럽) SNS 마케팅 영상 제작</li>
+        <li>한국관광공사 협업</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="vt-event">
+    <div class="vt-node"></div>
+    <div class="vt-content">
+      <div class="vt-when">2024. 08 — 2025. 09</div>
+      <div class="vt-where">주식회사 <em>파워드랩</em></div>
+      <ul>
+        <li>반려동물 파양 서비스 PetRehome 사이트 배너 / 마케팅 영상 제작</li>
+        <li>Quantum Chain, Saseul gold 등 다수의 IT기업 블록체인 제작 과정 서포팅 및 기업 홍보 영상 제작</li>
+        <li>라키아 선수 다큐멘터리 제작 참여</li>
+        <li>다수의 정부지원사업 문서 작업 경험</li>
+        <li>양자컴퓨터 관련 특허 출원 경험</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+```
+
   </div>
 </section>
 
-
 <!-- ============== PROJECTS GALLERY ============== -->
+
 <section class="projects" id="projects">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -2876,69 +2990,74 @@
       <span>2023 → 2026</span>
     </div>
 
-    <div class="projects-head reveal">
-      <h2 class="sec-heading" style="margin-bottom: 0;">Personal <em>Project.</em></h2>
-      <div class="carousel-controls">
-        <span class="hint">← drag · tap to expand →</span>
-        <button class="nav-btn" id="carousel-prev" aria-label="Previous">←</button>
-        <button class="nav-btn" id="carousel-next" aria-label="Next">→</button>
-      </div>
-    </div>
+```
+<div class="projects-head reveal">
+  <h2 class="sec-heading" style="margin-bottom: 0;">Personal <em>Project.</em></h2>
+  <div class="carousel-controls">
+    <span class="hint">← drag · tap to expand →</span>
+    <button class="nav-btn" id="carousel-prev" aria-label="Previous">←</button>
+    <button class="nav-btn" id="carousel-next" aria-label="Next">→</button>
+  </div>
+</div>
+```
+
   </div>
 
   <div class="gallery reveal" id="carousel">
 
-      <div class="item reveal" data-idx="0">
-        <div class="img-wrapper">
-          <div class="img-ph g3">
-            <div class="ph-grad"></div><div class="ph-noise"></div>
-            <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
-            <div class="ph-corner bl"></div><div class="ph-corner br"></div>
-          </div>
-          <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
-        </div>
-        <div class="item-num">01</div>
-        <div class="item-title"><em>애니 추천</em> 채널</div>
+```
+  <div class="item reveal" data-idx="0">
+    <div class="img-wrapper">
+      <div class="img-ph g3">
+        <div class="ph-grad"></div><div class="ph-noise"></div>
+        <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
+        <div class="ph-corner bl"></div><div class="ph-corner br"></div>
       </div>
+      <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
+    </div>
+    <div class="item-num">01</div>
+    <div class="item-title"><em>애니 추천</em> 채널</div>
+  </div>
 
-      <div class="item pink-stat reveal delay-1" data-idx="1">
-        <div class="img-wrapper">
-          <div class="img-ph g2">
-            <div class="ph-grad"></div><div class="ph-noise"></div>
-            <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
-            <div class="ph-corner bl"></div><div class="ph-corner br"></div>
-          </div>
-          <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
-        </div>
-        <div class="item-num">02</div>
-        <div class="item-title"><em>생방송</em> 운영</div>
+  <div class="item pink-stat reveal delay-1" data-idx="1">
+    <div class="img-wrapper">
+      <div class="img-ph g2">
+        <div class="ph-grad"></div><div class="ph-noise"></div>
+        <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
+        <div class="ph-corner bl"></div><div class="ph-corner br"></div>
       </div>
+      <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
+    </div>
+    <div class="item-num">02</div>
+    <div class="item-title"><em>생방송</em> 운영</div>
+  </div>
 
-      <div class="item reveal" data-idx="2">
-        <div class="img-wrapper">
-          <div class="img-ph g5">
-            <div class="ph-grad"></div><div class="ph-noise"></div>
-            <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
-            <div class="ph-corner bl"></div><div class="ph-corner br"></div>
-          </div>
-          <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
-        </div>
-        <div class="item-num">03</div>
-        <div class="item-title"><em>메이플</em> + 서브컬쳐</div>
+  <div class="item reveal" data-idx="2">
+    <div class="img-wrapper">
+      <div class="img-ph g5">
+        <div class="ph-grad"></div><div class="ph-noise"></div>
+        <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
+        <div class="ph-corner bl"></div><div class="ph-corner br"></div>
       </div>
+      <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
+    </div>
+    <div class="item-num">03</div>
+    <div class="item-title"><em>메이플</em> + 서브컬쳐</div>
+  </div>
 
-      <div class="item text-stat reveal delay-1" data-idx="3">
-        <div class="img-wrapper">
-          <div class="img-ph g4">
-            <div class="ph-grad"></div><div class="ph-noise"></div>
-            <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
-            <div class="ph-corner bl"></div><div class="ph-corner br"></div>
-          </div>
-          <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
-        </div>
-        <div class="item-num">04</div>
-        <div class="item-title"><em>콘텐츠 제작</em> Commission</div>
+  <div class="item text-stat reveal delay-1" data-idx="3">
+    <div class="img-wrapper">
+      <div class="img-ph g4">
+        <div class="ph-grad"></div><div class="ph-noise"></div>
+        <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
+        <div class="ph-corner bl"></div><div class="ph-corner br"></div>
       </div>
+      <div class="click-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></div>
+    </div>
+    <div class="item-num">04</div>
+    <div class="item-title"><em>콘텐츠 제작</em> Commission</div>
+  </div>
+```
 
   </div>
 
@@ -2961,8 +3080,8 @@
   </div>
 </section>
 
-
 <!-- ============== NOW FOCUS ON ============== -->
+
 <section class="now" id="now">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -2970,43 +3089,47 @@
       <span>Currently</span>
     </div>
 
-    <h2 class="sec-heading reveal">Now <em>Focus On.</em></h2>
+```
+<h2 class="sec-heading reveal">Now <em>Focus On.</em></h2>
 
-    <div class="now-list reveal">
-      <div class="now-row">
-        <span class="kind">스터디</span>
-        <span class="what">
-          <span class="t">UI / UX 스터디 진행 중</span>
-          <span class="sublinks">
-            <a href="https://product.kyobobook.co.kr/detail/S000212939982" target="_blank" rel="noopener" class="link-pill">교보문고 책<span class="arr">↗</span></a>
-          </span>
-        </span>
-        <span class="status"><span class="blink"></span>Active</span>
-      </div>
-      <div class="now-row">
-        <span class="kind">스터디</span>
-        <span class="what">
-          <span class="t">모션 그래픽 스터디 진행 중</span>
-        </span>
-        <span class="status"><span class="blink"></span>Active</span>
-      </div>
-      <div class="now-row">
-        <span class="kind">개발</span>
-        <span class="what">
-          <span class="t">HTML 제작 및 스터디</span>
-          <span class="sublinks">
-            <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="link-pill">Churro_Video<span class="arr">↗</span></a>
-            <a href="https://k4rahee.github.io/Jeonghyeon-Video_Commission/" target="_blank" rel="noopener" class="link-pill">Jeonghyeon<span class="arr">↗</span></a>
-          </span>
-        </span>
-        <span class="status"><span class="blink"></span>Active</span>
-      </div>
-    </div>
+<div class="now-list reveal">
+  <div class="now-row">
+    <span class="kind">스터디</span>
+    <span class="what">
+      <span class="t">UI / UX 스터디 진행 중</span>
+      <span class="sublinks">
+        <a href="https://product.kyobobook.co.kr/detail/S000212939982" target="_blank" rel="noopener" class="link-pill">UX/UI의 10가지 심리학 법칙<span class="arr">↗</span></a>
+      </span>
+    </span>
+    <span class="status"><span class="blink"></span>Active</span>
+  </div>
+  <div class="now-row">
+    <span class="kind">스터디</span>
+    <span class="what">
+      <span class="t">모션 그래픽 스터디 진행 중</span>
+    </span>
+    <span class="status"><span class="blink"></span>Active</span>
+  </div>
+  <div class="now-row">
+    <span class="kind">개발</span>
+    <span class="what">
+      <span class="t">HTML 제작 및 스터디</span>
+      <span class="sublinks">
+        <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="link-pill">Project #1<span class="arr">↗</span></a>
+        <a href="https://k4rahee.github.io/Jeonghyeon-Video_Commission/" target="_blank" rel="noopener" class="link-pill">Project #2<span class="arr">↗</span></a>
+        <a href="https://k4rahee.github.io/Im/" target="_blank" rel="noopener" class="link-pill">Project #3<span class="arr">↗</span></a>
+      </span>
+    </span>
+    <span class="status"><span class="blink"></span>Active</span>
+  </div>
+</div>
+```
+
   </div>
 </section>
 
-
 <!-- ============== THOUGHTS / BLOG ============== -->
+
 <section class="thoughts" id="thoughts">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -3014,106 +3137,123 @@
       <span>Notes</span>
     </div>
 
-    <h2 class="sec-heading reveal">Thoughts <em>&amp; Notes.</em></h2>
+```
+<h2 class="sec-heading reveal">Thoughts <em>&amp; Notes.</em></h2>
 
-    <div class="thoughts-toolbar reveal">
-      <div class="thought-filter" id="thought-filter">
-        <button class="filter-btn active" data-tag="all" type="button">All <span class="count" id="count-all">0</span></button>
-        <button class="filter-btn" data-tag="Note" type="button">Note <span class="count" id="count-Note">0</span></button>
-        <button class="filter-btn" data-tag="Diary" type="button">Diary <span class="count" id="count-Diary">0</span></button>
-        <button class="filter-btn" data-tag="Idea" type="button">Idea <span class="count" id="count-Idea">0</span></button>
-      </div>
-    </div>
+<div class="thoughts-toolbar reveal">
+  <div class="thought-filter" id="thought-filter">
+    <button class="filter-btn active" data-tag="all" type="button">All <span class="count" id="count-all">0</span></button>
+    <button class="filter-btn" data-tag="Note" type="button">Note <span class="count" id="count-Note">0</span></button>
+    <button class="filter-btn" data-tag="Diary" type="button">Diary <span class="count" id="count-Diary">0</span></button>
+    <button class="filter-btn" data-tag="Idea" type="button">Idea <span class="count" id="count-Idea">0</span></button>
+  </div>
+</div>
 
-    <div class="thoughts-list" id="thoughts-list">
-      <!-- cards rendered by JS -->
-    </div>
+<div class="thoughts-list" id="thoughts-list">
+  <!-- cards rendered by JS -->
+</div>
+```
+
   </div>
 </section>
 
 <!-- Thoughts modal (read + write) -->
+
 <div class="thought-modal" id="thought-modal" aria-hidden="true">
   <div class="thought-modal-backdrop" data-modal-close></div>
   <div class="thought-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <button class="thought-modal-close" type="button" aria-label="닫기" data-modal-close>×</button>
 
-    <!-- READ MODE -->
-    <div class="thought-modal-read" id="modal-read">
-      <div class="modal-meta">
-        <span class="thought-tag" id="modal-tag">Note</span>
-        <span class="thought-date" id="modal-date">2026. 04. 12</span>
-        <span class="modal-meta-time" id="modal-time"></span>
-      </div>
-      <h3 class="modal-title" id="modal-title">제목</h3>
-      <div class="modal-body" id="modal-body"></div>
-      <div class="modal-media" id="modal-media"></div>
+```
+<!-- READ MODE -->
+<div class="thought-modal-read" id="modal-read">
+  <div class="modal-meta">
+    <span class="thought-tag" id="modal-tag">Note</span>
+    <span class="thought-date" id="modal-date">2026. 04. 12</span>
+    <span class="modal-meta-time" id="modal-time"></span>
+  </div>
+  <h3 class="modal-title" id="modal-title">제목</h3>
+  <div class="modal-body" id="modal-body"></div>
+  <div class="modal-media" id="modal-media"></div>
 
-      <!-- Like row -->
-      <div class="like-row">
-        <span class="like-row-label">이 글이 좋았다면</span>
-        <button class="like-btn" id="like-btn" type="button" aria-label="좋아요">
-          ✦
-          <span class="like-particles" id="like-particles" aria-hidden="true"></span>
-        </button>
-        <span class="like-count" id="like-count">0</span>
-      </div>
+  <!-- Like row -->
+  <div class="like-row">
+    <span class="like-row-label">이 글이 좋았다면</span>
+    <button class="like-btn" id="like-btn" type="button" aria-label="좋아요">
+      ✦
+      <span class="like-particles" id="like-particles" aria-hidden="true"></span>
+    </button>
+    <span class="like-count" id="like-count">0</span>
+  </div>
 
-      <!-- Comments -->
-      <div class="comments-section">
-        <div class="comments-heading">댓글 <span id="comments-count"></span></div>
-        <div class="comments-list" id="comments-list"></div>
-        <div class="comments-empty" id="comments-empty">아직 댓글이 없습니다. 첫 댓글을 남겨보세요.</div>
-        <form class="comment-form" id="comment-form" autocomplete="off">
-          <div class="name-row">
-            <input class="comment-input" id="comment-name" type="text" placeholder="이름 (최대 30자)" maxlength="30" required>
-          </div>
-          <textarea class="comment-input comment-textarea" id="comment-message" placeholder="댓글을 작성해주세요... (최대 500자)" maxlength="500" required></textarea>
-          <button class="comment-submit" id="comment-submit" type="submit">댓글 작성</button>
-        </form>
+  <!-- Comments -->
+  <div class="comments-section">
+    <div class="comments-heading">댓글 <span id="comments-count"></span></div>
+    <div class="comments-list" id="comments-list"></div>
+    <div class="comments-empty" id="comments-empty">아직 댓글이 없습니다. 첫 댓글을 남겨보세요.</div>
+    <form class="comment-form" id="comment-form" autocomplete="off">
+      <div class="name-row">
+        <input class="comment-input" id="comment-name" type="text" placeholder="이름 (최대 30자)" maxlength="30" required>
       </div>
-
-      <div class="modal-actions" id="modal-actions">
-        <!-- edit / delete buttons (admin only) -->
-      </div>
-    </div>
-
-    <!-- WRITE MODE -->
-    <form class="thought-modal-write" id="modal-write" autocomplete="off">
-      <h3 class="write-heading" id="write-heading">새 글 작성</h3>
-      <div class="write-row">
-        <label class="write-label">분류</label>
-        <div class="write-tags">
-          <label class="tag-option"><input type="radio" name="tag" value="Note" checked><span>Note</span></label>
-          <label class="tag-option"><input type="radio" name="tag" value="Diary"><span>Diary</span></label>
-          <label class="tag-option"><input type="radio" name="tag" value="Idea"><span>Idea</span></label>
-        </div>
-      </div>
-      <div class="write-row">
-        <label class="write-label" for="write-title">제목</label>
-        <input class="write-input" id="write-title" type="text" maxlength="60" placeholder="짧은 제목" required>
-      </div>
-      <div class="write-row">
-        <label class="write-label" for="write-body">본문</label>
-        <textarea class="write-textarea" id="write-body" rows="10" maxlength="4000" placeholder="여기에 자유롭게 작성하세요..." required></textarea>
-        <div class="write-counter"><span id="write-count">0</span> / 4000</div>
-      </div>
-      <div class="write-row">
-        <label class="write-label">미디어 (선택)</label>
-        <div class="media-helper">YouTube, imgur, 또는 이미지 URL을 입력하세요. 여러 개 추가 가능.</div>
-        <div class="media-inputs" id="media-inputs">
-          <!-- media URL inputs added by JS -->
-        </div>
-        <button type="button" class="media-add-btn" id="media-add-btn">+ 미디어 추가</button>
-      </div>
-      <div class="write-foot">
-        <button type="button" class="write-btn-cancel" data-modal-close>취소</button>
-        <button type="submit" class="write-btn-save">저장하기</button>
-      </div>
+      <textarea class="comment-input comment-textarea" id="comment-message" placeholder="댓글을 작성해주세요... (최대 500자)" maxlength="500" required></textarea>
+      <button class="comment-submit" id="comment-submit" type="submit">댓글 작성</button>
     </form>
+  </div>
+
+  <div class="modal-actions" id="modal-actions">
+    <!-- edit / delete buttons (admin only) -->
+  </div>
+</div>
+
+<!-- WRITE MODE -->
+<form class="thought-modal-write" id="modal-write" autocomplete="off">
+  <h3 class="write-heading" id="write-heading">새 글 작성</h3>
+  <div class="write-row">
+    <label class="write-label">분류</label>
+    <div class="write-tags">
+      <label class="tag-option"><input type="radio" name="tag" value="Note" checked><span>Note</span></label>
+      <label class="tag-option"><input type="radio" name="tag" value="Diary"><span>Diary</span></label>
+      <label class="tag-option"><input type="radio" name="tag" value="Idea"><span>Idea</span></label>
+    </div>
+  </div>
+  <div class="write-row">
+    <label class="write-label" for="write-title">제목</label>
+    <input class="write-input" id="write-title" type="text" maxlength="60" placeholder="짧은 제목" required>
+  </div>
+  <div class="write-row">
+    <label class="write-label" for="write-body">본문</label>
+    <textarea class="write-textarea" id="write-body" rows="10" maxlength="4000" placeholder="여기에 자유롭게 작성하세요..." required></textarea>
+    <div class="write-counter"><span id="write-count">0</span> / 4000</div>
+  </div>
+  <div class="write-row">
+    <label class="write-label">미디어 (선택)</label>
+    <div class="media-upload-area" id="media-upload-area">
+      <label class="media-file-label" for="media-file-input">
+        <span class="media-file-icon">↑</span>
+        이미지 / 동영상 파일 업로드
+        <span class="media-file-sub">JPG · PNG · GIF · WEBP · MP4 · MOV · WEBM · 최대 20MB</span>
+      </label>
+      <input type="file" id="media-file-input" accept="image/*,video/*" multiple style="display:none;">
+    </div>
+    <div class="media-helper" style="margin-top:0.5rem;">또는 YouTube · 이미지 URL 직접 입력</div>
+    <div class="media-inputs" id="media-inputs">
+      <!-- media URL inputs added by JS -->
+    </div>
+    <button type="button" class="media-add-btn" id="media-add-btn">+ URL 추가</button>
+    <div class="media-preview-list" id="media-preview-list"></div>
+  </div>
+  <div class="write-foot">
+    <button type="button" class="write-btn-cancel" data-modal-close>취소</button>
+    <button type="submit" class="write-btn-save">저장하기</button>
+  </div>
+</form>
+```
+
   </div>
 </div>
 
 <!-- Admin login modal -->
+
 <div class="thought-modal" id="login-modal" aria-hidden="true">
   <div class="thought-modal-backdrop" data-modal-close></div>
   <div class="thought-modal-panel" role="dialog" aria-modal="true" aria-labelledby="login-title" style="max-width: 420px;">
@@ -3137,10 +3277,11 @@
 </div>
 
 <!-- Toast notification -->
+
 <div class="toast" id="toast" aria-live="polite"></div>
 
-
 <!-- ============== CONTACT ============== -->
+
 <section class="contact" id="contact">
   <div class="wrap">
     <div class="sec-head reveal">
@@ -3148,46 +3289,49 @@
       <span>Say hi</span>
     </div>
 
-    <div class="contact-intro reveal">
-      <div class="label"><span class="pulse"></span>Available for collaboration</div>
-      <div class="closing-sub">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
-    </div>
+```
+<div class="contact-intro reveal">
+  <div class="label"><span class="pulse"></span>Available for collaboration</div>
+  <div class="closing-sub">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
+</div>
 
-    <div class="email-card reveal" id="email-card">
-      <span class="icon">@</span>
-      <div class="body">
-        <div class="body-label">Email</div>
-        <div class="body-addr">k4rahee@naver.com</div>
-      </div>
-      <div class="actions">
-        <button class="act" id="email-copy" type="button" aria-label="Copy email address" title="복사">⧉</button>
-        <a class="act" href="mailto:k4rahee@naver.com" aria-label="Send email" title="메일 보내기">↗</a>
-      </div>
-      <span class="act-tooltip" id="email-tooltip">Copied</span>
-    </div>
+<div class="email-card reveal" id="email-card">
+  <span class="icon">@</span>
+  <div class="body">
+    <div class="body-label">Email</div>
+    <div class="body-addr">k4rahee@naver.com</div>
+  </div>
+  <div class="actions">
+    <button class="act" id="email-copy" type="button" aria-label="Copy email address" title="복사">⧉</button>
+    <a class="act" href="mailto:k4rahee@naver.com" aria-label="Send email" title="메일 보내기">↗</a>
+  </div>
+  <span class="act-tooltip" id="email-tooltip">Copied</span>
+</div>
 
-    <div class="contact-socials reveal">
-      <a href="https://www.youtube.com/@animeatre/featured" target="_blank" rel="noopener" class="social-link">
-        <span class="social-name">YouTube</span>
-        <span class="social-handle">@animeatre</span>
-        <span class="social-arr">↗</span>
-      </a>
-      <a href="https://www.youtube.com/@KawaiiMesuni" target="_blank" rel="noopener" class="social-link">
-        <span class="social-name">YouTube</span>
-        <span class="social-handle">@KawaiiMesuni</span>
-        <span class="social-arr">↗</span>
-      </a>
-      <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="social-link">
-        <span class="social-name">GitHub Pages</span>
-        <span class="social-handle">Churro_Video</span>
-        <span class="social-arr">↗</span>
-      </a>
-      <a href="#" class="social-link placeholder">
-        <span class="social-name">Instagram</span>
-        <span class="social-handle">+ 추가</span>
-        <span class="social-arr">↗</span>
-      </a>
-    </div>
+<div class="contact-socials reveal">
+  <a href="https://www.youtube.com/@animeatre/featured" target="_blank" rel="noopener" class="social-link">
+    <span class="social-name">YouTube</span>
+    <span class="social-handle">@animeatre</span>
+    <span class="social-arr">↗</span>
+  </a>
+  <a href="https://www.youtube.com/@KawaiiMesuni" target="_blank" rel="noopener" class="social-link">
+    <span class="social-name">YouTube</span>
+    <span class="social-handle">@KawaiiMesuni</span>
+    <span class="social-arr">↗</span>
+  </a>
+  <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="social-link">
+    <span class="social-name">GitHub Pages</span>
+    <span class="social-handle">Churro_Video</span>
+    <span class="social-arr">↗</span>
+  </a>
+  <a href="#" class="social-link placeholder">
+    <span class="social-name">Instagram</span>
+    <span class="social-handle">+ 추가</span>
+    <span class="social-arr">↗</span>
+  </a>
+</div>
+```
+
   </div>
 </section>
 
@@ -3282,7 +3426,7 @@
         when: '2023 — Now · 영상 · 인트로 · 애니메이션',
         title: '<em>콘텐츠 제작</em> Commission',
         note: '',
-        stat: '<span class="panel-stat text-only">법무법인 대한중앙, 도티 외 다수 스트리머·유튜버 협업</span>',
+        stat: '<span class="panel-stat text-only">법무법인 대한중앙, 라키아 선수 외 다수 스트리머·유튜버 협업</span>',
         links: '<a href="https://www.youtube.com/watch?v=l5ARvE4VS8o" target="_blank" rel="noopener" class="link-pill">법무법인 대한중앙<span class="arr">↗</span></a>'
       }
     ];
@@ -3686,6 +3830,7 @@
 </script>
 
 <!-- ============== FIREBASE THOUGHTS BLOG ============== -->
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
@@ -4182,6 +4327,68 @@ mediaAddBtn.addEventListener('click', () => {
   last && last.querySelector('input').focus();
 });
 
+// ── 파일 업로드 ──
+const mediaFileInput = document.getElementById('media-file-input');
+const mediaPreviewList = document.getElementById('media-preview-list');
+const mediaUploadArea = document.getElementById('media-upload-area');
+let uploadedFiles = []; // {dataUrl, type}
+
+function readFileAsDataURL(file){
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = () => rej(new Error('파일 읽기 실패'));
+    r.readAsDataURL(file);
+  });
+}
+
+function addPreviewItem(dataUrl, type, idx){
+  const item = document.createElement('div');
+  item.className = 'media-preview-item';
+  item.dataset.idx = idx;
+  if(type.startsWith('video')){
+    item.innerHTML = `<video src="${dataUrl}" muted></video><button class="preview-remove" type="button">×</button>`;
+  } else {
+    item.innerHTML = `<img src="${dataUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>`;
+  }
+  item.querySelector('.preview-remove').addEventListener('click', () => {
+    const i = parseInt(item.dataset.idx);
+    uploadedFiles.splice(i, 1);
+    renderPreviews();
+  });
+  return item;
+}
+
+function renderPreviews(){
+  mediaPreviewList.innerHTML = '';
+  uploadedFiles.forEach((f, i) => {
+    mediaPreviewList.appendChild(addPreviewItem(f.dataUrl, f.type, i));
+  });
+}
+
+async function handleFiles(files){
+  const MAX = 20 * 1024 * 1024;
+  for(const file of Array.from(files)){
+    if(file.size > MAX){ toast(`${file.name}: 20MB 초과`, 'error'); continue; }
+    if(!file.type.startsWith('image') && !file.type.startsWith('video')){ toast(`지원하지 않는 파일 형식: ${file.name}`, 'error'); continue; }
+    try {
+      const dataUrl = await readFileAsDataURL(file);
+      uploadedFiles.push({ dataUrl, type: file.type, name: file.name });
+    } catch(_){ toast(`${file.name} 읽기 실패`, 'error'); }
+  }
+  renderPreviews();
+}
+
+mediaFileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+mediaUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); mediaUploadArea.classList.add('drag-over'); });
+mediaUploadArea.addEventListener('dragleave', () => mediaUploadArea.classList.remove('drag-over'));
+mediaUploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  mediaUploadArea.classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+});
+
 document.getElementById('modal-write').addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!currentUser){ toast('로그인이 필요합니다', 'error'); return; }
@@ -4189,7 +4396,7 @@ document.getElementById('modal-write').addEventListener('submit', async (e) => {
   const title = document.getElementById('write-title').value.trim();
   const body = document.getElementById('write-body').value.trim();
   if (!title || !body) return;
-  const media = getMediaInputValues();
+  const media = [...getMediaInputValues(), ...uploadedFiles.map(f => f.dataUrl)];
 
   const saveBtn = e.target.querySelector('.write-btn-save');
   saveBtn.disabled = true;
@@ -4213,6 +4420,8 @@ document.getElementById('modal-write').addEventListener('submit', async (e) => {
     }
     closeModal();
     editingPostId = null;
+    uploadedFiles = [];
+    if(mediaPreviewList) mediaPreviewList.innerHTML = '';
   } catch(err){
     console.error(err);
     toast('저장 실패. 권한을 확인해주세요.', 'error');
@@ -4330,7 +4539,7 @@ const commentForm = document.getElementById('comment-form');
 
 function attachComments(post){
   if (!post) return;
-  // listen on subcollection thoughts/{id}/comments
+  // listen on subcollection thoughts/{id}/comments, ordered by likes desc then newest
   const cq = query(collection(db, 'thoughts', post.id, 'comments'), orderBy('createdAt', 'desc'));
   unsubComments = onSnapshot(cq, (snap) => {
     const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -4339,6 +4548,15 @@ function attachComments(post){
     console.error('comments error', err);
     commentsList.innerHTML = '';
   });
+}
+
+function getCommentLikes(){
+  try { return JSON.parse(localStorage.getItem('rahee.clikes.v1') || '{}'); } catch(_){ return {}; }
+}
+function setCommentLike(cid, val){
+  const o = getCommentLikes();
+  if(val) o[cid] = true; else delete o[cid];
+  try { localStorage.setItem('rahee.clikes.v1', JSON.stringify(o)); } catch(_){}
 }
 
 function renderComments(comments){
@@ -4350,17 +4568,35 @@ function renderComments(comments){
   }
   commentsEmpty.style.display = 'none';
   commentsCount.textContent = `(${comments.length})`;
+
+  // find best comment (most likes, ≥1)
+  const maxLikes = Math.max(0, ...comments.map(c => c.likes || 0));
+  const bestId = maxLikes >= 1 ? (comments.find(c => (c.likes||0) === maxLikes) || {}).id : null;
+
+  const myLikes = getCommentLikes();
   commentsList.innerHTML = comments.map(c => {
     const time = c.createdAt ? relativeTime(c.createdAt) : '방금';
+    const isBest = c.id === bestId;
+    const isLiked = !!myLikes[c.id];
+    const likeCount = c.likes || 0;
     const delBtn = currentUser ? `<button class="comment-del" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="댓글 삭제" title="삭제">×</button>` : '';
-    const cls = currentUser ? 'comment has-del' : 'comment';
+    const hasDel = currentUser ? 'has-del' : '';
+    const bestCls = isBest ? 'best' : '';
+    const likedCls = isLiked ? 'liked' : '';
+    const bestBadge = isBest ? `<span class="best-badge">★ BEST</span>` : `<span></span>`;
     return `
-      <div class="${cls}">
+      <div class="comment ${hasDel} ${bestCls}" data-comment-id="${escapeHTML(c.id)}">
         <div class="comment-head">
           <span class="comment-name">${escapeHTML(c.name || '익명')}</span>
           <span class="comment-time">${escapeHTML(time)}</span>
         </div>
         <div class="comment-msg">${escapeHTML(c.message || '')}</div>
+        <div class="comment-footer">
+          ${bestBadge}
+          <button class="comment-like-btn ${likedCls}" data-comment-id="${escapeHTML(c.id)}" type="button" aria-label="좋아요">
+            ✦ <span class="comment-like-count">${likeCount > 0 ? likeCount : ''}</span>
+          </button>
+        </div>
         ${delBtn}
       </div>
     `;
@@ -4368,15 +4604,37 @@ function renderComments(comments){
 }
 
 commentsList.addEventListener('click', async (e) => {
+  // 댓글 삭제
   const del = e.target.closest('.comment-del');
-  if (!del || !currentReadPost || !currentUser) return;
-  if (!confirm('이 댓글을 삭제할까요?')) return;
-  try {
-    await deleteDoc(doc(db, 'thoughts', currentReadPost.id, 'comments', del.dataset.commentId));
-    toast('댓글 삭제 완료', 'success');
-  } catch(err){
-    console.error(err);
-    toast('댓글 삭제 실패', 'error');
+  if (del && currentReadPost && currentUser) {
+    if (!confirm('이 댓글을 삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'thoughts', currentReadPost.id, 'comments', del.dataset.commentId));
+      toast('댓글 삭제 완료', 'success');
+    } catch(err){
+      console.error(err);
+      toast('댓글 삭제 실패', 'error');
+    }
+    return;
+  }
+
+  // 댓글 좋아요
+  const likeBtn = e.target.closest('.comment-like-btn');
+  if (likeBtn && currentReadPost) {
+    const cid = likeBtn.dataset.commentId;
+    const myLikes = getCommentLikes();
+    const isLiked = !!myLikes[cid];
+    const delta = isLiked ? -1 : 1;
+    setCommentLike(cid, !isLiked);
+    likeBtn.classList.toggle('liked', !isLiked);
+    const countEl = likeBtn.querySelector('.comment-like-count');
+    const cur = parseInt(countEl.textContent) || 0;
+    const next = Math.max(0, cur + delta);
+    countEl.textContent = next > 0 ? next : '';
+    try {
+      const cref = doc(db, 'thoughts', currentReadPost.id, 'comments', cid);
+      await updateDoc(cref, { likes: increment(delta) });
+    } catch(err){ console.error('comment like error', err); }
   }
 });
 
