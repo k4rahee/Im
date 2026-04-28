@@ -5567,6 +5567,47 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   animation: cbFlash 0.22s cubic-bezier(.08, .9, .25, 1) forwards;
 }
 
+/* 0.5. 노트 터치 ring — 얇은 흰 ring 두 개가 expand하며 페이드 (절제된 뱅드림) */
+.click-burst .cb-ring{
+  position: absolute;
+  left: 0; top: 0;
+  width: 8px; height: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: cbRing 0.55s cubic-bezier(.15, .8, .3, 1) forwards;
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.5),
+    0 0 14px var(--lime-glow),
+    inset 0 0 4px rgba(212, 255, 58, 0.35);
+  pointer-events: none;
+}
+.click-burst .cb-ring.outer{
+  width: 6px; height: 6px;
+  border-color: rgba(212, 255, 58, 0.55);
+  border-width: 1px;
+  animation: cbRingOuter 0.65s cubic-bezier(.1, .85, .3, 1) forwards;
+  animation-delay: 60ms;
+  box-shadow: 0 0 10px var(--lime-glow);
+}
+.click-burst .cb-ring.pink{
+  border-color: rgba(255, 200, 220, 0.95);
+  box-shadow:
+    0 0 6px rgba(255, 200, 220, 0.5),
+    0 0 14px var(--pink-glow),
+    inset 0 0 4px rgba(255, 68, 136, 0.35);
+}
+@keyframes cbRing{
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; }
+  10%  { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(11);  opacity: 0; }
+}
+@keyframes cbRingOuter{
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; }
+  15%  { transform: translate(-50%, -50%) scale(1);   opacity: 0.85; }
+  100% { transform: translate(-50%, -50%) scale(16);  opacity: 0; }
+}
+
 /* 1. 중앙 코어 — 작은 흰 점 (순간 켜졌다 사라짐) */
 .click-burst .cb-core{
   position: absolute;
@@ -5790,6 +5831,64 @@ body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(2
   0%   { transform: translate(-50%, -50%) translate(0, 0) scale(0.4) rotate(0deg); opacity: 1; }
   35%  { transform: translate(-50%, -50%) translate(calc(var(--cp-dx) * 0.5), calc(var(--cp-dy) * 0.5)) scale(1) rotate(120deg); opacity: 1; }
   100% { transform: translate(-50%, -50%) translate(var(--cp-dx), var(--cp-dy)) scale(0.2) rotate(360deg); opacity: 0; }
+}
+
+/* ── 뱅드림 노트 터치 풍 ring + core ── (절제된 버전) */
+/* 얇은 흰 ring 한 개, 빠르게 expand 후 페이드아웃 */
+.cp-ring{
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px;
+  animation: cpRingExpand 0.5s cubic-bezier(.15, .85, .3, 1) forwards;
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.55),
+    0 0 14px var(--lime-glow),
+    inset 0 0 5px rgba(255, 255, 255, 0.4);
+  will-change: width, height, opacity;
+}
+.cp-ring.pink{
+  border-color: rgba(255, 180, 210, 0.95);
+  box-shadow:
+    0 0 6px rgba(255, 200, 220, 0.6),
+    0 0 14px var(--pink-glow),
+    inset 0 0 5px rgba(255, 200, 220, 0.4);
+}
+@keyframes cpRingExpand{
+  0%   { width: 6px;  height: 6px;  opacity: 0; border-width: 2px; }
+  14%  { opacity: 1; }
+  60%  { opacity: 0.5; border-width: 1.5px; }
+  100% { width: var(--cr-size, 70px); height: var(--cr-size, 70px); opacity: 0; border-width: 1px; }
+}
+
+/* 중앙 흰 코어 플래시 — 노트 임팩트 포인트 */
+.cp-core{
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%) scale(0);
+  animation: cpCoreFlash 0.4s cubic-bezier(.15, .8, .3, 1) forwards;
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.98),
+    0 0 18px var(--lime-glow),
+    0 0 28px rgba(212, 255, 58, 0.32);
+  will-change: transform, opacity;
+}
+@keyframes cpCoreFlash{
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; }
+  18%  { transform: translate(-50%, -50%) scale(2.4); opacity: 1; }
+  60%  { transform: translate(-50%, -50%) scale(1.6); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .cp-ring, .cp-core{ display: none !important; }
 }
 
 /* Star Log UI — 좌측 하단, 작고 미니멀 */
@@ -7481,25 +7580,23 @@ body.light-mode .big-arrow-icon svg path{
     const DOT_SVG = '<svg viewBox="-6 -6 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="3"/></svg>';
 
     function spawnBurst(cx, cy, count){
-      for (let i = 0; i < count; i++){
-        const p = document.createElement('div');
-        p.className = 'click-particle';
-        // 80% sparkle, 20% small dot (variety)
-        p.innerHTML = Math.random() < 0.8 ? SPARKLE_SVG : DOT_SVG;
-        const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
-        const dist  = 32 + Math.random() * 32;
-        // 더 큰 사이즈 (4K 디스플레이에서도 또렷하게)
-        const size  = 22 + Math.random() * 18; // 22~40px
-        p.style.left = cx + 'px';
-        p.style.top  = cy + 'px';
-        p.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.setProperty('--cp-dx', Math.cos(angle) * dist + 'px');
-        p.style.setProperty('--cp-dy', Math.sin(angle) * dist + 'px');
-        document.body.appendChild(p);
-        setTimeout(() => { try { p.remove(); } catch(_) {} }, 600);
-      }
+      // 노트 터치 펄스만 — ring + core (sparkle 별 폭발 제거).
+      // count는 ring 크기 결정용으로만 사용 (큰 토글은 약간 더 큰 ring).
+      const ringSize = (count > 4 ? 70 : 56) + Math.random() * 10;
+      const ring = document.createElement('div');
+      ring.className = 'cp-ring' + (Math.random() < 0.25 ? ' pink' : '');
+      ring.style.left = cx + 'px';
+      ring.style.top  = cy + 'px';
+      ring.style.setProperty('--cr-size', ringSize + 'px');
+      document.body.appendChild(ring);
+      setTimeout(() => { try { ring.remove(); } catch(_){} }, 560);
+
+      const core = document.createElement('div');
+      core.className = 'cp-core';
+      core.style.left = cx + 'px';
+      core.style.top  = cy + 'px';
+      document.body.appendChild(core);
+      setTimeout(() => { try { core.remove(); } catch(_){} }, 460);
     }
 
     document.addEventListener('click', (e) => {
@@ -9615,6 +9712,17 @@ body.light-mode .big-arrow-icon svg path{
       const flash = document.createElement('span');
       flash.className = 'cb-flash';
       burst.appendChild(flash);
+
+      // 0.5. 노트 터치 ring × 2 — 안쪽 빠른 흰 ring + 바깥 늦게 따라오는 라임 ring
+      // 25% 확률로 핑크 ring (다양성)
+      const ringPink = Math.random() < 0.25;
+      const ringInner = document.createElement('span');
+      ringInner.className = 'cb-ring' + (ringPink ? ' pink' : '');
+      burst.appendChild(ringInner);
+
+      const ringOuter = document.createElement('span');
+      ringOuter.className = 'cb-ring outer' + (ringPink ? ' pink' : '');
+      burst.appendChild(ringOuter);
 
       // 1. 중앙 코어
       const core = document.createElement('span');
@@ -11931,48 +12039,22 @@ window.pairText = pairText;
 // =====================================================
 // ============== HERO ADMIN (tagline + chips) =========
 // site/hero = { tagline: {ko, en}, chips: [{text: {ko, en}, lime: bool}] }
+// 데이터/렌더 함수는 모듈 외부에 정의됨 (window.DEFAULT_HERO, window._heroData, window.renderHero)
+// 모듈은 onSnapshot으로 데이터 갱신 + admin 모달 핸들러만 담당.
 // =====================================================
 
-const DEFAULT_HERO = {
-  tagline: { ko: '콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.',
-             en: 'Working across content production, marketing, and management.' },
-  chips: [
-    { text: { ko: '마케터',     en: 'Marketer' },     lime: true  },
-    { text: { ko: '크리에이터', en: 'Creator' },      lime: true  },
-    { text: { ko: '기획',       en: 'Planning' },     lime: false },
-    { text: { ko: 'UI / UX',    en: 'UI / UX' },      lime: false },
-    { text: { ko: 'HTML',       en: 'HTML' },         lime: false },
-  ]
-};
-let _heroData = DEFAULT_HERO;
-
-function renderHero(){
-  const taglineEl = document.getElementById('hero-tagline');
-  const chipsEl = document.getElementById('hero-chips');
-  if (taglineEl) taglineEl.textContent = pickText(_heroData.tagline) || pickText(DEFAULT_HERO.tagline);
-  if (chipsEl){
-    const chips = Array.isArray(_heroData.chips) && _heroData.chips.length ? _heroData.chips : DEFAULT_HERO.chips;
-    chipsEl.innerHTML = chips.map(c => {
-      const txt = escapeHTML(pickText(c.text) || '');
-      const cls = c.lime ? 'chip lime' : 'chip';
-      return `<span class="${cls}">${txt}</span>`;
-    }).join('');
-  }
-}
-window._renderHeroFromCurrent = renderHero;
-
-// onSnapshot
+// onSnapshot — 외부 변수 갱신 후 렌더 호출
 trackedOnSnapshot(doc(db, 'site', 'hero'), (snap) => {
   if (snap.exists()){
     const d = snap.data();
-    _heroData = {
-      tagline: d.tagline || DEFAULT_HERO.tagline,
-      chips: Array.isArray(d.chips) ? d.chips : DEFAULT_HERO.chips
+    window._heroData = {
+      tagline: d.tagline || window.DEFAULT_HERO.tagline,
+      chips: Array.isArray(d.chips) ? d.chips : window.DEFAULT_HERO.chips
     };
   } else {
-    _heroData = DEFAULT_HERO;
+    window._heroData = window.DEFAULT_HERO;
   }
-  renderHero();
+  if (typeof window.renderHero === 'function') window.renderHero();
 });
 
 // Hero admin 모달
@@ -12012,9 +12094,9 @@ function collectChipsFromAdmin(){
 
 function openHeroAdmin(){
   if (!window.requireAdmin()) return;
-  document.getElementById('hero-tagline-ko').value = (_heroData.tagline && _heroData.tagline.ko) || '';
-  document.getElementById('hero-tagline-en').value = (_heroData.tagline && _heroData.tagline.en) || '';
-  renderHeroChipsAdmin(Array.isArray(_heroData.chips) ? _heroData.chips : DEFAULT_HERO.chips);
+  document.getElementById('hero-tagline-ko').value = (window._heroData && window._heroData.tagline && window._heroData.tagline.ko) || '';
+  document.getElementById('hero-tagline-en').value = (window._heroData && window._heroData.tagline && window._heroData.tagline.en) || '';
+  renderHeroChipsAdmin(Array.isArray(window._heroData && window._heroData.chips) ? window._heroData.chips : window.DEFAULT_HERO.chips);
   heroModal.classList.add('open', 'write-mode');
   document.body.classList.add('modal-open');
 }
@@ -12059,66 +12141,20 @@ document.getElementById('hero-admin-save')?.addEventListener('click', async () =
 // }
 // =====================================================
 
-const DEFAULT_ABOUT = {
-  paragraphs: [
-    { ko: '중학생 때 <em>미국</em>으로 건너가 <strong>9년</strong>을 살았습니다.<br>아르바이트로 모은 돈으로 <em>뷰티커머스 사업</em>을 운영하다,<br>어렸을 적 나고 자란 <em>한국</em>에 대한 향수병에 의해 돌아오게 되었습니다.',
-      en: 'I moved to the <em>U.S.</em> in middle school and lived there for <strong>9 years</strong>.<br>I ran a <em>beauty e-commerce business</em> with money I earned from part-time jobs,<br>then returned to <em>Korea</em> driven by homesickness for the country I was born in.' },
-    { ko: '한국에 돌아온 후 어렸을 적 꿈꿔왔던 <em>콘텐츠 산업</em>에 뛰어들었고,<br>지금까지 <strong>영상 제작부터 마케팅, 매니지먼트까지</strong><br>콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.',
-      en: 'After returning to Korea, I jumped into the <em>content industry</em> I had dreamed of as a kid, and have been working <strong>across video production, marketing, and management</strong> ever since.' }
-  ],
-  mbti: 'ENTJ-T',
-  born: '2002. 11. 27',
-  interests: ['바이크', '맛집', '여행', '음악', '게임', '애니', '영화']
-};
-let _aboutData = DEFAULT_ABOUT;
-
-function renderAbout(){
-  const bodyEl = document.getElementById('about-body');
-  const metaEl = document.getElementById('about-meta');
-  const interestsEl = document.getElementById('about-interests');
-  if (bodyEl){
-    const paras = Array.isArray(_aboutData.paragraphs) && _aboutData.paragraphs.length
-      ? _aboutData.paragraphs : DEFAULT_ABOUT.paragraphs;
-    // 안전한 inline HTML — em/strong/br 만 허용
-    const safeInline = (raw) => {
-      const esc = String(raw || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      // em/strong/br 만 복원
-      return esc
-        .replace(/&lt;(\/?)(em|strong|br\s*\/?)&gt;/gi, '<$1$2>');
-    };
-    bodyEl.innerHTML = paras.map(p => `<p>${safeInline(pickText(p))}</p>`).join('');
-  }
-  if (metaEl){
-    const mbtiEl = metaEl.querySelector('[data-meta-key="mbti"]');
-    const bornEl = metaEl.querySelector('[data-meta-key="born"]');
-    if (mbtiEl) mbtiEl.textContent = _aboutData.mbti || DEFAULT_ABOUT.mbti;
-    if (bornEl) bornEl.textContent = _aboutData.born || DEFAULT_ABOUT.born;
-  }
-  if (interestsEl){
-    const list = Array.isArray(_aboutData.interests) && _aboutData.interests.length
-      ? _aboutData.interests : DEFAULT_ABOUT.interests;
-    interestsEl.innerHTML = list.map(t => {
-      const tag = String(t || '').trim().replace(/^#/, '');
-      if (!tag) return '';
-      return `<span class="chip">#${escapeHTML(tag)}</span>`;
-    }).join('');
-  }
-}
-window._renderAboutFromCurrent = renderAbout;
-
+// About: 데이터/렌더는 외부에 정의 (window.DEFAULT_ABOUT, window._aboutData, window.renderAbout)
 trackedOnSnapshot(doc(db, 'site', 'about'), (snap) => {
   if (snap.exists()){
     const d = snap.data();
-    _aboutData = {
-      paragraphs: Array.isArray(d.paragraphs) && d.paragraphs.length ? d.paragraphs : DEFAULT_ABOUT.paragraphs,
-      mbti: d.mbti || DEFAULT_ABOUT.mbti,
-      born: d.born || DEFAULT_ABOUT.born,
-      interests: Array.isArray(d.interests) ? d.interests : DEFAULT_ABOUT.interests
+    window._aboutData = {
+      paragraphs: Array.isArray(d.paragraphs) && d.paragraphs.length ? d.paragraphs : window.DEFAULT_ABOUT.paragraphs,
+      mbti: d.mbti || window.DEFAULT_ABOUT.mbti,
+      born: d.born || window.DEFAULT_ABOUT.born,
+      interests: Array.isArray(d.interests) ? d.interests : window.DEFAULT_ABOUT.interests
     };
   } else {
-    _aboutData = DEFAULT_ABOUT;
+    window._aboutData = window.DEFAULT_ABOUT;
   }
-  renderAbout();
+  if (typeof window.renderAbout === 'function') window.renderAbout();
 });
 
 // About admin 모달
@@ -12158,12 +12194,12 @@ function collectParasFromAdmin(){
 
 function openAboutAdmin(){
   if (!window.requireAdmin()) return;
-  renderAboutParasAdmin(Array.isArray(_aboutData.paragraphs) && _aboutData.paragraphs.length
-    ? _aboutData.paragraphs : DEFAULT_ABOUT.paragraphs);
-  document.getElementById('about-mbti').value = _aboutData.mbti || '';
-  document.getElementById('about-born').value = _aboutData.born || '';
+  renderAboutParasAdmin(Array.isArray(window._aboutData && window._aboutData.paragraphs) && window._aboutData.paragraphs.length
+    ? window._aboutData.paragraphs : window.DEFAULT_ABOUT.paragraphs);
+  document.getElementById('about-mbti').value = (window._aboutData && window._aboutData.mbti) || '';
+  document.getElementById('about-born').value = (window._aboutData && window._aboutData.born) || '';
   document.getElementById('about-interests-input').value =
-    (Array.isArray(_aboutData.interests) ? _aboutData.interests : DEFAULT_ABOUT.interests).join(', ');
+    (Array.isArray(window._aboutData && window._aboutData.interests) ? window._aboutData.interests : window.DEFAULT_ABOUT.interests).join(', ');
   aboutModal.classList.add('open', 'write-mode');
   document.body.classList.add('modal-open');
 }
@@ -12205,93 +12241,15 @@ document.getElementById('about-admin-save')?.addEventListener('click', async () 
 // site/work = { items: [{when, where: {ko, en}, points: [{ko, en}, ...]}] }
 // =====================================================
 
-const DEFAULT_WORK = {
-  items: [
-    {
-      when: '2014 — 2023. 06',
-      where: { ko: '미국 거주 <em>9년</em> · 뷰티커머스 사업 3년',
-               en: 'Lived in <em>U.S.</em> for 9 years · 3 years running a beauty e-commerce business' },
-      points: [
-        { ko: 'Blackmon Road Middle School 재학', en: 'Attended Blackmon Road Middle School' },
-        { ko: 'Shaw High School 재학 및 졸업',   en: 'Attended and graduated from Shaw High School' },
-        { ko: '아르바이트로 모은 돈으로 뷰티커머스 사업 3년간 운영',
-          en: 'Ran a beauty e-commerce business for 3 years with money saved from part-time jobs' }
-      ]
-    },
-    {
-      when: '2023. 06 — 2024. 01',
-      where: { ko: '<span class="biz-prefix">(주)</span><em>데브언리밋</em>',
-               en: '<em>DevUnlimit Inc.</em>' },
-      points: [
-        { ko: 'K-POP 댄스게임 Sparky SNS 마케팅 및 기업 홍보 영상 및 댄스 영상 제작',
-          en: 'SNS marketing for K-POP dance game Sparky and corporate / dance video production' },
-        { ko: 'Jersey Club(져지 클럽) SNS 마케팅 영상 제작',
-          en: 'SNS marketing video production for Jersey Club' },
-        { ko: '한국관광공사 협업', en: 'Collaboration with Korea Tourism Organization' }
-      ]
-    },
-    {
-      when: '2024. 08 — 2025. 09',
-      where: { ko: '<span class="biz-prefix">주식회사</span> <em>파워드랩</em>',
-               en: '<em>Power Lab Inc.</em>' },
-      points: [
-        { ko: '반려동물 파양 서비스 PetRehome 사이트 배너 / 마케팅 영상 제작',
-          en: 'Banner / marketing video production for pet rehoming service PetRehome' },
-        { ko: 'Quantum Chain, Saseul gold 등 다수의 IT기업 블록체인 기업 홍보 영상 제작',
-          en: 'Promo video production for blockchain companies including Quantum Chain, Saseul gold' },
-        { ko: '라키아 선수 다큐멘터리 제작 참여', en: 'Participated in Rakia athlete documentary production' },
-        { ko: '다수의 정부지원사업 문서 작업 경험', en: 'Documentation work for multiple government-funded projects' },
-        { ko: '양자컴퓨터 관련 특허 출원 경험',     en: 'Filed quantum computing-related patents' }
-      ]
-    }
-  ]
-};
-let _workData = DEFAULT_WORK;
-
-function renderWork(){
-  const tl = document.getElementById('vtimeline');
-  if (!tl) return;
-  const items = Array.isArray(_workData.items) && _workData.items.length
-    ? _workData.items : DEFAULT_WORK.items;
-  // em/strong/span.biz-prefix 정도만 허용 (기본 회사 prefix 마크업 보존)
-  const safeWhere = (raw) => {
-    const esc = String(raw || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    return esc
-      .replace(/&lt;(\/?)(em|strong)&gt;/gi, '<$1$2>')
-      .replace(/&lt;span class=&quot;biz-prefix&quot;&gt;/gi, '<span class="biz-prefix">')
-      .replace(/&lt;\/span&gt;/gi, '</span>');
-  };
-  const safePoint = (raw) => {
-    const esc = String(raw || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    return esc.replace(/&lt;(\/?)(em|strong)&gt;/gi, '<$1$2>');
-  };
-  tl.innerHTML = items.map((it, i) => {
-    const firstClass = i === 0 ? ' vt-first' : '';
-    const pointsHTML = (Array.isArray(it.points) ? it.points : [])
-      .map(p => `<li>${safePoint(pickText(p))}</li>`).join('');
-    return `
-      <div class="vt-event${firstClass}">
-        <div class="vt-node"></div>
-        <div class="vt-content">
-          <div class="vt-when">${escapeHTML(it.when || '')}</div>
-          <div class="vt-where">${safeWhere(pickText(it.where))}</div>
-          <ul>${pointsHTML}</ul>
-        </div>
-      </div>`;
-  }).join('');
-  // reveal 클래스 트리거 (이미 in 이면 재진입)
-  tl.querySelectorAll('.vt-event').forEach(el => el.classList.add('in'));
-}
-window._renderWorkFromCurrent = renderWork;
-
+// Work: 데이터/렌더는 외부에 정의 (window.DEFAULT_WORK, window._workData, window.renderWork)
 trackedOnSnapshot(doc(db, 'site', 'work'), (snap) => {
   if (snap.exists()){
     const d = snap.data();
-    _workData = { items: Array.isArray(d.items) ? d.items : DEFAULT_WORK.items };
+    window._workData = { items: Array.isArray(d.items) ? d.items : window.DEFAULT_WORK.items };
   } else {
-    _workData = DEFAULT_WORK;
+    window._workData = window.DEFAULT_WORK;
   }
-  renderWork();
+  if (typeof window.renderWork === 'function') window.renderWork();
 });
 
 // Work admin 모달
@@ -12381,8 +12339,8 @@ function collectWorkFromAdmin(){
 
 function openWorkAdmin(){
   if (!window.requireAdmin()) return;
-  renderWorkItemsAdmin(Array.isArray(_workData.items) && _workData.items.length
-    ? _workData.items : DEFAULT_WORK.items);
+  renderWorkItemsAdmin(Array.isArray(window._workData && window._workData.items) && window._workData.items.length
+    ? window._workData.items : window.DEFAULT_WORK.items);
   workModal.classList.add('open', 'write-mode');
   document.body.classList.add('modal-open');
 }
@@ -12556,6 +12514,201 @@ document.addEventListener('keydown', (e) => {
   }
   // 첫 적용
   applyI18n();
+})();
+</script>
+
+<!-- =====================================================
+  HERO / ABOUT / WORK 동적 데이터 + 렌더 함수
+  Firebase 의존성과 분리된 외부 스크립트.
+  모듈 내 onSnapshot은 이 외부 변수만 갱신하고 render만 호출.
+  Firebase 로드 실패해도 default 데이터로 첫 화면 + 언어 토글 작동.
+===================================================== -->
+<script>
+(function(){
+  // ── 외부 헬퍼 ──
+  function escapeHTMLOuter(s){
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function pickTextOuter(value){
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object'){
+      const lang = (window.getLang && window.getLang()) || 'ko';
+      return value[lang] || value.ko || value.en || '';
+    }
+    return String(value);
+  }
+  // 모듈에서도 사용 가능하도록 노출 (모듈이 못 떠도 외부 스크립트가 작동)
+  window.escapeHTMLOuter = escapeHTMLOuter;
+  window.pickTextOuter = pickTextOuter;
+
+  // ============== HERO ==============
+  window.DEFAULT_HERO = {
+    tagline: { ko: '콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.',
+               en: 'Working across content production, marketing, and management.' },
+    chips: [
+      { text: { ko: '마케터',     en: 'Marketer' }, lime: true  },
+      { text: { ko: '크리에이터', en: 'Creator' },  lime: true  },
+      { text: { ko: '기획',       en: 'Planning' }, lime: false },
+      { text: { ko: 'UI / UX',    en: 'UI / UX' },  lime: false },
+      { text: { ko: 'HTML',       en: 'HTML' },     lime: false },
+    ]
+  };
+  window._heroData = window.DEFAULT_HERO;
+
+  window.renderHero = function(){
+    const d = window._heroData || window.DEFAULT_HERO;
+    const taglineEl = document.getElementById('hero-tagline');
+    const chipsEl = document.getElementById('hero-chips');
+    if (taglineEl) taglineEl.textContent = pickTextOuter(d.tagline) || pickTextOuter(window.DEFAULT_HERO.tagline);
+    if (chipsEl){
+      const chips = Array.isArray(d.chips) && d.chips.length ? d.chips : window.DEFAULT_HERO.chips;
+      chipsEl.innerHTML = chips.map(c => {
+        const txt = escapeHTMLOuter(pickTextOuter(c.text) || '');
+        const cls = c.lime ? 'chip lime' : 'chip';
+        return `<span class="${cls}">${txt}</span>`;
+      }).join('');
+    }
+  };
+  window._renderHeroFromCurrent = window.renderHero;
+
+  // ============== ABOUT ==============
+  window.DEFAULT_ABOUT = {
+    paragraphs: [
+      { ko: '중학생 때 <em>미국</em>으로 건너가 <strong>9년</strong>을 살았습니다.<br>아르바이트로 모은 돈으로 <em>뷰티커머스 사업</em>을 운영하다,<br>어렸을 적 나고 자란 <em>한국</em>에 대한 향수병에 의해 돌아오게 되었습니다.',
+        en: 'I moved to the <em>U.S.</em> in middle school and lived there for <strong>9 years</strong>.<br>I ran a <em>beauty e-commerce business</em> with money I earned from part-time jobs,<br>then returned to <em>Korea</em> driven by homesickness for the country I was born in.' },
+      { ko: '한국에 돌아온 후 어렸을 적 꿈꿔왔던 <em>콘텐츠 산업</em>에 뛰어들었고,<br>지금까지 <strong>영상 제작부터 마케팅, 매니지먼트까지</strong><br>콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.',
+        en: 'After returning to Korea, I jumped into the <em>content industry</em> I had dreamed of as a kid, and have been working <strong>across video production, marketing, and management</strong> ever since.' }
+    ],
+    mbti: 'ENTJ-T',
+    born: '2002. 11. 27',
+    interests: ['바이크', '맛집', '여행', '음악', '게임', '애니', '영화']
+  };
+  window._aboutData = window.DEFAULT_ABOUT;
+
+  window.renderAbout = function(){
+    const d = window._aboutData || window.DEFAULT_ABOUT;
+    const bodyEl = document.getElementById('about-body');
+    const metaEl = document.getElementById('about-meta');
+    const interestsEl = document.getElementById('about-interests');
+    const safeInline = (raw) => {
+      const esc = String(raw || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return esc.replace(/&lt;(\/?)(em|strong|br\s*\/?)&gt;/gi, '<$1$2>');
+    };
+    if (bodyEl){
+      const paras = Array.isArray(d.paragraphs) && d.paragraphs.length
+        ? d.paragraphs : window.DEFAULT_ABOUT.paragraphs;
+      bodyEl.innerHTML = paras.map(p => `<p>${safeInline(pickTextOuter(p))}</p>`).join('');
+    }
+    if (metaEl){
+      const mbtiEl = metaEl.querySelector('[data-meta-key="mbti"]');
+      const bornEl = metaEl.querySelector('[data-meta-key="born"]');
+      if (mbtiEl) mbtiEl.textContent = d.mbti || window.DEFAULT_ABOUT.mbti;
+      if (bornEl) bornEl.textContent = d.born || window.DEFAULT_ABOUT.born;
+    }
+    if (interestsEl){
+      const list = Array.isArray(d.interests) && d.interests.length
+        ? d.interests : window.DEFAULT_ABOUT.interests;
+      interestsEl.innerHTML = list.map(t => {
+        const tag = String(t || '').trim().replace(/^#/, '');
+        if (!tag) return '';
+        return `<span class="chip">#${escapeHTMLOuter(tag)}</span>`;
+      }).join('');
+    }
+  };
+  window._renderAboutFromCurrent = window.renderAbout;
+
+  // ============== WORK ==============
+  window.DEFAULT_WORK = {
+    items: [
+      {
+        when: '2014 — 2023. 06',
+        where: { ko: '미국 거주 <em>9년</em> · 뷰티커머스 사업 3년',
+                 en: 'Lived in <em>U.S.</em> for 9 years · 3 years running a beauty e-commerce business' },
+        points: [
+          { ko: 'Blackmon Road Middle School 재학', en: 'Attended Blackmon Road Middle School' },
+          { ko: 'Shaw High School 재학 및 졸업',   en: 'Attended and graduated from Shaw High School' },
+          { ko: '아르바이트로 모은 돈으로 뷰티커머스 사업 3년간 운영',
+            en: 'Ran a beauty e-commerce business for 3 years with money saved from part-time jobs' }
+        ]
+      },
+      {
+        when: '2023. 06 — 2024. 01',
+        where: { ko: '<span class="biz-prefix">(주)</span><em>데브언리밋</em>',
+                 en: '<em>DevUnlimit Inc.</em>' },
+        points: [
+          { ko: 'K-POP 댄스게임 Sparky SNS 마케팅 및 기업 홍보 영상 및 댄스 영상 제작',
+            en: 'SNS marketing for K-POP dance game Sparky and corporate / dance video production' },
+          { ko: 'Jersey Club(져지 클럽) SNS 마케팅 영상 제작',
+            en: 'SNS marketing video production for Jersey Club' },
+          { ko: '한국관광공사 협업', en: 'Collaboration with Korea Tourism Organization' }
+        ]
+      },
+      {
+        when: '2024. 08 — 2025. 09',
+        where: { ko: '<span class="biz-prefix">주식회사</span> <em>파워드랩</em>',
+                 en: '<em>Power Lab Inc.</em>' },
+        points: [
+          { ko: '반려동물 파양 서비스 PetRehome 사이트 배너 / 마케팅 영상 제작',
+            en: 'Banner / marketing video production for pet rehoming service PetRehome' },
+          { ko: 'Quantum Chain, Saseul gold 등 다수의 IT기업 블록체인 기업 홍보 영상 제작',
+            en: 'Promo video production for blockchain companies including Quantum Chain, Saseul gold' },
+          { ko: '라키아 선수 다큐멘터리 제작 참여', en: 'Participated in Rakia athlete documentary production' },
+          { ko: '다수의 정부지원사업 문서 작업 경험', en: 'Documentation work for multiple government-funded projects' },
+          { ko: '양자컴퓨터 관련 특허 출원 경험',     en: 'Filed quantum computing-related patents' }
+        ]
+      }
+    ]
+  };
+  window._workData = window.DEFAULT_WORK;
+
+  window.renderWork = function(){
+    const d = window._workData || window.DEFAULT_WORK;
+    const tl = document.getElementById('vtimeline');
+    if (!tl) return;
+    const items = Array.isArray(d.items) && d.items.length ? d.items : window.DEFAULT_WORK.items;
+    const safeWhere = (raw) => {
+      const esc = String(raw || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return esc
+        .replace(/&lt;(\/?)(em|strong)&gt;/gi, '<$1$2>')
+        .replace(/&lt;span class=&quot;biz-prefix&quot;&gt;/gi, '<span class="biz-prefix">')
+        .replace(/&lt;\/span&gt;/gi, '</span>');
+    };
+    const safePoint = (raw) => {
+      const esc = String(raw || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return esc.replace(/&lt;(\/?)(em|strong)&gt;/gi, '<$1$2>');
+    };
+    tl.innerHTML = items.map((it, i) => {
+      const firstClass = i === 0 ? ' vt-first' : '';
+      const pointsHTML = (Array.isArray(it.points) ? it.points : [])
+        .map(p => `<li>${safePoint(pickTextOuter(p))}</li>`).join('');
+      return `
+        <div class="vt-event${firstClass}">
+          <div class="vt-node"></div>
+          <div class="vt-content">
+            <div class="vt-when">${escapeHTMLOuter(it.when || '')}</div>
+            <div class="vt-where">${safeWhere(pickTextOuter(it.where))}</div>
+            <ul>${pointsHTML}</ul>
+          </div>
+        </div>`;
+    }).join('');
+    tl.querySelectorAll('.vt-event').forEach(el => el.classList.add('in'));
+  };
+  window._renderWorkFromCurrent = window.renderWork;
+
+  // ============== 첫 렌더 (DOM 준비 후) ==============
+  function initialRender(){
+    try { window.renderHero(); }  catch(e){ console.warn('renderHero', e); }
+    try { window.renderAbout(); } catch(e){ console.warn('renderAbout', e); }
+    try { window.renderWork(); }  catch(e){ console.warn('renderWork', e); }
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initialRender);
+  } else {
+    initialRender();
+  }
 })();
 </script>
 
