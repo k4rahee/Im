@@ -1307,35 +1307,18 @@
     transition: all 0.2s ease;
     flex-shrink: 0;
     font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: 28px;
+    box-sizing: border-box;
   }
   .contact-email-copy:hover{
     background: var(--lime);
     border-color: var(--lime);
     color: var(--bg);
-  }
-  .contact-email-mail{
-    background: var(--lime);
-    border: 1px solid var(--lime);
-    color: var(--bg);
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    margin-left: 0.4rem;
-  }
-  .contact-email-mail:hover{
-    background: transparent;
-    color: var(--lime);
-    transform: translateY(-1px);
   }
   .contact-link-row{
     display: flex;
@@ -4383,8 +4366,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 /* ============== HIDDEN STARS + STAR LOG (별 수집 시스템) ============== */
 .hidden-star{
   display: inline-block;
-  font-size: 0.95rem;
-  color: var(--lime);
+  font-size: 1.45rem;
+  color: var(--pink);
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
@@ -4393,29 +4376,31 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   line-height: 1;
   opacity: 0;
   transition: opacity 0.5s ease, transform 0.25s ease, text-shadow 0.25s ease;
+  filter: drop-shadow(0 0 4px rgba(255, 68, 136, 0.4));
 }
 
-/* 데스크톱: 부모 영역 hover 시 부드럽게 등장 */
+/* 데스크톱: 섹션 전체 hover 시 등장 (마우스가 영역 어디든 가면 보임) */
 @media (hover: hover){
+  section:hover .hidden-star,
   .micro-top:hover .hidden-star,
-  .about-body:hover .hidden-star,
-  .gallery .item:hover .hidden-star,
-  .thoughts .sec-head:hover .hidden-star,
   footer:hover .hidden-star{
-    opacity: 0.45;
+    opacity: 0.55;
   }
 }
 
 /* 터치 기기: 살짝 보이게 (탐색 가능) */
 @media (hover: none){
-  .hidden-star{ opacity: 0.3; }
+  .hidden-star{ opacity: 0.4; }
 }
 
 .hidden-star:hover,
 .hidden-star:focus-visible{
   opacity: 1 !important;
-  transform: scale(1.4) rotate(15deg);
-  text-shadow: 0 0 6px var(--lime), 0 0 14px var(--lime);
+  transform: scale(1.5) rotate(20deg);
+  text-shadow:
+    0 0 10px var(--pink),
+    0 0 20px var(--pink),
+    0 0 30px rgba(255, 68, 136, 0.6);
   outline: none;
 }
 .hidden-star.found{
@@ -4424,10 +4409,30 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 }
 @keyframes starFoundPop{
   0%   { opacity: 1; transform: scale(1) rotate(0deg); }
-  35%  { opacity: 1; transform: scale(2.4) rotate(180deg); text-shadow: 0 0 24px var(--lime), 0 0 40px var(--lime); }
+  35%  { opacity: 1; transform: scale(2.6) rotate(180deg); text-shadow: 0 0 30px var(--pink), 0 0 50px var(--pink), 0 0 70px rgba(255, 68, 136, 0.8); }
   100% { opacity: 0; transform: scale(0) rotate(540deg); }
 }
-body.light-mode .hidden-star{ color: #6b9100; }
+body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(214, 51, 132, 0.5)); }
+
+/* 별 클릭 시 폭발 파티클 */
+.star-explode-particle{
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-family: var(--mono);
+  font-weight: bold;
+  transform: translate(-50%, -50%) scale(0);
+  text-shadow:
+    0 0 8px currentColor,
+    0 0 16px currentColor;
+  animation: starExplode 0.95s cubic-bezier(.15, .75, .3, 1) forwards;
+}
+@keyframes starExplode{
+  0%   { transform: translate(-50%, -50%) translate(0, 0) scale(0) rotate(0deg); opacity: 0; }
+  18%  { transform: translate(-50%, -50%) translate(calc(var(--ex-dx) * 0.35), calc(var(--ex-dy) * 0.35)) scale(1.4) rotate(calc(var(--ex-rot) * 0.35)); opacity: 1; }
+  60%  { transform: translate(-50%, -50%) translate(calc(var(--ex-dx) * 0.85), calc(var(--ex-dy) * 0.85)) scale(1) rotate(calc(var(--ex-rot) * 0.85)); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--ex-dx), var(--ex-dy)) scale(0) rotate(var(--ex-rot)); opacity: 0; }
+}
 
 /* Star Log UI — 좌측 하단, 작고 미니멀 */
 .star-log{
@@ -4435,38 +4440,39 @@ body.light-mode .hidden-star{ color: #6b9100; }
   left: 1.4rem;
   bottom: 1.4rem;
   z-index: 50;
-  background: rgba(10, 10, 13, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 0.55rem 0.85rem;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.65);
+  background: rgba(20, 10, 18, 0.85);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 68, 136, 0.18);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
   transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease, background 0.3s ease;
+  letter-spacing: -0.005em;
 }
 .star-log.visible{
   opacity: 1;
   transform: translateY(0);
 }
 .star-log-label{
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--lime);
+  letter-spacing: 0.04em;
+  color: var(--pink);
   font-weight: 600;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
 }
 .star-log-stars{
   display: flex;
   gap: 0.2rem;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   line-height: 1;
 }
 .star-log-stars .s{
@@ -4474,103 +4480,158 @@ body.light-mode .hidden-star{ color: #6b9100; }
   transition: color 0.4s ease, text-shadow 0.4s ease, transform 0.4s ease;
 }
 .star-log-stars .s.on{
-  color: var(--lime);
-  text-shadow: 0 0 6px var(--lime);
+  color: var(--pink);
+  text-shadow: 0 0 8px var(--pink), 0 0 16px rgba(255, 68, 136, 0.6);
 }
 .star-log-stars .s.just-found{
-  animation: justFound 0.6s ease;
+  animation: justFound 0.7s cubic-bezier(.3,.7,.4,1);
 }
 @keyframes justFound{
   0%   { transform: scale(1); }
-  40%  { transform: scale(1.6) rotate(-20deg); }
+  40%  { transform: scale(1.8) rotate(-30deg); }
   100% { transform: scale(1) rotate(0deg); }
 }
 .star-log-count{
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.5);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
+  font-family: var(--mono);
 }
 .star-log.complete{
-  border-color: var(--lime);
-  background: linear-gradient(135deg, rgba(212, 255, 58, 0.12), rgba(10, 10, 13, 0.9));
+  border-color: rgba(255, 68, 136, 0.6);
+  background: linear-gradient(135deg, rgba(255, 68, 136, 0.18), rgba(20, 10, 18, 0.9));
   cursor: pointer;
   pointer-events: auto;
-  animation: completeGlow 2s ease-in-out infinite;
+  animation: completeGlow 2.4s ease-in-out infinite;
 }
 .star-log.complete:hover{
-  background: linear-gradient(135deg, rgba(212, 255, 58, 0.22), rgba(10, 10, 13, 0.95));
+  background: linear-gradient(135deg, rgba(255, 68, 136, 0.28), rgba(20, 10, 18, 0.95));
   transform: translateY(-2px);
 }
 .star-log.complete .star-log-count{
-  color: var(--lime);
+  color: var(--pink);
   font-weight: 600;
 }
 @keyframes completeGlow{
-  0%, 100% { box-shadow: 0 0 0 rgba(212, 255, 58, 0); }
-  50%      { box-shadow: 0 0 20px rgba(212, 255, 58, 0.4); }
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 68, 136, 0); }
+  50%      { box-shadow: 0 0 30px rgba(255, 68, 136, 0.5); }
 }
 body.light-mode .star-log{
-  background: rgba(255, 255, 255, 0.92);
-  border-color: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.65);
+  background: rgba(255, 250, 252, 0.92);
+  border-color: rgba(214, 51, 132, 0.2);
+  color: rgba(0, 0, 0, 0.7);
 }
 body.light-mode .star-log-stars .s{ color: rgba(0, 0, 0, 0.18); }
+body.light-mode .star-log-stars .s.on{ color: #d63384; text-shadow: 0 0 8px rgba(214, 51, 132, 0.6); }
+body.light-mode .star-log-label{ color: #d63384; }
 body.light-mode .star-log-count{ color: rgba(0, 0, 0, 0.5); }
 
-/* Star Found 토스트 — 화면 중앙 크게 */
+/* Star Found 토스트 — 화면 중앙, 트렌디한 글래스모피즘 + 핑크 */
 .star-toast{
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.7);
+  transform: translate(-50%, -50%) scale(0.3) rotate(-8deg);
   z-index: 9000;
-  background: rgba(10, 10, 13, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 2px solid var(--lime);
-  border-radius: 16px;
-  padding: 1.6rem 2.8rem;
-  font-family: var(--mono);
-  font-size: 1.6rem;
-  color: var(--lime);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-shadow: 0 0 14px rgba(212, 255, 58, 0.7), 0 0 28px rgba(212, 255, 58, 0.4);
+  background:
+    linear-gradient(135deg, rgba(255, 68, 136, 0.18) 0%, rgba(255, 176, 216, 0.08) 50%, rgba(120, 60, 200, 0.12) 100%),
+    rgba(20, 10, 25, 0.7);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 68, 136, 0.35);
+  border-radius: 100px;
+  padding: 1.2rem 2.4rem;
+  font-family: var(--display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.015em;
+  text-shadow: 0 0 20px rgba(255, 68, 136, 0.6);
   box-shadow:
-    0 8px 40px rgba(212, 255, 58, 0.3),
-    0 0 80px rgba(212, 255, 58, 0.2),
-    inset 0 0 40px rgba(212, 255, 58, 0.08);
+    0 20px 60px rgba(255, 68, 136, 0.35),
+    0 0 100px rgba(255, 68, 136, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(255, 68, 136, 0.15);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s cubic-bezier(.2,.7,.3,1), transform 0.35s cubic-bezier(.2,.7,.3,1);
   white-space: nowrap;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.star-toast .toast-glyph{
+  display: inline-block;
+  font-size: 1.4em;
+  color: var(--pink);
+  text-shadow: 0 0 14px var(--pink), 0 0 24px rgba(255, 68, 136, 0.8);
+  animation: toastGlyphSpin 3s linear infinite;
+}
+@keyframes toastGlyphSpin{
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.star-toast .toast-count{
+  font-family: var(--mono);
+  font-size: 0.8em;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  margin-left: 0.3rem;
+  padding: 0.2rem 0.7rem;
+  background: rgba(255, 68, 136, 0.2);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 68, 136, 0.3);
 }
 .star-toast.show{
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  animation: starToastEnter 0.85s cubic-bezier(.34, 1.56, .64, 1) forwards;
+}
+@keyframes starToastEnter{
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-8deg); }
+  55%  { opacity: 1; transform: translate(-50%, -50%) scale(1.12) rotate(2deg); }
+  75%  { transform: translate(-50%, -50%) scale(0.96) rotate(-0.5deg); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+.star-toast.hide{
+  animation: starToastExit 0.4s cubic-bezier(.4, 0, .8, .4) forwards;
+}
+@keyframes starToastExit{
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2) translateY(-20px); }
 }
 .star-toast.unlock{
   font-size: 2rem;
-  padding: 2rem 3.2rem;
-  text-shadow: 0 0 20px rgba(212, 255, 58, 1), 0 0 40px rgba(212, 255, 58, 0.6);
+  padding: 1.6rem 3.2rem;
+  background:
+    linear-gradient(135deg, rgba(255, 68, 136, 0.32) 0%, rgba(255, 176, 216, 0.18) 50%, rgba(120, 60, 200, 0.22) 100%),
+    rgba(20, 10, 25, 0.75);
+  border-color: rgba(255, 68, 136, 0.55);
+  text-shadow: 0 0 28px rgba(255, 68, 136, 0.9), 0 0 56px rgba(255, 68, 136, 0.5);
   box-shadow:
-    0 8px 60px rgba(212, 255, 58, 0.5),
-    0 0 120px rgba(212, 255, 58, 0.3),
-    inset 0 0 60px rgba(212, 255, 58, 0.15);
-  animation: starToastUnlockPulse 2s ease-in-out infinite;
+    0 20px 80px rgba(255, 68, 136, 0.5),
+    0 0 160px rgba(255, 68, 136, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-@keyframes starToastUnlockPulse{
-  0%, 100% { box-shadow: 0 8px 60px rgba(212, 255, 58, 0.5), 0 0 120px rgba(212, 255, 58, 0.3), inset 0 0 60px rgba(212, 255, 58, 0.15); }
-  50%      { box-shadow: 0 8px 80px rgba(212, 255, 58, 0.7), 0 0 160px rgba(212, 255, 58, 0.5), inset 0 0 80px rgba(212, 255, 58, 0.2); }
+.star-toast.unlock.show{
+  animation: starToastEnter 0.85s cubic-bezier(.34, 1.56, .64, 1) forwards,
+             starToastUnlockFloat 3s ease-in-out 0.85s infinite;
 }
+@keyframes starToastUnlockFloat{
+  0%, 100% { box-shadow: 0 20px 80px rgba(255, 68, 136, 0.5), 0 0 160px rgba(255, 68, 136, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
+  50%      { box-shadow: 0 30px 100px rgba(255, 68, 136, 0.7), 0 0 200px rgba(255, 68, 136, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+}
+
 body.light-mode .star-toast{
-  background: rgba(255, 255, 255, 0.95);
-  color: #6b9100;
-  border-color: #6b9100;
-  text-shadow: 0 0 8px rgba(107, 145, 0, 0.5);
+  background:
+    linear-gradient(135deg, rgba(255, 68, 136, 0.12) 0%, rgba(255, 176, 216, 0.06) 50%, rgba(120, 60, 200, 0.08) 100%),
+    rgba(255, 250, 252, 0.85);
+  color: #1a0a18;
+  border-color: rgba(214, 51, 132, 0.4);
+  text-shadow: 0 0 14px rgba(214, 51, 132, 0.4);
 }
+body.light-mode .star-toast .toast-glyph{ color: #d63384; text-shadow: 0 0 14px #d63384; }
+body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 51, 132, 0.15); border-color: rgba(214, 51, 132, 0.35); }
 
 /* Projects 카드 hover 시 작은 별 파티클 */
 .hover-sparkle{
@@ -4624,36 +4685,59 @@ body.light-mode .star-toast{
   justify-content: center;
   pointer-events: none;
   z-index: 9500;
-  font-family: var(--mono);
-  font-size: clamp(18rem, 50vw, 40rem);
-  font-weight: 800;
-  color: var(--lime);
-  text-shadow:
-    0 0 30px rgba(212, 255, 58, 0.9),
-    0 0 60px rgba(212, 255, 58, 0.6),
-    0 0 120px rgba(212, 255, 58, 0.3);
   opacity: 0;
-  line-height: 1;
-  user-select: none;
-  will-change: opacity, transform;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition: opacity 0.15s ease;
 }
 .big-arrow-overlay.show{
-  animation: bigArrowPulse 0.55s cubic-bezier(.2,.7,.3,1) forwards;
+  animation: bigArrowFade 0.6s ease-out forwards;
 }
-@keyframes bigArrowPulse{
-  0%   { opacity: 0; transform: scale(0.4); }
-  18%  { opacity: 0.95; transform: scale(1.05); }
-  35%  { opacity: 0.85; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.3); }
+@keyframes bigArrowFade{
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  65%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.big-arrow-icon{
+  width: 50vmin;
+  height: 50vmin;
+  max-width: 600px;
+  max-height: 600px;
+  color: var(--lime);
+  filter:
+    drop-shadow(0 0 30px rgba(212, 255, 58, 0.95))
+    drop-shadow(0 0 60px rgba(212, 255, 58, 0.55))
+    drop-shadow(0 0 120px rgba(212, 255, 58, 0.3));
+  transform: scale(0.4);
+}
+.big-arrow-overlay.show .big-arrow-icon{
+  animation: bigArrowScale 0.6s cubic-bezier(.2,.7,.3,1) forwards;
+}
+@keyframes bigArrowScale{
+  0%   { transform: scale(0.4); }
+  18%  { transform: scale(1.1); }
+  35%  { transform: scale(1); }
+  100% { transform: scale(1.25); }
+}
+.big-arrow-icon svg{
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 body.light-mode .big-arrow-overlay{
+  background: rgba(255, 255, 255, 0.5);
+}
+body.light-mode .big-arrow-icon{
   color: #6b9100;
-  text-shadow:
-    0 0 30px rgba(107, 145, 0, 0.7),
-    0 0 60px rgba(107, 145, 0, 0.4);
+  filter:
+    drop-shadow(0 0 30px rgba(107, 145, 0, 0.7))
+    drop-shadow(0 0 60px rgba(107, 145, 0, 0.4));
 }
 @media (prefers-reduced-motion: reduce){
   .big-arrow-overlay.show{ animation: none; opacity: 0.7; }
+  .big-arrow-overlay.show .big-arrow-icon{ animation: none; transform: scale(1); }
 }
 
 </style>
@@ -5212,7 +5296,7 @@ body.light-mode .big-arrow-overlay{
               <div class="contact-email-addr">k4rahee@naver.com</div>
             </div>
             <button class="contact-email-copy" id="email-copy" type="button">copy</button>
-            <a class="contact-email-mail" href="mailto:k4rahee@naver.com" rel="noopener" aria-label="이메일 보내기">mail</a>
+            <a class="contact-email-copy" href="mailto:k4rahee@naver.com" rel="noopener" aria-label="이메일 보내기">mail</a>
             <span class="act-tooltip" id="email-tooltip">Copied</span>
           </div>
           <div id="contact-links-list">
@@ -5278,7 +5362,7 @@ body.light-mode .big-arrow-overlay{
     <span>© 2026 · k4rahee@naver.com <span class="hidden-star" data-star-id="5" title="?">✦</span></span>
   </div>
   <div class="footer-easter" aria-hidden="true">
-    <span>↑</span><span>↑</span><span>↓</span><span>↓</span><span class="fade-out">←</span>
+    <span>↑</span><span>↑</span><span>↓</span><span>↓</span><span>←</span><span>→</span><span>←</span><span>→</span>
   </div>
 </footer>
 
@@ -7412,12 +7496,28 @@ statusSaveBtn.addEventListener('click', async () => {
   document.body.appendChild(toast);
 
   let toastTimer = null;
+  let toastHideTimer = null;
   function showToast(msg, isUnlock){
-    toast.textContent = msg;
+    // 토스트 내부 구조: 글리프 + 텍스트 + 카운트
+    const parsed = msg; // {glyph, text, count}
+    toast.innerHTML = `
+      <span class="toast-glyph">${parsed.glyph || '✦'}</span>
+      <span class="toast-text">${parsed.text || ''}</span>
+      ${parsed.count ? `<span class="toast-count">${parsed.count}</span>` : ''}
+    `;
     toast.classList.toggle('unlock', !!isUnlock);
+    toast.classList.remove('hide');
+    toast.classList.remove('show');
+    void toast.offsetWidth; // reflow
     toast.classList.add('show');
     if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), isUnlock ? 3500 : 1900);
+    if (toastHideTimer) clearTimeout(toastHideTimer);
+    const visibleMs = isUnlock ? 4000 : 2200;
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      toastHideTimer = setTimeout(() => toast.classList.remove('hide'), 400);
+    }, visibleMs);
   }
 
   function updateLog(justFoundIdx){
@@ -7437,7 +7537,7 @@ statusSaveBtn.addEventListener('click', async () => {
     });
     const countEl = log.querySelector('.star-log-count');
     if (count === TOTAL_STARS) {
-      countEl.textContent = 'UNLOCKED ✦';
+      countEl.textContent = 'unlocked ✦';
       log.classList.add('complete');
       log.setAttribute('title', '클릭해서 시크릿 페이지 진입');
     } else {
@@ -7446,22 +7546,56 @@ statusSaveBtn.addEventListener('click', async () => {
     if (count > 0) log.classList.add('visible');
   }
 
+  // 별 클릭 시 폭발 파티클 (12개 별가루 사방으로)
+  function explodeStarBurst(centerX, centerY){
+    const PARTICLE_COUNT = 14;
+    const colors = ['#ff4488', '#ffb0d8', '#ff80c8', '#ffffff', '#ff6ba8'];
+    const glyphs = ['✦', '✧', '✦', '✧', '·'];
+    for (let i = 0; i < PARTICLE_COUNT; i++){
+      const p = document.createElement('span');
+      p.className = 'star-explode-particle';
+      p.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+      const angle = (i / PARTICLE_COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
+      const dist = 90 + Math.random() * 80;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+      p.style.left = centerX + 'px';
+      p.style.top = centerY + 'px';
+      p.style.color = colors[Math.floor(Math.random() * colors.length)];
+      p.style.fontSize = (0.55 + Math.random() * 0.95) + 'rem';
+      p.style.setProperty('--ex-dx', dx + 'px');
+      p.style.setProperty('--ex-dy', dy + 'px');
+      p.style.setProperty('--ex-rot', (Math.random() * 720 - 360) + 'deg');
+      p.style.animationDelay = (Math.random() * 80) + 'ms';
+      document.body.appendChild(p);
+      setTimeout(() => { try { p.remove(); } catch(_) {} }, 1100);
+    }
+  }
+
   function collectStar(id, el){
     id = parseInt(id, 10);
     if (collected.has(id)) return;
     collected.add(id);
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...collected])); } catch(_) {}
 
+    // 별 위치에서 폭발 (clientRect 사용)
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      explodeStarBurst(cx, cy);
+    }
+
     el.classList.add('found');
     setTimeout(() => { try { el.remove(); } catch(_) {} }, 700);
 
-    showToast(`STAR FOUND ✦ ${collected.size} / 5`);
+    showToast({ glyph: '✦', text: 'Star found', count: `${collected.size} / 5` });
     updateLog(id);
 
     if (collected.size === TOTAL_STARS) {
       setTimeout(() => {
-        showToast('SECRET ROOM UNLOCKED — CLICK STAR LOG', true);
-      }, 1700);
+        showToast({ glyph: '✦', text: 'Secret unlocked' }, true);
+      }, 1900);
     }
   }
 
@@ -7868,26 +8002,38 @@ function openSecret(){
   });
 }
 // ── 키보드 (방향키) ──
-// 거대 화살표 오버레이 함수
-function showBigArrow(arrowChar){
+// 두꺼운 SVG 화살표 (chunky 스타일)
+const ARROW_SVG_PATHS = {
+  'ArrowUp':    'M50 6 L92 48 L66 48 L66 94 L34 94 L34 48 L8 48 Z',
+  'ArrowDown':  'M50 94 L92 52 L66 52 L66 6 L34 6 L34 52 L8 52 Z',
+  'ArrowLeft':  'M6 50 L48 92 L48 66 L94 66 L94 34 L48 34 L48 8 Z',
+  'ArrowRight': 'M94 50 L52 92 L52 66 L6 66 L6 34 L52 34 L52 8 Z'
+};
+
+function showBigArrow(arrowKey){
+  const path = ARROW_SVG_PATHS[arrowKey];
+  if (!path) return;
   let bigArrow = document.getElementById('big-arrow-overlay');
   if (!bigArrow){
     bigArrow = document.createElement('div');
     bigArrow.id = 'big-arrow-overlay';
     bigArrow.className = 'big-arrow-overlay';
     bigArrow.setAttribute('aria-hidden','true');
+    bigArrow.innerHTML = '<div class="big-arrow-icon"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="" fill="currentColor"/></svg></div>';
     document.body.appendChild(bigArrow);
   }
-  bigArrow.textContent = arrowChar;
+  const pathEl = bigArrow.querySelector('path');
+  if (pathEl) pathEl.setAttribute('d', path);
   bigArrow.classList.remove('show');
   void bigArrow.offsetWidth; // reflow → 애니메이션 재시작
   bigArrow.classList.add('show');
 }
+
 const ARROW_KEY_MAP = {
-  'ArrowUp':    '↑',
-  'ArrowDown':  '↓',
-  'ArrowLeft':  '←',
-  'ArrowRight': '→'
+  'ArrowUp':    'ArrowUp',
+  'ArrowDown':  'ArrowDown',
+  'ArrowLeft':  'ArrowLeft',
+  'ArrowRight': 'ArrowRight'
 };
 
 document.addEventListener('keydown', (e) => {
@@ -7895,7 +8041,7 @@ document.addEventListener('keydown', (e) => {
 
   // 방향키 누르면 거대 화살표 표시 (코나미 시퀀스와 무관하게 항상)
   if (ARROW_KEY_MAP[e.key]){
-    showBigArrow(ARROW_KEY_MAP[e.key]);
+    showBigArrow(e.key);
   }
 
   if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
