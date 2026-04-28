@@ -166,12 +166,6 @@
     height: 100%;
     border: none;
   }
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
   .hero-video-edit-btn{
     position: absolute;
     top: 0.6rem;
@@ -189,8 +183,10 @@
     justify-content: center;
     backdrop-filter: blur(8px);
     transition: all 0.2s ease;
+    opacity: 0.55;
   }
-  .hero-video-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .hero-video-edit-btn.visible{ opacity: 1; }
+  .hero-video-edit-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
   .hero-image{ position: relative; }
 
   /* ── Music player ── */
@@ -316,7 +312,7 @@
     border-radius: 999px;
   }
   .music-admin-btn{
-    display: none;
+    display: block;
     width: 100%;
     padding: 0.4rem;
     background: transparent;
@@ -329,9 +325,10 @@
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
+    opacity: 0.55;
   }
-  .music-admin-btn.visible{ display: block; }
-  .music-admin-btn:hover{ color: var(--lime); }
+  .music-admin-btn.visible{ opacity: 1; }
+  .music-admin-btn:hover{ color: var(--lime); opacity: 1; }
   @media (max-width: 700px){
     .music-player{ bottom: 5rem; left: 1rem; min-width: 200px; }
     .music-player.collapsed{ min-width: 0; }
@@ -539,27 +536,28 @@
     position: relative;
   }
   .hero-grid{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
     align-items: center;
-    gap: 2.5rem;
-    text-align: center;
+    gap: 3.5rem;
   }
   .hero-text-block{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-    max-width: 680px;
   }
   .hero-video-block{
     width: 100%;
-    max-width: 900px;
     position: relative;
-    padding: 1.5rem 0;
+    padding: 0;
   }
   @media (max-width: 900px){
-    .hero-grid{ gap: 1.5rem; }
+    .hero-grid{
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .hero-text-block{ align-items: center; text-align: center; }
   }
 
   .hero .micro-top{
@@ -595,11 +593,14 @@
   .hero h1{
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(4rem, 11vw, 9rem);
+    font-size: clamp(3.5rem, 8.5vw, 7.5rem);
     line-height: 0.85;
     letter-spacing: -0.05em;
     color: var(--ink);
-    text-align: center;
+    text-align: left;
+  }
+  @media (max-width: 900px){
+    .hero h1{ text-align: center; font-size: clamp(3.5rem, 11vw, 7rem); }
   }
   .hero h1 .sparkle{
     display: inline-block;
@@ -621,9 +622,12 @@
     line-height: 1.5;
     color: var(--ink-2);
     max-width: 28rem;
-    margin: 0.2rem 0 0.7rem;
+    margin: 1rem 0 1.2rem;
     letter-spacing: -0.01em;
-    text-align: center;
+    text-align: left;
+  }
+  @media (max-width: 900px){
+    .hero .tagline{ text-align: center; margin-left: auto; margin-right: auto; }
   }
 
   .hero-meta{
@@ -631,7 +635,10 @@
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 0.8rem;
-    justify-content: center;
+    justify-content: flex-start;
+  }
+  @media (max-width: 900px){
+    .hero-meta{ justify-content: center; }
   }
   .hero-meta .chip{
     font-family: var(--mono);
@@ -1241,10 +1248,11 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: none;
+    display: inline-block;
+    opacity: 0.55;
   }
-  .contact-edit-skills-btn.visible{ display: inline-block; }
-  .contact-edit-skills-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .contact-edit-skills-btn.visible{ opacity: 1; }
+  .contact-edit-skills-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
 
   /* 오른쪽 링크 */
   .contact-link-section{ display: flex; flex-direction: column; }
@@ -1346,10 +1354,11 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: none;
+    display: inline-block;
+    opacity: 0.55;
   }
-  .contact-edit-links-btn.visible{ display: inline-block; }
-  .contact-edit-links-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .contact-edit-links-btn.visible{ opacity: 1; }
+  .contact-edit-links-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
 
   /* Email CTA card */
   .email-card{
@@ -3177,7 +3186,7 @@
   }
   .status-val.lime{ color: var(--lime); }
   .status-edit-btn{
-    display: none;
+    display: block;
     width: 100%;
     margin-top: 1rem;
     background: transparent;
@@ -3191,9 +3200,10 @@
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
+    opacity: 0.55;
   }
-  .status-edit-btn.visible{ display: block; }
-  .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .status-edit-btn.visible{ opacity: 1; }
+  .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
   .status-edit-form{ display: none; margin-top: 1rem; }
   .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.5rem; }
   .status-edit-row{
@@ -4225,6 +4235,70 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   body.rahee-creep-snap header, body.rahee-creep-snap main, body.rahee-creep-snap section{ animation:none!important; }
 }
 
+/* ============== CLICK SPARKLE BURST ============== */
+.click-burst{
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 0; height: 0;
+  will-change: transform;
+}
+.click-burst .cb-star{
+  position: absolute;
+  left: 0; top: 0;
+  font-family: var(--mono);
+  color: var(--lime);
+  text-shadow: 0 0 8px var(--lime-glow), 0 0 16px var(--lime-glow);
+  pointer-events: none;
+  user-select: none;
+  transform: translate(-50%, -50%) scale(0);
+  animation: clickBurstFly 0.85s cubic-bezier(0.15, 0.7, 0.35, 1) forwards;
+}
+.click-burst .cb-star.pink{
+  color: var(--pink);
+  text-shadow: 0 0 8px var(--pink-glow), 0 0 16px var(--pink-glow);
+}
+.click-burst .cb-ring{
+  position: absolute;
+  left: 0; top: 0;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  border: 2px solid var(--lime);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0.85;
+  animation: clickBurstRing 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  box-shadow: 0 0 12px var(--lime-glow);
+}
+@keyframes clickBurstFly{
+  0%{
+    transform: translate(-50%, -50%) translate(0, 0) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  15%{
+    transform: translate(-50%, -50%) translate(calc(var(--cb-dx) * 0.25), calc(var(--cb-dy) * 0.25)) scale(var(--cb-scale)) rotate(90deg);
+    opacity: 1;
+  }
+  100%{
+    transform: translate(-50%, -50%) translate(var(--cb-dx), var(--cb-dy)) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+@keyframes clickBurstRing{
+  0%{
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.95;
+    border-width: 2px;
+  }
+  100%{
+    transform: translate(-50%, -50%) scale(28);
+    opacity: 0;
+    border-width: 0.5px;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .click-burst{ display: none; }
+}
+
 </style>
 
 </head>
@@ -4320,7 +4394,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
           </div>
         </div>
       </div>
-      <button class="hero-video-edit-btn" id="hero-video-edit-btn" type="button" style="display:none;" title="영상 URL 수정">✎</button>
+      <button class="hero-video-edit-btn" id="hero-video-edit-btn" type="button" title="영상 URL 수정">✎</button>
     </div>
   </div>
 </div>
@@ -5163,7 +5237,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       const addBtn     = document.getElementById('music-add-track');
       const trackList  = document.getElementById('music-track-list');
       if (!adminBtn) return;
-      adminBtn.classList.add('visible');
+      if (adminBtn._initDone) return;
+      adminBtn._initDone = true;
 
       function makeTrackRow(t={}){
         const row = document.createElement('div');
@@ -5182,6 +5257,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       }
 
       function openMusicModal(){
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
         trackList.innerHTML = '';
         tracks.forEach(t => trackList.appendChild(makeTrackRow(t)));
         modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
@@ -5198,6 +5274,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       backdrop.addEventListener('click', closeMusicModal);
       addBtn.addEventListener('click', () => trackList.appendChild(makeTrackRow()));
       saveBtn.addEventListener('click', async () => {
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
         const rows = trackList.querySelectorAll('.status-edit-row');
         const newTracks = [];
         rows.forEach(row => {
@@ -5251,6 +5328,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     // 관리자 모달
     window._heroVideoAdminInit = function(){
       if (!editBtn) return;
+      if (editBtn._initDone) return;
+      editBtn._initDone = true;
       editBtn.style.display = 'flex';
       const modal    = document.getElementById('hero-video-modal');
       const backdrop = document.getElementById('hero-video-backdrop');
@@ -5265,6 +5344,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       });
 
       const open = () => {
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
         urlInput.value = currentUrl;
         modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
         document.body.classList.add('modal-open');
@@ -5279,6 +5359,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       cancelBtn.addEventListener('click', close);
       backdrop.addEventListener('click', close);
       saveBtn.addEventListener('click', async () => {
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
         const url = urlInput.value.trim();
         saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
         try {
@@ -5725,6 +5806,89 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       });
     });
   })();
+
+  // ============== CLICK SPARKLE BURST ==============
+  // 페이지 어디든 클릭 시 별/링 폭발 효과 (입력 필드/모달 백드롭 제외)
+  (function(){
+    const PREFERS_REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (PREFERS_REDUCED) return;
+
+    // 클릭 효과를 막을 셀렉터들 (텍스트 입력, 영상 iframe 등)
+    const SKIP_SELECTORS = [
+      'input', 'textarea', 'select',
+      'iframe', '.thought-modal-backdrop', '.contact-edit-backdrop',
+      '.media-file-input', 'audio', 'video'
+    ];
+
+    const STAR_GLYPHS = ['✦', '✧', '✶', '✷', '★', '✦'];
+
+    function shouldSkip(target){
+      if (!target || !(target instanceof Element)) return false;
+      for (const sel of SKIP_SELECTORS){
+        if (target.closest(sel)) return true;
+      }
+      return false;
+    }
+
+    function spawnBurst(x, y){
+      const burst = document.createElement('div');
+      burst.className = 'click-burst';
+      burst.style.left = x + 'px';
+      burst.style.top  = y + 'px';
+
+      // 라임 링
+      const ring = document.createElement('span');
+      ring.className = 'cb-ring';
+      burst.appendChild(ring);
+
+      // 별 14개 (크고 화려하게)
+      const STAR_COUNT = 14;
+      for (let i = 0; i < STAR_COUNT; i++){
+        const star = document.createElement('span');
+        const glyph = STAR_GLYPHS[Math.floor(Math.random() * STAR_GLYPHS.length)];
+        star.className = 'cb-star';
+        star.textContent = glyph;
+
+        // 4개는 핑크
+        if (i % 4 === 3) star.classList.add('pink');
+
+        // 방향 + 거리
+        const angle = (i / STAR_COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+        const dist = 60 + Math.random() * 90; // 60~150px
+        const dx = Math.cos(angle) * dist;
+        const dy = Math.sin(angle) * dist;
+        const scale = 0.7 + Math.random() * 0.9; // 0.7~1.6
+        const fontSize = 0.8 + Math.random() * 0.8; // rem
+        const delay = Math.random() * 80; // ms
+
+        star.style.fontSize = fontSize + 'rem';
+        star.style.setProperty('--cb-dx', dx + 'px');
+        star.style.setProperty('--cb-dy', dy + 'px');
+        star.style.setProperty('--cb-scale', scale);
+        star.style.animationDelay = delay + 'ms';
+
+        burst.appendChild(star);
+      }
+
+      document.body.appendChild(burst);
+      // 1초 후 정리
+      setTimeout(() => burst.remove(), 1100);
+    }
+
+    document.addEventListener('click', (e) => {
+      if (shouldSkip(e.target)) return;
+      // 우클릭/중간버튼 무시 — click 이벤트는 기본적으로 좌클릭만 발생하지만 안전장치
+      if (e.button !== undefined && e.button !== 0) return;
+      spawnBurst(e.clientX, e.clientY);
+    }, { passive: true });
+
+    // 모바일 탭도 효과 적용
+    document.addEventListener('touchstart', (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      if (shouldSkip(e.target)) return;
+      spawnBurst(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+  })();
 </script>
 
 <!-- ============== FIREBASE THOUGHTS BLOG ============== -->
@@ -5870,10 +6034,14 @@ onAuthStateChanged(auth, (user) => {
   renderCards();
   updateStatusAdminUI();
   updateContactEditAdminUI();
-  if (user){
-    if (typeof window._heroVideoAdminInit === 'function') window._heroVideoAdminInit();
-    if (typeof window._musicAdminInit === 'function') window._musicAdminInit();
-  }
+  // 로그인 여부와 무관하게 init 실행 (버튼 항상 보이고, 클릭 시 auth 체크)
+  if (typeof window._heroVideoAdminInit === 'function') window._heroVideoAdminInit();
+  if (typeof window._musicAdminInit === 'function') window._musicAdminInit();
+  // 로그인 상태에 따른 visible 클래스 토글 (CSS opacity로 시각적 강도 조절)
+  const heroEditBtn = document.getElementById('hero-video-edit-btn');
+  const musicEditBtn = document.getElementById('music-admin-btn');
+  if (heroEditBtn) heroEditBtn.classList.toggle('visible', !!user);
+  if (musicEditBtn) musicEditBtn.classList.toggle('visible', !!user);
   if (modal.classList.contains('open') && modal.classList.contains('read-mode') && currentReadPost){
     refreshModalActions();
   }
@@ -5899,6 +6067,16 @@ function closeLoginModal(){
   document.body.classList.remove('modal-open');
   loginForm.reset();
 }
+
+// ===== 전역 admin 헬퍼 =====
+// 비관리자 클릭 시 로그인 모달을 자동으로 열어주는 게이트
+window.openLoginModal = openLoginModal;
+window.requireAdmin = function(){
+  if (currentUser) return true;
+  toast('관리자 로그인이 필요합니다', 'info');
+  openLoginModal();
+  return false;
+};
 loginModal.querySelectorAll('[data-modal-close]').forEach(el => {
   el.addEventListener('click', closeLoginModal);
 });
@@ -6578,7 +6756,10 @@ function openSkillsModal(){
   });
   openModal(skillsModal);
 }
-if (document.getElementById('contact-edit-skills-btn')) document.getElementById('contact-edit-skills-btn').addEventListener('click', openSkillsModal);
+if (document.getElementById('contact-edit-skills-btn')) document.getElementById('contact-edit-skills-btn').addEventListener('click', () => {
+  if (!currentUser){ openLoginModal(); toast('관리자 로그인이 필요합니다', 'info'); return; }
+  openSkillsModal();
+});
 if (skillsClose)  skillsClose.addEventListener('click',  () => closeModal2(skillsModal));
 if (skillsCancel) skillsCancel.addEventListener('click',  () => closeModal2(skillsModal));
 if (skillsBack)   skillsBack.addEventListener('click',   () => closeModal2(skillsModal));
@@ -6617,7 +6798,10 @@ function openLinksModal(){
   });
   openModal(linksModal);
 }
-if (document.getElementById('contact-edit-links-btn')) document.getElementById('contact-edit-links-btn').addEventListener('click', openLinksModal);
+if (document.getElementById('contact-edit-links-btn')) document.getElementById('contact-edit-links-btn').addEventListener('click', () => {
+  if (!currentUser){ openLoginModal(); toast('관리자 로그인이 필요합니다', 'info'); return; }
+  openLinksModal();
+});
 if (linksClose)  linksClose.addEventListener('click',  () => closeModal2(linksModal));
 if (linksCancel) linksCancel.addEventListener('click',  () => closeModal2(linksModal));
 if (linksBack)   linksBack.addEventListener('click',   () => closeModal2(linksModal));
@@ -6705,6 +6889,7 @@ function updateStatusAdminUI(){
 }
 
 statusEditBtn.addEventListener('click', () => {
+  if (!currentUser){ openLoginModal(); toast('관리자 로그인이 필요합니다', 'info'); return; }
   statusEditForm.classList.toggle('open');
   if (statusEditForm.classList.contains('open')){
     STATUS_FIELDS.forEach(f => {
