@@ -133,10 +133,7 @@
     background: rgba(255,255,255,0.88);
     border-bottom-color: rgba(0,0,0,0.1);
   }
-  /* vtimeline spine and nodes */
-  body.light-mode .vtimeline::before{
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.1));
-  }
+  /* vtimeline spine and nodes (light mode line은 아래 .vtimeline::before에서 직접 처리) */
   body.light-mode .vt-node::after{
     background: rgba(0,0,0,0.3);
   }
@@ -493,6 +490,105 @@
   /* 사운드 토글 — 켜진 상태 시각화 */
   .sound-toggle.on{ color: var(--lime); border-color: var(--lime); box-shadow: 0 0 12px var(--lime-glow); }
   .sound-toggle.on:hover{ color: var(--lime); border-color: var(--lime); }
+
+  /* 사운드 토글 + 볼륨 슬라이더 묶음 */
+  .sound-cluster{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .volume-slider-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    overflow: visible;
+    transition: width 0.3s cubic-bezier(.2,.7,.3,1);
+  }
+  .sound-cluster:hover .volume-slider-wrap,
+  .sound-cluster:focus-within .volume-slider-wrap{
+    /* slider 자체 폭만큼 (thumb은 양 끝에 자유롭게) */
+    width: 90px;
+  }
+  .volume-slider{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90px;
+    height: 4px;
+    /* JS가 --vol-pct 를 업데이트해서 채움 */
+    background: linear-gradient(
+      to right,
+      var(--lime) 0%,
+      var(--lime) var(--vol-pct, 50%),
+      rgba(255, 255, 255, 0.18) var(--vol-pct, 50%),
+      rgba(255, 255, 255, 0.18) 100%
+    );
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    transition: filter 0.2s ease, opacity 0.25s ease 0.05s;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sound-cluster:hover .volume-slider,
+  .sound-cluster:focus-within .volume-slider{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .volume-slider:hover{ filter: brightness(1.15); }
+  .volume-slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime-glow), 0 0 0 2px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    border: none;
+  }
+  .volume-slider::-webkit-slider-thumb:hover{ transform: scale(1.25); }
+  .volume-slider::-webkit-slider-thumb:active{ transform: scale(1.1); }
+  .volume-slider::-moz-range-thumb{
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--lime);
+    border: none;
+    box-shadow: 0 0 8px var(--lime-glow), 0 0 0 2px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  /* Firefox: progress(채워짐)와 track(빈 부분) 분리 가능 */
+  .volume-slider::-moz-range-progress{
+    background: var(--lime);
+    height: 4px;
+    border-radius: 999px;
+  }
+  .volume-slider::-moz-range-track{
+    background: rgba(255, 255, 255, 0.18);
+    height: 4px;
+    border-radius: 999px;
+  }
+  body.light-mode .volume-slider{
+    background: linear-gradient(
+      to right,
+      #aac81e 0%,
+      #aac81e var(--vol-pct, 50%),
+      rgba(0, 0, 0, 0.18) var(--vol-pct, 50%),
+      rgba(0, 0, 0, 0.18) 100%
+    );
+  }
+  body.light-mode .volume-slider::-webkit-slider-thumb{ background: #aac81e; }
+  body.light-mode .volume-slider::-moz-range-thumb{ background: #aac81e; }
+  body.light-mode .volume-slider::-moz-range-progress{ background: #aac81e; }
+  /* 모바일에선 슬라이더 항상 표시 (호버가 없으니) */
+  @media (max-width: 700px){
+    .volume-slider-wrap{ width: 70px; }
+    .volume-slider{ width: 60px; }
+  }
   @media (max-width: 900px){ .theme-toggle{ width: 32px; height: 32px; font-size: 0.8rem; } }
 
   *{ box-sizing: border-box; margin: 0; padding: 0; }
@@ -718,6 +814,12 @@
     box-shadow: 0 0 12px var(--lime-glow);
     animation: pulse 1.6s ease-in-out infinite;
   }
+  /* 우측 상태 텍스트 — 시간 + 컨텍스트 (작고 라임 살짝) */
+  .hero .micro-top .hero-meta-status{
+    color: var(--lime);
+    opacity: 0.85;
+    margin-right: 0.3rem;
+  }
   @keyframes pulse{
     0%, 100%{ opacity: 1; transform: scale(1); }
     50%{ opacity: 0.4; transform: scale(0.8); }
@@ -832,14 +934,14 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     padding: 1.4rem 0;
-    /* Hero와의 거리를 늘려 마퀴를 좀 더 아래로 위치시킴 */
-    margin: 8rem 0 4rem;
+    /* Hero에서 적당한 호흡, 아래는 About 섹션 직전 구분선 역할 */
+    margin: 3rem 0 0;
     background: var(--bg-2);
     position: relative;
   }
   /* 모바일에서는 비율 맞춰 줄임 */
   @media (max-width: 700px){
-    .marquee{ margin: 5rem 0 2.5rem; }
+    .marquee{ margin: 1.5rem 0 0; }
   }
   /* 좌우 페이드 아웃 — 마퀴가 화면 가장자리에서 자연스럽게 사라지게 */
   .marquee::before,
@@ -918,6 +1020,26 @@
     color: var(--lime);
     font-weight: 800;
   }
+  /* 헤딩 글자 단위 wobble — JS가 각 글자를 .ch-w span으로 감쌈, 호버하면 도미노처럼 튐 */
+  .sec-heading .ch-w{
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+    will-change: transform;
+  }
+  .sec-heading:hover .ch-w{
+    animation: charWobble 0.75s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes charWobble{
+    0%   { transform: translateY(0) rotate(0); }
+    30%  { transform: translateY(-12px) rotate(-4deg); }
+    60%  { transform: translateY(2px) rotate(2deg); }
+    100% { transform: translateY(0) rotate(0); }
+  }
+  /* 공백은 wobble 적용 X, 폭은 보존 */
+  .sec-heading .ch-w.is-space{
+    animation: none !important;
+    white-space: pre;
+  }
 
   /* ============== ABOUT ============== */
   .about{ padding: 5rem 0 6rem; }
@@ -974,12 +1096,15 @@
   .vtimeline::before{
     content: "";
     position: absolute;
-    left: 6px;
+    left: 7px;
     top: 0.55rem;
     bottom: 0.55rem;
     width: 1px;
     background: linear-gradient(to bottom, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
     pointer-events: none;
+  }
+  body.light-mode .vtimeline::before{
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.1));
   }
   .vt-event{
     position: relative;
@@ -1196,12 +1321,25 @@
     border-radius: 18px;
     margin-bottom: 1.2rem;
     transition: transform 0.4s cubic-bezier(.2,.7,.3,1);
+    /* 모든 카드 썸네일 동일한 4:5 비율 강제 */
+    aspect-ratio: 4 / 5;
+    background: var(--bg-2);
   }
   .gallery .item:hover .img-wrapper{ transform: translateY(-4px); }
   .gallery .item:hover .img-ph{ transform: scale(1.025); }
 
+  /* 썸네일 내부 미디어 — wrapper를 가득 채우고 cover */
+  .gallery .img-wrapper > img,
+  .gallery .img-wrapper > video{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   /* 썸네일 fallback: img 깨졌을 때 표시될 placeholder */
-  .gallery .item .img-wrapper{ position: relative; }
   .gallery .item .thumb-fallback{
     position: absolute;
     inset: 0;
@@ -1211,7 +1349,6 @@
   .gallery .item .thumb-fallback.hidden{ display: none; }
   .gallery .img-ph{
     transition: transform 0.5s cubic-bezier(.2,.7,.3,1);
-    aspect-ratio: 4 / 5;
   }
 
 
@@ -2158,6 +2295,117 @@
     margin-bottom: 0.6rem;
     line-height: 1.5;
   }
+  /* 효과음 admin 모달 — 5개 행 */
+  .sound-fx-list{ display: flex; flex-direction: column; gap: 0.6rem; }
+
+  /* Now Focus On admin */
+  .now-admin-btn{
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--ink-3);
+    padding: 0.55rem 0.9rem;
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .now-admin-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .now-admin-row{
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.8rem;
+    margin-bottom: 0.6rem;
+    background: rgba(255,255,255,0.012);
+  }
+  .now-admin-row .now-admin-head{
+    display: flex; gap: 0.4rem; align-items: center;
+  }
+  .now-admin-row input{
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.45rem 0.65rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink);
+  }
+  .now-admin-row input:focus{ outline: none; border-color: var(--lime); }
+  .now-link-row{
+    display: flex; gap: 0.4rem; align-items: center;
+    margin-top: 0.35rem;
+    padding-left: 0.4rem;
+  }
+  .now-link-row .nl-label{ flex: 0 0 30%; }
+  .now-link-row .nl-url{ flex: 1; background: rgba(212,255,58,0.025); border-color: rgba(212,255,58,0.18); }
+  .now-link-row .nl-url:focus{ background: rgba(212,255,58,0.05); }
+  .now-add-link{
+    align-self: flex-start;
+    background: transparent;
+    border: 1px dashed rgba(255,255,255,0.15);
+    color: var(--ink-3);
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    margin-left: 0.4rem;
+  }
+  .now-add-link:hover{ border-color: var(--lime); color: var(--lime); }
+  body.light-mode .now-admin-row{ background: rgba(0,0,0,0.012); }
+  .sound-fx-row{
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.015);
+  }
+  .sound-fx-row .sfx-head{
+    display: flex; justify-content: space-between; align-items: center; gap: 0.8rem;
+  }
+  .sound-fx-row .sfx-label{
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .sound-fx-row .sfx-desc{
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+    margin-top: 0.15rem;
+  }
+  .sound-fx-row .sfx-actions{ display: flex; gap: 0.4rem; flex-shrink: 0; }
+  .sound-fx-row .sfx-actions button{
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.04);
+    color: var(--ink-2);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .sound-fx-row .sfx-actions button:hover{
+    border-color: var(--lime);
+    color: var(--lime);
+    background: rgba(212, 255, 58, 0.08);
+  }
+  .sound-fx-row .sfx-actions button:disabled{ opacity: 0.5; cursor: wait; }
+  .sound-fx-row .sfx-url{
+    margin-top: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+    word-break: break-all;
+  }
+  .sound-fx-row .sfx-url.has{ color: var(--lime); }
+  .sound-fx-row .sfx-url.empty{ color: var(--ink-3); }
+  body.light-mode .sound-fx-row{ background: rgba(0,0,0,0.015); }
   .media-inputs{
     display: flex;
     flex-direction: column;
@@ -2167,8 +2415,31 @@
   .media-inputs:empty{ display: none; }
   .media-input-row{
     display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.012);
+  }
+  .media-input-row .media-input-main{
+    display: flex;
     gap: 0.4rem;
     align-items: stretch;
+  }
+  .media-input-row .media-input-link{
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .media-input-row .m-link-icon{
+    color: var(--lime);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+    cursor: help;
   }
   .media-input-row input{
     flex: 1;
@@ -2182,11 +2453,18 @@
     transition: border-color 0.2s ease, background 0.2s ease;
     min-width: 0;
   }
+  .media-input-row .m-link{
+    background: rgba(212, 255, 58, 0.025);
+    border-color: rgba(212, 255, 58, 0.18);
+    font-size: 0.72rem;
+    padding: 0.45rem 0.7rem;
+    color: var(--ink-2);
+  }
   .media-input-row input::placeholder{ color: var(--ink-3); }
   .media-input-row input:focus{
     outline: none;
     border-color: var(--lime);
-    background: rgba(212,255,58,0.03);
+    background: rgba(212,255,58,0.05);
   }
   .media-input-remove{
     background: transparent;
@@ -3361,6 +3639,122 @@
     min-height: 0.7rem;
     margin-left: 0.4rem;
     letter-spacing: 0.03em;
+  }
+  /* Projects admin — 미디어 외부 링크 입력 (별도 줄) */
+  .pm-link-row{
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+  }
+  .pm-link-row .pm-link-icon{
+    color: var(--lime);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    width: 22px;
+    text-align: center;
+    cursor: help;
+    flex-shrink: 0;
+  }
+  .pm-link-row .pm-link{
+    flex: 1;
+    background: rgba(212, 255, 58, 0.025);
+    border: 1px solid rgba(212, 255, 58, 0.18);
+    border-radius: 6px;
+    padding: 0.4rem 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--ink-2);
+  }
+  .pm-link-row .pm-link:focus{
+    outline: none;
+    border-color: var(--lime);
+    background: rgba(212, 255, 58, 0.05);
+  }
+  .pm-link-row .pm-link::placeholder{ color: var(--ink-3); }
+
+  /* 미디어 타일 위 외부 링크 인디케이터 (Projects panel) */
+  .media-tile{ position: relative; }
+  .media-tile .media-tile-link-badge{
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 14px var(--lime-glow);
+    pointer-events: none;
+  }
+
+  /* Lightbox 안에 외부 링크 방문 버튼 — viewport 기준으로 항상 적정 폭 보장 */
+  .media-lightbox-visit{
+    position: fixed;
+    bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--lime);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+    width: max-content;
+    max-width: 90vw;
+    box-shadow: 0 8px 28px rgba(212, 255, 58, 0.35), 0 2px 10px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: var(--z-modal, 300);
+  }
+  .media-lightbox-visit:hover{
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 12px 36px rgba(212, 255, 58, 0.45), 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .media-lightbox-visit .arr{ font-size: 1rem; }
+
+  /* Thoughts media item 외부 링크 badge */
+  .media-item{ position: relative; }
+  .media-item .media-item-link-badge{
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3), 0 0 14px var(--lime-glow);
+    transition: transform 0.2s ease;
+  }
+  .media-item .media-item-link-badge:hover{ transform: scale(1.1); }
+  body.light-mode .media-tile .media-tile-link-badge,
+  body.light-mode .media-item .media-item-link-badge{
+    background: #aac81e;
+    color: #fff;
   }
   .pm-add-btn{
     align-self: flex-start;
@@ -5033,8 +5427,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   body.rahee-creep-snap header, body.rahee-creep-snap main, body.rahee-creep-snap section{ animation:none!important; }
 }
 
-/* ============== CLICK TAP EFFECT (서브컬쳐 모바일 게임 스타일) ============== */
-/* 동심원 ring 2개 + 중앙 코어 + N/E/S/W 카디널 스파클 — 짧고 선명 */
+/* ============== CLICK TAP EFFECT (서브컬쳐 모바일 게임 스타일, 4K) ============== */
+/* 동심원 ring 2개 + 중앙 코어 + N/E/S/W 카디널 스파클 — 짧고 선명한 SVG 기반 */
 .click-burst{
   position: fixed;
   pointer-events: none;
@@ -5043,44 +5437,84 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   will-change: transform;
 }
 
-/* 1. 중앙 코어 — 브라이트 도트가 잠깐 켜졌다 사라짐 */
+/* 1. 중앙 코어 — sharp SVG circle (vector 기반) */
 .click-burst .cb-core{
   position: absolute;
   left: 0; top: 0;
   width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 10px var(--lime), 0 0 18px var(--lime-glow);
   transform: translate(-50%, -50%) scale(0);
   animation: cbCore 0.35s cubic-bezier(.2,.8,.4,1) forwards;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.click-burst .cb-core svg{
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+.click-burst .cb-core svg circle{
+  fill: var(--lime);
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  /* 약한 글로우 (선명도 우선) */
+  filter: drop-shadow(0 0 3px rgba(212, 255, 58, 0.5));
 }
 
-/* 2. 내부 ring — 빠르게 확장 (선명한 라인) */
+/* 2. 내부 ring — SVG circle stroke (scale해도 vector라 sharp) */
 .click-burst .cb-ring1{
   position: absolute;
   left: 0; top: 0;
   width: 20px; height: 20px;
-  border-radius: 50%;
-  border: 2px solid var(--lime);
-  box-shadow: 0 0 10px var(--lime-glow), inset 0 0 6px var(--lime-glow);
   transform: translate(-50%, -50%) scale(0);
   animation: cbRing 0.55s cubic-bezier(.15,.7,.3,1) forwards;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.click-burst .cb-ring1 svg{
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+.click-burst .cb-ring1 svg circle{
+  fill: none;
+  stroke: var(--lime);
+  /* non-scaling-stroke 사용 → scale 후에도 같은 두께 유지 (화면 픽셀 기준) */
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  /* 글로우 약하게 */
+  filter: drop-shadow(0 0 2.5px rgba(212, 255, 58, 0.4));
 }
 
-/* 3. 외부 ring — 살짝 늦게 확장 + 더 크게 */
+/* 3. 외부 ring — 옅은 SVG circle */
 .click-burst .cb-ring2{
   position: absolute;
   left: 0; top: 0;
   width: 20px; height: 20px;
-  border-radius: 50%;
-  border: 1.5px solid var(--lime);
-  opacity: 0.7;
   transform: translate(-50%, -50%) scale(0);
   animation: cbRingOuter 0.7s cubic-bezier(.15,.7,.3,1) forwards;
   animation-delay: 70ms;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 0.75;
+}
+.click-burst .cb-ring2 svg{
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+.click-burst .cb-ring2 svg circle{
+  fill: none;
+  stroke: var(--lime);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 1.5px rgba(212, 255, 58, 0.3));
 }
 
-/* 4. 작은 입자 별들 — 사방으로 가볍게 트윙클 */
+/* 4. 작은 입자 별들 — 사방으로 가볍게 트윙클 (텍스트 글리프, 작고 은은) */
 .click-burst .cb-spark{
   position: absolute;
   left: 0; top: 0;
@@ -5104,14 +5538,14 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 }
 
 @keyframes cbRing{
-  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 1; border-width: 2px; }
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 1; }
   50%  { opacity: 0.95; }
-  100% { transform: translate(-50%, -50%) scale(3.8); opacity: 0; border-width: 0.5px; }
+  100% { transform: translate(-50%, -50%) scale(3);   opacity: 0; }
 }
 
 @keyframes cbRingOuter{
-  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0.85; border-width: 1.5px; }
-  100% { transform: translate(-50%, -50%) scale(5.5); opacity: 0; border-width: 0.5px; }
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0.85; }
+  100% { transform: translate(-50%, -50%) scale(4.2); opacity: 0; }
 }
 
 /* 별 입자: 12% 시점에 등장해 가볍게 바깥으로, 트윙클하며 사라짐 */
@@ -5209,12 +5643,51 @@ body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(2
   100% { transform: translate(-50%, -50%) translate(var(--ex-dx), var(--ex-dy)) scale(0) rotate(var(--ex-rot)); opacity: 0; }
 }
 
+/* 버튼 클릭 시 미니 파티클 — SVG 벡터, sharp body + glow layer 분리 */
+.click-particle{
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(0);
+  animation: clickFly 0.55s cubic-bezier(.2, .7, .3, 1) forwards;
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+.click-particle svg{
+  display: block;
+  width: 100%;
+  height: 100%;
+  shape-rendering: geometricPrecision;
+  overflow: visible; /* 글로우 잘리지 않게 */
+}
+.click-particle svg path,
+.click-particle svg circle{
+  fill: currentColor;
+  /* viewBox 24에 비례한 두꺼운 흰 외곽선 — 작은 사이즈에서도 또렷 */
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 5;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  /* 본체에 미세한 외곽 글로우만 — sharp 유지 */
+  filter:
+    drop-shadow(0 0 1px currentColor)
+    drop-shadow(0 0 4px currentColor);
+}
+@keyframes clickFly{
+  0%   { transform: translate(-50%, -50%) translate(0, 0) scale(0.4) rotate(0deg); opacity: 1; }
+  35%  { transform: translate(-50%, -50%) translate(calc(var(--cp-dx) * 0.5), calc(var(--cp-dy) * 0.5)) scale(1) rotate(120deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(var(--cp-dx), var(--cp-dy)) scale(0.2) rotate(360deg); opacity: 0; }
+}
+
 /* Star Log UI — 좌측 하단, 작고 미니멀 */
 .star-log{
   position: fixed;
-  left: 1.8rem;
-  /* music-player(높이 ~70~80px) 위에 스택. 음악 관리 버튼까지 고려해 충분한 여유 */
-  bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+  /* 퀘스트 UI 느낌으로 우상단에 배치 (topbar 아래, status-widget과 분리) */
+  right: 1.4rem;
+  top: 5rem;
   z-index: var(--z-floating);
   background: rgba(20, 10, 18, 0.85);
   backdrop-filter: blur(14px) saturate(160%);
@@ -5231,15 +5704,15 @@ body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(2
   gap: 0.65rem;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
+  transform: translateY(-10px);
   transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease, background 0.3s ease;
   letter-spacing: -0.005em;
 }
 @media (max-width: 700px){
   .star-log{
-    left: 1rem;
-    /* 모바일에선 music이 더 작으니 5rem로 충분 */
-    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+    /* 모바일에서는 더 작고 우측 상단에 (topbar 바로 아래) */
+    right: 1rem;
+    top: 4rem;
     font-size: 0.65rem;
     padding: 0.45rem 0.85rem;
   }
@@ -5438,9 +5911,11 @@ body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 
 
 @media (max-width: 768px){
   .star-log{
-    left: 1rem;
-    /* music-player 위에 스택 (1rem로 두면 음악과 정확히 겹침) */
-    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+    /* 우상단(퀘스트 위치) — left/bottom override 제거 */
+    left: auto;
+    bottom: auto;
+    right: 1rem;
+    top: 4rem;
     padding: 0.45rem 0.6rem;
     font-size: 0.6rem;
     gap: 0.45rem;
@@ -5463,6 +5938,7 @@ body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 
 }
 
 /* ============== BIG ARROW OVERLAY (방향키 누를 때 화면 가득) ============== */
+/* 방향키 입력 시 화면 중앙에 큰 화살표 오버레이 — 리듬게임 노트 느낌, 4K급 sharp */
 .big-arrow-overlay{
   position: fixed;
   inset: 0;
@@ -5472,49 +5948,91 @@ body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 
   pointer-events: none;
   z-index: 90;
   opacity: 0;
-  background: transparent;
-  transition: opacity 0.15s ease;
+  background: radial-gradient(ellipse at center, rgba(212, 255, 58, 0.18) 0%, transparent 65%);
+  transition: opacity 0.1s ease;
 }
 .big-arrow-overlay.show{
-  animation: bigArrowFade 0.7s ease-out forwards;
+  animation: bigArrowFade 0.55s ease-out forwards;
 }
 @keyframes bigArrowFade{
   0%   { opacity: 0; }
-  15%  { opacity: 1; }
-  60%  { opacity: 1; }
+  12%  { opacity: 1; }
+  65%  { opacity: 1; }
   100% { opacity: 0; }
 }
 .big-arrow-icon{
-  width: 55vmin;
-  height: 55vmin;
-  max-width: 640px;
-  max-height: 640px;
+  position: relative;
+  width: 80vmin;
+  height: 80vmin;
+  max-width: 900px;
+  max-height: 900px;
   color: var(--lime);
-  opacity: 0.08;
-  filter: blur(2px);
-  transform: scale(0.7);
+  transform: scale(0.5);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 .big-arrow-overlay.show .big-arrow-icon{
-  animation: bigArrowScale 0.7s cubic-bezier(.2,.7,.3,1) forwards;
+  animation: bigArrowPunch 0.55s cubic-bezier(.15, .9, .3, 1.25) forwards;
 }
-@keyframes bigArrowScale{
-  0%   { transform: scale(0.5); opacity: 0.04; }
-  20%  { transform: scale(1.05); opacity: 0.12; }
-  40%  { transform: scale(1); opacity: 0.1; }
-  100% { transform: scale(1.15); opacity: 0.04; }
+@keyframes bigArrowPunch{
+  0%   { transform: scale(0.45) rotate(-4deg); opacity: 0; }
+  18%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
+  32%  { transform: scale(0.97) rotate(0deg); opacity: 1; }
+  45%  { transform: scale(1.03) rotate(0deg); opacity: 1; }
+  72%  { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.18) rotate(0deg); opacity: 0; }
+}
+/* 글로우 layer — 별도 ::before pseudo로 분리, 강한 빛 효과 */
+.big-arrow-icon::before{
+  content: "";
+  position: absolute;
+  inset: -5%;
+  background: radial-gradient(ellipse at center,
+    rgba(212, 255, 58, 0.7) 0%,
+    rgba(212, 255, 58, 0.3) 25%,
+    rgba(212, 255, 58, 0.1) 45%,
+    transparent 65%);
+  filter: blur(28px);
+  z-index: 0;
+  pointer-events: none;
 }
 .big-arrow-icon svg{
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   display: block;
+  shape-rendering: geometricPrecision;
+}
+.big-arrow-icon svg path{
+  fill: var(--lime);
+  /* viewBox 100x100 에 stroke 1.5는 시각적으로 명확한 외곽선 */
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  /* 본체에 미세한 외곽 글로우 — sharp body 유지 */
+  filter:
+    drop-shadow(0 0 0.5px var(--lime))
+    drop-shadow(0 0 2px rgba(212, 255, 58, 0.5));
 }
 body.light-mode .big-arrow-overlay{
-  background: transparent;
+  background: radial-gradient(ellipse at center, rgba(170, 200, 30, 0.2) 0%, transparent 65%);
 }
-body.light-mode .big-arrow-icon{
-  color: var(--lime);
-  filter: blur(2px);
-  opacity: 0.07;
+body.light-mode .big-arrow-icon{ color: #aac81e; }
+body.light-mode .big-arrow-icon::before{
+  background: radial-gradient(ellipse at center,
+    rgba(170, 200, 30, 0.55) 0%,
+    rgba(170, 200, 30, 0.3) 25%,
+    rgba(170, 200, 30, 0.1) 50%,
+    transparent 70%);
+}
+body.light-mode .big-arrow-icon svg path{
+  fill: #aac81e;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 1.5;
 }
 @media (prefers-reduced-motion: reduce){
   .big-arrow-overlay.show{ animation: none; opacity: 0; }
@@ -5712,13 +6230,10 @@ body.light-mode .big-arrow-icon{
 <!-- ============== HERO ============== -->
 
 <section class="hero" id="hero">
-  <div class="hero-star-deco" aria-hidden="true">
-    <svg viewBox="0 0 100 100"><path d="M50 0 L55 45 L100 50 L55 55 L50 100 L45 55 L0 50 L45 45 Z"/></svg>
-  </div>
   <div class="wrap">
     <div class="micro-top">
-      <span class="left"><span class="pulse"></span>Personal Branding · Available 2026</span>
-      <span>k4rahee@naver.com <span class="hidden-star" data-star-id="1" title="?">✦</span></span>
+      <span class="left"><span class="pulse"></span><span id="hero-meta-left">Personal Branding · Available 2026</span></span>
+      <span><span id="hero-meta-right">k4rahee@naver.com</span> <span class="hidden-star" data-star-id="1" title="?">✦</span></span>
     </div>
 
 <div class="hero-grid">
@@ -6003,37 +6518,11 @@ body.light-mode .big-arrow-icon{
 
 <h2 class="sec-heading reveal">Now <em>Focus On.</em></h2>
 
-<div class="now-list reveal">
-  <div class="now-row">
-    <span class="kind">스터디</span>
-    <span class="what">
-      <span class="t">UI / UX 스터디 진행 중</span>
-      <span class="sublinks">
-        <a href="https://product.kyobobook.co.kr/detail/S000212939982" target="_blank" rel="noopener" class="link-pill">UX/UI의 10가지 심리학 법칙<span class="arr">↗</span></a>
-      </span>
-    </span>
-    <span class="status"><span class="blink"></span>Active</span>
-  </div>
-  <div class="now-row">
-    <span class="kind">스터디</span>
-    <span class="what">
-      <span class="t">모션 그래픽 스터디 진행 중</span>
-    </span>
-    <span class="status"><span class="blink"></span>Active</span>
-  </div>
-  <div class="now-row">
-    <span class="kind">개발</span>
-    <span class="what">
-      <span class="t">HTML 제작 및 스터디</span>
-      <span class="sublinks">
-        <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="link-pill">Project #1<span class="arr">↗</span></a>
-        <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="link-pill">Project #2<span class="arr">↗</span></a>
-        <a href="https://k4rahee.github.io/Im/" target="_blank" rel="noopener" class="link-pill">Project #3<span class="arr">↗</span></a>
-      </span>
-    </span>
-    <span class="status"><span class="blink"></span>Active</span>
-  </div>
+<div class="now-list reveal" id="now-list">
+  <!-- Firestore 'site/now' 에서 동적 렌더. 비어있을 때는 default 항목 표시 -->
 </div>
+
+<button class="now-admin-btn" id="now-admin-btn" type="button">✎ Now 관리</button>
 
   </div>
 </section>
@@ -6344,6 +6833,37 @@ body.light-mode .big-arrow-icon{
   </div>
 </div>
 
+<!-- Now 관리 모달 (admin only) -->
+<div class="contact-edit-modal" id="now-admin-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="now-admin-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="now-admin-close" type="button" aria-label="닫기">×</button>
+    <h3 class="write-heading">Now Focus On 관리</h3>
+    <div class="media-helper" style="margin-bottom:0.8rem;">현재 진행 중인 항목 추가/수정/삭제. 각 항목에 외부 링크도 여러 개 추가 가능.</div>
+    <div id="now-list-admin"></div>
+    <button class="media-add-btn" id="now-add-row" type="button" style="margin-top:0.5rem;">+ 항목 추가</button>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="now-admin-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="now-admin-save">저장하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 효과음 관리 모달 (admin only) -->
+<div class="contact-edit-modal" id="sound-admin-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="sound-admin-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="sound-admin-close" type="button" aria-label="닫기">×</button>
+    <h3 class="write-heading">효과음 관리</h3>
+    <div class="media-helper" style="margin-bottom:0.8rem;">5가지 효과음 자리에 mp3 파일을 올리거나 비워두면 기본 톤이 사용됩니다.</div>
+    <div id="sound-fx-list" class="sound-fx-list"></div>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="sound-admin-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="sound-admin-save">저장하기</button>
+    </div>
+  </div>
+</div>
+
 <div class="status-widget" id="status-widget">
   <div class="status-panel" id="status-panel">
     <div class="status-row">
@@ -6376,7 +6896,12 @@ body.light-mode .big-arrow-icon{
     </div>
   </div>
   <div class="status-btn-row">
-    <button class="theme-toggle sound-toggle" id="sound-toggle" type="button" aria-label="효과음 켜기" aria-pressed="false" title="효과음 켜기/끄기">🔇</button>
+    <div class="sound-cluster">
+      <button class="theme-toggle sound-toggle" id="sound-toggle" type="button" aria-label="음소거" aria-pressed="false" title="음소거/켜기">🔇</button>
+      <div class="volume-slider-wrap">
+        <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" aria-label="볼륨" title="볼륨">
+      </div>
+    </div>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="라이트 모드로 전환" title="라이트/다크 모드">☀</button>
     <button class="status-toggle" id="status-toggle" type="button">
       <span class="status-dot"></span>
@@ -6487,8 +7012,43 @@ body.light-mode .big-arrow-icon{
     };
 
     function play(name){
+      if (!enabled) return;
+      // 1순위: 커스텀 mp3 (Firestore에서 설정된 경우)
+      if (customAudio[name]){
+        try {
+          // cloneNode로 동시 재생 가능하게
+          const a = customAudio[name].cloneNode();
+          a.volume = customAudio[name].volume || 0.5;
+          a.play().catch(() => {});
+          return;
+        } catch(_){ /* fallback to tone */ }
+      }
+      // 2순위: OscillatorNode 톤 합성
       const fn = PRESETS[name];
       if (fn) fn();
+    }
+
+    // 커스텀 mp3 설정 — Firestore 매핑 받아서 미리 로드
+    let customAudio = {};
+    function setCustomSounds(map){
+      // 기존 audio 정리
+      Object.values(customAudio).forEach(a => { try { a.src = ''; } catch(_){} });
+      customAudio = {};
+      Object.entries(map || {}).forEach(([name, url]) => {
+        if (!url) return;
+        try {
+          const a = new Audio(url);
+          a.preload = 'auto';
+          a.volume = 0.5;
+          a.crossOrigin = 'anonymous';
+          customAudio[name] = a;
+        } catch(_){}
+      });
+    }
+    function getCustomSounds(){
+      const map = {};
+      Object.entries(customAudio).forEach(([name, a]) => { map[name] = a.src; });
+      return map;
     }
 
     function setEnabled(v){
@@ -6510,26 +7070,96 @@ body.light-mode .big-arrow-icon{
     function isEnabled(){ return enabled; }
     function toggle(){ setEnabled(!enabled); return enabled; }
 
-    return { play, toggle, setEnabled, isEnabled, ensureCtx };
+    return { play, toggle, setEnabled, isEnabled, ensureCtx, setCustomSounds, getCustomSounds };
   })();
 
-  // 사운드 토글 버튼 바인딩
+  // 사운드 토글 버튼 바인딩 (음소거 = 효과음 끔 + 음악 mute)
   (function(){
     const btn = document.getElementById('sound-toggle');
+    const slider = document.getElementById('volume-slider');
     if (!btn) return;
+
     function syncUI(){
       const on = window.Sound.isEnabled();
       btn.classList.toggle('on', on);
       btn.textContent = on ? '🔊' : '🔇';
       btn.setAttribute('aria-pressed', String(on));
-      btn.setAttribute('aria-label', on ? '효과음 끄기' : '효과음 켜기');
-      btn.title = on ? '효과음 켜짐 (클릭해서 끄기)' : '효과음 꺼짐 (클릭해서 켜기)';
+      btn.setAttribute('aria-label', on ? '음소거' : '소리 켜기');
+      const adminHint = (window.isAdmin && window.isAdmin()) ? ' · 우클릭/길게눌러서 효과음 관리' : '';
+      btn.title = (on ? '소리 켜짐 (클릭해서 끄기)' : '소리 꺼짐 (클릭해서 켜기)') + adminHint;
     }
-    syncUI();
-    btn.addEventListener('click', () => {
-      window.Sound.toggle();
+
+    // 사운드 토글 = 효과음 + 음악 모두 mute on/off
+    function toggleAll(){
+      const newState = !window.Sound.isEnabled();
+      window.Sound.setEnabled(newState);
+      // 음악 위젯 동기화
+      if (window.Music && typeof window.Music.setMuted === 'function'){
+        window.Music.setMuted(!newState);
+      }
       syncUI();
+    }
+
+    syncUI();
+    // 페이지 로드 시 음악 mute 상태도 효과음 토글 상태와 맞춤
+    if (window.Music && typeof window.Music.setMuted === 'function'){
+      window.Music.setMuted(!window.Sound.isEnabled());
+    }
+    btn.addEventListener('click', toggleAll);
+
+    // 볼륨 슬라이더 바인딩 — 채움 색 + 음악 실시간 연동
+    function updateSliderFill(){
+      if (!slider) return;
+      const v = parseInt(slider.value, 10) || 0;
+      slider.style.setProperty('--vol-pct', v + '%');
+    }
+
+    if (slider){
+      // 페이지 로드 시 저장된 볼륨 값으로 슬라이더 + 채움 동기화
+      const initVol = (window.Music && window.Music.getVolume) ? window.Music.getVolume() : 0.5;
+      slider.value = Math.round(initVol * 100);
+      updateSliderFill();
+
+      // 슬라이더 변경 시 — 음악·효과음 즉시 적용
+      slider.addEventListener('input', () => {
+        const v = parseInt(slider.value, 10) / 100;
+        // 1. 음악 위젯에 즉시 반영 (audio.volume + ytPlayer.setVolume 둘 다)
+        if (window.Music && window.Music.setVolume){
+          window.Music.setVolume(v);
+        }
+        // 2. 채움 색 업데이트
+        updateSliderFill();
+        // 3. 0이면 자동 mute, 1 이상이면 자동 unmute (직관적 UX)
+        if (v <= 0 && window.Sound && window.Sound.isEnabled()){
+          window.Sound.setEnabled(false);
+          if (window.Music && window.Music.setMuted) window.Music.setMuted(true);
+          syncUI();
+        } else if (v > 0 && window.Sound && !window.Sound.isEnabled()){
+          window.Sound.setEnabled(true);
+          if (window.Music && window.Music.setMuted) window.Music.setMuted(false);
+          syncUI();
+        }
+      });
+    }
+
+    // Admin: 우클릭 또는 길게 누르면 효과음 관리 모달
+    function openSoundAdmin(){
+      if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+      if (typeof window._soundAdminInit === 'function') window._soundAdminInit();
+    }
+    btn.addEventListener('contextmenu', (e) => {
+      if (window.isAdmin && window.isAdmin()){
+        e.preventDefault();
+        openSoundAdmin();
+      }
     });
+    // 모바일 long-press
+    let pressTimer = null;
+    btn.addEventListener('touchstart', () => {
+      pressTimer = setTimeout(() => { openSoundAdmin(); }, 700);
+    }, { passive: true });
+    btn.addEventListener('touchend', () => { clearTimeout(pressTimer); });
+    btn.addEventListener('touchmove', () => { clearTimeout(pressTimer); });
   })();
 
   // 보편적 클릭 사운드 — 주요 인터랙티브 요소에 위임 바인딩
@@ -6542,6 +7172,142 @@ body.light-mode .big-arrow-icon{
     if (t.classList.contains('hidden-star')) return; // 별 수집은 별도 처리
     window.Sound.play('click');
   }, { passive: true });
+
+  // ============== HERO META — 동적 정보 (시간/요일/계절 인지) ==============
+  // 좌측: "Personal Branding · 화 04.28" 형태로 오늘 날짜 노출
+  // 우측: 시간대별 인사 ("Now Writing" / "Off Hours" 등)
+  // 화면이 다시 보일 때(visibilitychange) 즉시 갱신, 평소엔 1분마다.
+  (function(){
+    const leftEl  = document.getElementById('hero-meta-left');
+    const rightEl = document.getElementById('hero-meta-right');
+    if (!leftEl || !rightEl) return;
+
+    const DAY_KO = ['일','월','화','수','목','금','토'];
+
+    function timeContext(h){
+      // 0~5  새벽 — Late Night Coding
+      // 6~11 아침 — Now Writing
+      // 12~17 낮  — In The Studio
+      // 18~22 저녁 — Wrapping Up
+      // 23   심야 — Late Night Coding
+      if (h >= 6  && h <= 11) return { en: 'Now Writing',        ko: '작업 중' };
+      if (h >= 12 && h <= 17) return { en: 'In The Studio',      ko: '스튜디오에서' };
+      if (h >= 18 && h <= 22) return { en: 'Wrapping Up',        ko: '마무리 중' };
+      return                   { en: 'Late Night Coding',         ko: '늦은 밤' };
+    }
+
+    function update(){
+      const now = new Date();
+      const h = now.getHours();
+      const m = now.getMinutes();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day   = String(now.getDate()).padStart(2, '0');
+      const dow   = DAY_KO[now.getDay()];
+      const hh    = String(h).padStart(2, '0');
+      const mm    = String(m).padStart(2, '0');
+
+      // 좌측: "Personal Branding · 04.28 화"
+      leftEl.textContent = `Personal Branding · ${month}.${day} ${dow}`;
+
+      // 우측: 이메일 + 현재 활동 상태 (작은 글자로)
+      const ctx = timeContext(h);
+      rightEl.innerHTML = `<span class="hero-meta-status">${hh}:${mm} · ${ctx.en}</span> · k4rahee@naver.com`;
+    }
+
+    update();
+    // 1분마다 갱신
+    setInterval(update, 60 * 1000);
+    // 다른 탭 갔다 돌아오면 즉시 갱신
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) update();
+    });
+  })();
+
+  // ============== HEADING CHAR SPLIT (마이크로 인터랙션) ==============
+  // 섹션 헤딩의 각 글자를 .ch-w span으로 감싸 호버 시 도미노 wobble.
+  // <em> 안의 텍스트도 처리, 공백은 .is-space 클래스로 표시.
+  (function(){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const headings = document.querySelectorAll('.sec-heading');
+    headings.forEach(h => {
+      // 텍스트 노드만 글자 단위로 split (em 태그도 재귀 처리)
+      function processNode(node){
+        if (node.nodeType === Node.TEXT_NODE){
+          const text = node.textContent;
+          const frag = document.createDocumentFragment();
+          [...text].forEach((ch, i) => {
+            const span = document.createElement('span');
+            span.className = 'ch-w' + (ch === ' ' ? ' is-space' : '');
+            span.textContent = ch;
+            frag.appendChild(span);
+          });
+          node.replaceWith(frag);
+        } else if (node.nodeType === Node.ELEMENT_NODE){
+          // 자식 노드들을 순회 (라이브 컬렉션 회피 위해 배열로)
+          [...node.childNodes].forEach(processNode);
+        }
+      }
+      [...h.childNodes].forEach(processNode);
+      // 모든 .ch-w에 stagger delay 부여
+      const chars = h.querySelectorAll('.ch-w:not(.is-space)');
+      chars.forEach((c, i) => {
+        c.style.animationDelay = (i * 28) + 'ms';
+      });
+    });
+  })();
+
+  // ============== CLICK PARTICLES (마이크로 인터랙션) ==============
+  // 시그니처 버튼 클릭 시 ✦ 미니 파티클 폭발 — SVG로 항상 선명.
+  (function(){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const COLORS = ['#d4ff3a', '#ff4488', '#ffffff', '#ffb0d8'];
+    // 4-pointed star SVG path (✦ 모양 — 벡터라 어느 크기든 선명, fill/stroke는 CSS에서 정의)
+    const SPARKLE_SVG = '<svg viewBox="-12 -12 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0,-10 L2.5,-2.5 L10,0 L2.5,2.5 L0,10 L-2.5,2.5 L-10,0 L-2.5,-2.5 Z"/></svg>';
+    const DOT_SVG = '<svg viewBox="-6 -6 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="3"/></svg>';
+
+    function spawnBurst(cx, cy, count){
+      for (let i = 0; i < count; i++){
+        const p = document.createElement('div');
+        p.className = 'click-particle';
+        // 80% sparkle, 20% small dot (variety)
+        p.innerHTML = Math.random() < 0.8 ? SPARKLE_SVG : DOT_SVG;
+        const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+        const dist  = 32 + Math.random() * 32;
+        // 더 큰 사이즈 (4K 디스플레이에서도 또렷하게)
+        const size  = 22 + Math.random() * 18; // 22~40px
+        p.style.left = cx + 'px';
+        p.style.top  = cy + 'px';
+        p.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.setProperty('--cp-dx', Math.cos(angle) * dist + 'px');
+        p.style.setProperty('--cp-dy', Math.sin(angle) * dist + 'px');
+        document.body.appendChild(p);
+        setTimeout(() => { try { p.remove(); } catch(_) {} }, 600);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      // 별 폭발(별 수집)이 이미 있는 곳은 제외
+      if (e.target.closest('.hidden-star')) return;
+      // 모달 안에서는 안 함 (시각 노이즈)
+      if (e.target.closest('.thought-modal, .contact-edit-modal, .secret-overlay')) return;
+      // 시그니처 버튼들만 — 토글, 캐러셀 nav, 음악 컨트롤, 칩, 카피, 마퀴 키워드
+      const trigger = e.target.closest(
+        '.theme-toggle, .sound-toggle, .status-toggle, ' +
+        '.nav-btn, .music-btn, .filter-btn, .chip, ' +
+        '.contact-email-copy, .m-key, ' +
+        '.like-btn, .star-log.complete'
+      );
+      if (!trigger) return;
+      const r = trigger.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      // 파티클 개수 — 작은 버튼은 4개, 토글류는 6개
+      const count = trigger.matches('.theme-toggle, .sound-toggle, .status-toggle') ? 6 : 4;
+      spawnBurst(cx, cy, count);
+    }, { passive: true });
+  })();
 
   // ============== FIREBASE READY HELPER ==============
   // 일반 스크립트는 모듈 import에 접근 못 함. 모듈이 window.db 등을 노출하고
@@ -6662,6 +7428,354 @@ body.light-mode .big-arrow-icon{
     });
   })();
 
+  // ============== NOW FOCUS ON (관리 시스템) ==============
+  // Firestore 'site/now' 문서에 list 저장: [{kind, title, status, links: [{label, url}]}]
+  // admin이 추가/삭제/수정 가능. 비어있으면 default 항목 표시.
+  (function(){
+    const listEl = document.getElementById('now-list');
+    const adminBtn = document.getElementById('now-admin-btn');
+    if (!listEl) return;
+
+    const DEFAULT_NOW = [
+      {
+        kind: '스터디',
+        title: 'UI / UX 스터디 진행 중',
+        status: 'Active',
+        links: [{ label: 'UX/UI의 10가지 심리학 법칙', url: 'https://product.kyobobook.co.kr/detail/S000212939982' }]
+      },
+      {
+        kind: '스터디',
+        title: '모션 그래픽 스터디 진행 중',
+        status: 'Active',
+        links: []
+      },
+      {
+        kind: '개발',
+        title: 'HTML 제작 및 스터디',
+        status: 'Active',
+        links: [
+          { label: 'Project #1', url: 'https://k4rahee.github.io/Churro/' },
+          { label: 'Project #2', url: 'https://k4rahee.github.io/Churro/' },
+          { label: 'Project #3', url: 'https://k4rahee.github.io/Im/' }
+        ]
+      }
+    ];
+
+    function escHtml(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+
+    function renderNow(items){
+      const data = (Array.isArray(items) && items.length) ? items : DEFAULT_NOW;
+      listEl.innerHTML = data.map(item => {
+        const links = (item.links || []).filter(l => l && l.url).map(l =>
+          `<a href="${escHtml(l.url)}" target="_blank" rel="noopener" class="link-pill">${escHtml(l.label || '링크')}<span class="arr">↗</span></a>`
+        ).join('');
+        return `
+          <div class="now-row">
+            <span class="kind">${escHtml(item.kind || '')}</span>
+            <span class="what">
+              <span class="t">${escHtml(item.title || '')}</span>
+              ${links ? `<span class="sublinks">${links}</span>` : ''}
+            </span>
+            <span class="status"><span class="blink"></span>${escHtml(item.status || 'Active')}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    let currentItems = null;
+    // 즉시 default 렌더 (Firebase 준비되기 전에도 화면 채우기)
+    renderNow(null);
+
+    // Firebase 준비되면 구독
+    whenFirebaseReady(function(){
+      if (!window.db) return;
+      const NOW_REF = window.doc(window.db, 'site', 'now');
+      window.onSnapshot(NOW_REF, (snap) => {
+        if (snap.exists()){
+          const d = snap.data();
+          currentItems = Array.isArray(d.list) ? d.list : null;
+        } else {
+          currentItems = null;
+        }
+        renderNow(currentItems);
+      }, (err) => { console.error('[now]', err); });
+    });
+
+    // ================ Admin Modal ================
+    const modal     = document.getElementById('now-admin-modal');
+    const backdrop  = document.getElementById('now-admin-backdrop');
+    const closeBtn  = document.getElementById('now-admin-close');
+    const cancelBtn = document.getElementById('now-admin-cancel');
+    const saveBtn   = document.getElementById('now-admin-save');
+    const adminList = document.getElementById('now-list-admin');
+    const addBtn    = document.getElementById('now-add-row');
+
+    function makeLinkRow(link = {}){
+      const row = document.createElement('div');
+      row.className = 'now-link-row';
+      row.innerHTML = `
+        <input type="text" class="nl-label" placeholder="링크 이름 (예: Project #1)" value="${escHtml(link.label || '')}">
+        <input type="url" class="nl-url" placeholder="https://..." value="${escHtml(link.url || '')}">
+        <button type="button" class="row-rm-btn nl-remove" title="삭제">×</button>
+      `;
+      row.querySelector('.nl-remove').addEventListener('click', () => row.remove());
+      return row;
+    }
+
+    function makeNowRow(item = {}){
+      const row = document.createElement('div');
+      row.className = 'now-admin-row';
+      row.innerHTML = `
+        <div class="now-admin-head">
+          <input type="text" class="now-kind" placeholder="분류 (예: 스터디, 개발, 작업)" value="${escHtml(item.kind || '')}" style="flex:0 0 8rem;">
+          <input type="text" class="now-title" placeholder="제목 (예: UI/UX 스터디 진행 중)" value="${escHtml(item.title || '')}" style="flex:1;">
+          <input type="text" class="now-status" placeholder="상태 (예: Active, 스터디 중)" value="${escHtml(item.status || 'Active')}" style="flex:0 0 8rem;">
+          <button type="button" class="row-rm-btn now-remove" title="삭제">×</button>
+        </div>
+        <div class="now-links-list" style="margin-top:0.5rem;"></div>
+        <button type="button" class="now-add-link" style="margin-top:0.4rem;">+ 링크 추가</button>
+      `;
+      const linksList = row.querySelector('.now-links-list');
+      const addLinkBtn = row.querySelector('.now-add-link');
+      const removeBtn = row.querySelector('.now-remove');
+      (item.links || []).forEach(l => linksList.appendChild(makeLinkRow(l)));
+      addLinkBtn.addEventListener('click', () => linksList.appendChild(makeLinkRow()));
+      removeBtn.addEventListener('click', () => {
+        if (!confirm('이 항목을 삭제할까요?')) return;
+        row.remove();
+      });
+      return row;
+    }
+
+    function rebuild(){
+      if (!adminList) return;
+      adminList.innerHTML = '';
+      const data = (currentItems && currentItems.length) ? currentItems : DEFAULT_NOW;
+      data.forEach(item => adminList.appendChild(makeNowRow(item)));
+    }
+
+    function openModal(){
+      if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+      rebuild();
+      if (modal){
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+      }
+    }
+    function closeModal(){
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    if (adminBtn) adminBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (addBtn) addBtn.addEventListener('click', () => {
+      const r = makeNowRow({ kind: '', title: '', status: 'Active', links: [] });
+      adminList.appendChild(r);
+      setTimeout(() => adminList.scrollTo({ top: adminList.scrollHeight, behavior: 'smooth' }), 50);
+    });
+
+    if (saveBtn) saveBtn.addEventListener('click', async () => {
+      if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+      saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
+      try {
+        const rows = adminList.querySelectorAll('.now-admin-row');
+        const newList = [];
+        rows.forEach(row => {
+          const kind   = row.querySelector('.now-kind').value.trim();
+          const title  = row.querySelector('.now-title').value.trim();
+          const status = row.querySelector('.now-status').value.trim() || 'Active';
+          if (!title) return;
+          const links = Array.from(row.querySelectorAll('.now-link-row')).map(lr => {
+            const label = lr.querySelector('.nl-label').value.trim();
+            const url   = lr.querySelector('.nl-url').value.trim();
+            return url ? { label: label || url, url } : null;
+          }).filter(Boolean);
+          newList.push({ kind, title, status, links });
+        });
+        await window.setDoc(window.doc(window.db, 'site', 'now'), { list: newList });
+        if (typeof toast === 'function') toast('Now 항목 저장 완료', 'success');
+        closeModal();
+      } catch(err){
+        console.error('[now] save failed:', err);
+        if (typeof toast === 'function') toast('저장 실패: ' + (err.code || err.message), 'error');
+      } finally {
+        saveBtn.disabled = false; saveBtn.textContent = '저장하기';
+      }
+    });
+
+    // Admin이 아니면 admin 버튼 숨김
+    function syncAdminBtn(){
+      if (!adminBtn) return;
+      const visible = window.isAdmin && window.isAdmin();
+      adminBtn.style.display = visible ? '' : 'none';
+    }
+    syncAdminBtn();
+    window.addEventListener('auth-changed', syncAdminBtn);
+  })();
+
+  // ============== SOUND FX (효과음 관리 시스템) ==============
+  // Firestore에 mp3 URL 매핑 저장 (site/sounds), Storage에 파일 업로드.
+  // mp3가 있으면 그것 사용, 없으면 Sound 모듈의 OscillatorNode tone fallback.
+  whenFirebaseReady(function(){
+    if (!window.db) return;
+    const SOUNDS_REF = window.doc(window.db, 'site', 'sounds');
+    const FX_NAMES = [
+      { key: 'click',        label: 'UI 클릭',          desc: '버튼·칩·토글 등 일반 클릭' },
+      { key: 'star',         label: '별 줍기',           desc: '숨은 ✦ 별 1개 발견' },
+      { key: 'starComplete', label: '별 5개 완성',        desc: '5개 다 모았을 때 팡파레' },
+      { key: 'toggleOn',     label: '토글 ON',           desc: '사운드/테마 등 켤 때' },
+      { key: 'modalOpen',    label: '모달 열림',          desc: '글·상세·관리 모달 열릴 때' },
+    ];
+    let currentSounds = {};
+
+    // Firestore 실시간 구독
+    window.onSnapshot(SOUNDS_REF, (snap) => {
+      const data = snap.exists() ? (snap.data().fx || {}) : {};
+      currentSounds = { ...data };
+      if (window.Sound && typeof window.Sound.setCustomSounds === 'function'){
+        window.Sound.setCustomSounds(currentSounds);
+      }
+    }, (err) => { console.error('[sound-fx]', err); });
+
+    // Admin 모달 init (sound-toggle 우클릭/long-press 시 호출됨)
+    window._soundAdminInit = function(){
+      const modal     = document.getElementById('sound-admin-modal');
+      const backdrop  = document.getElementById('sound-admin-backdrop');
+      const closeBtn  = document.getElementById('sound-admin-close');
+      const cancelBtn = document.getElementById('sound-admin-cancel');
+      const saveBtn   = document.getElementById('sound-admin-save');
+      const list      = document.getElementById('sound-fx-list');
+      if (!modal || !list) return;
+
+      let pendingMap = { ...currentSounds }; // 저장 전 임시 상태
+
+      function makeFxRow(fx){
+        const row = document.createElement('div');
+        row.className = 'sound-fx-row';
+        row.dataset.key = fx.key;
+        const url = pendingMap[fx.key] || '';
+        row.innerHTML = `
+          <div class="sfx-head">
+            <div>
+              <div class="sfx-label">${fx.label}</div>
+              <div class="sfx-desc">${fx.desc}</div>
+            </div>
+            <div class="sfx-actions">
+              <button type="button" class="sfx-test" title="테스트 재생">▶</button>
+              <button type="button" class="sfx-upload" title="mp3 업로드">📁</button>
+              <button type="button" class="sfx-clear" title="기본값으로">↺</button>
+            </div>
+          </div>
+          <div class="sfx-url ${url ? 'has' : 'empty'}">${url ? '✓ ' + (url.split('/').pop().split('?')[0].slice(0, 40)) : '기본 톤 사용 중'}</div>
+        `;
+        // 테스트 재생 — 임시로 customSounds에 적용해서 재생
+        row.querySelector('.sfx-test').addEventListener('click', () => {
+          const tempMap = { ...currentSounds, [fx.key]: pendingMap[fx.key] || '' };
+          if (window.Sound && window.Sound.setCustomSounds){
+            window.Sound.setCustomSounds(tempMap);
+            // 토글 일시 켜고 재생 후 원상복구
+            const wasOn = window.Sound.isEnabled();
+            if (!wasOn) window.Sound.setEnabled(true);
+            setTimeout(() => {
+              window.Sound.play(fx.key);
+              if (!wasOn) setTimeout(() => window.Sound.setEnabled(false), 800);
+              // 원래 매핑 복원
+              setTimeout(() => window.Sound.setCustomSounds(currentSounds), 1500);
+            }, 100);
+          }
+        });
+        // 업로드 — Storage에 mp3
+        row.querySelector('.sfx-upload').addEventListener('click', () => {
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'audio/*';
+          input.onchange = async (ev) => {
+            const f = ev.target.files && ev.target.files[0];
+            if (!f) return;
+            const btn = row.querySelector('.sfx-upload');
+            btn.disabled = true; btn.textContent = '⏳';
+            try {
+              const path = `sounds/${fx.key}_${Date.now()}_${f.name.replace(/[^\w.-]/g,'_')}`;
+              const sRef = window.storageRef(window.storage, path);
+              await window.uploadBytes(sRef, f);
+              const url = await window.getDownloadURL(sRef);
+              pendingMap[fx.key] = url;
+              const urlEl = row.querySelector('.sfx-url');
+              urlEl.textContent = '✓ ' + (f.name.slice(0, 40));
+              urlEl.className = 'sfx-url has';
+              if (typeof toast === 'function') toast(`${fx.label} 업로드 완료`, 'success');
+            } catch(err){
+              console.error('[sfx upload]', err);
+              if (typeof toast === 'function') toast('업로드 실패: ' + (err.code || err.message), 'error');
+            } finally {
+              btn.disabled = false; btn.textContent = '📁';
+            }
+          };
+          input.click();
+        });
+        // 초기화 (기본 톤으로)
+        row.querySelector('.sfx-clear').addEventListener('click', () => {
+          pendingMap[fx.key] = '';
+          const urlEl = row.querySelector('.sfx-url');
+          urlEl.textContent = '기본 톤 사용 중';
+          urlEl.className = 'sfx-url empty';
+        });
+        return row;
+      }
+
+      function rebuild(){
+        list.innerHTML = '';
+        FX_NAMES.forEach(fx => list.appendChild(makeFxRow(fx)));
+      }
+
+      function open(){
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+        pendingMap = { ...currentSounds };
+        rebuild();
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+      }
+      function close(){
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        // 원래 매핑 복원 (테스트 도중 변경된 임시 상태가 남지 않게)
+        if (window.Sound && window.Sound.setCustomSounds){
+          window.Sound.setCustomSounds(currentSounds);
+        }
+      }
+
+      if (!modal._initDone){
+        modal._initDone = true;
+        closeBtn.addEventListener('click', close);
+        cancelBtn.addEventListener('click', close);
+        backdrop.addEventListener('click', close);
+        saveBtn.addEventListener('click', async () => {
+          if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+          saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
+          try {
+            await window.setDoc(SOUNDS_REF, { fx: pendingMap });
+            if (typeof toast === 'function') toast('효과음 저장 완료', 'success');
+            close();
+          } catch(err){
+            console.error('[sfx save]', err);
+            if (typeof toast === 'function') toast('저장 실패: ' + (err.code || err.message), 'error');
+          } finally {
+            saveBtn.disabled = false; saveBtn.textContent = '저장하기';
+          }
+        });
+      }
+      open();
+    };
+  });
+
   // ============== MUSIC PLAYER ==============
   whenFirebaseReady(function(){
     const DEFAULT_TRACKS = [
@@ -6687,6 +7801,55 @@ body.light-mode .big-arrow-icon{
     const progBar  = document.getElementById('music-progress-bar');
 
     const MUSIC_REF = doc(db, 'site', 'playlist');
+
+    // ============ Music 외부 API (사운드 토글 + 볼륨 슬라이더) ============
+    // localStorage 우선, 처음이면 0.5
+    const VOL_KEY = 'churro-volume';
+    const MUTE_KEY = 'churro-muted';
+    let _volume = 0.5;
+    let _muted = false;
+    try {
+      const v = parseFloat(localStorage.getItem(VOL_KEY));
+      if (!isNaN(v) && v >= 0 && v <= 1) _volume = v;
+      _muted = localStorage.getItem(MUTE_KEY) === '1';
+    } catch(_){}
+
+    function applyAudioVolume(){
+      // _muted면 0, 아니면 _volume
+      const v = _muted ? 0 : _volume;
+      try { audio.volume = v; } catch(_){}
+      // YouTube IFrame은 0~100 스케일
+      try {
+        if (ytPlayer && typeof ytPlayer.setVolume === 'function'){
+          ytPlayer.setVolume(Math.round(v * 100));
+        }
+      } catch(_){}
+    }
+    // audio 객체에 즉시 적용
+    applyAudioVolume();
+    // audio가 새 source 로드 후 자동으로 volume 재적용 (재생 직전마다)
+    audio.addEventListener('loadeddata', applyAudioVolume);
+    audio.addEventListener('play', applyAudioVolume);
+
+    window.Music = {
+      setVolume(v){
+        _volume = Math.max(0, Math.min(1, +v || 0));
+        applyAudioVolume();
+        try { localStorage.setItem(VOL_KEY, String(_volume)); } catch(_){}
+      },
+      getVolume(){ return _volume; },
+      setMuted(b){
+        _muted = !!b;
+        applyAudioVolume();
+        try { localStorage.setItem(MUTE_KEY, _muted ? '1' : '0'); } catch(_){}
+      },
+      isMuted(){ return _muted; },
+      // 토글 — 효과음과 음악을 한번에 켜고 끔
+      toggleMute(){
+        this.setMuted(!_muted);
+        return _muted;
+      }
+    };
 
     // ============ YouTube IFrame Player 통합 ============
     let ytPlayer = null;
@@ -6733,6 +7896,7 @@ body.light-mode .big-arrow-icon{
           events: {
             onReady: () => {
               ytReady = true;
+              applyAudioVolume();
               if (ytQueuedAction){ const a = ytQueuedAction; ytQueuedAction = null; a(); }
               resolve();
             },
@@ -6794,7 +7958,7 @@ body.light-mode .big-arrow-icon{
         currentPlayerType = 'audio';
         pauseYT();
         audio.src = url;
-        audio.volume = 0.4;
+        applyAudioVolume();
         return audio.play();
       }
     }
@@ -7300,6 +8464,7 @@ body.light-mode .big-arrow-icon{
         `;
       }
       const url = media.url;
+      const link = media.link && media.link.trim() ? media.link.trim() : '';
       const type = detectMediaType(url);
       let inner = '';
       let badge = 'Image';
@@ -7317,11 +8482,14 @@ body.light-mode .big-arrow-icon{
         inner = `<img src="${escAttr(url)}" alt="" loading="lazy">`;
         badge = 'Image';
       }
+      // link가 있으면 우상단에 ↗ 인디케이터, lightbox에 link 정보 전달
+      const linkBadge = link ? `<span class="media-tile-link-badge" title="외부 링크 있음">↗</span>` : '';
       return `
-        <div class="media-tile" data-url="${escAttr(url)}" data-type="${type}" data-idx="${idx}" role="button" tabindex="0" aria-label="미디어 ${idx + 1} 크게 보기" style="transition-delay: ${0.3 + idx * 0.12}s, ${0.3 + idx * 0.12}s, 0s, 0s;">
+        <div class="media-tile" data-url="${escAttr(url)}" data-type="${type}" data-idx="${idx}"${link ? ' data-link="' + escAttr(link) + '"' : ''} role="button" tabindex="0" aria-label="미디어 ${idx + 1} 크게 보기${link ? ' (외부 링크 포함)' : ''}" style="transition-delay: ${0.3 + idx * 0.12}s, ${0.3 + idx * 0.12}s, 0s, 0s;">
           ${inner}
           <div class="media-tile-overlay"></div>
           <span class="media-tile-type-badge">${badge}</span>
+          ${linkBadge}
         </div>
       `;
     }
@@ -7332,7 +8500,7 @@ body.light-mode .big-arrow-icon{
     const lightboxClose = document.getElementById('media-lightbox-close');
     const lightboxBackdrop = document.getElementById('media-lightbox-backdrop');
 
-    function openLightbox(url, type){
+    function openLightbox(url, type, link){
       let inner = '';
       if (type === 'youtube'){
         inner = `<iframe src="${escAttr(youtubeEmbedUrl(url))}" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
@@ -7343,6 +8511,10 @@ body.light-mode .big-arrow-icon{
         inner = `<video src="${escAttr(url)}" controls autoplay></video>`;
       } else {
         inner = `<img src="${escAttr(url)}" alt="">`;
+      }
+      // 외부 링크가 있으면 lightbox 내부에 "방문하기 ↗" 버튼
+      if (link && link.trim()){
+        inner += `<a class="media-lightbox-visit" href="${escAttr(link.trim())}" target="_blank" rel="noopener noreferrer">사이트 방문하기 <span class="arr">↗</span></a>`;
       }
       lightboxBody.innerHTML = inner;
       lightbox.classList.add('open');
@@ -7366,6 +8538,8 @@ body.light-mode .big-arrow-icon{
     // 참고: position:absolute / object-fit:cover 등은 .gallery .img-wrapper > img CSS 규칙에서 처리됨
     const PH_GRADIENTS = ['g3', 'g2', 'g5', 'g4'];
     function renderCardThumb(p, cardIdx){
+      // 썸네일 우선순위: 1) p.thumbnail (별도 설정) → 2) p.media[0]
+      const customThumb = p.thumbnail && p.thumbnail.trim();
       const first = p.media && p.media[0];
       const altText = escAttr(p.title ? p.title.replace(/<[^>]+>/g, '') + ' 썸네일' : '');
       const grad = PH_GRADIENTS[cardIdx % PH_GRADIENTS.length];
@@ -7374,11 +8548,24 @@ body.light-mode .big-arrow-icon{
         <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
         <div class="ph-corner bl"></div><div class="ph-corner br"></div>
       </div>`;
+
+      // 1순위: p.thumbnail (별도 설정된 썸네일 — youtube URL이든 직접 이미지든)
+      if (customThumb){
+        const type = detectMediaType(customThumb);
+        if (type === 'youtube'){
+          const thumb = youtubeThumb(customThumb);
+          return `<img src="${escAttr(thumb)}" alt="${altText}" loading="lazy" referrerpolicy="no-referrer" data-thumb-card="${cardIdx}">${placeholder}`;
+        } else if (type === 'image' || type !== 'video'){
+          // 이미지 URL로 직접 (Storage 업로드된 경우)
+          return `<img src="${escAttr(customThumb)}" alt="${altText}" loading="lazy" data-thumb-card="${cardIdx}">${placeholder}`;
+        }
+      }
+
+      // 2순위: 첫 미디어
       if (first && first.url){
         const type = detectMediaType(first.url);
         if (type === 'youtube'){
           const thumb = youtubeThumb(first.url);
-          // 일부 영상은 hqdefault 없음 — 깨지면 placeholder로 교체
           return `<img src="${escAttr(thumb)}" alt="${altText}" loading="lazy" referrerpolicy="no-referrer" data-thumb-card="${cardIdx}">${placeholder}`;
         } else if (type === 'video'){
           return `<video src="${escAttr(first.url)}" muted loop playsinline preload="metadata"></video>`;
@@ -7386,7 +8573,7 @@ body.light-mode .big-arrow-icon{
           return `<img src="${escAttr(first.url)}" alt="${altText}" loading="lazy" data-thumb-card="${cardIdx}">${placeholder}`;
         }
       }
-      // 미디어 없으면 placeholder 그대로 (hidden 클래스 제거)
+      // 미디어도 썸네일도 없으면 placeholder
       return placeholder.replace('thumb-fallback hidden', 'thumb-fallback');
     }
 
@@ -7452,7 +8639,8 @@ body.light-mode .big-arrow-icon{
           const d = projectsData[i] || {};
           panelWhen.textContent = d.when || '';
           panelTitle.innerHTML = d.title || '';
-          panelNote.innerHTML = d.note || '';
+          // note는 줄바꿈 보존하면서 HTML 허용 — admin이 직접 작성하므로
+          panelNote.innerHTML = (d.note || '').replace(/\n/g, '<br>');
           panelNote.style.display = d.note ? 'block' : 'none';
           panelStat.innerHTML = d.stat || '';
           if (panelLinks) panelLinks.style.display = 'none';
@@ -7479,14 +8667,14 @@ body.light-mode .big-arrow-icon{
     panelMedia.addEventListener('click', (e) => {
       const tile = e.target.closest('.media-tile');
       if (!tile || tile.classList.contains('placeholder')) return;
-      openLightbox(tile.dataset.url, tile.dataset.type);
+      openLightbox(tile.dataset.url, tile.dataset.type, tile.dataset.link);
     });
     panelMedia.addEventListener('keydown', (e) => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       const tile = e.target.closest('.media-tile');
       if (!tile || tile.classList.contains('placeholder')) return;
       e.preventDefault();
-      openLightbox(tile.dataset.url, tile.dataset.type);
+      openLightbox(tile.dataset.url, tile.dataset.type, tile.dataset.link);
     });
 
     // ────────────── Firestore 실시간 구독 ──────────────
@@ -7504,7 +8692,15 @@ body.light-mode .big-arrow-icon{
             when: p.when || '',
             title: p.title || '',
             stat: p.stat || '',
-            media: Array.isArray(p.media) ? p.media.filter(m => m && m.url).map(m => ({ url: m.url })) : []
+            thumbnail: p.thumbnail || '',
+            note: p.note || '',
+            media: Array.isArray(p.media)
+              ? p.media.filter(m => m && m.url).map(m => {
+                  const obj = { url: m.url };
+                  if (m.link) obj.link = m.link;
+                  return obj;
+                })
+              : []
           }));
         }
         renderCards();
@@ -7566,6 +8762,13 @@ body.light-mode .big-arrow-icon{
           <input type="file" class="pm-file-input" accept="image/*,video/*" style="display:none;">
           <button type="button" class="row-rm-btn pm-remove" title="삭제">×</button>
         `;
+        // 링크 입력은 별도 줄로 (URL 입력 아래 작은 행으로) — UI 안 좁게
+        const linkRow = document.createElement('div');
+        linkRow.className = 'pm-link-row';
+        linkRow.innerHTML = `
+          <span class="pm-link-icon" title="이 미디어 클릭 시 외부 링크 (예: 영상 페이지·블로그·웹사이트)">↗</span>
+          <input type="url" class="pm-link" placeholder="외부 링크 (선택, 비워두면 lightbox 만 열림)" value="${escAttr(m.link || '')}">
+        `;
         const urlInp = row.querySelector('.pm-url');
         const upBtn = row.querySelector('.pm-upload-btn');
         const fileInp = row.querySelector('.pm-file-input');
@@ -7606,6 +8809,7 @@ body.light-mode .big-arrow-icon{
         // status를 row 뒤에 wrapper로 묶기
         const wrap = document.createElement('div');
         wrap.appendChild(row);
+        wrap.appendChild(linkRow);
         wrap.appendChild(status);
         return wrap;
       }
@@ -7620,10 +8824,17 @@ body.light-mode .big-arrow-icon{
             <button type="button" class="row-rm-btn proj-remove" title="프로젝트 삭제">×</button>
           </div>
           <div style="display:flex;gap:0.4rem;margin-bottom:0.4rem;">
-            <input type="text" class="proj-title" placeholder="제목 (HTML <em> 사용 가능)" value="${escAttr(p.title || '')}" style="flex:1;">
+            <input type="text" class="proj-title" placeholder="제목 (HTML &lt;em&gt; 사용 가능)" value="${escAttr(p.title || '')}" style="flex:1;">
           </div>
           <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.4rem;">
             <input type="text" class="proj-stat" placeholder="stat HTML (예: &lt;span class=&quot;panel-stat&quot;&gt;...&lt;/span&gt;)" value="${escAttr(p.stat || '')}" style="flex:1;">
+          </div>
+          <div style="display:flex;gap:0.4rem;align-items:center;margin-bottom:0.4rem;">
+            <input type="text" class="proj-thumb" placeholder="썸네일 URL (이미지/유튜브 — 비워두면 첫 미디어 사용)" value="${escAttr(p.thumbnail || '')}" style="flex:1;">
+            <button type="button" class="proj-thumb-upload" title="이미지 업로드">📁</button>
+          </div>
+          <div style="margin-bottom:0.4rem;">
+            <textarea class="proj-note" placeholder="프로젝트 설명·후기 (클릭 시 아래 펼쳐짐. 줄바꿈/HTML 가능)" rows="4" style="width:100%;resize:vertical;">${(p.note || '').replace(/</g,'&lt;')}</textarea>
           </div>
           <div class="project-media-list"></div>
           <button type="button" class="pm-add-btn proj-pm-add">+ 미디어 추가</button>
@@ -7631,10 +8842,42 @@ body.light-mode .big-arrow-icon{
         const removeBtn = row.querySelector('.proj-remove');
         const mediaList = row.querySelector('.project-media-list');
         const addMediaBtn = row.querySelector('.proj-pm-add');
+        const thumbUploadBtn = row.querySelector('.proj-thumb-upload');
+        const thumbInput = row.querySelector('.proj-thumb');
+
         removeBtn.addEventListener('click', () => {
           if (!confirm('이 프로젝트를 삭제할까요?')) return;
           row.remove();
         });
+
+        // 썸네일 직접 업로드 (Storage)
+        thumbUploadBtn.addEventListener('click', () => {
+          const file = document.createElement('input');
+          file.type = 'file';
+          file.accept = 'image/*';
+          file.onchange = async (ev) => {
+            const f = ev.target.files && ev.target.files[0];
+            if (!f) return;
+            try {
+              thumbUploadBtn.disabled = true;
+              thumbUploadBtn.textContent = '⏳';
+              const path = `projects/thumb_${Date.now()}_${f.name.replace(/[^\w.-]/g,'_')}`;
+              const sRef = window.storageRef(window.storage, path);
+              await window.uploadBytes(sRef, f);
+              const url = await window.getDownloadURL(sRef);
+              thumbInput.value = url;
+              if (typeof toast === 'function') toast('썸네일 업로드 완료', 'success');
+            } catch(err){
+              console.error('[thumb upload]', err);
+              if (typeof toast === 'function') toast('업로드 실패: ' + (err.code || err.message), 'error');
+            } finally {
+              thumbUploadBtn.disabled = false;
+              thumbUploadBtn.textContent = '📁';
+            }
+          };
+          file.click();
+        });
+
         // 기존 미디어 row 추가
         (p.media || []).forEach(m => mediaList.appendChild(makeMediaRow(m)));
         addMediaBtn.addEventListener('click', () => mediaList.appendChild(makeMediaRow()));
@@ -7681,13 +8924,25 @@ body.light-mode .big-arrow-icon{
             const when = row.querySelector('.proj-when').value.trim();
             const title = row.querySelector('.proj-title').value.trim();
             const stat = row.querySelector('.proj-stat').value.trim();
-            const mediaUrls = Array.from(row.querySelectorAll('.pm-url'))
-              .map(inp => inp.value.trim())
-              .filter(Boolean)
-              .map(url => ({ url }));
+            const thumbnail = row.querySelector('.proj-thumb').value.trim();
+            const note = row.querySelector('.proj-note').value.trim();
+            // 각 .pm-row와 짝을 이루는 .pm-link-row의 link 값을 함께 수집
+            // (둘 다 같은 wrap div 안에 형제로 있음)
+            const pmRows = Array.from(row.querySelectorAll('.pm-row'));
+            const mediaUrls = pmRows.map(pmRow => {
+              const url = (pmRow.querySelector('.pm-url')?.value || '').trim();
+              if (!url) return null;
+              // 같은 wrap의 sibling pm-link-row에서 link 추출
+              const wrap = pmRow.parentElement;
+              const linkInp = wrap ? wrap.querySelector('.pm-link') : null;
+              const link = (linkInp?.value || '').trim();
+              const obj = { url };
+              if (link) obj.link = link;
+              return obj;
+            }).filter(Boolean);
             newList.push({
               id: 'p_' + Math.random().toString(36).slice(2, 10),
-              when, title, stat,
+              when, title, stat, thumbnail, note,
               media: mediaUrls
             });
           });
@@ -8122,19 +9377,25 @@ body.light-mode .big-arrow-icon{
       burst.style.left = x + 'px';
       burst.style.top  = y + 'px';
 
+      // viewBox 100x100 기준 — vector라 어떤 scale 에서도 sharp
+      const CIRCLE_SVG = '<svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="40"/></svg>';
+
       // 1. 중앙 코어 (즉시 켜졌다 사라지는 도트)
       const core = document.createElement('span');
       core.className = 'cb-core';
+      core.innerHTML = CIRCLE_SVG;
       burst.appendChild(core);
 
       // 2. 내부 ring (빠르게 확장)
       const ring1 = document.createElement('span');
       ring1.className = 'cb-ring1';
+      ring1.innerHTML = CIRCLE_SVG;
       burst.appendChild(ring1);
 
       // 3. 외부 ring (살짝 늦게 더 크게)
       const ring2 = document.createElement('span');
       ring2.className = 'cb-ring2';
+      ring2.innerHTML = CIRCLE_SVG;
       burst.appendChild(ring2);
 
       // 4. 작은 별 입자 10개 — 링 근처에 등장했다 트윙클하며 사라짐
@@ -8286,23 +9547,34 @@ function parseMediaUrl(url){
 }
 function renderMediaHTML(urls){
   if (!Array.isArray(urls) || !urls.length) return '';
-  return urls.map(url => {
+  return urls.map(item => {
+    // 호환: 기존 string 배열 / 신규 { url, link } 객체 둘 다 지원
+    const url  = typeof item === 'string' ? item : (item && item.url) || '';
+    const link = (typeof item === 'object' && item && item.link) ? String(item.link).trim() : '';
+    if (!url) return '';
     const m = parseMediaUrl(url);
     if (!m) return '';
+    // 외부 링크 있을 때 우상단에 ↗ badge (영상·이미지 공통)
+    const linkBadge = link
+      ? `<a class="media-item-link-badge" href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer" title="외부 링크 열기" aria-label="외부 링크 열기">↗</a>`
+      : '';
     if (m.type === 'youtube'){
-      return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
+      return `<div class="media-item">${linkBadge}<div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
     }
     if (m.type === 'vimeo'){
-      return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
+      return `<div class="media-item">${linkBadge}<div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
     }
     if (m.type === 'image'){
-      return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" data-fallback="image"></a></div>`;
+      // link가 있으면 이미지 클릭 시 외부 링크, 없으면 이미지 자체 새 창
+      const href = link || m.src;
+      return `<div class="media-item">${linkBadge}<a href="${escapeHTML(href)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" data-fallback="image"></a></div>`;
     }
     if (m.type === 'video'){
-      return `<div class="media-item"><video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>`;
+      return `<div class="media-item">${linkBadge}<video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>`;
     }
     // unknown — try as image, fallback to link
-    return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" data-fallback="link"></a></div>`;
+    const href = link || m.src;
+    return `<div class="media-item">${linkBadge}<a href="${escapeHTML(href)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" data-fallback="link"></a></div>`;
   }).join('');
 }
 
@@ -8814,9 +10086,18 @@ const mediaAddBtn = document.getElementById('media-add-btn');
 function makeMediaInputRow(value = ''){
   const row = document.createElement('div');
   row.className = 'media-input-row';
+  // 호환: 옛 string / 신규 {url, link} 객체 둘 다
+  const url  = typeof value === 'string' ? value : (value && value.url) || '';
+  const link = (typeof value === 'object' && value && value.link) || '';
   row.innerHTML = `
-    <input type="url" placeholder="https://youtube.com/watch?v=... 또는 https://i.imgur.com/abc.jpg" value="${value.replace(/"/g, '&quot;')}">
-    <button type="button" class="media-input-remove" aria-label="삭제" title="삭제">×</button>
+    <div class="media-input-main">
+      <input type="url" class="m-url" placeholder="https://youtube.com/watch?v=... 또는 https://i.imgur.com/abc.jpg" value="${url.replace(/"/g, '&quot;')}">
+      <button type="button" class="media-input-remove" aria-label="삭제" title="삭제">×</button>
+    </div>
+    <div class="media-input-link">
+      <span class="m-link-icon" title="이 미디어 클릭 시 외부 링크 (선택)">↗</span>
+      <input type="url" class="m-link" placeholder="외부 링크 (선택)" value="${link.replace(/"/g, '&quot;')}">
+    </div>
   `;
   row.querySelector('.media-input-remove').addEventListener('click', () => row.remove());
   return row;
@@ -8824,14 +10105,19 @@ function makeMediaInputRow(value = ''){
 function clearMediaInputs(){
   mediaInputs.innerHTML = '';
 }
-function fillMediaInputs(urls){
+function fillMediaInputs(items){
   clearMediaInputs();
-  (urls || []).forEach(url => mediaInputs.appendChild(makeMediaInputRow(url)));
+  (items || []).forEach(item => mediaInputs.appendChild(makeMediaInputRow(item)));
 }
 function getMediaInputValues(){
-  return [...mediaInputs.querySelectorAll('input')]
-    .map(i => i.value.trim())
-    .filter(v => v);
+  return [...mediaInputs.querySelectorAll('.media-input-row')]
+    .map(row => {
+      const url  = (row.querySelector('.m-url')?.value || '').trim();
+      const link = (row.querySelector('.m-link')?.value || '').trim();
+      if (!url) return null;
+      return link ? { url, link } : { url }; // link 없으면 객체에서 생략 (Firestore 깔끔하게)
+    })
+    .filter(Boolean);
 }
 mediaAddBtn.addEventListener('click', () => {
   mediaInputs.appendChild(makeMediaInputRow());
@@ -10042,7 +11328,8 @@ function showBigArrow(arrowKey){
     bigArrow.id = 'big-arrow-overlay';
     bigArrow.className = 'big-arrow-overlay';
     bigArrow.setAttribute('aria-hidden','true');
-    bigArrow.innerHTML = '<div class="big-arrow-icon"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="" fill="currentColor"/></svg></div>';
+    // path는 CSS로 fill/stroke 정의되므로 인라인 fill 제거
+    bigArrow.innerHTML = '<div class="big-arrow-icon"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d=""/></svg></div>';
     document.body.appendChild(bigArrow);
   }
   const pathEl = bigArrow.querySelector('path');
