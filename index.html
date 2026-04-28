@@ -7,21 +7,57 @@
 <title>Churro✦ — Personal Branding</title>
 <meta name="description" content="콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
 
-<!-- OG / Twitter -->
+<!-- Canonical -->
+<link rel="canonical" href="https://k4rahee.github.io/" />
 
+<!-- Mobile browser chrome -->
+<meta name="theme-color" content="#0a0a0d" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="format-detection" content="telephone=no, email=no, address=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<!-- Favicon (✦ 모티프 SVG) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0d'/%3E%3Cpath d='M16 5 L18 14 L27 16 L18 18 L16 27 L14 18 L5 16 L14 14 Z' fill='%23d4ff3a'/%3E%3C/svg%3E" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0d'/%3E%3Cpath d='M16 5 L18 14 L27 16 L18 18 L16 27 L14 18 L5 16 L14 14 Z' fill='%23d4ff3a'/%3E%3C/svg%3E" />
+
+<!-- OG / Twitter -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Churro✦ — Personal Branding" />
 <meta property="og:description" content="영상 제작부터 마케팅, 매니지먼트까지 콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
-<meta property="og:image" content="" /><!-- TODO: 프로필 이미지 URL -->
-<meta property="og:url" content="" /><!-- TODO: 배포 URL -->
+<meta property="og:image" content="https://k4rahee.github.io/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://k4rahee.github.io/" />
+<meta property="og:locale" content="ko_KR" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Churro✦ — Personal Branding" />
 <meta name="twitter:description" content="영상 제작부터 마케팅, 매니지먼트까지 콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
-<meta name="twitter:image" content="" /><!-- TODO: 프로필 이미지 URL -->
+<meta name="twitter:image" content="https://k4rahee.github.io/og-image.png" />
 
+<!-- JSON-LD 구조화 데이터 (Person schema) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Churro",
+  "alternateName": "라희",
+  "jobTitle": "마케터·크리에이터",
+  "email": "k4rahee@naver.com",
+  "url": "https://k4rahee.github.io/",
+  "description": "영상 제작부터 마케팅, 매니지먼트까지 콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.",
+  "knowsAbout": ["영상 제작", "SNS 마케팅", "콘텐츠 기획", "UI/UX"],
+  "sameAs": [
+    "https://www.youtube.com/@Churro",
+    "https://k4rahee.github.io/Churro/"
+  ]
+}
+</script>
+
+<!-- Fonts (사용 중인 weight만: 300, 400, 500, 600, 700, 800) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
 <style>
@@ -48,7 +84,34 @@
     --display: "Bricolage Grotesque", "Pretendard", sans-serif;
     --sans: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: "Nanum Gothic", "Pretendard", sans-serif;
+
+    /* ── Z-INDEX TIER SYSTEM ── */
+    --z-base: 1;
+    --z-floating: 100;       /* topbar, music-player, status-widget */
+    --z-overlay: 200;        /* modal backdrops */
+    --z-modal: 300;          /* modal panels */
+    --z-toast: 400;          /* toasts above modals */
+    --z-fx: 9000;            /* visual effects (darkweb, ghost, etc.) */
+    --z-secret: 9500;        /* secret page overlay */
+    --z-hack: 999999;        /* hack flash effect (terminal-level) */
   }
+
+  /* ── SKIP TO CONTENT (a11y) ── */
+  .skip-link{
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--lime);
+    color: var(--bg);
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    z-index: var(--z-toast);
+    border-radius: 0 0 8px 0;
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus{ top: 0; outline: 2px solid var(--ink); }
 
   /* ============== LIGHT MODE ============== */
   body.light-mode{
@@ -194,7 +257,7 @@
     position: fixed;
     bottom: 1.8rem;
     left: 1.8rem;
-    z-index: 180;
+    z-index: var(--z-floating);
     background: rgba(10,10,13,0.9);
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -209,6 +272,22 @@
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
   .music-player.collapsed{ min-width: 0; border-radius: 999px; }
+
+  /* 트랙 비어있을 때 — disc만 노출되는 미니 pill (disc 클릭 시 펼치는 건 아니고, admin이 음악 관리 버튼으로 추가하면 자동 복귀) */
+  .music-player.collapsed-empty{
+    min-width: 0;
+    width: auto;
+    border-radius: 999px;
+  }
+  .music-player.collapsed-empty .music-progress,
+  .music-player.collapsed-empty .music-playlist{ display: none !important; }
+  .music-player.collapsed-empty .music-controls{ display: none; }
+  .music-player.collapsed-empty .music-info{ max-width: 140px; }
+  .music-player.collapsed-empty .music-title{ font-size: 0.72rem; opacity: 0.7; }
+  .music-player.collapsed-empty .music-artist{ font-size: 0.6rem; opacity: 0.55; }
+  .music-player.collapsed-empty .music-disc{ animation: none; }
+  /* admin이면 음악 관리 버튼은 계속 노출되어야 (트랙 추가하기 위해) */
+  .music-player.collapsed-empty .music-admin-btn{ border-top: none; }
   .music-player-bar{
     display: flex;
     align-items: center;
@@ -329,7 +408,12 @@
   .music-admin-btn.visible{ display: block; }
   .music-admin-btn:hover{ color: var(--lime); }
   @media (max-width: 700px){
-    .music-player{ bottom: 5rem; left: 1rem; min-width: 200px; }
+    /* topbar가 상단으로 갔으므로 music-player는 하단 자연스러운 위치 */
+    .music-player{
+      bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+      left: 1rem;
+      min-width: 200px;
+    }
     .music-player.collapsed{ min-width: 0; }
   }
   .footer-easter{
@@ -356,8 +440,8 @@
   /* ============== DYNAMIC EFFECTS ============== */
 
   /* 섹션 헤딩 슬라이드인 */
-  .sec-heading.reveal{ transform: translateY(30px); }
-  .sec-heading.reveal.in{ transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.3,1); }
+  .sec-heading.reveal{ opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.3,1); }
+  .sec-heading.reveal.in{ opacity: 1; transform: translateY(0); }
 
   /* avail-row 순차 등장 */
   .contact-avail-block .avail-row-item{
@@ -406,17 +490,27 @@
   }
   .theme-toggle:hover{ border-color: var(--lime); color: var(--lime); }
   body.light-mode .theme-toggle{ background: rgba(255,255,255,0.9); }
+  /* 사운드 토글 — 켜진 상태 시각화 */
+  .sound-toggle.on{ color: var(--lime); border-color: var(--lime); box-shadow: 0 0 12px var(--lime-glow); }
+  .sound-toggle.on:hover{ color: var(--lime); border-color: var(--lime); }
   @media (max-width: 900px){ .theme-toggle{ width: 32px; height: 32px; font-size: 0.8rem; } }
 
   *{ box-sizing: border-box; margin: 0; padding: 0; }
-  html{ scroll-behavior: smooth; }
+  html{
+    scroll-behavior: smooth;
+    /* iOS Safari: body overflow-x:hidden 만으로는 부족, html에도 필수 */
+    overflow-x: clip;
+  }
   body{
     background: var(--bg);
     color: var(--ink);
     font-family: var(--sans);
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
+    /* 모든 직계 컨테이너 너비를 viewport에 가두기 */
+    width: 100%;
+    max-width: 100vw;
   }
 
   ::selection{ background: var(--lime); color: var(--bg); }
@@ -452,7 +546,7 @@
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: var(--z-floating);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -478,10 +572,47 @@
     transition: all 0.25s ease;
   }
   .topbar nav a:hover{ color: var(--bg); background: var(--lime); }
+  /* 현재 보이는 섹션 표시 — IntersectionObserver로 .active 토글됨 */
+  .topbar nav a.active{
+    color: var(--lime);
+    position: relative;
+  }
+  .topbar nav a.active::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 6px var(--lime-glow);
+    transform: translateX(-50%);
+  }
+  .topbar nav a.active:hover{ color: var(--bg); }
+  .topbar nav a.active:hover::after{ background: var(--bg); box-shadow: none; }
   @media (max-width: 700px){
-    .topbar{ top: auto; bottom: 1rem; padding: 0.3rem; }
+    /* 모바일: 상단 유지 (이전엔 하단이었으나 음악·상태 위젯과 충돌해서 다시 상단으로) */
+    .topbar{
+      top: calc(0.6rem + env(safe-area-inset-top, 0px));
+      padding: 0.25rem;
+      max-width: calc(100vw - 1rem);
+    }
     .topbar .logo{ display: none; }
-    .topbar nav a{ padding: 0.4rem 0.65rem; font-size: 0.6rem; }
+    .topbar nav{
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 0.1rem;
+    }
+    .topbar nav::-webkit-scrollbar{ display: none; }
+    .topbar nav a{
+      padding: 0.4rem 0.55rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
   }
 
   /* ============== WRAP ============== */
@@ -535,6 +666,7 @@
   .hero{
     padding: 6rem 0 3rem;
     position: relative;
+    overflow-x: clip;
   }
   .hero-grid{
     display: grid;
@@ -670,7 +802,11 @@
     overflow: visible;
   }
   .hero-image .img-ph{
-    aspect-ratio: 4 / 5;
+    /* hero-video-container가 이미 16:9 비율을 잡고 있으므로 placeholder는 채우기만 */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
   }
   .hero-image .floating-tag{
     position: absolute;
@@ -696,9 +832,27 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     padding: 1.4rem 0;
-    margin: 4rem 0 5rem;
+    /* Hero와의 거리를 늘려 마퀴를 좀 더 아래로 위치시킴 */
+    margin: 8rem 0 4rem;
     background: var(--bg-2);
+    position: relative;
   }
+  /* 모바일에서는 비율 맞춰 줄임 */
+  @media (max-width: 700px){
+    .marquee{ margin: 5rem 0 2.5rem; }
+  }
+  /* 좌우 페이드 아웃 — 마퀴가 화면 가장자리에서 자연스럽게 사라지게 */
+  .marquee::before,
+  .marquee::after{
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .marquee::before{ left: 0; background: linear-gradient(to right, var(--bg-2), transparent); }
+  .marquee::after{ right: 0; background: linear-gradient(to left, var(--bg-2), transparent); }
   .marquee-track{
     display: flex;
     gap: 2.5rem;
@@ -710,10 +864,18 @@
     line-height: 1;
     letter-spacing: -0.03em;
   }
+  /* 호버 시 멈춤 — 사용자가 멈춰서 읽고 싶을 때 */
+  .marquee:hover .marquee-track{ animation-play-state: paused; }
   .marquee-track span{ display: inline-block; }
-  .marquee-track .star{ color: var(--lime); font-weight: 500; }
+  /* 키워드 사이 미들닷 — ✦은 사이트 시그니처라 마퀴에서는 자제 */
+  .marquee-track .dot{
+    color: var(--ink-3);
+    opacity: 0.4;
+    font-weight: 300;
+    transform: translateY(-0.08em);
+  }
   .marquee-track .lime-text{ color: var(--lime); }
-  .marquee-track .pink-text{ color: var(--pink); }
+  .marquee-track .pink-text{ color: var(--pink); text-shadow: 0 0 20px var(--pink-glow); }
   .marquee-track .outline{
     color: transparent;
     -webkit-text-stroke: 1.5px var(--ink-2);
@@ -722,6 +884,8 @@
     from{ transform: translateX(0); }
     to{ transform: translateX(-50%); }
   }
+  body.light-mode .marquee::before{ background: linear-gradient(to right, var(--bg-2), transparent); }
+  body.light-mode .marquee::after{ background: linear-gradient(to left, var(--bg-2), transparent); }
 
   /* ============== SECTION HEADER ============== */
   .sec-head{
@@ -869,6 +1033,16 @@
     color: var(--lime);
     font-weight: 700;
   }
+  /* 회사명 앞 "(주)" "주식회사" 같은 prefix — 시각적으로 약화 */
+  .vt-where .biz-prefix{
+    font-size: 0.62em;
+    font-weight: 400;
+    color: var(--ink-3);
+    letter-spacing: 0.02em;
+    margin-right: 0.18em;
+    vertical-align: 0.08em;
+    opacity: 0.7;
+  }
   .vt-tags{
     display: flex;
     flex-wrap: wrap;
@@ -934,21 +1108,33 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.02);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.06);
     color: var(--ink);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.25s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-family: var(--mono);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
   }
   .nav-btn:hover{
     background: var(--lime);
     border-color: var(--lime);
     color: var(--bg);
+    transform: scale(1.05);
+    box-shadow: 0 4px 18px var(--lime-glow);
+  }
+  .nav-btn:active{ transform: scale(0.96); }
+  .nav-btn:focus-visible{ outline: 2px solid var(--lime); outline-offset: 3px; }
+  body.light-mode .nav-btn{
+    border-color: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.04);
+    color: var(--ink);
   }
   .nav-btn:disabled{
     opacity: 0.3;
@@ -989,12 +1175,16 @@
   }
 
   .gallery .item{
-    flex: 0 0 360px;
+    /* 데스크톱 와이드(≥1400px): 4개 카드가 동시에 보이도록 fluid 사이징 */
+    flex: 0 0 clamp(280px, calc((100vw - 9rem) / 4), 380px);
     scroll-snap-align: start;
     position: relative;
     cursor: default;
     display: flex;
     flex-direction: column;
+  }
+  @media (max-width: 1100px){
+    .gallery .item{ flex: 0 0 clamp(300px, 32vw, 360px); }
   }
   @media (max-width: 700px){
     .gallery .item{ flex: 0 0 82vw; }
@@ -1006,22 +1196,22 @@
     border-radius: 18px;
     margin-bottom: 1.2rem;
     transition: transform 0.4s cubic-bezier(.2,.7,.3,1);
-    aspect-ratio: 4 / 5;
   }
-  .gallery .img-wrapper > img,
-  .gallery .img-wrapper > video{
+  .gallery .item:hover .img-wrapper{ transform: translateY(-4px); }
+  .gallery .item:hover .img-ph{ transform: scale(1.025); }
+
+  /* 썸네일 fallback: img 깨졌을 때 표시될 placeholder */
+  .gallery .item .img-wrapper{ position: relative; }
+  .gallery .item .thumb-fallback{
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
-  .gallery .item:hover .img-wrapper{ transform: translateY(-4px); }
-  .gallery .item:hover .img-ph{ transform: scale(1.025); }
+  .gallery .item .thumb-fallback.hidden{ display: none; }
   .gallery .img-ph{
     transition: transform 0.5s cubic-bezier(.2,.7,.3,1);
-    width: 100%;
-    height: 100%;
+    aspect-ratio: 4 / 5;
   }
 
 
@@ -1703,7 +1893,7 @@
   .thought-modal{
     position: fixed;
     inset: 0;
-    z-index: 300;
+    z-index: var(--z-modal);
     display: none;
     align-items: center;
     justify-content: center;
@@ -2208,7 +2398,7 @@
     font-size: 0.72rem;
     letter-spacing: 0.05em;
     color: var(--ink);
-    z-index: 400;
+    z-index: var(--z-toast);
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
     pointer-events: none;
@@ -2230,6 +2420,42 @@
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     color: var(--ink-3);
+  }
+  /* Thoughts 빈 상태 — 본인이 글 안 적었거나 신규 방문 시 */
+  .thoughts-empty{
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 5rem 1.5rem;
+    border: 1px dashed var(--line);
+    border-radius: 24px;
+    background: rgba(255,255,255,0.015);
+    margin: 1rem 0;
+  }
+  .thoughts-empty .empty-glyph{
+    font-size: 2.4rem;
+    color: var(--lime);
+    text-shadow: 0 0 18px var(--lime-glow);
+    display: inline-block;
+    animation: spin 12s linear infinite;
+    margin-bottom: 1rem;
+  }
+  .thoughts-empty .empty-title{
+    font-family: var(--display);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .thoughts-empty .empty-sub{
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+  body.light-mode .thoughts-empty{
+    border-color: rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.015);
   }
 
   /* ============== TAG FILTER + COUNT ============== */
@@ -3609,7 +3835,7 @@
     position: fixed;
     bottom: 1.8rem;
     right: 1.8rem;
-    z-index: 180;
+    z-index: var(--z-floating);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -3636,6 +3862,7 @@
     align-items: center;
     gap: 0.55rem;
     box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    white-space: nowrap;
   }
   .status-toggle:hover{ border-color: var(--lime); color: var(--lime); }
   .status-toggle .status-dot{
@@ -3775,7 +4002,10 @@
     margin-top: 0.3rem;
   }
   @media (max-width: 700px){
-    .status-widget{ bottom: 5rem; right: 1rem; }
+    .status-widget{
+      bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+      right: 1rem;
+    }
     .status-panel{ min-width: 240px; }
     .status-toggle{ font-size: 0.75rem; padding: 0.65rem 1.1rem; }
     .theme-toggle{ width: 40px; height: 40px; font-size: 0.9rem; }
@@ -3946,7 +4176,7 @@
     display: flex;
     gap: 0.5rem;
     pointer-events: none;
-    z-index: 9500;
+    z-index: var(--z-secret);
   }
   .secret-arrow{
     font-size: 1.2rem;
@@ -4982,9 +5212,10 @@ body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(2
 /* Star Log UI — 좌측 하단, 작고 미니멀 */
 .star-log{
   position: fixed;
-  left: 1.4rem;
-  bottom: 1.4rem;
-  z-index: 50;
+  left: 1.8rem;
+  /* music-player(높이 ~70~80px) 위에 스택. 음악 관리 버튼까지 고려해 충분한 여유 */
+  bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+  z-index: var(--z-floating);
   background: rgba(20, 10, 18, 0.85);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
@@ -5003,6 +5234,15 @@ body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(2
   transform: translateY(10px);
   transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease, background 0.3s ease;
   letter-spacing: -0.005em;
+}
+@media (max-width: 700px){
+  .star-log{
+    left: 1rem;
+    /* 모바일에선 music이 더 작으니 5rem로 충분 */
+    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+    font-size: 0.65rem;
+    padding: 0.45rem 0.85rem;
+  }
 }
 .star-log.visible{
   opacity: 1;
@@ -5199,7 +5439,8 @@ body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 
 @media (max-width: 768px){
   .star-log{
     left: 1rem;
-    bottom: 1rem;
+    /* music-player 위에 스택 (1rem로 두면 음악과 정확히 겹침) */
+    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
     padding: 0.45rem 0.6rem;
     font-size: 0.6rem;
     gap: 0.45rem;
@@ -5280,10 +5521,154 @@ body.light-mode .big-arrow-icon{
   .big-arrow-overlay.show .big-arrow-icon{ animation: none; transform: scale(1); }
 }
 
+/* ============== UTILITY CLASSES (replaces repeated inline styles) ============== */
+
+/* 비디오/이미지 자리표시자 중앙 텍스트 */
+.video-ph-label{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: rgba(255,255,255,0.25);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+.video-ph-label.solid{
+  color: rgba(255,255,255,0.2);
+  background: #111;
+  border-radius: 16px;
+}
+.video-ph-label .ph-play{ font-size: 1.5rem; }
+.video-ph-label.solid .ph-play{ font-size: 2rem; }
+
+/* 비메오/유튜브 임베드 iframe 절대 채움 */
+.embed-fill{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+}
+
+/* Vimeo 자리표시자 */
+.vimeo-ph{
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.4);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+
+/* JS로 렌더되는 어드민 패널 미니 버튼 */
+.track-upload-btn,
+.pm-upload-btn{
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 0.7rem;
+  border: 1px solid var(--line);
+  background: rgba(212, 255, 58, 0.06);
+  color: var(--lime);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.track-upload-btn:hover,
+.pm-upload-btn:hover{
+  background: rgba(212, 255, 58, 0.14);
+  border-color: var(--lime);
+}
+.track-upload-btn:disabled,
+.pm-upload-btn:disabled{ opacity: 0.5; cursor: wait; }
+
+/* 어드민 패널 행 삭제(×) 버튼 */
+.pm-remove,
+.track-remove,
+.track-remove-btn{
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.pm-remove:hover,
+.track-remove:hover,
+.track-remove-btn:hover{ color: var(--pink); border-color: var(--pink); }
+
+/* 트랙 편집 행 레이아웃 */
+.tr-row{ display: flex; gap: 0.4rem; }
+.tr-row.with-input input{ flex: 1; }
+.tr-row.with-url input.track-url{ flex: 1; box-sizing: border-box; }
+.tr-row.center{ align-items: center; }
+.tr-mode-label{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+}
+.track-mode{
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+.track-status{
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--ink-3);
+  min-height: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+/* 업로드 진행 상태 텍스트 */
+.pm-status,
+.track-upload-status{
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--ink-3);
+  min-height: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+/* About 사진 (실제 <img> 교체 시) */
+.about-img-real{
+  border-radius: 16px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
 </style>
 
 </head>
 <body>
+
+<!-- Skip to content (a11y) -->
+<a href="#hero" class="skip-link">본문 바로가기</a>
 
 <!-- Top scroll progress bar -->
 
@@ -5359,15 +5744,15 @@ body.light-mode .big-arrow-icon{
     <div class="hero-image" id="hero-media-wrap">
 
       <div class="hero-video-container" id="hero-video-container">
-        <div class="img-ph g2" id="hero-video-placeholder" style="aspect-ratio:16/9;">
+        <div class="img-ph g2 ar-16-9" id="hero-video-placeholder">
           <div class="ph-grad"></div>
           <div class="ph-noise"></div>
           <div class="ph-corner tl"></div>
           <div class="ph-corner tr"></div>
           <div class="ph-corner bl"></div>
           <div class="ph-corner br"></div>
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:rgba(255,255,255,0.25);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;">
-            <span style="font-size:1.5rem;">▶</span>
+          <div class="video-ph-label">
+            <span class="ph-play">▶</span>
             VIDEO
           </div>
         </div>
@@ -5379,6 +5764,38 @@ body.light-mode .big-arrow-icon{
 
   </div>
 </section>
+
+<!-- ============== MARQUEE — Hero ↔ About 이어주는 띠 ============== -->
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>FILMMAKER</span>
+    <span class="dot">·</span>
+    <span class="lime-text">MARKETER</span>
+    <span class="dot">·</span>
+    <span class="outline">CREATOR</span>
+    <span class="dot">·</span>
+    <span class="pink-text">DREAMER</span>
+    <span class="dot">·</span>
+    <span>CHURRO</span>
+    <span class="dot">·</span>
+    <span class="outline">2026</span>
+    <span class="dot">·</span>
+    <!-- 두 번째 복제 — 무한 스크롤을 위해 -->
+    <span>FILMMAKER</span>
+    <span class="dot">·</span>
+    <span class="lime-text">MARKETER</span>
+    <span class="dot">·</span>
+    <span class="outline">CREATOR</span>
+    <span class="dot">·</span>
+    <span class="pink-text">DREAMER</span>
+    <span class="dot">·</span>
+    <span>CHURRO</span>
+    <span class="dot">·</span>
+    <span class="outline">2026</span>
+    <span class="dot">·</span>
+  </div>
+</div>
 
 <!-- ============== ABOUT ============== -->
 
@@ -5461,7 +5878,7 @@ body.light-mode .big-arrow-icon{
     <div class="vt-node"></div>
     <div class="vt-content">
       <div class="vt-when">2014 — 2023. 06</div>
-      <div class="vt-where">미국 거주 / 뷰티커머스 사업 <em>3년간 운영</em></div>
+      <div class="vt-where">미국 거주 <em>9년</em> · 뷰티커머스 사업 3년</div>
       <ul>
         <li>Blackmon Road Middle School 재학</li>
         <li>Shaw High School 재학 및 졸업</li>
@@ -5474,7 +5891,7 @@ body.light-mode .big-arrow-icon{
     <div class="vt-node"></div>
     <div class="vt-content">
       <div class="vt-when">2023. 06 — 2024. 01</div>
-      <div class="vt-where">(주)<em>데브언리밋</em></div>
+      <div class="vt-where"><span class="biz-prefix">(주)</span><em>데브언리밋</em></div>
       <ul>
         <li>K-POP 댄스게임 Sparky SNS 마케팅 및 기업 홍보 영상 및 댄스 영상 제작</li>
         <li>Jersey Club(져지 클럽) SNS 마케팅 영상 제작</li>
@@ -5487,7 +5904,7 @@ body.light-mode .big-arrow-icon{
     <div class="vt-node"></div>
     <div class="vt-content">
       <div class="vt-when">2024. 08 — 2025. 09</div>
-      <div class="vt-where">주식회사 <em>파워드랩</em></div>
+      <div class="vt-where"><span class="biz-prefix">주식회사</span> <em>파워드랩</em></div>
       <ul>
         <li>반려동물 파양 서비스 PetRehome 사이트 배너 / 마케팅 영상 제작</li>
         <li>Quantum Chain, Saseul gold 등 다수의 IT기업 블록체인 기업 홍보 영상 제작</li>
@@ -5554,7 +5971,7 @@ body.light-mode .big-arrow-icon{
 <div class="contact-edit-modal projects-admin-modal" id="projects-admin-modal" aria-hidden="true">
   <div class="contact-edit-backdrop" id="projects-admin-backdrop"></div>
   <div class="contact-edit-panel" style="max-width:780px;">
-    <button class="contact-edit-close" id="projects-admin-close" type="button">×</button>
+    <button class="contact-edit-close" id="projects-admin-close" type="button" aria-label="닫기">×</button>
     <h3 class="write-heading">Personal Project 관리</h3>
     <div class="media-helper" style="margin-bottom:0.8rem;">프로젝트 추가/수정/삭제, 각 프로젝트의 미디어(이미지/YouTube/영상) 관리</div>
     <div id="projects-list" class="projects-list"></div>
@@ -5813,18 +6230,12 @@ body.light-mode .big-arrow-icon{
             <span class="act-tooltip" id="email-tooltip">Copied</span>
           </div>
           <div id="contact-links-list">
-            <!-- Firestore로 렌더링 -->
-            <a href="https://www.youtube.com/@Churro/featured" target="_blank" rel="noopener" class="contact-link-row">
-              <span class="cl-platform">YouTube</span><span class="cl-handle">@Churro</span><span class="cl-arr">↗</span>
-            </a>
+            <!-- Firestore에서 덮어쓰기 전 기본값 (관리자가 ✎ 수정 버튼으로 편집) -->
             <a href="https://www.youtube.com/@Churro" target="_blank" rel="noopener" class="contact-link-row">
               <span class="cl-platform">YouTube</span><span class="cl-handle">@Churro</span><span class="cl-arr">↗</span>
             </a>
             <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="contact-link-row">
-              <span class="cl-platform">GitHub</span><span class="cl-handle">Churro</span><span class="cl-arr">↗</span>
-            </a>
-            <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="contact-link-row">
-              <span class="cl-platform">GitHub</span><span class="cl-handle">Churro</span><span class="cl-arr">↗</span>
+              <span class="cl-platform">GitHub</span><span class="cl-handle">k4rahee</span><span class="cl-arr">↗</span>
             </a>
           </div>
           <button class="contact-edit-links-btn" id="contact-edit-links-btn" type="button">✎ 수정</button>
@@ -5839,7 +6250,7 @@ body.light-mode .big-arrow-icon{
 <div class="contact-edit-modal" id="skills-modal" aria-hidden="true">
   <div class="contact-edit-backdrop" id="skills-backdrop"></div>
   <div class="contact-edit-panel">
-    <button class="contact-edit-close" id="skills-close" type="button">×</button>
+    <button class="contact-edit-close" id="skills-close" type="button" aria-label="닫기">×</button>
     <h3 class="write-heading">할 수 있는 것들 수정</h3>
     <div class="media-helper" style="margin-bottom:0.8rem;">배지: <b>가능</b> / <b>스터디 중</b> / <b>준비 중</b> 중 선택</div>
     <div id="skills-editor"></div>
@@ -5855,7 +6266,7 @@ body.light-mode .big-arrow-icon{
 <div class="contact-edit-modal" id="links-modal" aria-hidden="true">
   <div class="contact-edit-backdrop" id="links-backdrop"></div>
   <div class="contact-edit-panel">
-    <button class="contact-edit-close" id="links-close" type="button">×</button>
+    <button class="contact-edit-close" id="links-close" type="button" aria-label="닫기">×</button>
     <h3 class="write-heading">링크 수정</h3>
     <div id="links-editor"></div>
     <button class="media-add-btn" id="links-add" type="button" style="margin-top:0.6rem;">+ 링크 추가</button>
@@ -5884,8 +6295,8 @@ body.light-mode .big-arrow-icon{
   <div class="music-player-bar" id="music-bar">
     <div class="music-disc" id="music-disc">♪</div>
     <div class="music-info">
-      <div class="music-title" id="music-title">재생 중인 곡 없음</div>
-      <div class="music-artist" id="music-artist">—</div>
+      <div class="music-title" id="music-title">음악 준비 중</div>
+      <div class="music-artist" id="music-artist">곧 들려드릴게요 ✦</div>
     </div>
     <div class="music-controls">
       <button class="music-btn" id="music-prev" type="button" title="이전">⏮</button>
@@ -5903,7 +6314,7 @@ body.light-mode .big-arrow-icon{
 <div class="contact-edit-modal" id="hero-video-modal" aria-hidden="true">
   <div class="contact-edit-backdrop" id="hero-video-backdrop"></div>
   <div class="contact-edit-panel">
-    <button class="contact-edit-close" id="hero-video-modal-close" type="button">×</button>
+    <button class="contact-edit-close" id="hero-video-modal-close" type="button" aria-label="닫기">×</button>
     <h3 class="write-heading">Hero 영상 설정</h3>
     <div class="write-row">
       <label class="write-label">YouTube URL</label>
@@ -5921,7 +6332,7 @@ body.light-mode .big-arrow-icon{
 <div class="contact-edit-modal" id="music-admin-modal" aria-hidden="true">
   <div class="contact-edit-backdrop" id="music-admin-backdrop"></div>
   <div class="contact-edit-panel">
-    <button class="contact-edit-close" id="music-admin-close" type="button">×</button>
+    <button class="contact-edit-close" id="music-admin-close" type="button" aria-label="닫기">×</button>
     <h3 class="write-heading">플레이리스트 관리</h3>
     <div class="media-helper" style="margin-bottom:0.8rem;">YouTube URL · MP3 직접 링크 · 또는 파일 업로드</div>
     <div id="music-track-list"></div>
@@ -5965,6 +6376,7 @@ body.light-mode .big-arrow-icon{
     </div>
   </div>
   <div class="status-btn-row">
+    <button class="theme-toggle sound-toggle" id="sound-toggle" type="button" aria-label="효과음 켜기" aria-pressed="false" title="효과음 켜기/끄기">🔇</button>
     <button class="theme-toggle" id="theme-toggle" type="button" aria-label="라이트 모드로 전환" title="라이트/다크 모드">☀</button>
     <button class="status-toggle" id="status-toggle" type="button">
       <span class="status-dot"></span>
@@ -6007,6 +6419,130 @@ body.light-mode .big-arrow-icon{
 </div>
 
 <script>
+  // ============== SOUND SYSTEM (Web Audio API 톤 합성) ==============
+  // 외부 오디오 파일 없이 OscillatorNode로 톤을 합성. 기본 mute, 사용자 토글 시에만 ON.
+  // localStorage로 상태 기억. AudioContext는 사용자 인터랙션 후에만 생성 (브라우저 정책).
+  window.Sound = (function(){
+    const STORAGE_KEY = 'churro-sound';
+    let ctx = null;
+    let enabled = false;
+    try { enabled = localStorage.getItem(STORAGE_KEY) === 'on'; } catch(_) {}
+
+    function ensureCtx(){
+      if (!ctx){
+        try { ctx = new (window.AudioContext || window.webkitAudioContext)(); }
+        catch(_){ return null; }
+      }
+      if (ctx.state === 'suspended'){ try { ctx.resume(); } catch(_){} }
+      return ctx;
+    }
+
+    // 한 음 — type/freq/duration/gain
+    function tone({ type='sine', freq=440, dur=0.1, gain=0.05, attack=0.005, glide=null, delay=0 }){
+      if (!enabled) return;
+      const c = ensureCtx();
+      if (!c) return;
+      const now = c.currentTime + delay;
+      const osc = c.createOscillator();
+      const g = c.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      if (glide){ osc.frequency.exponentialRampToValueAtTime(glide, now + dur); }
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(gain, now + attack);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      osc.connect(g);
+      g.connect(c.destination);
+      osc.start(now);
+      osc.stop(now + dur + 0.02);
+    }
+
+    // 여러 음을 시간차 두고 (화음/아르페지오)
+    function chord(notes){
+      notes.forEach(n => tone(n));
+    }
+
+    // 프리셋
+    const PRESETS = {
+      // 별 1개 모았을 때 — 산뜻한 종소리 (위로 글라이드)
+      star: () => tone({ type: 'triangle', freq: 880, glide: 1320, dur: 0.18, gain: 0.07 }),
+      // 별 5개 다 — 팡파레 (3음 화음)
+      starComplete: () => chord([
+        { type: 'triangle', freq: 523, dur: 0.4, gain: 0.06, delay: 0 },     // C5
+        { type: 'triangle', freq: 659, dur: 0.4, gain: 0.06, delay: 0.08 },  // E5
+        { type: 'triangle', freq: 784, dur: 0.5, gain: 0.06, delay: 0.16 },  // G5
+        { type: 'sine',     freq: 1047, dur: 0.6, gain: 0.05, delay: 0.24 }  // C6
+      ]),
+      // UI 클릭 — 짧고 단단한 클릭 (작게)
+      click: () => tone({ type: 'square', freq: 1200, dur: 0.04, gain: 0.025, attack: 0.001 }),
+      // 토글 ON — 상승 트윗
+      toggleOn: () => tone({ type: 'sine', freq: 660, glide: 990, dur: 0.12, gain: 0.05 }),
+      // 토글 OFF — 하강 트윗
+      toggleOff: () => tone({ type: 'sine', freq: 660, glide: 440, dur: 0.12, gain: 0.05 }),
+      // 모달 열림 — 부드러운 기상
+      modalOpen: () => chord([
+        { type: 'sine', freq: 523, dur: 0.18, gain: 0.04, delay: 0 },
+        { type: 'sine', freq: 784, dur: 0.18, gain: 0.04, delay: 0.06 }
+      ])
+    };
+
+    function play(name){
+      const fn = PRESETS[name];
+      if (fn) fn();
+    }
+
+    function setEnabled(v){
+      enabled = !!v;
+      try { localStorage.setItem(STORAGE_KEY, enabled ? 'on' : 'off'); } catch(_){}
+      // ON으로 켤 때 확인 사운드
+      if (enabled){
+        ensureCtx();
+        // 약간 지연시켜서 '딸깍 + 딩' 두 단계 피드백
+        setTimeout(() => PRESETS.toggleOn(), 30);
+      } else {
+        // OFF일 때 한 번만 약하게
+        const wasEnabled = enabled;
+        enabled = true;
+        PRESETS.toggleOff();
+        enabled = wasEnabled;
+      }
+    }
+    function isEnabled(){ return enabled; }
+    function toggle(){ setEnabled(!enabled); return enabled; }
+
+    return { play, toggle, setEnabled, isEnabled, ensureCtx };
+  })();
+
+  // 사운드 토글 버튼 바인딩
+  (function(){
+    const btn = document.getElementById('sound-toggle');
+    if (!btn) return;
+    function syncUI(){
+      const on = window.Sound.isEnabled();
+      btn.classList.toggle('on', on);
+      btn.textContent = on ? '🔊' : '🔇';
+      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('aria-label', on ? '효과음 끄기' : '효과음 켜기');
+      btn.title = on ? '효과음 켜짐 (클릭해서 끄기)' : '효과음 꺼짐 (클릭해서 켜기)';
+    }
+    syncUI();
+    btn.addEventListener('click', () => {
+      window.Sound.toggle();
+      syncUI();
+    });
+  })();
+
+  // 보편적 클릭 사운드 — 주요 인터랙티브 요소에 위임 바인딩
+  document.addEventListener('click', (e) => {
+    if (!window.Sound || !window.Sound.isEnabled()) return;
+    const t = e.target.closest('button, .nav-btn, .filter-btn, .chip, .link-pill, .topbar nav a, .contact-link-row, .contact-email-copy, .music-btn, .status-toggle, .sound-toggle, .theme-toggle');
+    if (!t) return;
+    // 일부 요소는 자체 사운드 (별·토글 등)가 있어서 중복 방지
+    if (t.id === 'sound-toggle') return; // 토글 자체는 setEnabled가 사운드 처리
+    if (t.classList.contains('hidden-star')) return; // 별 수집은 별도 처리
+    window.Sound.play('click');
+  }, { passive: true });
+
   // ============== FIREBASE READY HELPER ==============
   // 일반 스크립트는 모듈 import에 접근 못 함. 모듈이 window.db 등을 노출하고
   // 'firebase-ready' 이벤트를 dispatch할 때까지 대기.
@@ -6025,6 +6561,47 @@ body.light-mode .big-arrow-icon{
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   document.querySelectorAll('.contact-avail-block').forEach(el => io.observe(el));
+
+  // ============== TOPBAR ACTIVE SECTION ==============
+  // 화면 중앙에 가장 가까운 섹션의 nav 항목에 .active 토글
+  (function(){
+    const sections = ['hero','about','work','projects','now','thoughts','contact']
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    const navLinks = document.querySelectorAll('.topbar nav a[href^="#"]');
+    if (!sections.length || !navLinks.length) return;
+
+    const linkByHash = {};
+    navLinks.forEach(a => {
+      const hash = a.getAttribute('href').replace('#','');
+      if (hash) linkByHash[hash] = a;
+    });
+
+    let currentId = null;
+    function update(){
+      // 화면 중앙에 가장 가까운 섹션 선택
+      const mid = window.innerHeight / 2;
+      let best = null, bestDist = Infinity;
+      sections.forEach(sec => {
+        const r = sec.getBoundingClientRect();
+        // 화면 안에 일부라도 보이는 섹션만
+        if (r.bottom < 0 || r.top > window.innerHeight) return;
+        const center = (r.top + r.bottom) / 2;
+        const d = Math.abs(center - mid);
+        if (d < bestDist){ bestDist = d; best = sec.id; }
+      });
+      if (best === currentId) return;
+      currentId = best;
+      navLinks.forEach(a => a.classList.remove('active'));
+      if (best && linkByHash[best]) linkByHash[best].classList.add('active');
+    }
+    let raf = null;
+    window.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { raf = null; update(); });
+    }, { passive: true });
+    update();
+  })();
 
   // Theme toggle (light / dark) — 별 수호자 마법소녀 변신 컷
   (function(){
@@ -6088,7 +6665,7 @@ body.light-mode .big-arrow-icon{
   // ============== MUSIC PLAYER ==============
   whenFirebaseReady(function(){
     const DEFAULT_TRACKS = [
-      { title: '트랙을 추가해주세요', artist: '플레이리스트가 비어있습니다', url: '' }
+      { title: '음악 준비 중', artist: '곧 들려드릴게요 ✦', url: '' }
     ];
     let tracks = [];
     let currentIdx = 0;
@@ -6223,8 +6800,12 @@ body.light-mode .big-arrow-icon{
     }
 
     function renderTrack(t){
-      titleEl.textContent  = t.title  || '제목 없음';
-      artistEl.textContent = t.artist || '—';
+      const player = document.getElementById('music-player');
+      // url이 없으면(=재생 불가) collapsed-empty 모드. 본인이 트랙 추가하면 자동 복귀.
+      const hasPlayable = t && t.url;
+      if (player) player.classList.toggle('collapsed-empty', !hasPlayable);
+      titleEl.textContent  = (t && t.title)  || '음악 준비 중';
+      artistEl.textContent = (t && t.artist) || '곧 들려드릴게요 ✦';
     }
 
     function renderPlaylist(){
@@ -6384,9 +6965,8 @@ body.light-mode .big-arrow-icon{
         renderPlaylist();
       };
 
-      playUrl(cur.url).then(onSuccess).catch((err) => {
-        console.log('[music] autoplay blocked, will start on first interaction:', err.name || err);
-        // 첫 사용자 인터랙션에서 unlock
+      playUrl(cur.url).then(onSuccess).catch(() => {
+        // 자동재생 차단됨 — 첫 사용자 인터랙션에서 unlock
         const unlock = () => {
           playUrl(cur.url).then(onSuccess).catch((e) => console.error('[music] unlock play failed:', e));
           document.removeEventListener('click',    unlock, true);
@@ -6405,7 +6985,6 @@ body.light-mode .big-arrow-icon{
     onSnapshot(MUSIC_REF, (snap) => {
       const data = snap.exists() ? snap.data() : null;
       const newTracks = (data && data.tracks && data.tracks.length) ? data.tracks : DEFAULT_TRACKS;
-      console.log('[music] tracks loaded:', newTracks.length, 'tracks. URLs:', newTracks.map(t => t && t.url ? '✓' : '✗').join(' '));
       tracks = newTracks;
       // currentIdx가 무효하거나 url 없으면 첫 유효 트랙으로
       if (!tracks[currentIdx] || !tracks[currentIdx].url){
@@ -6446,20 +7025,20 @@ body.light-mode .big-arrow-icon{
         row.style.cssText = 'flex-direction:column;gap:0.4rem;margin-bottom:0.6rem;padding:0.8rem;border:1px solid var(--line);border-radius:10px;';
         const trackMode = t.mode || 'both';
         row.innerHTML = `
-          <div style="display:flex;gap:0.4rem;">
-            <input style="flex:1;" type="text" placeholder="제목" maxlength="50" value="${(t.title||'').replace(/"/g,'&quot;')}">
-            <input style="flex:1;" type="text" placeholder="아티스트" maxlength="40" value="${(t.artist||'').replace(/"/g,'&quot;')}">
-            <button type="button" style="width:28px;height:28px;flex-shrink:0;border:1px solid var(--line);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink-3);font-size:0.8rem;" class="track-remove">×</button>
+          <div class="tr-row with-input">
+            <input type="text" placeholder="제목" maxlength="50" value="${(t.title||'').replace(/"/g,'&quot;')}">
+            <input type="text" placeholder="아티스트" maxlength="40" value="${(t.artist||'').replace(/"/g,'&quot;')}">
+            <button type="button" class="track-remove" aria-label="트랙 삭제">×</button>
           </div>
-          <div style="display:flex;gap:0.4rem;align-items:center;">
-            <input type="url" class="track-url" placeholder="YouTube URL 또는 MP3 직접 링크" style="flex:1;box-sizing:border-box;" value="${(t.url||'').replace(/"/g,'&quot;')}">
-            <button type="button" class="track-upload-btn" style="flex-shrink:0;height:32px;padding:0 0.7rem;border:1px solid var(--line);background:rgba(212,255,58,0.06);color:var(--lime);border-radius:6px;cursor:pointer;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.05em;text-transform:uppercase;font-weight:600;">📁 업로드</button>
-            <input type="file" class="track-file-input" accept="audio/*,.mp3,.wav,.m4a,.ogg" style="display:none;">
+          <div class="tr-row with-url center">
+            <input type="url" class="track-url" placeholder="YouTube URL 또는 MP3 직접 링크" value="${(t.url||'').replace(/"/g,'&quot;')}">
+            <button type="button" class="track-upload-btn">📁 업로드</button>
+            <input type="file" class="track-file-input" accept="audio/*,.mp3,.wav,.m4a,.ogg" hidden>
           </div>
-          <div class="track-status" style="font-family:var(--mono);font-size:0.58rem;color:var(--ink-3);min-height:0.9rem;letter-spacing:0.04em;"></div>
-          <div style="display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);letter-spacing:0.06em;">
+          <div class="track-status"></div>
+          <div class="tr-mode-label">
             <span>모드:</span>
-            <select class="track-mode" style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:6px;padding:0.3rem 0.5rem;color:var(--ink);font-family:var(--mono);font-size:0.65rem;">
+            <select class="track-mode">
               <option value="both"${trackMode==='both'?' selected':''}>둘다 (☀ + 🌙)</option>
               <option value="light"${trackMode==='light'?' selected':''}>라이트만 (☀ 낮)</option>
               <option value="dark"${trackMode==='dark'?' selected':''}>다크만 (🌙 밤)</option>
@@ -6573,10 +7152,10 @@ body.light-mode .big-arrow-icon{
     function renderVideo(url){
       const id = getYTId(url);
       if (!id){
-        container.innerHTML = `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:rgba(255,255,255,0.2);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;background:#111;border-radius:16px;"><span style="font-size:2rem;">▶</span>VIDEO</div>`;
+        container.innerHTML = `<div class="video-ph-label solid"><span class="ph-play">▶</span>VIDEO</div>`;
         return;
       }
-      container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:16px;"></iframe>`;
+      container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="embed-fill"></iframe>`;
     }
 
     // Firestore 실시간 구독
@@ -6729,7 +7308,7 @@ body.light-mode .big-arrow-icon{
         inner = `<img src="${escAttr(thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"><div class="play-icon"></div>`;
         badge = 'Video';
       } else if (type === 'vimeo'){
-        inner = `<div style="width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:var(--mono);font-size:0.65rem;">VIMEO</div><div class="play-icon"></div>`;
+        inner = `<div class="vimeo-ph">VIMEO</div><div class="play-icon"></div>`;
         badge = 'Video';
       } else if (type === 'video'){
         inner = `<video src="${escAttr(url)}" muted loop playsinline preload="metadata"></video><div class="play-icon"></div>`;
@@ -6784,27 +7363,48 @@ body.light-mode .big-arrow-icon{
 
     // ────────────── 카드 동적 렌더링 ──────────────
     // 카드 썸네일: 첫 번째 미디어가 있으면 그걸 사용, 없으면 그라디언트 placeholder
+    // 참고: position:absolute / object-fit:cover 등은 .gallery .img-wrapper > img CSS 규칙에서 처리됨
     const PH_GRADIENTS = ['g3', 'g2', 'g5', 'g4'];
     function renderCardThumb(p, cardIdx){
       const first = p.media && p.media[0];
-      if (first && first.url){
-        const type = detectMediaType(first.url);
-        if (type === 'youtube'){
-          const thumb = youtubeThumb(first.url);
-          return `<img src="${escAttr(thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">`;
-        } else if (type === 'video'){
-          return `<video src="${escAttr(first.url)}" muted loop playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>`;
-        } else if (type !== 'vimeo'){
-          return `<img src="${escAttr(first.url)}" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">`;
-        }
-      }
-      // placeholder
+      const altText = escAttr(p.title ? p.title.replace(/<[^>]+>/g, '') + ' 썸네일' : '');
       const grad = PH_GRADIENTS[cardIdx % PH_GRADIENTS.length];
-      return `<div class="img-ph ${grad}">
+      const placeholder = `<div class="img-ph ${grad} thumb-fallback hidden" aria-hidden="true">
         <div class="ph-grad"></div><div class="ph-noise"></div>
         <div class="ph-corner tl"></div><div class="ph-corner tr"></div>
         <div class="ph-corner bl"></div><div class="ph-corner br"></div>
       </div>`;
+      if (first && first.url){
+        const type = detectMediaType(first.url);
+        if (type === 'youtube'){
+          const thumb = youtubeThumb(first.url);
+          // 일부 영상은 hqdefault 없음 — 깨지면 placeholder로 교체
+          return `<img src="${escAttr(thumb)}" alt="${altText}" loading="lazy" referrerpolicy="no-referrer" data-thumb-card="${cardIdx}">${placeholder}`;
+        } else if (type === 'video'){
+          return `<video src="${escAttr(first.url)}" muted loop playsinline preload="metadata"></video>`;
+        } else if (type !== 'vimeo'){
+          return `<img src="${escAttr(first.url)}" alt="${altText}" loading="lazy" data-thumb-card="${cardIdx}">${placeholder}`;
+        }
+      }
+      // 미디어 없으면 placeholder 그대로 (hidden 클래스 제거)
+      return placeholder.replace('thumb-fallback hidden', 'thumb-fallback');
+    }
+
+    function attachThumbFallback(){
+      if (!carousel) return;
+      carousel.querySelectorAll('img[data-thumb-card]').forEach(img => {
+        if (img.dataset.fbBound) return;
+        img.dataset.fbBound = '1';
+        img.addEventListener('error', () => {
+          const wrapper = img.parentElement;
+          if (!wrapper) return;
+          const fb = wrapper.querySelector('.thumb-fallback');
+          if (fb){
+            img.style.display = 'none';
+            fb.classList.remove('hidden');
+          }
+        });
+      });
     }
 
     function renderCards(){
@@ -6830,6 +7430,7 @@ body.light-mode .big-arrow-icon{
       }).join('');
       carousel.innerHTML = html;
       bindCardClicks();
+      attachThumbFallback();
       if (typeof window._removeCollectedStars === 'function') window._removeCollectedStars();
       if (typeof window._rebindHoverSparkles === 'function') window._rebindHoverSparkles();
     }
@@ -7123,6 +7724,26 @@ body.light-mode .big-arrow-icon{
     });
     nextBtn.addEventListener('click', () => {
       carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+    });
+
+    // 키보드 네비게이션 (a11y) — 캐러셀에 포커스 있을 때 ←/→로 이동
+    carousel.setAttribute('tabindex', '0');
+    carousel.setAttribute('role', 'region');
+    carousel.setAttribute('aria-label', 'Personal Project 캐러셀 — 좌우 화살표 키로 탐색');
+    carousel.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft'){
+        e.preventDefault();
+        carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+      } else if (e.key === 'ArrowRight'){
+        e.preventDefault();
+        carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+      } else if (e.key === 'Home'){
+        e.preventDefault();
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      } else if (e.key === 'End'){
+        e.preventDefault();
+        carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
+      }
     });
 
     const updateProgress = () => {
@@ -7597,10 +8218,24 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// ────────── onSnapshot 자동 unsub 관리 ──────────
+// 페이지 언로드 시 모든 구독 정리 (메모리/네트워크 leak 방지)
+const __fbUnsubs = new Set();
+const trackedOnSnapshot = (...args) => {
+  const unsub = onSnapshot(...args);
+  __fbUnsubs.add(unsub);
+  return () => { unsub(); __fbUnsubs.delete(unsub); };
+};
+window.addEventListener('beforeunload', () => {
+  __fbUnsubs.forEach(u => { try { u(); } catch(_){} });
+  __fbUnsubs.clear();
+});
+
 // 일반 스크립트(<script>)가 사용할 수 있도록 firebase 심볼을 window에 노출
 // (모듈 import는 모듈 스코프에 갇혀있어 일반 스크립트에서 ReferenceError 발생)
+// ⚠️ window.onSnapshot 은 자동 unsub-tracking 버전을 노출
 Object.assign(window, {
-  doc, db, setDoc, onSnapshot, getDoc, updateDoc, addDoc, deleteDoc,
+  doc, db, setDoc, onSnapshot: trackedOnSnapshot, getDoc, updateDoc, addDoc, deleteDoc,
   collection, query, orderBy, serverTimestamp, increment,
   storage, storageRef, uploadBytes, getDownloadURL
 });
@@ -7654,7 +8289,6 @@ function renderMediaHTML(urls){
   return urls.map(url => {
     const m = parseMediaUrl(url);
     if (!m) return '';
-    const safeUrl = escapeHTML(url);
     if (m.type === 'youtube'){
       return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://www.youtube.com/embed/${m.id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
     }
@@ -7662,14 +8296,40 @@ function renderMediaHTML(urls){
       return `<div class="media-item"><div class="media-iframe-wrap"><iframe src="https://player.vimeo.com/video/${m.id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
     }
     if (m.type === 'image'){
-      return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.parentElement.innerHTML='<div class=&quot;media-item-error&quot;>이미지를 불러올 수 없습니다: ${safeUrl}</div>'"></a></div>`;
+      return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" data-fallback="image"></a></div>`;
     }
     if (m.type === 'video'){
       return `<div class="media-item"><video controls preload="metadata" src="${escapeHTML(m.src)}"></video></div>`;
     }
     // unknown — try as image, fallback to link
-    return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" onerror="this.parentElement.outerHTML='<div class=&quot;media-item-error&quot;><a href=&quot;${safeUrl}&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; style=&quot;color:inherit;&quot;>${safeUrl}</a></div>'"></a></div>`;
+    return `<div class="media-item"><a href="${escapeHTML(m.src)}" target="_blank" rel="noopener"><img src="${escapeHTML(m.src)}" alt="첨부 이미지" loading="lazy" data-fallback="link"></a></div>`;
   }).join('');
+}
+
+// 미디어 이미지 로드 실패 시 안전한 fallback (인라인 onerror XSS 방지)
+function attachMediaErrorHandlers(container){
+  if (!container) return;
+  container.querySelectorAll('img[data-fallback]').forEach(img => {
+    img.addEventListener('error', () => {
+      const mode = img.dataset.fallback;
+      const wrap = img.closest('.media-item');
+      if (!wrap) return;
+      const errEl = document.createElement('div');
+      errEl.className = 'media-item-error';
+      if (mode === 'link'){
+        const a = document.createElement('a');
+        a.href = img.src;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.style.color = 'inherit';
+        a.textContent = img.src;
+        errEl.appendChild(a);
+      } else {
+        errEl.textContent = '이미지를 불러올 수 없습니다';
+      }
+      wrap.replaceChildren(errEl);
+    }, { once: true });
+  });
 }
 function tsToDate(ts){
   if (!ts) return null;
@@ -7708,10 +8368,13 @@ const loginForm = document.getElementById('login-form');
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user || null;
+  const adminMode = window.isAdmin();
   if (user){
-    lockBtn.classList.add('authed');
-    lockBtn.title = '관리자 (클릭하면 로그아웃)';
-    seedSamplesIfEmpty();
+    lockBtn.classList.toggle('authed', adminMode);
+    lockBtn.title = adminMode
+      ? '관리자 (클릭하면 로그아웃)'
+      : '관리자 권한 없는 계정입니다 (클릭하면 로그아웃)';
+    if (adminMode) seedSamplesIfEmpty();
   } else {
     lockBtn.classList.remove('authed');
     lockBtn.title = '관리자 로그인';
@@ -7723,15 +8386,15 @@ onAuthStateChanged(auth, (user) => {
   if (typeof window._heroVideoAdminInit === 'function') window._heroVideoAdminInit();
   if (typeof window._musicAdminInit === 'function') window._musicAdminInit();
   if (typeof window._projectsAdminInit === 'function') window._projectsAdminInit();
-  // 어드민 버튼 visible 토글 — 로그인 시에만 표시
+  // 어드민 버튼 visible 토글 — 화이트리스트 admin 일 때만 표시
   const heroEditBtn = document.getElementById('hero-video-edit-btn');
   const musicEditBtn = document.getElementById('music-admin-btn');
   const projectsAdminBtn = document.getElementById('projects-admin-btn');
   const projMediaEditBtn = document.getElementById('panel-media-edit-btn');
-  if (heroEditBtn) heroEditBtn.classList.toggle('visible', !!user);
-  if (musicEditBtn) musicEditBtn.classList.toggle('visible', !!user);
-  if (projectsAdminBtn) projectsAdminBtn.classList.toggle('visible', !!user);
-  if (projMediaEditBtn) projMediaEditBtn.classList.toggle('visible', !!user);
+  if (heroEditBtn) heroEditBtn.classList.toggle('visible', adminMode);
+  if (musicEditBtn) musicEditBtn.classList.toggle('visible', adminMode);
+  if (projectsAdminBtn) projectsAdminBtn.classList.toggle('visible', adminMode);
+  if (projMediaEditBtn) projMediaEditBtn.classList.toggle('visible', adminMode);
   if (modal.classList.contains('open') && modal.classList.contains('read-mode') && currentReadPost){
     refreshModalActions();
   }
@@ -7748,6 +8411,7 @@ lockBtn.addEventListener('click', async () => {
 });
 
 function openLoginModal(){
+  if (!modalReturnFocus) modalReturnFocus = document.activeElement;
   loginModal.classList.add('open', 'write-mode');
   document.body.classList.add('modal-open');
   setTimeout(() => document.getElementById('login-email').focus(), 100);
@@ -7756,13 +8420,23 @@ function closeLoginModal(){
   loginModal.classList.remove('open', 'write-mode');
   document.body.classList.remove('modal-open');
   loginForm.reset();
+  if (modalReturnFocus){ try { modalReturnFocus.focus(); } catch(_){} modalReturnFocus = null; }
 }
 
 // ===== 전역 admin 헬퍼 =====
-// 비관리자 클릭 시 로그인 모달을 자동으로 열어주는 게이트
+// ⚠️ 화이트리스트: 여기에 등록된 이메일만 관리자 UI 접근 가능
+// (Firestore Rules에서도 동일하게 검증해야 실제 보안이 됨)
+const ADMIN_EMAILS = ['k4rahee@naver.com'];
+window.isAdmin = function(){
+  return !!(currentUser && currentUser.email && ADMIN_EMAILS.includes(currentUser.email));
+};
 window.openLoginModal = openLoginModal;
 window.requireAdmin = function(){
-  if (currentUser) return true;
+  if (window.isAdmin()) return true;
+  if (currentUser){
+    toast('관리자 권한이 없는 계정입니다', 'error');
+    return false;
+  }
   toast('관리자 로그인이 필요합니다', 'info');
   openLoginModal();
   return false;
@@ -7847,7 +8521,7 @@ const filterRow = document.getElementById('thought-filter');
 // ============== POSTS LISTENER ==============
 const q = query(collection(db, 'thoughts'), orderBy('createdAt', 'desc'));
 list.innerHTML = '<div class="thoughts-loading">불러오는 중...</div>';
-onSnapshot(q, (snap) => {
+trackedOnSnapshot(q, (snap) => {
   allPosts = snap.docs.map(d => {
     const data = d.data();
     return {
@@ -7934,7 +8608,12 @@ function renderCards(){
   ` : '';
 
   if (!filtered.length && !currentUser){
-    list.innerHTML = '<div class="thoughts-loading">아직 작성된 글이 없습니다.</div>' + addCard;
+    list.innerHTML = `
+      <div class="thoughts-empty">
+        <div class="empty-glyph">✦</div>
+        <div class="empty-title">아직 적은 글이 없어요</div>
+        <div class="empty-sub">곧 채워질 자리예요. 그동안 ✦ 별을 찾아주세요.</div>
+      </div>` + addCard;
     return;
   }
   list.innerHTML = cards + addCard + loadMore;
@@ -7953,10 +8632,12 @@ let currentReadPost = null;
 let unsubComments = null;
 
 function openRead(post){
+  modalReturnFocus = document.activeElement;  // ESC/×로 닫을 때 돌려보낼 포커스
   currentReadPost = post;
   modal.classList.remove('write-mode');
   modal.classList.add('read-mode', 'open');
   document.body.classList.add('modal-open');
+  if (window.Sound) window.Sound.play('modalOpen');
   document.getElementById('modal-tag').textContent = post.tag;
   document.getElementById('modal-date').textContent = formatDateLong(post.createdAt);
   const timeEl = document.getElementById('modal-time');
@@ -7967,7 +8648,9 @@ function openRead(post){
   }
   document.getElementById('modal-title').textContent = post.title;
   document.getElementById('modal-body').textContent = post.body;
-  document.getElementById('modal-media').innerHTML = renderMediaHTML(post.media);
+  const modalMediaEl = document.getElementById('modal-media');
+  modalMediaEl.innerHTML = renderMediaHTML(post.media);
+  attachMediaErrorHandlers(modalMediaEl);
 
   // 조회수 표시 & 증가
   const viewsEl = document.getElementById('modal-views');
@@ -7985,7 +8668,7 @@ function openRead(post){
 function refreshModalActions(){
   const actions = document.getElementById('modal-actions');
   actions.innerHTML = '';
-  if (!currentUser || !currentReadPost) return;
+  if (!(window.isAdmin && window.isAdmin()) || !currentReadPost) return;
 
   const editBtn = document.createElement('button');
   editBtn.className = 'modal-edit';
@@ -8047,7 +8730,52 @@ function closeModal(){
   document.body.classList.remove('modal-open');
   currentReadPost = null;
   if (unsubComments){ unsubComments(); unsubComments = null; }
+  // 트리거 버튼으로 포커스 복원
+  if (modalReturnFocus){ try { modalReturnFocus.focus(); } catch(_){} modalReturnFocus = null; }
 }
+
+// ===== Focus trap (a11y) — 모달 안에서 Tab이 빠져나가지 않도록 =====
+let modalReturnFocus = null;
+function getFocusable(container){
+  return [...container.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )].filter(el => el.offsetParent !== null);
+}
+function trapFocus(e, container){
+  if (e.key !== 'Tab') return;
+  const focusable = getFocusable(container);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first){
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last){
+    e.preventDefault();
+    first.focus();
+  }
+}
+// 열려있는 모달이 있을 때 Tab 가둠
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const open = document.querySelector('.thought-modal.open .thought-modal-panel, .contact-edit-modal.open .contact-edit-panel');
+  if (open) trapFocus(e, open);
+});
+
+// ===== 글로벌 ESC: 어떤 모달이든 열려있으면 닫기 (a11y) =====
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  // 1순위: thought-modal
+  if (modal.classList.contains('open')){ closeModal(); return; }
+  if (loginModal.classList.contains('open')){ closeLoginModal(); return; }
+  // 2순위: 그 외 .contact-edit-modal (skills/links/hero-video/music/projects)
+  const openCem = document.querySelector('.contact-edit-modal.open');
+  if (openCem){
+    openCem.classList.remove('open');
+    openCem.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+});
 
 list.addEventListener('click', (e) => {
   const card = e.target.closest('.thought-card');
@@ -8122,9 +8850,9 @@ function addPreviewItem(previewUrl, type, idx){
   item.className = 'media-preview-item';
   item.dataset.idx = idx;
   if(type.startsWith('video')){
-    item.innerHTML = `<video src="${previewUrl}" muted></video><button class="preview-remove" type="button">×</button>`;
+    item.innerHTML = `<video src="${previewUrl}" muted></video><button class="preview-remove" type="button" aria-label="미리보기 제거">×</button>`;
   } else {
-    item.innerHTML = `<img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button">×</button>`;
+    item.innerHTML = `<img src="${previewUrl}" alt="미리보기"><button class="preview-remove" type="button" aria-label="미리보기 제거">×</button>`;
   }
   item.querySelector('.preview-remove').addEventListener('click', () => {
     const i = parseInt(item.dataset.idx);
@@ -8256,7 +8984,7 @@ async function attachLike(post){
 
   // realtime count from Firestore
   const ref = doc(db, 'likes', post.id);
-  unsubLike = onSnapshot(ref, (snap) => {
+  unsubLike = trackedOnSnapshot(ref, (snap) => {
     if (snap.exists()){
       likeCount.textContent = snap.data().count || 0;
     } else {
@@ -8371,16 +9099,17 @@ function renderLinks(data){
   }).join('');
 }
 
-onSnapshot(skillsRef, (snap) => renderSkills(snap.exists() ? snap.data() : null), () => renderSkills(null));
-onSnapshot(linksRef,  (snap) => renderLinks(snap.exists()  ? snap.data() : null), () => renderLinks(null));
+trackedOnSnapshot(skillsRef, (snap) => renderSkills(snap.exists() ? snap.data() : null), () => renderSkills(null));
+trackedOnSnapshot(linksRef,  (snap) => renderLinks(snap.exists()  ? snap.data() : null), () => renderLinks(null));
 renderSkills(null);
 renderLinks(null);
 
 function updateContactEditAdminUI(){
   const sb = document.getElementById('contact-edit-skills-btn');
   const lb = document.getElementById('contact-edit-links-btn');
-  if (sb) sb.classList.toggle('visible', !!currentUser);
-  if (lb) lb.classList.toggle('visible', !!currentUser);
+  const adminMode = window.isAdmin && window.isAdmin();
+  if (sb) sb.classList.toggle('visible', adminMode);
+  if (lb) lb.classList.toggle('visible', adminMode);
 }
 
 // ── 스킬/링크 편집 모달 ──
@@ -8411,7 +9140,7 @@ function makeSkillInputRow(s = {}){
       <option value="muted" ${s.type==='muted'?'selected':''}>기타 (흐림)</option>
     </select>
     <input type="text" placeholder="뱃지 텍스트" maxlength="10" value="${escHTML(s.badge||'')}" style="grid-column:1/3;">
-    <button class="ce-link-remove" type="button">×</button>
+    <button class="ce-link-remove" type="button" aria-label="항목 삭제">×</button>
   `;
   row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
   return row;
@@ -8423,14 +9152,19 @@ function makeLinkInputRow(l = {}){
   row.innerHTML = `
     <input type="text" placeholder="플랫폼 (YouTube)" maxlength="20" value="${escHTML(l.platform||'')}">
     <input type="text" placeholder="핸들 (@Churro)" maxlength="40" value="${escHTML(l.handle||'')}">
-    <button class="ce-link-remove" type="button">×</button>
+    <button class="ce-link-remove" type="button" aria-label="항목 삭제">×</button>
     <input type="url" placeholder="URL (https://...)" maxlength="200" value="${escHTML(l.url||'')}" style="grid-column:1/4;">
   `;
   row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
   return row;
 }
 
-function openModal(modal){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); }
+function openModal(modal){
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+  if (window.Sound) window.Sound.play('modalOpen');
+}
 function closeModal2(modal){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
 
 // ── 스킬 모달 ──
@@ -8558,7 +9292,7 @@ function renderStatus(data){
 
 // Firestore 실시간 구독
 const statusRef = doc(db, 'status', 'current');
-onSnapshot(statusRef, (snap) => {
+trackedOnSnapshot(statusRef, (snap) => {
   if (snap.exists()) renderStatus(snap.data());
 }, () => {});
 
@@ -8570,7 +9304,8 @@ statusToggle.addEventListener('click', () => {
 
 // 관리자 수정 버튼
 function updateStatusAdminUI(){
-  if (currentUser){
+  const adminMode = window.isAdmin && window.isAdmin();
+  if (adminMode){
     statusEditBtn.classList.add('visible');
   } else {
     statusEditBtn.classList.remove('visible');
@@ -8579,7 +9314,7 @@ function updateStatusAdminUI(){
 }
 
 statusEditBtn.addEventListener('click', () => {
-  if (!currentUser){ openLoginModal(); toast('관리자 로그인이 필요합니다', 'info'); return; }
+  if (!window.requireAdmin()) return;
   statusEditForm.classList.toggle('open');
   if (statusEditForm.classList.contains('open')){
     STATUS_FIELDS.forEach(f => {
@@ -8746,7 +9481,12 @@ statusSaveBtn.addEventListener('click', async () => {
     showToast({ glyph: '✦', text: 'Star found', count: `${collected.size} / 5` });
     updateLog(id);
 
+    // 사운드: 별 줍는 종소리
+    if (window.Sound) window.Sound.play('star');
+
     if (collected.size === TOTAL_STARS) {
+      // 사운드: 5개 다 모음 — 팡파레 (약간 딜레이)
+      if (window.Sound) setTimeout(() => window.Sound.play('starComplete'), 300);
       setTimeout(() => {
         showToast({ glyph: '✦', text: 'All stars found!' }, true);
       }, 800);
@@ -9477,7 +10217,7 @@ function attachComments(post){
   if (!post) return;
   // listen on subcollection thoughts/{id}/comments, ordered by likes desc then newest
   const cq = query(collection(db, 'thoughts', post.id, 'comments'), orderBy('createdAt', 'desc'));
-  unsubComments = onSnapshot(cq, (snap) => {
+  unsubComments = trackedOnSnapshot(cq, (snap) => {
     const comments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderComments(comments);
   }, (err) => {
