@@ -183,10 +183,10 @@
     justify-content: center;
     backdrop-filter: blur(8px);
     transition: all 0.2s ease;
-    opacity: 0.55;
+    display: none;
   }
-  .hero-video-edit-btn.visible{ opacity: 1; }
-  .hero-video-edit-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
+  .hero-video-edit-btn.visible{ display: flex; }
+  .hero-video-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
   .hero-image{ position: relative; }
 
   /* ── Music player ── */
@@ -312,7 +312,7 @@
     border-radius: 999px;
   }
   .music-admin-btn{
-    display: block;
+    display: none;
     width: 100%;
     padding: 0.4rem;
     background: transparent;
@@ -325,10 +325,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
-    opacity: 0.55;
   }
-  .music-admin-btn.visible{ opacity: 1; }
-  .music-admin-btn:hover{ color: var(--lime); opacity: 1; }
+  .music-admin-btn.visible{ display: block; }
+  .music-admin-btn:hover{ color: var(--lime); }
   @media (max-width: 700px){
     .music-player{ bottom: 5rem; left: 1rem; min-width: 200px; }
     .music-player.collapsed{ min-width: 0; }
@@ -337,16 +336,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.25rem;
+    gap: 0.3rem;
     padding-top: 0.8rem;
     font-family: var(--mono);
-    font-size: 0.58rem;
+    font-size: 0.65rem;
     letter-spacing: 0.05em;
     color: var(--ink-3);
-    opacity: 0.25;
+    opacity: 0.5;
     user-select: none;
     pointer-events: none;
+    transition: opacity 0.4s ease;
   }
+  footer:hover .footer-easter{ opacity: 0.85; }
   .footer-easter .fade-out{
     -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
     mask-image: linear-gradient(to right, black 0%, transparent 100%);
@@ -1235,7 +1236,9 @@
     border: 1px solid var(--pink);
     color: var(--pink);
   }
-  body.light-mode .skill-badge{ color: #fff; }
+  body.light-mode .skill-badge:not(.pink-outline):not(.muted){ color: #fff; }
+  body.light-mode .skill-badge.pink-outline{ color: var(--pink); border-color: var(--pink); }
+  body.light-mode .skill-badge.muted{ color: var(--ink-2); }
   .contact-edit-skills-btn{
     margin-top: 1rem;
     background: transparent;
@@ -1248,11 +1251,10 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: inline-block;
-    opacity: 0.55;
+    display: none;
   }
-  .contact-edit-skills-btn.visible{ opacity: 1; }
-  .contact-edit-skills-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
+  .contact-edit-skills-btn.visible{ display: inline-block; }
+  .contact-edit-skills-btn:hover{ border-color: var(--lime); color: var(--lime); }
 
   /* 오른쪽 링크 */
   .contact-link-section{ display: flex; flex-direction: column; }
@@ -1292,19 +1294,49 @@
     letter-spacing: -0.01em;
   }
   .contact-email-copy{
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--ink-3);
+    background: rgba(212,255,58,0.08);
+    border: 1px solid rgba(212,255,58,0.4);
+    color: var(--lime);
     font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.06em;
-    padding: 0.3rem 0.65rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
     flex-shrink: 0;
+    font-weight: 600;
   }
-  .contact-email-copy:hover{ border-color: var(--lime); color: var(--lime); }
+  .contact-email-copy:hover{
+    background: var(--lime);
+    border-color: var(--lime);
+    color: var(--bg);
+  }
+  .contact-email-mail{
+    background: var(--lime);
+    border: 1px solid var(--lime);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.4rem;
+  }
+  .contact-email-mail:hover{
+    background: transparent;
+    color: var(--lime);
+    transform: translateY(-1px);
+  }
   .contact-link-row{
     display: flex;
     align-items: center;
@@ -1354,11 +1386,10 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: inline-block;
-    opacity: 0.55;
+    display: none;
   }
-  .contact-edit-links-btn.visible{ opacity: 1; }
-  .contact-edit-links-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
+  .contact-edit-links-btn.visible{ display: inline-block; }
+  .contact-edit-links-btn:hover{ border-color: var(--lime); color: var(--lime); }
 
   /* Email CTA card */
   .email-card{
@@ -1444,7 +1475,8 @@
     border-color: var(--lime);
     color: var(--bg);
   }
-  .email-card .act-tooltip{
+  .email-card .act-tooltip,
+  .contact-email-row .act-tooltip{
     position: absolute;
     top: -32px;
     right: 1.6rem;
@@ -1461,9 +1493,13 @@
     transition: opacity 0.25s ease, transform 0.25s ease;
     pointer-events: none;
   }
-  .email-card .act-tooltip.show{
+  .email-card .act-tooltip.show,
+  .contact-email-row .act-tooltip.show{
     opacity: 1;
     transform: translateY(0);
+  }
+  .contact-email-row{
+    position: relative;
   }
   @media (max-width: 600px){
     .email-card{ padding: 1rem 1.1rem; gap: 0.8rem; }
@@ -1575,7 +1611,12 @@
   .thought-meta{
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+  }
+  .thought-meta .thought-views{
+    margin-left: auto;
   }
   .thought-tag{
     font-family: var(--mono);
@@ -3186,7 +3227,7 @@
   }
   .status-val.lime{ color: var(--lime); }
   .status-edit-btn{
-    display: block;
+    display: none;
     width: 100%;
     margin-top: 1rem;
     background: transparent;
@@ -3200,10 +3241,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
-    opacity: 0.55;
   }
-  .status-edit-btn.visible{ opacity: 1; }
-  .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); opacity: 1; }
+  .status-edit-btn.visible{ display: block; }
+  .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
   .status-edit-form{ display: none; margin-top: 1rem; }
   .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.5rem; }
   .status-edit-row{
@@ -4235,7 +4275,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   body.rahee-creep-snap header, body.rahee-creep-snap main, body.rahee-creep-snap section{ animation:none!important; }
 }
 
-/* ============== CLICK SPARKLE BURST ============== */
+/* ============== CLICK TAP EFFECT (서브컬쳐 모바일 게임 스타일) ============== */
+/* 동심원 ring 2개 + 중앙 코어 + N/E/S/W 카디널 스파클 — 짧고 선명 */
 .click-burst{
   position: fixed;
   pointer-events: none;
@@ -4243,60 +4284,376 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   width: 0; height: 0;
   will-change: transform;
 }
-.click-burst .cb-star{
+
+/* 1. 중앙 코어 — 브라이트 도트가 잠깐 켜졌다 사라짐 */
+.click-burst .cb-core{
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime), 0 0 18px var(--lime-glow);
+  transform: translate(-50%, -50%) scale(0);
+  animation: cbCore 0.35s cubic-bezier(.2,.8,.4,1) forwards;
+}
+
+/* 2. 내부 ring — 빠르게 확장 (선명한 라인) */
+.click-burst .cb-ring1{
+  position: absolute;
+  left: 0; top: 0;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--lime);
+  box-shadow: 0 0 10px var(--lime-glow), inset 0 0 6px var(--lime-glow);
+  transform: translate(-50%, -50%) scale(0);
+  animation: cbRing 0.55s cubic-bezier(.15,.7,.3,1) forwards;
+}
+
+/* 3. 외부 ring — 살짝 늦게 확장 + 더 크게 */
+.click-burst .cb-ring2{
+  position: absolute;
+  left: 0; top: 0;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--lime);
+  opacity: 0.7;
+  transform: translate(-50%, -50%) scale(0);
+  animation: cbRingOuter 0.7s cubic-bezier(.15,.7,.3,1) forwards;
+  animation-delay: 70ms;
+}
+
+/* 4. 작은 입자 별들 — 사방으로 가볍게 트윙클 */
+.click-burst .cb-spark{
   position: absolute;
   left: 0; top: 0;
   font-family: var(--mono);
   color: var(--lime);
-  text-shadow: 0 0 8px var(--lime-glow), 0 0 16px var(--lime-glow);
+  text-shadow: 0 0 4px var(--lime-glow), 0 0 8px var(--lime-glow);
   pointer-events: none;
   user-select: none;
   transform: translate(-50%, -50%) scale(0);
-  animation: clickBurstFly 0.85s cubic-bezier(0.15, 0.7, 0.35, 1) forwards;
+  animation: cbStarBurst 0.6s cubic-bezier(.2,.7,.3,1) forwards;
 }
-.click-burst .cb-star.pink{
+.click-burst .cb-spark.pink{
   color: var(--pink);
-  text-shadow: 0 0 8px var(--pink-glow), 0 0 16px var(--pink-glow);
+  text-shadow: 0 0 4px var(--pink-glow), 0 0 8px var(--pink-glow);
 }
-.click-burst .cb-ring{
-  position: absolute;
-  left: 0; top: 0;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  border: 2px solid var(--lime);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0.85;
-  animation: clickBurstRing 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
-  box-shadow: 0 0 12px var(--lime-glow);
+
+@keyframes cbCore{
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0; }
+  25%  { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
 }
-@keyframes clickBurstFly{
+
+@keyframes cbRing{
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 1; border-width: 2px; }
+  50%  { opacity: 0.95; }
+  100% { transform: translate(-50%, -50%) scale(3.8); opacity: 0; border-width: 0.5px; }
+}
+
+@keyframes cbRingOuter{
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0.85; border-width: 1.5px; }
+  100% { transform: translate(-50%, -50%) scale(5.5); opacity: 0; border-width: 0.5px; }
+}
+
+/* 별 입자: 12% 시점에 등장해 가볍게 바깥으로, 트윙클하며 사라짐 */
+@keyframes cbStarBurst{
   0%{
     transform: translate(-50%, -50%) translate(0, 0) scale(0) rotate(0deg);
     opacity: 0;
   }
-  15%{
-    transform: translate(-50%, -50%) translate(calc(var(--cb-dx) * 0.25), calc(var(--cb-dy) * 0.25)) scale(var(--cb-scale)) rotate(90deg);
+  12%{
+    transform: translate(-50%, -50%) translate(calc(var(--cb-dx) * 0.4), calc(var(--cb-dy) * 0.4)) scale(var(--cb-scale)) rotate(30deg);
     opacity: 1;
   }
-  100%{
-    transform: translate(-50%, -50%) translate(var(--cb-dx), var(--cb-dy)) scale(0) rotate(360deg);
-    opacity: 0;
-  }
-}
-@keyframes clickBurstRing{
-  0%{
-    transform: translate(-50%, -50%) scale(0);
+  45%{
+    transform: translate(-50%, -50%) translate(calc(var(--cb-dx) * 0.85), calc(var(--cb-dy) * 0.85)) scale(calc(var(--cb-scale) * 1.15)) rotate(70deg);
     opacity: 0.95;
-    border-width: 2px;
   }
   100%{
-    transform: translate(-50%, -50%) scale(28);
+    transform: translate(-50%, -50%) translate(var(--cb-dx), var(--cb-dy)) scale(0) rotate(120deg);
     opacity: 0;
-    border-width: 0.5px;
   }
 }
+
 @media (prefers-reduced-motion: reduce){
   .click-burst{ display: none; }
+}
+
+/* ============== HIDDEN STARS + STAR LOG (별 수집 시스템) ============== */
+.hidden-star{
+  display: inline-block;
+  font-size: 0.95rem;
+  color: var(--lime);
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  font-family: var(--mono);
+  pointer-events: auto;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.25s ease, text-shadow 0.25s ease;
+}
+
+/* 데스크톱: 부모 영역 hover 시 부드럽게 등장 */
+@media (hover: hover){
+  .micro-top:hover .hidden-star,
+  .about-body:hover .hidden-star,
+  .gallery .item:hover .hidden-star,
+  .thoughts .sec-head:hover .hidden-star,
+  footer:hover .hidden-star{
+    opacity: 0.45;
+  }
+}
+
+/* 터치 기기: 살짝 보이게 (탐색 가능) */
+@media (hover: none){
+  .hidden-star{ opacity: 0.3; }
+}
+
+.hidden-star:hover,
+.hidden-star:focus-visible{
+  opacity: 1 !important;
+  transform: scale(1.4) rotate(15deg);
+  text-shadow: 0 0 6px var(--lime), 0 0 14px var(--lime);
+  outline: none;
+}
+.hidden-star.found{
+  pointer-events: none;
+  animation: starFoundPop 0.7s cubic-bezier(.3,.7,.4,1) forwards;
+}
+@keyframes starFoundPop{
+  0%   { opacity: 1; transform: scale(1) rotate(0deg); }
+  35%  { opacity: 1; transform: scale(2.4) rotate(180deg); text-shadow: 0 0 24px var(--lime), 0 0 40px var(--lime); }
+  100% { opacity: 0; transform: scale(0) rotate(540deg); }
+}
+body.light-mode .hidden-star{ color: #6b9100; }
+
+/* Star Log UI — 좌측 하단, 작고 미니멀 */
+.star-log{
+  position: fixed;
+  left: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 50;
+  background: rgba(10, 10, 13, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.star-log.visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+.star-log-label{
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lime);
+  font-weight: 600;
+  font-size: 0.62rem;
+}
+.star-log-stars{
+  display: flex;
+  gap: 0.2rem;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+.star-log-stars .s{
+  color: rgba(255, 255, 255, 0.18);
+  transition: color 0.4s ease, text-shadow 0.4s ease, transform 0.4s ease;
+}
+.star-log-stars .s.on{
+  color: var(--lime);
+  text-shadow: 0 0 6px var(--lime);
+}
+.star-log-stars .s.just-found{
+  animation: justFound 0.6s ease;
+}
+@keyframes justFound{
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.6) rotate(-20deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.star-log-count{
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+.star-log.complete{
+  border-color: var(--lime);
+  background: linear-gradient(135deg, rgba(212, 255, 58, 0.12), rgba(10, 10, 13, 0.9));
+  cursor: pointer;
+  pointer-events: auto;
+  animation: completeGlow 2s ease-in-out infinite;
+}
+.star-log.complete:hover{
+  background: linear-gradient(135deg, rgba(212, 255, 58, 0.22), rgba(10, 10, 13, 0.95));
+  transform: translateY(-2px);
+}
+.star-log.complete .star-log-count{
+  color: var(--lime);
+  font-weight: 600;
+}
+@keyframes completeGlow{
+  0%, 100% { box-shadow: 0 0 0 rgba(212, 255, 58, 0); }
+  50%      { box-shadow: 0 0 20px rgba(212, 255, 58, 0.4); }
+}
+body.light-mode .star-log{
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.65);
+}
+body.light-mode .star-log-stars .s{ color: rgba(0, 0, 0, 0.18); }
+body.light-mode .star-log-count{ color: rgba(0, 0, 0, 0.5); }
+
+/* Star Found 토스트 — 화면 중앙 크게 */
+.star-toast{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.7);
+  z-index: 9000;
+  background: rgba(10, 10, 13, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid var(--lime);
+  border-radius: 16px;
+  padding: 1.6rem 2.8rem;
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  color: var(--lime);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(212, 255, 58, 0.7), 0 0 28px rgba(212, 255, 58, 0.4);
+  box-shadow:
+    0 8px 40px rgba(212, 255, 58, 0.3),
+    0 0 80px rgba(212, 255, 58, 0.2),
+    inset 0 0 40px rgba(212, 255, 58, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(.2,.7,.3,1), transform 0.35s cubic-bezier(.2,.7,.3,1);
+  white-space: nowrap;
+  font-weight: 700;
+}
+.star-toast.show{
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.star-toast.unlock{
+  font-size: 2rem;
+  padding: 2rem 3.2rem;
+  text-shadow: 0 0 20px rgba(212, 255, 58, 1), 0 0 40px rgba(212, 255, 58, 0.6);
+  box-shadow:
+    0 8px 60px rgba(212, 255, 58, 0.5),
+    0 0 120px rgba(212, 255, 58, 0.3),
+    inset 0 0 60px rgba(212, 255, 58, 0.15);
+  animation: starToastUnlockPulse 2s ease-in-out infinite;
+}
+@keyframes starToastUnlockPulse{
+  0%, 100% { box-shadow: 0 8px 60px rgba(212, 255, 58, 0.5), 0 0 120px rgba(212, 255, 58, 0.3), inset 0 0 60px rgba(212, 255, 58, 0.15); }
+  50%      { box-shadow: 0 8px 80px rgba(212, 255, 58, 0.7), 0 0 160px rgba(212, 255, 58, 0.5), inset 0 0 80px rgba(212, 255, 58, 0.2); }
+}
+body.light-mode .star-toast{
+  background: rgba(255, 255, 255, 0.95);
+  color: #6b9100;
+  border-color: #6b9100;
+  text-shadow: 0 0 8px rgba(107, 145, 0, 0.5);
+}
+
+/* Projects 카드 hover 시 작은 별 파티클 */
+.hover-sparkle{
+  position: fixed;
+  color: var(--lime);
+  pointer-events: none;
+  z-index: 9999;
+  font-family: var(--mono);
+  font-weight: bold;
+  text-shadow: 0 0 8px var(--lime), 0 0 14px rgba(212, 255, 58, 0.6);
+  animation: hoverSparkle 1.1s cubic-bezier(.2,.7,.3,1) forwards;
+  transform: translate(-50%, -50%) scale(0);
+}
+@keyframes hoverSparkle{
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(0deg); }
+  25%  { opacity: 1; transform: translate(-50%, -50%) scale(1.1) rotate(90deg); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateY(-32px) scale(0.4) rotate(420deg); }
+}
+
+@media (max-width: 768px){
+  .star-log{
+    left: 1rem;
+    bottom: 1rem;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.6rem;
+    gap: 0.45rem;
+  }
+  .star-log-label{ font-size: 0.58rem; }
+  .star-log-stars{ font-size: 0.78rem; }
+  .star-toast{
+    font-size: 1.1rem;
+    padding: 1.2rem 2rem;
+    letter-spacing: 0.14em;
+  }
+  .star-toast.unlock{ font-size: 1.3rem; padding: 1.4rem 2.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hidden-star{ opacity: 0.5; animation: none; }
+  .hidden-star:hover{ transform: scale(1.2) rotate(0deg) !important; }
+  .hover-sparkle{ display: none; }
+  .star-log.complete{ animation: none; }
+}
+
+/* ============== BIG ARROW OVERLAY (방향키 누를 때 화면 가득) ============== */
+.big-arrow-overlay{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9500;
+  font-family: var(--mono);
+  font-size: clamp(18rem, 50vw, 40rem);
+  font-weight: 800;
+  color: var(--lime);
+  text-shadow:
+    0 0 30px rgba(212, 255, 58, 0.9),
+    0 0 60px rgba(212, 255, 58, 0.6),
+    0 0 120px rgba(212, 255, 58, 0.3);
+  opacity: 0;
+  line-height: 1;
+  user-select: none;
+  will-change: opacity, transform;
+}
+.big-arrow-overlay.show{
+  animation: bigArrowPulse 0.55s cubic-bezier(.2,.7,.3,1) forwards;
+}
+@keyframes bigArrowPulse{
+  0%   { opacity: 0; transform: scale(0.4); }
+  18%  { opacity: 0.95; transform: scale(1.05); }
+  35%  { opacity: 0.85; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+body.light-mode .big-arrow-overlay{
+  color: #6b9100;
+  text-shadow:
+    0 0 30px rgba(107, 145, 0, 0.7),
+    0 0 60px rgba(107, 145, 0, 0.4);
+}
+@media (prefers-reduced-motion: reduce){
+  .big-arrow-overlay.show{ animation: none; opacity: 0.7; }
 }
 
 </style>
@@ -4352,7 +4709,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <div class="wrap">
     <div class="micro-top">
       <span class="left"><span class="pulse"></span>Personal Branding · Available 2026</span>
-      <span>k4rahee@naver.com</span>
+      <span>k4rahee@naver.com <span class="hidden-star" data-star-id="1" title="?">✦</span></span>
     </div>
 
 <div class="hero-grid">
@@ -4435,7 +4792,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <p>
         한국에 돌아온 후 어렸을 적 꿈꿔왔던 <em>콘텐츠 산업</em>에 뛰어들었고,<br/>
         지금까지 <strong>영상 제작부터 마케팅, 매니지먼트까지</strong><br/>
-        콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다.
+        콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다. <span class="hidden-star" data-star-id="2" title="?">✦</span>
       </p>
     </div>
     <div class="personal-meta">
@@ -4547,7 +4904,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 
   <div class="gallery reveal" id="carousel">
 
-  <div class="item reveal" data-idx="0">
+  <div class="item reveal" data-idx="0" style="position:relative;">
+    <span class="hidden-star" data-star-id="3" title="?" style="position:absolute; top:10px; right:12px; z-index:5; font-size:1.05rem;">✦</span>
     <div class="img-wrapper">
       <div class="img-ph g3">
         <div class="ph-grad"></div><div class="ph-noise"></div>
@@ -4672,7 +5030,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   <div class="wrap">
     <div class="sec-head reveal">
       <span><span class="num">05</span> &nbsp;/&nbsp; <span class="name">Thoughts</span></span>
-      <span>Notes</span>
+      <span>Notes <span class="hidden-star" data-star-id="4" title="?">✦</span></span>
     </div>
 
 <h2 class="sec-heading reveal">Thoughts <em>&amp; Notes.</em></h2>
@@ -4854,6 +5212,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
               <div class="contact-email-addr">k4rahee@naver.com</div>
             </div>
             <button class="contact-email-copy" id="email-copy" type="button">copy</button>
+            <a class="contact-email-mail" href="mailto:k4rahee@naver.com" rel="noopener" aria-label="이메일 보내기">mail</a>
             <span class="act-tooltip" id="email-tooltip">Copied</span>
           </div>
           <div id="contact-links-list">
@@ -4916,7 +5275,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span class="word">Churro</span>
       <span class="sparkle">✦</span>
     </a>
-    <span>© 2026 · k4rahee@naver.com</span>
+    <span>© 2026 · k4rahee@naver.com <span class="hidden-star" data-star-id="5" title="?">✦</span></span>
   </div>
   <div class="footer-easter" aria-hidden="true">
     <span>↑</span><span>↑</span><span>↓</span><span>↓</span><span class="fade-out">←</span>
@@ -5051,6 +5410,14 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 </div>
 
 <script>
+  // ============== FIREBASE READY HELPER ==============
+  // 일반 스크립트는 모듈 import에 접근 못 함. 모듈이 window.db 등을 노출하고
+  // 'firebase-ready' 이벤트를 dispatch할 때까지 대기.
+  function whenFirebaseReady(fn){
+    if (window.db) { fn(); return; }
+    window.addEventListener('firebase-ready', fn, { once: true });
+  }
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting){
@@ -5062,7 +5429,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   document.querySelectorAll('.contact-avail-block').forEach(el => io.observe(el));
 
-  // Theme toggle (light / dark)
+  // Theme toggle (light / dark) — 별 수호자 마법소녀 변신 컷
   (function(){
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
@@ -5073,11 +5440,18 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       btn.textContent = '🌙';
       btn.setAttribute('aria-label', '다크 모드로 전환');
     }
+
+    const PREFERS_REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     btn.addEventListener('click', () => {
-      const isLight = document.body.classList.toggle('light-mode');
-      btn.textContent = isLight ? '🌙' : '☀';
-      btn.setAttribute('aria-label', isLight ? '다크 모드로 전환' : '라이트 모드로 전환');
-      try { localStorage.setItem(PREF_KEY, isLight ? 'light' : 'dark'); } catch(_){}
+      const willBeLight = !document.body.classList.contains('light-mode');
+      document.body.classList.toggle('light-mode');
+      btn.textContent = willBeLight ? '🌙' : '☀';
+      btn.setAttribute('aria-label', willBeLight ? '다크 모드로 전환' : '라이트 모드로 전환');
+      try { localStorage.setItem(PREF_KEY, willBeLight ? 'light' : 'dark'); } catch(_){}
+      if (typeof window._musicSetMode === 'function') {
+        window._musicSetMode(willBeLight ? 'light' : 'dark');
+      }
     });
   })();
   (function(){
@@ -5115,7 +5489,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   })();
 
   // ============== MUSIC PLAYER ==============
-  (function(){
+  whenFirebaseReady(function(){
     const DEFAULT_TRACKS = [
       { title: '트랙을 추가해주세요', artist: '플레이리스트가 비어있습니다', url: '' }
     ];
@@ -5124,6 +5498,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     let audio = new Audio();
     let isPlaying = false;
     let showList = false;
+    // 별 수호자 테마 모드 — body class 기준 초기값 결정
+    let currentMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
 
     const player   = document.getElementById('music-player');
     const disc     = document.getElementById('music-disc');
@@ -5144,18 +5520,43 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     }
 
     function renderPlaylist(){
-      playlist.innerHTML = tracks.map((t, i) => `
-        <div class="music-playlist-item${i===currentIdx?' playing':''}" data-idx="${i}">
+      playlist.innerHTML = tracks.map((t, i) => {
+        const mode = (t && t.mode) || 'both';
+        const matches = mode === 'both' || mode === currentMode;
+        const badge = mode === 'light' ? '<span class="pl-mode-badge" style="font-size:0.55rem;color:#ffb840;margin-left:0.4rem;">☀</span>'
+                    : mode === 'dark'  ? '<span class="pl-mode-badge" style="font-size:0.55rem;color:#a48bff;margin-left:0.4rem;">🌙</span>'
+                    : '';
+        const dimStyle = matches ? '' : 'opacity:0.35;';
+        return `
+        <div class="music-playlist-item${i===currentIdx?' playing':''}" data-idx="${i}" style="${dimStyle}">
           <span class="pl-num">${i===currentIdx ? '▶' : String(i+1).padStart(2,'0')}</span>
           <div class="pl-info">
-            <div class="pl-title">${t.title||'제목 없음'}</div>
+            <div class="pl-title">${t.title||'제목 없음'}${badge}</div>
             <div class="pl-artist">${t.artist||'—'}</div>
           </div>
         </div>
-      `).join('');
+      `;}).join('');
       playlist.querySelectorAll('.music-playlist-item').forEach(el => {
         el.addEventListener('click', () => { playIdx(parseInt(el.dataset.idx)); });
       });
+    }
+
+    function trackMatchesMode(t){
+      // mode 미설정 또는 'both'면 항상 통과, 그 외엔 현재 모드와 일치해야 함
+      const mode = (t && t.mode) || 'both';
+      return mode === 'both' || mode === currentMode;
+    }
+
+    function getValidTrackIdx(startIdx, dir){
+      // startIdx 부터 dir(±1)로 다음 mode-매치 트랙 인덱스 찾기 (없으면 startIdx 반환)
+      const len = tracks.length;
+      if (len === 0) return -1;
+      let idx = startIdx;
+      for (let i = 0; i < len; i++){
+        idx = (idx + dir + len) % len;
+        if (trackMatchesMode(tracks[idx])) return idx;
+      }
+      return startIdx;
     }
 
     function playIdx(idx){
@@ -5177,36 +5578,61 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       }
     }
 
-    audio.addEventListener('ended', () => playIdx((currentIdx + 1) % tracks.length));
+    audio.addEventListener('ended', () => playIdx(getValidTrackIdx(currentIdx, 1)));
     audio.addEventListener('timeupdate', () => {
       if (!audio.duration) return;
       progBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
     });
 
     playBtn.addEventListener('click', togglePlay);
-    prevBtn.addEventListener('click', () => playIdx((currentIdx - 1 + tracks.length) % tracks.length));
-    nextBtn.addEventListener('click', () => playIdx((currentIdx + 1) % tracks.length));
+    prevBtn.addEventListener('click', () => playIdx(getValidTrackIdx(currentIdx, -1)));
+    nextBtn.addEventListener('click', () => playIdx(getValidTrackIdx(currentIdx, 1)));
     listBtn.addEventListener('click', () => {
       showList = !showList;
       playlist.style.display = showList ? 'block' : 'none';
       listBtn.classList.toggle('active', showList);
     });
 
-    function tryAutoplay(){
-      if (tracks.length && tracks[0].url){
-        audio.src = tracks[0].url;
-        audio.volume = 0.4;
-        audio.play().then(() => {
-          isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
-          renderTrack(tracks[0]);
-        }).catch(() => {
-          const unlock = () => {
-            audio.play().then(() => { isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning'); }).catch(()=>{});
-            document.removeEventListener('click', unlock);
-          };
-          document.addEventListener('click', unlock);
-        });
+    // 별 수호자 테마 토글 시 호출 — 현재 트랙이 새 모드에 안 맞으면 자동 스위치
+    window._musicSetMode = function(mode){
+      if (mode !== 'light' && mode !== 'dark') return;
+      currentMode = mode;
+      renderPlaylist();
+      // 현재 트랙이 새 모드에 맞으면 그대로 진행
+      if (tracks[currentIdx] && trackMatchesMode(tracks[currentIdx])) return;
+      // 안 맞으면 다음 매치 트랙으로 자동 전환 (재생 중이었으면 계속 재생)
+      const newIdx = getValidTrackIdx(currentIdx, 1);
+      if (newIdx !== currentIdx && tracks[newIdx] && tracks[newIdx].url){
+        if (isPlaying){
+          playIdx(newIdx);
+        } else {
+          currentIdx = newIdx;
+          renderTrack(tracks[newIdx]);
+          renderPlaylist();
+        }
       }
+    };
+
+    function tryAutoplay(){
+      if (!tracks.length) return;
+      // 현재 모드에 맞는 첫 트랙 찾기 (없으면 0번)
+      const startIdx = tracks.findIndex(t => trackMatchesMode(t) && t.url);
+      const idx = startIdx >= 0 ? startIdx : 0;
+      if (!tracks[idx].url) return;
+      currentIdx = idx;
+      audio.src = tracks[idx].url;
+      audio.volume = 0.4;
+      audio.play().then(() => {
+        isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+        renderTrack(tracks[idx]);
+        renderPlaylist();
+      }).catch(() => {
+        const unlock = () => {
+          audio.play().then(() => { isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning'); }).catch(()=>{});
+          document.removeEventListener('click', unlock);
+        };
+        document.addEventListener('click', unlock);
+      });
     }
 
     // Firestore 실시간 구독
@@ -5244,6 +5670,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const row = document.createElement('div');
         row.className = 'status-edit-row';
         row.style.cssText = 'flex-direction:column;gap:0.3rem;margin-bottom:0.6rem;padding:0.8rem;border:1px solid var(--line);border-radius:10px;';
+        const trackMode = t.mode || 'both';
         row.innerHTML = `
           <div style="display:flex;gap:0.4rem;">
             <input style="flex:1;" type="text" placeholder="제목" maxlength="50" value="${(t.title||'').replace(/"/g,'&quot;')}">
@@ -5251,6 +5678,14 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
             <button type="button" style="width:28px;height:28px;flex-shrink:0;border:1px solid var(--line);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink-3);font-size:0.8rem;" class="track-remove">×</button>
           </div>
           <input type="url" placeholder="MP3 URL (https://...)" style="width:100%;box-sizing:border-box;" value="${(t.url||'').replace(/"/g,'&quot;')}">
+          <div style="display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);letter-spacing:0.06em;">
+            <span>모드:</span>
+            <select class="track-mode" style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:6px;padding:0.3rem 0.5rem;color:var(--ink);font-family:var(--mono);font-size:0.65rem;">
+              <option value="both"${trackMode==='both'?' selected':''}>둘다 (☀ + 🌙)</option>
+              <option value="light"${trackMode==='light'?' selected':''}>라이트만 (☀ 낮)</option>
+              <option value="dark"${trackMode==='dark'?' selected':''}>다크만 (🌙 밤)</option>
+            </select>
+          </div>
         `;
         row.querySelector('.track-remove').addEventListener('click', () => row.remove());
         return row;
@@ -5279,10 +5714,12 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         const newTracks = [];
         rows.forEach(row => {
           const inputs = row.querySelectorAll('input');
+          const modeSelect = row.querySelector('.track-mode');
           const title = inputs[0].value.trim();
           const artist = inputs[1].value.trim();
           const url = inputs[2].value.trim();
-          if (url) newTracks.push({ title, artist, url });
+          const mode = modeSelect ? modeSelect.value : 'both';
+          if (url) newTracks.push({ title, artist, url, mode });
         });
         saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
         try {
@@ -5293,10 +5730,10 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         finally { saveBtn.disabled = false; saveBtn.textContent = '저장하기'; }
       });
     };
-  })();
+  });
 
   // ============== HERO VIDEO (Firestore) ==============
-  (function(){
+  whenFirebaseReady(function(){
     const container = document.getElementById('hero-video-container');
     const editBtn   = document.getElementById('hero-video-edit-btn');
     if (!container) return;
@@ -5330,7 +5767,6 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       if (!editBtn) return;
       if (editBtn._initDone) return;
       editBtn._initDone = true;
-      editBtn.style.display = 'flex';
       const modal    = document.getElementById('hero-video-modal');
       const backdrop = document.getElementById('hero-video-backdrop');
       const closeBtn = document.getElementById('hero-video-modal-close');
@@ -5370,7 +5806,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         finally { saveBtn.disabled = false; saveBtn.textContent = '저장하기'; }
       });
     };
-  })();
+  });
   (function(){
     const items = document.querySelectorAll('.gallery .item');
     const panel = document.getElementById('project-panel');
@@ -5807,20 +6243,17 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     });
   })();
 
-  // ============== CLICK SPARKLE BURST ==============
-  // 페이지 어디든 클릭 시 별/링 폭발 효과 (입력 필드/모달 백드롭 제외)
+  // ============== CLICK TAP EFFECT (서브컬쳐 모바일 게임 스타일) ==============
+  // 동심원 ring 2개 + 중앙 코어 + N/E/S/W 카디널 스파클 — 짧고 선명
   (function(){
     const PREFERS_REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (PREFERS_REDUCED) return;
 
-    // 클릭 효과를 막을 셀렉터들 (텍스트 입력, 영상 iframe 등)
     const SKIP_SELECTORS = [
       'input', 'textarea', 'select',
       'iframe', '.thought-modal-backdrop', '.contact-edit-backdrop',
       '.media-file-input', 'audio', 'video'
     ];
-
-    const STAR_GLYPHS = ['✦', '✧', '✶', '✷', '★', '✦'];
 
     function shouldSkip(target){
       if (!target || !(target instanceof Element)) return false;
@@ -5836,53 +6269,64 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       burst.style.left = x + 'px';
       burst.style.top  = y + 'px';
 
-      // 라임 링
-      const ring = document.createElement('span');
-      ring.className = 'cb-ring';
-      burst.appendChild(ring);
+      // 1. 중앙 코어 (즉시 켜졌다 사라지는 도트)
+      const core = document.createElement('span');
+      core.className = 'cb-core';
+      burst.appendChild(core);
 
-      // 별 14개 (크고 화려하게)
-      const STAR_COUNT = 14;
-      for (let i = 0; i < STAR_COUNT; i++){
-        const star = document.createElement('span');
-        const glyph = STAR_GLYPHS[Math.floor(Math.random() * STAR_GLYPHS.length)];
-        star.className = 'cb-star';
-        star.textContent = glyph;
+      // 2. 내부 ring (빠르게 확장)
+      const ring1 = document.createElement('span');
+      ring1.className = 'cb-ring1';
+      burst.appendChild(ring1);
 
-        // 4개는 핑크
-        if (i % 4 === 3) star.classList.add('pink');
+      // 3. 외부 ring (살짝 늦게 더 크게)
+      const ring2 = document.createElement('span');
+      ring2.className = 'cb-ring2';
+      burst.appendChild(ring2);
 
-        // 방향 + 거리
-        const angle = (i / STAR_COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
-        const dist = 60 + Math.random() * 90; // 60~150px
+      // 4. 작은 별 입자 10개 — 링 근처에 등장했다 트윙클하며 사라짐
+      // 별 모양 글리프만 (점 없음)
+      const STAR_GLYPHS = ['✦', '✧'];
+      const SPARK_COUNT = 10;
+      for (let i = 0; i < SPARK_COUNT; i++){
+        const spark = document.createElement('span');
+        spark.className = 'cb-spark';
+        spark.textContent = STAR_GLYPHS[Math.floor(Math.random() * STAR_GLYPHS.length)];
+
+        // 20% 핑크 (평균 2개)
+        if (Math.random() < 0.2) spark.classList.add('pink');
+
+        // 사방 균등 분포 + jitter
+        const angle = (i / SPARK_COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+        const dist = 30 + Math.random() * 30; // 30~60px (링 근처에 머묾)
         const dx = Math.cos(angle) * dist;
         const dy = Math.sin(angle) * dist;
-        const scale = 0.7 + Math.random() * 0.9; // 0.7~1.6
-        const fontSize = 0.8 + Math.random() * 0.8; // rem
-        const delay = Math.random() * 80; // ms
 
-        star.style.fontSize = fontSize + 'rem';
-        star.style.setProperty('--cb-dx', dx + 'px');
-        star.style.setProperty('--cb-dy', dy + 'px');
-        star.style.setProperty('--cb-scale', scale);
-        star.style.animationDelay = delay + 'ms';
+        // 작은 별 — 0.45~0.7rem
+        const fontSize = 0.45 + Math.random() * 0.25;
+        const scale = 0.85 + Math.random() * 0.5;
+        const delay = Math.random() * 80;
 
-        burst.appendChild(star);
+        spark.style.fontSize = fontSize + 'rem';
+        spark.style.setProperty('--cb-dx', dx + 'px');
+        spark.style.setProperty('--cb-dy', dy + 'px');
+        spark.style.setProperty('--cb-scale', scale);
+        spark.style.animationDelay = delay + 'ms';
+
+        burst.appendChild(spark);
       }
 
       document.body.appendChild(burst);
-      // 1초 후 정리
-      setTimeout(() => burst.remove(), 1100);
+      // 0.85초 후 정리
+      setTimeout(() => burst.remove(), 850);
     }
 
     document.addEventListener('click', (e) => {
       if (shouldSkip(e.target)) return;
-      // 우클릭/중간버튼 무시 — click 이벤트는 기본적으로 좌클릭만 발생하지만 안전장치
       if (e.button !== undefined && e.button !== 0) return;
       spawnBurst(e.clientX, e.clientY);
     }, { passive: true });
 
-    // 모바일 탭도 효과 적용
     document.addEventListener('touchstart', (e) => {
       if (!e.touches || !e.touches[0]) return;
       if (shouldSkip(e.target)) return;
@@ -5920,6 +6364,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
+
+// 일반 스크립트(<script>)가 사용할 수 있도록 firebase 심볼을 window에 노출
+// (모듈 import는 모듈 스코프에 갇혀있어 일반 스크립트에서 ReferenceError 발생)
+Object.assign(window, {
+  doc, db, setDoc, onSnapshot, getDoc, updateDoc, addDoc, deleteDoc,
+  collection, query, orderBy, serverTimestamp, increment
+});
+window.dispatchEvent(new Event('firebase-ready'));
 
 // ============== UTILITIES ==============
 const toastEl = document.getElementById('toast');
@@ -6034,10 +6486,10 @@ onAuthStateChanged(auth, (user) => {
   renderCards();
   updateStatusAdminUI();
   updateContactEditAdminUI();
-  // 로그인 여부와 무관하게 init 실행 (버튼 항상 보이고, 클릭 시 auth 체크)
+  // init은 한 번만 실행 (idempotent), 핸들러 등록만 해두고 클릭 시 requireAdmin() 게이트
   if (typeof window._heroVideoAdminInit === 'function') window._heroVideoAdminInit();
   if (typeof window._musicAdminInit === 'function') window._musicAdminInit();
-  // 로그인 상태에 따른 visible 클래스 토글 (CSS opacity로 시각적 강도 조절)
+  // 어드민 버튼 visible 토글 — 로그인 시에만 표시
   const heroEditBtn = document.getElementById('hero-video-edit-btn');
   const musicEditBtn = document.getElementById('music-admin-btn');
   if (heroEditBtn) heroEditBtn.classList.toggle('visible', !!user);
@@ -6216,7 +6668,7 @@ function renderCards(){
         <div class="thought-meta">
           <span class="thought-tag">${escapeHTML(p.tag)}</span>
           <span class="thought-date-rel">${escapeHTML(relStr)}<span class="dot">·</span>${escapeHTML(dateStr)}</span>
-          ${p.views ? `<span class="thought-views">👁 ${p.views}</span>` : ''}
+          ${p.views ? `<span class="thought-views">⊙ ${p.views}</span>` : ''}
         </div>
         <h3 class="thought-title">${escapeHTML(p.title)}</h3>
         <p class="thought-excerpt">${escapeHTML(p.excerpt)}</p>
@@ -6282,7 +6734,7 @@ function openRead(post){
   // 조회수 표시 & 증가
   const viewsEl = document.getElementById('modal-views');
   const newViews = (post.views || 0) + 1;
-  viewsEl.textContent = `👁 ${newViews}`;
+  viewsEl.textContent = `⊙ ${newViews}`;
   // Firestore에 views 업데이트 (비동기)
   updateDoc(doc(db, 'thoughts', post.id), { views: increment(1) }).catch(() => {});
 
@@ -6923,6 +7375,173 @@ statusSaveBtn.addEventListener('click', async () => {
   }
 });
 
+// ============== HIDDEN STARS + STAR LOG (별 수집 시스템) ==============
+(function(){
+  const STORAGE_KEY = 'churro-stars-v1';
+  const TOTAL_STARS = 5;
+  const PREFERS_REDUCED_STAR = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 수집된 별 ID 로드
+  let collected = new Set();
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) collected = new Set(JSON.parse(saved).map(Number));
+  } catch(_) {}
+
+  // Star Log UI 생성
+  const log = document.createElement('div');
+  log.className = 'star-log';
+  log.setAttribute('role', 'status');
+  log.setAttribute('aria-label', 'Star collection progress');
+  log.innerHTML = `
+    <span class="star-log-label">★ Star Log</span>
+    <span class="star-log-stars">
+      <span class="s" data-i="1">☆</span>
+      <span class="s" data-i="2">☆</span>
+      <span class="s" data-i="3">☆</span>
+      <span class="s" data-i="4">☆</span>
+      <span class="s" data-i="5">☆</span>
+    </span>
+    <span class="star-log-count">0 / 5</span>
+  `;
+  document.body.appendChild(log);
+
+  // 토스트 생성
+  const toast = document.createElement('div');
+  toast.className = 'star-toast';
+  document.body.appendChild(toast);
+
+  let toastTimer = null;
+  function showToast(msg, isUnlock){
+    toast.textContent = msg;
+    toast.classList.toggle('unlock', !!isUnlock);
+    toast.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), isUnlock ? 3500 : 1900);
+  }
+
+  function updateLog(justFoundIdx){
+    const stars = log.querySelectorAll('.s');
+    let count = 0;
+    stars.forEach((el, i) => {
+      const idx = i + 1;
+      if (collected.has(idx)) {
+        el.classList.add('on');
+        el.textContent = '★';
+        count++;
+        if (idx === justFoundIdx) {
+          el.classList.add('just-found');
+          setTimeout(() => el.classList.remove('just-found'), 700);
+        }
+      }
+    });
+    const countEl = log.querySelector('.star-log-count');
+    if (count === TOTAL_STARS) {
+      countEl.textContent = 'UNLOCKED ✦';
+      log.classList.add('complete');
+      log.setAttribute('title', '클릭해서 시크릿 페이지 진입');
+    } else {
+      countEl.textContent = `${count} / 5`;
+    }
+    if (count > 0) log.classList.add('visible');
+  }
+
+  function collectStar(id, el){
+    id = parseInt(id, 10);
+    if (collected.has(id)) return;
+    collected.add(id);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...collected])); } catch(_) {}
+
+    el.classList.add('found');
+    setTimeout(() => { try { el.remove(); } catch(_) {} }, 700);
+
+    showToast(`STAR FOUND ✦ ${collected.size} / 5`);
+    updateLog(id);
+
+    if (collected.size === TOTAL_STARS) {
+      setTimeout(() => {
+        showToast('SECRET ROOM UNLOCKED — CLICK STAR LOG', true);
+      }, 1700);
+    }
+  }
+
+  // 모든 hidden-star 요소에 클릭 핸들러
+  document.querySelectorAll('.hidden-star').forEach(el => {
+    const id = parseInt(el.dataset.starId, 10);
+    if (collected.has(id)) {
+      try { el.remove(); } catch(_) {}
+      return;
+    }
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      collectStar(id, el);
+    });
+    // 모바일 터치 처리
+    el.addEventListener('touchend', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      collectStar(id, el);
+    }, { passive: false });
+  });
+
+  // Star Log 클릭 시 시크릿 진입 (5개 모았을 때만)
+  log.addEventListener('click', () => {
+    if (collected.size < TOTAL_STARS) return;
+    if (typeof openSecret === 'function') {
+      openSecret();
+    }
+  });
+
+  // 초기 상태 반영
+  updateLog();
+
+  // 디버그용 리셋 (콘솔에서 호출 가능)
+  window._resetStars = function(){
+    try { localStorage.removeItem(STORAGE_KEY); } catch(_) {}
+    location.reload();
+  };
+})();
+
+// ============== PROJECTS 카드 HOVER 별 파티클 ==============
+(function(){
+  const PREFERS_REDUCED_HOVER = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (PREFERS_REDUCED_HOVER) return;
+
+  const cards = document.querySelectorAll('.gallery .item');
+  if (!cards.length) return;
+
+  const SPARKLE_GLYPHS = ['✦', '✧'];
+
+  function spawnHoverSparkles(card){
+    const rect = card.getBoundingClientRect();
+    const count = 3;
+    for (let i = 0; i < count; i++){
+      const s = document.createElement('span');
+      s.className = 'hover-sparkle';
+      s.textContent = SPARKLE_GLYPHS[Math.floor(Math.random() * SPARKLE_GLYPHS.length)];
+      const startX = rect.left + 12 + Math.random() * (rect.width - 24);
+      const startY = rect.top + 12 + Math.random() * (rect.height - 24);
+      s.style.left = startX + 'px';
+      s.style.top = startY + 'px';
+      s.style.fontSize = (0.55 + Math.random() * 0.45) + 'rem';
+      s.style.animationDelay = (Math.random() * 100) + 'ms';
+      document.body.appendChild(s);
+      setTimeout(() => { try { s.remove(); } catch(_) {} }, 1300);
+    }
+  }
+
+  let lastSpawnTime = 0;
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const now = Date.now();
+      if (now - lastSpawnTime < 300) return;
+      lastSpawnTime = now;
+      spawnHoverSparkles(card);
+    });
+  });
+})();
+
 // ============== SECRET PAGE (코나미 코드 + 두 손가락 스와이프) ==============
 const secretOverlay = document.getElementById('secret-overlay');
 const secretClose   = document.getElementById('secret-close');
@@ -7249,8 +7868,36 @@ function openSecret(){
   });
 }
 // ── 키보드 (방향키) ──
+// 거대 화살표 오버레이 함수
+function showBigArrow(arrowChar){
+  let bigArrow = document.getElementById('big-arrow-overlay');
+  if (!bigArrow){
+    bigArrow = document.createElement('div');
+    bigArrow.id = 'big-arrow-overlay';
+    bigArrow.className = 'big-arrow-overlay';
+    bigArrow.setAttribute('aria-hidden','true');
+    document.body.appendChild(bigArrow);
+  }
+  bigArrow.textContent = arrowChar;
+  bigArrow.classList.remove('show');
+  void bigArrow.offsetWidth; // reflow → 애니메이션 재시작
+  bigArrow.classList.add('show');
+}
+const ARROW_KEY_MAP = {
+  'ArrowUp':    '↑',
+  'ArrowDown':  '↓',
+  'ArrowLeft':  '←',
+  'ArrowRight': '→'
+};
+
 document.addEventListener('keydown', (e) => {
   if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
+
+  // 방향키 누르면 거대 화살표 표시 (코나미 시퀀스와 무관하게 항상)
+  if (ARROW_KEY_MAP[e.key]){
+    showBigArrow(ARROW_KEY_MAP[e.key]);
+  }
+
   if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
   e.preventDefault();
   if (e.key === KONAMI[konamiIdx]){
