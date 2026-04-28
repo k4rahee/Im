@@ -4,18 +4,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>RAHEE✦ — Personal Branding</title>
+<title>Churro✦ — Personal Branding</title>
 <meta name="description" content="콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
 
 <!-- OG / Twitter -->
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="RAHEE✦ — Personal Branding" />
+<meta property="og:title" content="Churro✦ — Personal Branding" />
 <meta property="og:description" content="영상 제작부터 마케팅, 매니지먼트까지 콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
 <meta property="og:image" content="" /><!-- TODO: 프로필 이미지 URL -->
 <meta property="og:url" content="" /><!-- TODO: 배포 URL -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="RAHEE✦ — Personal Branding" />
+<meta name="twitter:title" content="Churro✦ — Personal Branding" />
 <meta name="twitter:description" content="영상 제작부터 마케팅, 매니지먼트까지 콘텐츠와 맞닿아있는 다양한 일들을 해오고 있습니다." />
 <meta name="twitter:image" content="" /><!-- TODO: 프로필 이미지 URL -->
 
@@ -49,6 +49,366 @@
     --sans: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: "Nanum Gothic", "Pretendard", sans-serif;
   }
+
+  /* ============== LIGHT MODE ============== */
+  body.light-mode{
+    --bg: #ffffff;
+    --bg-2: #f4f4f6;
+    --ink: #111114;
+    --ink-2: #3f3f46;
+    --ink-3: #71717a;
+    --line: rgba(0, 0, 0, 0.14);
+    --line-soft: rgba(0, 0, 0, 0.08);
+    --lime: #5a9500;
+    --lime-glow: rgba(90, 149, 0, 0.25);
+    --pink: #c4005e;
+    --pink-glow: rgba(196, 0, 94, 0.2);
+  }
+  /* light mode specific overrides */
+  body.light-mode .img-ph{ filter: brightness(0.97) saturate(0.9); }
+  body.light-mode .topbar{
+    background: rgba(255,255,255,0.88);
+    border-bottom-color: rgba(0,0,0,0.1);
+  }
+  /* vtimeline spine and nodes */
+  body.light-mode .vtimeline::before{
+    background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.1));
+  }
+  body.light-mode .vt-node::after{
+    background: rgba(0,0,0,0.3);
+  }
+  body.light-mode .vt-start{
+    background: var(--lime);
+    box-shadow: 0 0 10px var(--lime-glow);
+  }
+  /* chip borders */
+  body.light-mode .chip{
+    border-color: rgba(0,0,0,0.18);
+    color: var(--ink-2);
+  }
+  body.light-mode .chip.lime{
+    background: var(--lime);
+    color: #fff;
+    border-color: var(--lime);
+  }
+  /* line separators */
+  body.light-mode .vt-when{ color: var(--ink-3); }
+  body.light-mode .sec-head{ border-bottom-color: rgba(0,0,0,0.12); color: var(--ink-3); }
+  body.light-mode .now-row{ border-bottom-color: rgba(0,0,0,0.08); }
+  body.light-mode .now-row .kind{ color: var(--ink-3); }
+  body.light-mode .micro-top{ border-bottom-color: rgba(0,0,0,0.08); color: var(--ink-3); }
+  body.light-mode .footer-inner{ border-top-color: rgba(0,0,0,0.1); }
+  body.light-mode .link-pill{ border-color: rgba(0,0,0,0.18); color: var(--ink-2); }
+  body.light-mode .link-pill:hover{ border-color: var(--lime); color: var(--lime); }
+  body.light-mode .scroll-top-bar{ background: var(--lime); }
+  body.light-mode .thought-modal-panel{ background: var(--bg); border-color: rgba(0,0,0,0.12); }
+  body.light-mode .thought-card{ border-color: rgba(0,0,0,0.1); }
+  body.light-mode .thought-card:hover{ border-color: var(--lime); }
+  body.light-mode .status-panel{ background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.12); }
+  body.light-mode .status-toggle{ background: rgba(255,255,255,0.9); border-color: rgba(0,0,0,0.14); color: var(--ink-2); }
+  body.light-mode .contact-edit-panel{ background: var(--bg-2); }
+  body.light-mode .contact::before{ background: radial-gradient(circle, rgba(90,149,0,0.08), transparent 60%); }
+  body.light-mode .hero-star-deco svg path{ fill: rgba(0,0,0,0.04); }
+  body.light-mode .secret-overlay{ background: #f8f8f4; }
+  body.light-mode .secret-terminal{ color: #2d6a00; }
+  body.light-mode .secret-eyebrow{ color: var(--lime); }
+  body.light-mode .comment{ border-bottom-color: rgba(0,0,0,0.08); }
+  body.light-mode .email-card{ background: linear-gradient(135deg, rgba(90,149,0,0.05), rgba(0,0,0,0.01)); border-color: rgba(0,0,0,0.12); }
+  body.light-mode .social-link{ border-color: rgba(0,0,0,0.1); }
+  body.light-mode .social-link:hover{ border-color: var(--lime); }
+
+  /* ── Contact avail block ── */
+  .contact-avail-block{
+    margin-top: 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(212,255,58,0.03);
+  }
+  .avail-row-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1.1rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .avail-row-item:last-child{ border-bottom: none; }
+  .avail-key{
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+  }
+  .avail-val{
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--lime);
+    font-weight: 600;
+  }
+  .avail-val.avail-studying{ color: var(--pink); }
+  .avail-val.avail-neutral{ color: var(--ink-3); font-weight: 400; }
+  body.light-mode .contact-avail-block{ background: rgba(90,149,0,0.04); }
+
+  /* ── Hero video ── */
+  .hero-video-container{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+  }
+  .hero-video-container iframe{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .hero-video-edit-btn{
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 10;
+    background: rgba(10,10,13,0.75);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    border-radius: 8px;
+    width: 30px; height: 30px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+  }
+  .hero-video-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
+  .hero-image{ position: relative; }
+
+  /* ── Music player ── */
+  .music-player{
+    position: fixed;
+    bottom: 1.8rem;
+    left: 1.8rem;
+    z-index: 180;
+    background: rgba(10,10,13,0.9);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(.2,.7,.3,1);
+    min-width: 240px;
+  }
+  body.light-mode .music-player{
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .music-player.collapsed{ min-width: 0; border-radius: 999px; }
+  .music-player-bar{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+  }
+  .music-disc{
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--lime), #8bc34a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    color: #0a0a0d;
+    flex-shrink: 0;
+    transition: transform 0.1s ease;
+  }
+  .music-disc.spinning{
+    animation: discSpin 3s linear infinite;
+  }
+  @keyframes discSpin{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+  .music-info{
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .music-title{
+    font-family: var(--display);
+    font-size: 0.78rem;
+    color: var(--ink);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .music-artist{
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .music-controls{
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+  }
+  .music-btn{
+    background: transparent;
+    border: none;
+    color: var(--ink-2);
+    cursor: pointer;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+  .music-btn:hover{ color: var(--lime); }
+  .music-btn.active{ color: var(--lime); }
+  .music-playlist{
+    border-top: 1px solid var(--line-soft);
+    max-height: 180px;
+    overflow-y: auto;
+  }
+  .music-playlist-item{
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .music-playlist-item:last-child{ border-bottom: none; }
+  .music-playlist-item:hover{ background: rgba(212,255,58,0.05); }
+  .music-playlist-item.playing{ background: rgba(212,255,58,0.08); }
+  .music-playlist-item.playing .pl-title{ color: var(--lime); }
+  .pl-num{ font-family: var(--mono); font-size: 0.6rem; color: var(--ink-3); width: 16px; flex-shrink: 0; text-align: center; }
+  .pl-info{ flex: 1; min-width: 0; }
+  .pl-title{ font-family: var(--display); font-size: 0.78rem; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pl-artist{ font-family: var(--mono); font-size: 0.58rem; color: var(--ink-3); }
+  .music-progress{
+    height: 2px;
+    background: var(--line);
+    margin: 0 0.8rem 0.5rem;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .music-progress-bar{
+    height: 100%;
+    background: var(--lime);
+    width: 0%;
+    transition: width 0.5s linear;
+    border-radius: 999px;
+  }
+  .music-admin-btn{
+    display: none;
+    width: 100%;
+    padding: 0.4rem;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--line-soft);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .music-admin-btn.visible{ display: block; }
+  .music-admin-btn:hover{ color: var(--lime); }
+  @media (max-width: 700px){
+    .music-player{ bottom: 5rem; left: 1rem; min-width: 200px; }
+    .music-player.collapsed{ min-width: 0; }
+  }
+  .footer-easter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding-top: 0.8rem;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-3);
+    opacity: 0.25;
+    user-select: none;
+    pointer-events: none;
+  }
+  .footer-easter .fade-out{
+    -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  }
+
+  /* ============== DYNAMIC EFFECTS ============== */
+
+  /* 섹션 헤딩 슬라이드인 */
+  .sec-heading.reveal{ transform: translateY(30px); }
+  .sec-heading.reveal.in{ transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.3,1); }
+
+  /* avail-row 순차 등장 */
+  .contact-avail-block .avail-row-item{
+    opacity: 0; transform: translateX(-12px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.2,.7,.3,1);
+  }
+  .contact-avail-block.in .avail-row-item:nth-child(1){ opacity:1; transform:none; transition-delay:0.05s; }
+  .contact-avail-block.in .avail-row-item:nth-child(2){ opacity:1; transform:none; transition-delay:0.12s; }
+  .contact-avail-block.in .avail-row-item:nth-child(3){ opacity:1; transform:none; transition-delay:0.19s; }
+  .contact-avail-block.in .avail-row-item:nth-child(4){ opacity:1; transform:none; transition-delay:0.26s; }
+  .contact-avail-block.in .avail-row-item:nth-child(5){ opacity:1; transform:none; transition-delay:0.33s; }
+
+  /* social-link 호버 */
+  .social-link{ transition: all 0.25s ease, box-shadow 0.25s ease; }
+  .social-link:hover{ box-shadow: 0 0 20px rgba(212,255,58,0.12); transform: translateY(-2px); }
+
+  /* thought-card 부상 */
+  .thought-card{ transition: transform 0.3s cubic-bezier(.2,.7,.3,1), border-color 0.3s ease, box-shadow 0.3s ease; }
+  .thought-card:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+
+  /* vt-event 진입 */
+  .vt-event{ opacity: 0; transform: translateX(-16px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.3,1); }
+  .vt-event.in{ opacity: 1; transform: translateX(0); }
+
+  /* email-card */
+  .email-card{ transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
+  .email-card:hover{ box-shadow: 0 0 30px rgba(212,255,58,0.1); transform: translateY(-2px); }
+
+  /* ============== THEME TOGGLE ============== */
+  .theme-toggle{
+    background: rgba(10,10,13,0.85);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-2);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    align-self: flex-end;
+    backdrop-filter: blur(12px);
+  }
+  .theme-toggle:hover{ border-color: var(--lime); color: var(--lime); }
+  body.light-mode .theme-toggle{ background: rgba(255,255,255,0.9); }
+  @media (max-width: 900px){ .theme-toggle{ width: 32px; height: 32px; font-size: 0.8rem; } }
 
   *{ box-sizing: border-box; margin: 0; padding: 0; }
   html{ scroll-behavior: smooth; }
@@ -179,13 +539,27 @@
     position: relative;
   }
   .hero-grid{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 2.5rem;
+    text-align: center;
+  }
+  .hero-text-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 680px;
+  }
+  .hero-video-block{
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    padding: 1.5rem 0;
   }
   @media (max-width: 900px){
-    .hero-grid{ grid-template-columns: 1fr; gap: 2rem; }
+    .hero-grid{ gap: 1.5rem; }
   }
 
   .hero .micro-top{
@@ -225,6 +599,7 @@
     line-height: 0.85;
     letter-spacing: -0.05em;
     color: var(--ink);
+    text-align: center;
   }
   .hero h1 .sparkle{
     display: inline-block;
@@ -248,6 +623,7 @@
     max-width: 28rem;
     margin: 0.2rem 0 0.7rem;
     letter-spacing: -0.01em;
+    text-align: center;
   }
 
   .hero-meta{
@@ -255,6 +631,7 @@
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-bottom: 0.8rem;
+    justify-content: center;
   }
   .hero-meta .chip{
     font-family: var(--mono);
@@ -281,6 +658,8 @@
 
   .hero-image{
     position: relative;
+    padding: 1rem 0;
+    overflow: visible;
   }
   .hero-image .img-ph{
     aspect-ratio: 4 / 5;
@@ -756,34 +1135,221 @@
   .contact{
     padding: 5rem 0 7rem;
     position: relative;
+    overflow: hidden;
   }
   .contact::before{
     content: "";
     position: absolute;
-    top: 30%; right: -10%;
-    width: 70%; height: 80%;
-    background: radial-gradient(circle, rgba(212, 255, 58, 0.08), transparent 60%);
+    top: 0; right: 0;
+    width: 55%; height: 100%;
+    background: radial-gradient(ellipse at 80% 50%, rgba(212,255,58,0.05) 0%, transparent 65%);
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
   }
-  .contact .label{
+  .contact .wrap{ position: relative; z-index: 1; }
+
+  .contact-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 2.5rem;
+  }
+  @media (max-width: 900px){
+    .contact-grid{ grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
+  /* 왼쪽 스킬 */
+  .contact-avail-label{
     font-family: var(--mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-3);
-    margin-bottom: 1.2rem;
-    display: inline-flex;
+    margin-bottom: 1.4rem;
+    display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
-  .contact .label .pulse{
-    width: 8px; height: 8px;
+  .contact-avail-label .dot{
+    width: 6px; height: 6px;
     border-radius: 50%;
     background: var(--lime);
-    box-shadow: 0 0 12px var(--lime-glow);
+    box-shadow: 0 0 8px var(--lime-glow);
     animation: pulse 1.6s ease-in-out infinite;
   }
+  .skill-list{ display: flex; flex-direction: column; }
+  .skill-row{
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line-soft);
+    transition: padding-left 0.25s ease;
+  }
+  .skill-row:first-child{ border-top: 1px solid var(--line-soft); }
+  .skill-row:hover{ padding-left: 0.4rem; }
+  .skill-num{
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    color: var(--ink-3);
+    min-width: 20px;
+    flex-shrink: 0;
+  }
+  .skill-name{
+    font-family: var(--display);
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--ink);
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+  .skill-badge{
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0a0a0d;
+    background: var(--lime);
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .skill-badge.muted{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+  }
+  .skill-badge.pink-outline{
+    background: transparent;
+    border: 1px solid var(--pink);
+    color: var(--pink);
+  }
+  body.light-mode .skill-badge{ color: #fff; }
+  .contact-edit-skills-btn{
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: none;
+  }
+  .contact-edit-skills-btn.visible{ display: inline-block; }
+  .contact-edit-skills-btn:hover{ border-color: var(--lime); color: var(--lime); }
+
+  /* 오른쪽 링크 */
+  .contact-link-section{ display: flex; flex-direction: column; }
+  .contact-email-row{
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 0;
+  }
+  .contact-email-icon{
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--lime);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem;
+    color: #0a0a0d;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .contact-email-text{ flex: 1; min-width: 0; }
+  .contact-email-label{
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 2px;
+  }
+  .contact-email-addr{
+    font-family: var(--display);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .contact-email-copy{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .contact-email-copy:hover{ border-color: var(--lime); color: var(--lime); }
+  .contact-link-row{
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line-soft);
+    gap: 0.8rem;
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.25s ease;
+  }
+  .contact-link-row:hover{ padding-left: 0.4rem; }
+  .contact-link-row:hover .cl-arr,
+  .contact-link-row:hover .cl-handle{ color: var(--lime); }
+  .cl-platform{
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    min-width: 68px;
+    flex-shrink: 0;
+  }
+  .cl-handle{
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    flex: 1;
+    transition: color 0.2s ease;
+    letter-spacing: -0.01em;
+  }
+  .cl-arr{
+    font-size: 0.82rem;
+    color: var(--ink-3);
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+  }
+  .contact-edit-links-btn{
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: none;
+  }
+  .contact-edit-links-btn.visible{ display: inline-block; }
+  .contact-edit-links-btn:hover{ border-color: var(--lime); color: var(--lime); }
 
   /* Email CTA card */
   .email-card{
@@ -794,7 +1360,7 @@
     display: flex;
     align-items: center;
     gap: 1.2rem;
-    max-width: 720px;
+    margin-bottom: 1rem;
     transition: border-color 0.3s ease, background 0.3s ease;
     position: relative;
   }
@@ -902,7 +1468,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.6rem;
-    max-width: 720px;
   }
   @media (max-width: 600px){
     .contact-socials{ grid-template-columns: 1fr; }
@@ -2086,7 +2651,6 @@
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--ink-3);
-    max-width: 720px;
   }
   footer .logo .word{ font-size: 0.95rem; }
   footer .logo .sparkle{ font-size: 0.7em; }
@@ -2510,15 +3074,20 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0;
+    gap: 0.5rem;
+  }
+  .status-btn-row{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   .status-toggle{
-    background: rgba(10,10,13,0.85);
+    background: rgba(10,10,13,0.88);
     border: 1px solid var(--line);
     border-radius: 999px;
-    padding: 0.4rem 0.9rem;
+    padding: 0.75rem 1.4rem;
     font-family: var(--mono);
-    font-size: 0.65rem;
+    font-size: 0.82rem;
     letter-spacing: 0.08em;
     color: var(--ink-2);
     cursor: pointer;
@@ -2526,14 +3095,15 @@
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.55rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
   }
   .status-toggle:hover{ border-color: var(--lime); color: var(--lime); }
   .status-toggle .status-dot{
-    width: 6px; height: 6px;
+    width: 9px; height: 9px;
     border-radius: 50%;
     background: var(--lime);
-    box-shadow: 0 0 6px var(--lime-glow);
+    box-shadow: 0 0 8px var(--lime-glow);
     animation: statusPulse 2s ease-in-out infinite;
     flex-shrink: 0;
   }
@@ -2541,14 +3111,34 @@
     0%,100%{ opacity:1; transform:scale(1); }
     50%{ opacity:0.5; transform:scale(0.8); }
   }
-  .status-panel{
-    background: rgba(10,10,13,0.92);
+  .theme-toggle{
+    background: rgba(10,10,13,0.88);
     border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 1.2rem 1.4rem;
-    margin-bottom: 0.5rem;
-    backdrop-filter: blur(16px);
-    min-width: 220px;
+    border-radius: 999px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-2);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+  .theme-toggle:hover{ border-color: var(--lime); color: var(--lime); }
+  body.light-mode .theme-toggle{ background: rgba(255,255,255,0.9); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  body.light-mode .status-toggle{ background: rgba(255,255,255,0.9); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .status-panel{
+    background: rgba(10,10,13,0.94);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 0.6rem;
+    backdrop-filter: blur(20px);
+    min-width: 280px;
     opacity: 0;
     transform: translateY(8px) scale(0.97);
     pointer-events: none;
@@ -2562,25 +3152,25 @@
   .status-row{
     display: flex;
     align-items: flex-start;
-    gap: 0.6rem;
-    padding: 0.4rem 0;
+    gap: 0.8rem;
+    padding: 0.6rem 0;
     border-bottom: 1px solid var(--line-soft);
   }
   .status-row:last-child{ border-bottom: none; padding-bottom: 0; }
   .status-row:first-child{ padding-top: 0; }
   .status-key{
     font-family: var(--mono);
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-3);
     flex-shrink: 0;
-    padding-top: 1px;
-    min-width: 60px;
+    padding-top: 2px;
+    min-width: 64px;
   }
   .status-val{
     font-family: var(--display);
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     color: var(--ink);
     line-height: 1.4;
     word-break: break-word;
@@ -2589,31 +3179,31 @@
   .status-edit-btn{
     display: none;
     width: 100%;
-    margin-top: 0.8rem;
+    margin-top: 1rem;
     background: transparent;
     border: 1px dashed var(--line);
     color: var(--ink-3);
     font-family: var(--mono);
-    font-size: 0.6rem;
+    font-size: 0.65rem;
     letter-spacing: 0.08em;
-    padding: 0.35rem;
-    border-radius: 8px;
+    padding: 0.45rem;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
   }
   .status-edit-btn.visible{ display: block; }
   .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
-  .status-edit-form{ display: none; margin-top: 0.8rem; }
-  .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.4rem; }
+  .status-edit-form{ display: none; margin-top: 1rem; }
+  .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.5rem; }
   .status-edit-row{
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
   .status-edit-row label{
     font-family: var(--mono);
-    font-size: 0.58rem;
+    font-size: 0.6rem;
     color: var(--ink-3);
     min-width: 54px;
     letter-spacing: 0.06em;
@@ -2624,10 +3214,10 @@
     flex: 1;
     background: rgba(255,255,255,0.03);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
     font-family: var(--display);
-    font-size: 0.75rem;
+    font-size: 0.82rem;
     color: var(--ink);
   }
   .status-edit-row input:focus{ outline: none; border-color: var(--lime); }
@@ -2636,18 +3226,20 @@
     border: none;
     color: var(--bg);
     font-family: var(--mono);
-    font-size: 0.62rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.08em;
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
     cursor: pointer;
     align-self: flex-end;
-    margin-top: 0.2rem;
+    margin-top: 0.3rem;
   }
   @media (max-width: 700px){
     .status-widget{ bottom: 5rem; right: 1rem; }
-    .status-panel{ min-width: 180px; }
+    .status-panel{ min-width: 240px; }
+    .status-toggle{ font-size: 0.75rem; padding: 0.65rem 1.1rem; }
+    .theme-toggle{ width: 40px; height: 40px; font-size: 0.9rem; }
   }
 
   /* ============== VIEWS COUNT ============== */
@@ -3275,18 +3867,19 @@ body.rahee-secret-darkweb-mode .rahee-corrupted-node{
   .floater{
     position: absolute;
     font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-2);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--line);
-    padding: 0.4rem 0.8rem;
+    background: rgba(10,10,13,0.7);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 0.35rem 0.7rem;
     border-radius: 999px;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     pointer-events: none;
     will-change: transform;
-    z-index: 5;
+    z-index: 10;
+    white-space: nowrap;
   }
   .floater.lime-tag{
     background: var(--lime);
@@ -3294,28 +3887,29 @@ body.rahee-secret-darkweb-mode .rahee-corrupted-node{
     border-color: var(--lime);
     font-weight: 600;
   }
-  .floater.f1{ top: -1rem; right: -2rem; animation: float1 4s ease-in-out infinite; }
-  .floater.f2{ top: 30%; right: -3rem; animation: float2 5s ease-in-out infinite; }
-  .floater.f3{ bottom: 20%; left: -2.5rem; animation: float3 4.5s ease-in-out infinite; }
-  .floater.f4{ bottom: -1rem; right: 15%; animation: float1 5.5s ease-in-out infinite; }
+  /* 영상 위에 겹쳐서 포스트잇처럼 */
+  .floater.f1{ top: 1rem; left: 1rem; animation: float1 4s ease-in-out infinite; }
+  .floater.f2{ top: 1rem; right: 1rem; animation: float2 5s ease-in-out infinite; }
+  .floater.f3{ bottom: 1rem; left: 1rem; animation: float3 4.5s ease-in-out infinite; }
+  .floater.f4{ bottom: 1rem; right: 1rem; animation: float1 5.5s ease-in-out infinite; }
   @keyframes float1{
-    0%, 100%{ transform: translateY(0) rotate(-3deg); }
-    50%{ transform: translateY(-10px) rotate(2deg); }
+    0%, 100%{ transform: translateY(0) rotate(-2deg); }
+    50%{ transform: translateY(-6px) rotate(1deg); }
   }
   @keyframes float2{
-    0%, 100%{ transform: translateY(0) rotate(4deg); }
-    50%{ transform: translateY(-12px) rotate(-2deg); }
+    0%, 100%{ transform: translateY(0) rotate(2deg); }
+    50%{ transform: translateY(-8px) rotate(-1deg); }
   }
   @keyframes float3{
-    0%, 100%{ transform: translateY(0) rotate(2deg); }
-    50%{ transform: translateY(-8px) rotate(-3deg); }
+    0%, 100%{ transform: translateY(0) rotate(1deg); }
+    50%{ transform: translateY(-5px) rotate(-2deg); }
   }
   @media (max-width: 900px){
-    .floater{ font-size: 0.55rem; padding: 0.3rem 0.6rem; }
-    .floater.f1{ right: 0; }
-    .floater.f2{ right: -1rem; }
-    .floater.f3{ left: 0; }
-    .floater.f4{ right: 5%; }
+    .floater{ font-size: 0.5rem; padding: 0.2rem 0.45rem; letter-spacing: 0.06em; }
+    .floater.f1{ top: 0.5rem; left: 0.5rem; }
+    .floater.f2{ top: 0.5rem; right: 0.5rem; }
+    .floater.f3{ bottom: 0.5rem; left: 0.5rem; }
+    .floater.f4{ bottom: 0.5rem; right: 0.5rem; }
   }
 
   /* ============== STAR CURSOR (custom) ============== */
@@ -3659,7 +4253,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 
 <div class="topbar">
   <a href="#" class="logo">
-    <span class="word">Rahee</span>
+    <span class="word">Churro</span>
     <span class="sparkle">✦</span>
   </a>
   <nav>
@@ -3688,9 +4282,9 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     </div>
 
 <div class="hero-grid">
-  <div>
+  <div class="hero-text-block">
     <h1 id="heroTitle">
-      <span class="ch">R</span><span class="ch">a</span><span class="ch">h</span><span class="ch">e</span><span class="ch">e</span><span class="sparkle ch">✦</span><span class="cursor-glow" aria-hidden="true"></span>
+      <span class="ch">C</span><span class="ch">h</span><span class="ch">u</span><span class="ch">r</span><span class="ch">r</span><span class="ch">o</span><span class="sparkle ch">✦</span><span class="cursor-glow" aria-hidden="true"></span>
     </h1>
 
     <p class="tagline">
@@ -3706,19 +4300,27 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     </div>
   </div>
 
-  <div class="hero-image tilt" data-tilt-max="6">
-    <span class="floater f1 lime-tag">CONTENT</span>
-    <span class="floater f2">크리에이터</span>
-    <span class="floater f3">EST. 2014</span>
-    <span class="floater f4">SEOUL ✦ GA</span>
-    <!-- TODO: <img> 교체 시 아래 div.img-ph 전체를 <img src="프로필.jpg" alt="Rahee 프로필" style="border-radius:16px;width:100%;aspect-ratio:4/5;object-fit:cover;"> 로 변경 -->
-    <div class="img-ph g2 ar-4-5">
-      <div class="ph-grad"></div>
-      <div class="ph-noise"></div>
-      <div class="ph-corner tl"></div>
-      <div class="ph-corner tr"></div>
-      <div class="ph-corner bl"></div>
-      <div class="ph-corner br"></div>
+  <div class="hero-video-block">
+    <div class="hero-image" id="hero-media-wrap">
+      <span class="floater f1 lime-tag">CONTENT</span>
+      <span class="floater f2">크리에이터</span>
+      <span class="floater f3">EST. 2014</span>
+      <span class="floater f4">SEOUL ✦ GA</span>
+      <div class="hero-video-container" id="hero-video-container">
+        <div class="img-ph g2" id="hero-video-placeholder" style="aspect-ratio:16/9;">
+          <div class="ph-grad"></div>
+          <div class="ph-noise"></div>
+          <div class="ph-corner tl"></div>
+          <div class="ph-corner tr"></div>
+          <div class="ph-corner bl"></div>
+          <div class="ph-corner br"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:rgba(255,255,255,0.25);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;">
+            <span style="font-size:1.5rem;">▶</span>
+            VIDEO
+          </div>
+        </div>
+      </div>
+      <button class="hero-video-edit-btn" id="hero-video-edit-btn" type="button" style="display:none;" title="영상 URL 수정">✎</button>
     </div>
   </div>
 </div>
@@ -3978,8 +4580,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     <span class="what">
       <span class="t">HTML 제작 및 스터디</span>
       <span class="sublinks">
-        <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="link-pill">Project #1<span class="arr">↗</span></a>
-        <a href="https://k4rahee.github.io/Jeonghyeon-Video_Commission/" target="_blank" rel="noopener" class="link-pill">Project #2<span class="arr">↗</span></a>
+        <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="link-pill">Project #1<span class="arr">↗</span></a>
+        <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="link-pill">Project #2<span class="arr">↗</span></a>
         <a href="https://k4rahee.github.io/Im/" target="_blank" rel="noopener" class="link-pill">Project #3<span class="arr">↗</span></a>
       </span>
     </span>
@@ -4152,93 +4754,154 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <span>Say hi</span>
     </div>
 
-<div class="contact-intro reveal">
-  <div class="label"><span class="pulse"></span><span id="contact-label">Available for collaboration</span></div>
-  <div class="closing-sub" id="contact-desc">새로운 프로젝트나 협업 제안은 언제든지 환영합니다.</div>
-</div>
+    <div class="contact-grid">
+      <!-- 왼쪽: 할 수 있는 것들 -->
+      <div>
+        <div class="contact-avail-label reveal">
+          <span class="dot"></span>협업 문의 환영
+        </div>
+        <div class="skill-list reveal" id="contact-skills">
+          <!-- Firestore로 렌더링 -->
+          <div class="skill-row"><span class="skill-num">01</span><span class="skill-name">영상 제작</span><span class="skill-badge">가능</span></div>
+          <div class="skill-row"><span class="skill-num">02</span><span class="skill-name">SNS 마케팅</span><span class="skill-badge">가능</span></div>
+          <div class="skill-row"><span class="skill-num">03</span><span class="skill-name">콘텐츠 기획</span><span class="skill-badge">가능</span></div>
+          <div class="skill-row"><span class="skill-num">04</span><span class="skill-name">UI / UX</span><span class="skill-badge pink-outline">스터디 중</span></div>
+        </div>
+        <button class="contact-edit-skills-btn" id="contact-edit-skills-btn" type="button">✎ 수정</button>
+      </div>
 
-<div class="email-card reveal" id="email-card">
-  <span class="icon">@</span>
-  <div class="body">
-    <div class="body-label">Email</div>
-    <div class="body-addr">k4rahee@naver.com</div>
-  </div>
-  <div class="actions">
-    <button class="act" id="email-copy" type="button" aria-label="Copy email address" title="복사">⧉</button>
-    <a class="act" href="mailto:k4rahee@naver.com" aria-label="Send email" title="메일 보내기">↗</a>
-  </div>
-  <span class="act-tooltip" id="email-tooltip">Copied</span>
-</div>
-
-<div class="contact-socials reveal" id="contact-socials">
-  <a href="https://www.youtube.com/@animeatre/featured" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">YouTube</span>
-    <span class="social-handle">@animeatre</span>
-    <span class="social-arr">↗</span>
-  </a>
-  <a href="https://www.youtube.com/@KawaiiMesuni" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">YouTube</span>
-    <span class="social-handle">@KawaiiMesuni</span>
-    <span class="social-arr">↗</span>
-  </a>
-  <a href="https://k4rahee.github.io/Churro_Video/" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">GitHub Pages</span>
-    <span class="social-handle">Churro_Video</span>
-    <span class="social-arr">↗</span>
-  </a>
-  <a href="https://k4rahee.github.io/Jeonghyeon-Video_Commission/" target="_blank" rel="noopener" class="social-link">
-    <span class="social-name">GitHub Pages</span>
-    <span class="social-handle">Jeonghyeon Commission</span>
-    <span class="social-arr">↗</span>
-  </a>
-</div>
-
-<!-- 관리자 수정 버튼 -->
-<button class="contact-edit-btn" id="contact-edit-btn" type="button" style="display:none;">✎ Contact 수정</button>
-
+      <!-- 오른쪽: 연락처 -->
+      <div>
+        <div class="contact-link-section reveal">
+          <div class="contact-email-row">
+            <div class="contact-email-icon">@</div>
+            <div class="contact-email-text">
+              <div class="contact-email-label">Email</div>
+              <div class="contact-email-addr">k4rahee@naver.com</div>
+            </div>
+            <button class="contact-email-copy" id="email-copy" type="button">copy</button>
+            <span class="act-tooltip" id="email-tooltip">Copied</span>
+          </div>
+          <div id="contact-links-list">
+            <!-- Firestore로 렌더링 -->
+            <a href="https://www.youtube.com/@Churro/featured" target="_blank" rel="noopener" class="contact-link-row">
+              <span class="cl-platform">YouTube</span><span class="cl-handle">@Churro</span><span class="cl-arr">↗</span>
+            </a>
+            <a href="https://www.youtube.com/@Churro" target="_blank" rel="noopener" class="contact-link-row">
+              <span class="cl-platform">YouTube</span><span class="cl-handle">@Churro</span><span class="cl-arr">↗</span>
+            </a>
+            <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="contact-link-row">
+              <span class="cl-platform">GitHub</span><span class="cl-handle">Churro</span><span class="cl-arr">↗</span>
+            </a>
+            <a href="https://k4rahee.github.io/Churro/" target="_blank" rel="noopener" class="contact-link-row">
+              <span class="cl-platform">GitHub</span><span class="cl-handle">Churro</span><span class="cl-arr">↗</span>
+            </a>
+          </div>
+          <button class="contact-edit-links-btn" id="contact-edit-links-btn" type="button">✎ 수정</button>
+        </div>
+      </div>
+    </div>
+    <div id="contact-desc" style="display:none;"></div>
   </div>
 </section>
 
-<!-- Contact 수정 모달 -->
-
-<div class="contact-edit-modal" id="contact-edit-modal" aria-hidden="true">
-  <div class="contact-edit-backdrop" id="contact-edit-backdrop"></div>
+<!-- Skills 수정 모달 -->
+<div class="contact-edit-modal" id="skills-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="skills-backdrop"></div>
   <div class="contact-edit-panel">
-    <button class="contact-edit-close" id="contact-edit-close" type="button">×</button>
-    <h3 class="write-heading">Contact 수정</h3>
-
-<div class="write-row">
-  <label class="write-label">라벨 (상단 뱃지)</label>
-  <input class="write-input" id="ce-label" type="text" maxlength="50" placeholder="Available for collaboration">
-</div>
-<div class="write-row">
-  <label class="write-label">설명 문구</label>
-  <input class="write-input" id="ce-desc" type="text" maxlength="100" placeholder="새로운 프로젝트나 협업 제안은 언제든지 환영합니다.">
-</div>
-
-<div class="write-label" style="margin-bottom:0.6rem;">링크 (최대 6개)</div>
-<div id="ce-links-list"></div>
-<button class="media-add-btn" id="ce-add-link" type="button" style="margin-top:0.5rem;">+ 링크 추가</button>
-
-<div class="write-foot" style="margin-top:1.5rem;">
-  <button type="button" class="write-btn-cancel" id="contact-edit-cancel">취소</button>
-  <button type="button" class="write-btn-save" id="contact-edit-save">저장하기</button>
+    <button class="contact-edit-close" id="skills-close" type="button">×</button>
+    <h3 class="write-heading">할 수 있는 것들 수정</h3>
+    <div class="media-helper" style="margin-bottom:0.8rem;">배지: <b>가능</b> / <b>스터디 중</b> / <b>준비 중</b> 중 선택</div>
+    <div id="skills-editor"></div>
+    <button class="media-add-btn" id="skills-add" type="button" style="margin-top:0.6rem;">+ 항목 추가</button>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="skills-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="skills-save">저장하기</button>
+    </div>
+  </div>
 </div>
 
+<!-- Links 수정 모달 -->
+<div class="contact-edit-modal" id="links-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="links-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="links-close" type="button">×</button>
+    <h3 class="write-heading">링크 수정</h3>
+    <div id="links-editor"></div>
+    <button class="media-add-btn" id="links-add" type="button" style="margin-top:0.6rem;">+ 링크 추가</button>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="links-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="links-save">저장하기</button>
+    </div>
   </div>
 </div>
 
 <footer>
   <div class="footer-inner">
     <a href="#" class="logo">
-      <span class="word">Rahee</span>
+      <span class="word">Churro</span>
       <span class="sparkle">✦</span>
     </a>
     <span>© 2026 · k4rahee@naver.com</span>
   </div>
+  <div class="footer-easter" aria-hidden="true">
+    <span>↑</span><span>↑</span><span>↓</span><span>↓</span><span class="fade-out">←</span>
+  </div>
 </footer>
 
-<!-- ============== STATUS WIDGET ============== -->
+<!-- ============== MUSIC PLAYER ============== -->
+<div class="music-player" id="music-player">
+  <div class="music-player-bar" id="music-bar">
+    <div class="music-disc" id="music-disc">♪</div>
+    <div class="music-info">
+      <div class="music-title" id="music-title">재생 중인 곡 없음</div>
+      <div class="music-artist" id="music-artist">—</div>
+    </div>
+    <div class="music-controls">
+      <button class="music-btn" id="music-prev" type="button" title="이전">⏮</button>
+      <button class="music-btn" id="music-play" type="button" title="재생/일시정지">▶</button>
+      <button class="music-btn" id="music-next" type="button" title="다음">⏭</button>
+      <button class="music-btn" id="music-toggle-list" type="button" title="플레이리스트">☰</button>
+    </div>
+  </div>
+  <div class="music-progress"><div class="music-progress-bar" id="music-progress-bar"></div></div>
+  <div class="music-playlist" id="music-playlist" style="display:none;"></div>
+  <button class="music-admin-btn" id="music-admin-btn" type="button">✎ 음악 관리</button>
+</div>
+
+<!-- Hero Video Edit Modal -->
+<div class="contact-edit-modal" id="hero-video-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="hero-video-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="hero-video-modal-close" type="button">×</button>
+    <h3 class="write-heading">Hero 영상 설정</h3>
+    <div class="write-row">
+      <label class="write-label">YouTube URL</label>
+      <input class="write-input" id="hv-url" type="url" placeholder="https://www.youtube.com/watch?v=...">
+      <div class="media-helper" style="margin-top:0.4rem;">유튜브 링크 또는 영상 ID를 입력하세요.</div>
+    </div>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="hero-video-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="hero-video-save">저장하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Music Admin Modal -->
+<div class="contact-edit-modal" id="music-admin-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="music-admin-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="music-admin-close" type="button">×</button>
+    <h3 class="write-heading">플레이리스트 관리</h3>
+    <div class="media-helper" style="margin-bottom:0.8rem;">MP3 직접 링크 URL을 입력하세요. (GitHub Raw, 외부 스토리지 등)</div>
+    <div id="music-track-list"></div>
+    <button class="media-add-btn" id="music-add-track" type="button" style="margin-top:0.5rem;">+ 트랙 추가</button>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="music-admin-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="music-admin-save">저장하기</button>
+    </div>
+  </div>
+</div>
 
 <div class="status-widget" id="status-widget">
   <div class="status-panel" id="status-panel">
@@ -4271,10 +4934,13 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
       <button class="status-save-btn" id="status-save-btn" type="button">저장</button>
     </div>
   </div>
-  <button class="status-toggle" id="status-toggle" type="button">
-    <span class="status-dot"></span>
-    <span id="status-label">상태 보기</span>
-  </button>
+  <div class="status-btn-row">
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="라이트 모드로 전환" title="라이트/다크 모드">☀</button>
+    <button class="status-toggle" id="status-toggle" type="button">
+      <span class="status-dot"></span>
+      <span id="status-label">상태 보기</span>
+    </button>
+  </div>
 </div>
 
 <!-- ============== SECRET PAGE ============== -->
@@ -4294,7 +4960,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 아직 뭘 채울지 모르겠지만,
 일단 발견해줘서 고마워요. 🙂
 
-— Rahee</div>
+— Churro</div>
 <button class="secret-close" id="secret-close" type="button">← 돌아가기</button>
 
   </div>
@@ -4320,8 +4986,26 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     });
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.contact-avail-block').forEach(el => io.observe(el));
 
-  // Email copy
+  // Theme toggle (light / dark)
+  (function(){
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    const PREF_KEY = 'rahee.theme';
+    const saved = localStorage.getItem(PREF_KEY);
+    if (saved === 'light'){
+      document.body.classList.add('light-mode');
+      btn.textContent = '🌙';
+      btn.setAttribute('aria-label', '다크 모드로 전환');
+    }
+    btn.addEventListener('click', () => {
+      const isLight = document.body.classList.toggle('light-mode');
+      btn.textContent = isLight ? '🌙' : '☀';
+      btn.setAttribute('aria-label', isLight ? '다크 모드로 전환' : '라이트 모드로 전환');
+      try { localStorage.setItem(PREF_KEY, isLight ? 'light' : 'dark'); } catch(_){}
+    });
+  })();
   (function(){
     const btn = document.getElementById('email-copy');
     const tooltip = document.getElementById('email-tooltip');
@@ -4356,7 +5040,256 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
     });
   })();
 
-  // Card click → detail panel
+  // ============== MUSIC PLAYER ==============
+  (function(){
+    const DEFAULT_TRACKS = [
+      { title: '트랙을 추가해주세요', artist: '플레이리스트가 비어있습니다', url: '' }
+    ];
+    let tracks = [];
+    let currentIdx = 0;
+    let audio = new Audio();
+    let isPlaying = false;
+    let showList = false;
+
+    const player   = document.getElementById('music-player');
+    const disc     = document.getElementById('music-disc');
+    const titleEl  = document.getElementById('music-title');
+    const artistEl = document.getElementById('music-artist');
+    const playBtn  = document.getElementById('music-play');
+    const prevBtn  = document.getElementById('music-prev');
+    const nextBtn  = document.getElementById('music-next');
+    const listBtn  = document.getElementById('music-toggle-list');
+    const playlist = document.getElementById('music-playlist');
+    const progBar  = document.getElementById('music-progress-bar');
+
+    const MUSIC_REF = doc(db, 'site', 'playlist');
+
+    function renderTrack(t){
+      titleEl.textContent  = t.title  || '제목 없음';
+      artistEl.textContent = t.artist || '—';
+    }
+
+    function renderPlaylist(){
+      playlist.innerHTML = tracks.map((t, i) => `
+        <div class="music-playlist-item${i===currentIdx?' playing':''}" data-idx="${i}">
+          <span class="pl-num">${i===currentIdx ? '▶' : String(i+1).padStart(2,'0')}</span>
+          <div class="pl-info">
+            <div class="pl-title">${t.title||'제목 없음'}</div>
+            <div class="pl-artist">${t.artist||'—'}</div>
+          </div>
+        </div>
+      `).join('');
+      playlist.querySelectorAll('.music-playlist-item').forEach(el => {
+        el.addEventListener('click', () => { playIdx(parseInt(el.dataset.idx)); });
+      });
+    }
+
+    function playIdx(idx){
+      if (!tracks[idx] || !tracks[idx].url) return;
+      currentIdx = idx;
+      audio.src = tracks[idx].url;
+      audio.play().then(() => {
+        isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+        renderTrack(tracks[idx]); renderPlaylist();
+      }).catch(() => {});
+    }
+
+    function togglePlay(){
+      if (!tracks.length || !tracks[currentIdx]?.url) return;
+      if (isPlaying){ audio.pause(); isPlaying = false; playBtn.textContent = '▶'; disc.classList.remove('spinning'); }
+      else {
+        if (!audio.src || audio.src === window.location.href) audio.src = tracks[currentIdx].url;
+        audio.play().then(() => { isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning'); }).catch(()=>{});
+      }
+    }
+
+    audio.addEventListener('ended', () => playIdx((currentIdx + 1) % tracks.length));
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      progBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    });
+
+    playBtn.addEventListener('click', togglePlay);
+    prevBtn.addEventListener('click', () => playIdx((currentIdx - 1 + tracks.length) % tracks.length));
+    nextBtn.addEventListener('click', () => playIdx((currentIdx + 1) % tracks.length));
+    listBtn.addEventListener('click', () => {
+      showList = !showList;
+      playlist.style.display = showList ? 'block' : 'none';
+      listBtn.classList.toggle('active', showList);
+    });
+
+    function tryAutoplay(){
+      if (tracks.length && tracks[0].url){
+        audio.src = tracks[0].url;
+        audio.volume = 0.4;
+        audio.play().then(() => {
+          isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+          renderTrack(tracks[0]);
+        }).catch(() => {
+          const unlock = () => {
+            audio.play().then(() => { isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning'); }).catch(()=>{});
+            document.removeEventListener('click', unlock);
+          };
+          document.addEventListener('click', unlock);
+        });
+      }
+    }
+
+    // Firestore 실시간 구독
+    onSnapshot(MUSIC_REF, (snap) => {
+      const data = snap.exists() ? snap.data() : null;
+      const newTracks = (data && data.tracks && data.tracks.length) ? data.tracks : DEFAULT_TRACKS;
+      tracks = newTracks;
+      renderTrack(tracks[currentIdx] || tracks[0]);
+      renderPlaylist();
+    }, () => {
+      tracks = DEFAULT_TRACKS;
+      renderTrack(tracks[0]);
+      renderPlaylist();
+    });
+
+    // 초기 렌더
+    renderTrack(DEFAULT_TRACKS[0]);
+    tryAutoplay();
+
+    // 관리자 음악 모달
+    window._musicAdminInit = function(){
+      const adminBtn   = document.getElementById('music-admin-btn');
+      const modal      = document.getElementById('music-admin-modal');
+      const backdrop   = document.getElementById('music-admin-backdrop');
+      const closeBtn   = document.getElementById('music-admin-close');
+      const cancelBtn  = document.getElementById('music-admin-cancel');
+      const saveBtn    = document.getElementById('music-admin-save');
+      const addBtn     = document.getElementById('music-add-track');
+      const trackList  = document.getElementById('music-track-list');
+      if (!adminBtn) return;
+      adminBtn.classList.add('visible');
+
+      function makeTrackRow(t={}){
+        const row = document.createElement('div');
+        row.className = 'status-edit-row';
+        row.style.cssText = 'flex-direction:column;gap:0.3rem;margin-bottom:0.6rem;padding:0.8rem;border:1px solid var(--line);border-radius:10px;';
+        row.innerHTML = `
+          <div style="display:flex;gap:0.4rem;">
+            <input style="flex:1;" type="text" placeholder="제목" maxlength="50" value="${(t.title||'').replace(/"/g,'&quot;')}">
+            <input style="flex:1;" type="text" placeholder="아티스트" maxlength="40" value="${(t.artist||'').replace(/"/g,'&quot;')}">
+            <button type="button" style="width:28px;height:28px;flex-shrink:0;border:1px solid var(--line);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink-3);font-size:0.8rem;" class="track-remove">×</button>
+          </div>
+          <input type="url" placeholder="MP3 URL (https://...)" style="width:100%;box-sizing:border-box;" value="${(t.url||'').replace(/"/g,'&quot;')}">
+        `;
+        row.querySelector('.track-remove').addEventListener('click', () => row.remove());
+        return row;
+      }
+
+      function openMusicModal(){
+        trackList.innerHTML = '';
+        tracks.forEach(t => trackList.appendChild(makeTrackRow(t)));
+        modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+        document.body.classList.add('modal-open');
+      }
+      function closeMusicModal(){
+        modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+        document.body.classList.remove('modal-open');
+      }
+
+      adminBtn.addEventListener('click', openMusicModal);
+      closeBtn.addEventListener('click', closeMusicModal);
+      cancelBtn.addEventListener('click', closeMusicModal);
+      backdrop.addEventListener('click', closeMusicModal);
+      addBtn.addEventListener('click', () => trackList.appendChild(makeTrackRow()));
+      saveBtn.addEventListener('click', async () => {
+        const rows = trackList.querySelectorAll('.status-edit-row');
+        const newTracks = [];
+        rows.forEach(row => {
+          const inputs = row.querySelectorAll('input');
+          const title = inputs[0].value.trim();
+          const artist = inputs[1].value.trim();
+          const url = inputs[2].value.trim();
+          if (url) newTracks.push({ title, artist, url });
+        });
+        saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
+        try {
+          await setDoc(MUSIC_REF, { tracks: newTracks.length ? newTracks : DEFAULT_TRACKS });
+          toast('플레이리스트 저장 완료', 'success');
+          closeMusicModal();
+        } catch(err){ toast('저장 실패', 'error'); }
+        finally { saveBtn.disabled = false; saveBtn.textContent = '저장하기'; }
+      });
+    };
+  })();
+
+  // ============== HERO VIDEO (Firestore) ==============
+  (function(){
+    const container = document.getElementById('hero-video-container');
+    const editBtn   = document.getElementById('hero-video-edit-btn');
+    if (!container) return;
+
+    function getYTId(url){
+      if (!url) return null;
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /^([a-zA-Z0-9_-]{11})$/
+      ];
+      for (const p of patterns){ const m = url.match(p); if (m) return m[1]; }
+      return null;
+    }
+
+    function renderVideo(url){
+      const id = getYTId(url);
+      if (!id){
+        container.innerHTML = `<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:rgba(255,255,255,0.2);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;background:#111;border-radius:16px;"><span style="font-size:2rem;">▶</span>VIDEO</div>`;
+        return;
+      }
+      container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:16px;"></iframe>`;
+    }
+
+    // Firestore 실시간 구독
+    onSnapshot(doc(db, 'site', 'hero_video'), (snap) => {
+      renderVideo(snap.exists() ? snap.data().url || '' : '');
+    }, () => renderVideo(''));
+
+    // 관리자 모달
+    window._heroVideoAdminInit = function(){
+      if (!editBtn) return;
+      editBtn.style.display = 'flex';
+      const modal    = document.getElementById('hero-video-modal');
+      const backdrop = document.getElementById('hero-video-backdrop');
+      const closeBtn = document.getElementById('hero-video-modal-close');
+      const cancelBtn= document.getElementById('hero-video-cancel');
+      const saveBtn  = document.getElementById('hero-video-save');
+      const urlInput = document.getElementById('hv-url');
+
+      let currentUrl = '';
+      onSnapshot(doc(db, 'site', 'hero_video'), (snap) => {
+        currentUrl = snap.exists() ? snap.data().url || '' : '';
+      });
+
+      const open = () => {
+        urlInput.value = currentUrl;
+        modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+        document.body.classList.add('modal-open');
+      };
+      const close = () => {
+        modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+        document.body.classList.remove('modal-open');
+      };
+
+      editBtn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      cancelBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+      saveBtn.addEventListener('click', async () => {
+        const url = urlInput.value.trim();
+        saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
+        try {
+          await setDoc(doc(db, 'site', 'hero_video'), { url });
+          toast('영상 저장 완료', 'success');
+          close();
+        } catch(err){ toast('저장 실패', 'error'); }
+        finally { saveBtn.disabled = false; saveBtn.textContent = '저장하기'; }
+      });
+    };
+  })();
   (function(){
     const items = document.querySelectorAll('.gallery .item');
     const panel = document.getElementById('project-panel');
@@ -4371,7 +5304,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         title: '<em>애니 추천</em> 채널',
         note: '',
         stat: '<span class="panel-stat">1,131,549<sup>회 조회수</sup></span>',
-        links: '<a href="https://www.youtube.com/@animeatre/featured" target="_blank" rel="noopener" class="link-pill">YouTube 채널<span class="arr">↗</span></a>'
+        links: '<a href="https://www.youtube.com/@Churro/featured" target="_blank" rel="noopener" class="link-pill">YouTube 채널<span class="arr">↗</span></a>'
       },
       {
         when: '2025. 07 — 2025. 09 · 방송 150시간+',
@@ -4385,7 +5318,7 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
         title: '<em>메이플</em> + 서브컬쳐',
         note: '',
         stat: '<span class="panel-stat">423,645<sup>회 조회수</sup></span>',
-        links: '<a href="https://www.youtube.com/@KawaiiMesuni" target="_blank" rel="noopener" class="link-pill">YouTube 채널<span class="arr">↗</span></a>'
+        links: '<a href="https://www.youtube.com/@Churro" target="_blank" rel="noopener" class="link-pill">YouTube 채널<span class="arr">↗</span></a>'
       },
       {
         when: '2023 — Now · 영상 · 인트로 · 애니메이션',
@@ -4937,6 +5870,10 @@ onAuthStateChanged(auth, (user) => {
   renderCards();
   updateStatusAdminUI();
   updateContactEditAdminUI();
+  if (user){
+    if (typeof window._heroVideoAdminInit === 'function') window._heroVideoAdminInit();
+    if (typeof window._musicAdminInit === 'function') window._musicAdminInit();
+  }
   if (modal.classList.contains('open') && modal.classList.contains('read-mode') && currentReadPost){
     refreshModalActions();
   }
@@ -5519,145 +6456,205 @@ likeBtn.addEventListener('click', async () => {
 
 // ============== CONTACT (Firebase) ==============
 function escHTML(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-const contactRef = doc(db, 'contact', 'main');
 
-const DEFAULT_CONTACT = {
-  label: 'Available for collaboration',
-  desc: '새로운 프로젝트나 협업 제안은 언제든지 환영합니다.',
-  links: [
-    { name: 'YouTube', handle: '@animeatre',    url: 'https://www.youtube.com/@animeatre/featured' },
-    { name: 'YouTube', handle: '@KawaiiMesuni', url: 'https://www.youtube.com/@KawaiiMesuni' },
-    { name: 'GitHub Pages', handle: 'Churro_Video', url: 'https://k4rahee.github.io/Churro_Video/' },
-    { name: 'Instagram', handle: '+ 추가', url: '' }
-  ]
-};
+const skillsRef = doc(db, 'contact', 'skills');
+const linksRef  = doc(db, 'contact', 'links');
+const videoRef  = doc(db, 'site', 'hero_video');
+const musicRef  = doc(db, 'site', 'playlist');
 
-function renderContactSection(data){
-  const d = data || DEFAULT_CONTACT;
-  document.getElementById('contact-label').textContent = d.label || DEFAULT_CONTACT.label;
-  document.getElementById('contact-desc').textContent = d.desc || DEFAULT_CONTACT.desc;
+const DEFAULT_SKILLS = [
+  { name: '영상 제작', badge: '가능', type: 'lime' },
+  { name: 'SNS 마케팅', badge: '가능', type: 'lime' },
+  { name: '콘텐츠 기획', badge: '가능', type: 'lime' },
+  { name: 'UI / UX', badge: '스터디 중', type: 'pink' },
+];
+const DEFAULT_LINKS = [
+  { platform: 'YouTube', handle: '@Churro', url: 'https://www.youtube.com/@Churro/featured' },
+  { platform: 'YouTube', handle: '@Churro', url: 'https://www.youtube.com/@Churro' },
+  { platform: 'GitHub',  handle: 'Churro',  url: 'https://k4rahee.github.io/Churro/' },
+  { platform: 'GitHub',  handle: 'Churro',  url: 'https://k4rahee.github.io/Churro/' },
+];
 
-  const socials = document.getElementById('contact-socials');
-  socials.innerHTML = (d.links || DEFAULT_CONTACT.links).map(l => {
-    const isEmpty = !l.url;
-    return `
-      <a href="${isEmpty ? '#' : l.url}" ${isEmpty ? '' : 'target="_blank" rel="noopener"'}
-         class="social-link${isEmpty ? ' placeholder' : ''}">
-        <span class="social-name">${escHTML(l.name)}</span>
-        <span class="social-handle">${escHTML(l.handle)}</span>
-        <span class="social-arr">↗</span>
-      </a>`;
+function renderSkills(data){
+  const list = document.getElementById('contact-skills');
+  if (!list) return;
+  const items = (data && data.items) ? data.items : DEFAULT_SKILLS;
+  list.innerHTML = items.map((s, i) => {
+    const badgeClass = s.type === 'pink' ? 'skill-badge pink-outline' : s.type === 'muted' ? 'skill-badge muted' : 'skill-badge';
+    return `<div class="skill-row">
+      <span class="skill-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="skill-name">${escHTML(s.name)}</span>
+      <span class="${badgeClass}">${escHTML(s.badge)}</span>
+    </div>`;
   }).join('');
 }
 
-// 실시간 구독
-onSnapshot(contactRef, (snap) => {
-  renderContactSection(snap.exists() ? snap.data() : null);
-}, () => renderContactSection(null));
-
-// 초기 렌더 (스냅샷 오기 전)
-renderContactSection(null);
-
-// 관리자 수정 UI
-const contactEditBtn  = document.getElementById('contact-edit-btn');
-const contactEditModal= document.getElementById('contact-edit-modal');
-const contactEditClose= document.getElementById('contact-edit-close');
-const contactEditCancel=document.getElementById('contact-edit-cancel');
-const contactEditSave = document.getElementById('contact-edit-save');
-const ceLinksList     = document.getElementById('ce-links-list');
-const ceAddLink       = document.getElementById('ce-add-link');
-
-function updateContactEditAdminUI(){
-  contactEditBtn.style.display = currentUser ? 'inline-block' : 'none';
+function renderLinks(data){
+  const list = document.getElementById('contact-links-list');
+  if (!list) return;
+  const items = (data && data.items) ? data.items : DEFAULT_LINKS;
+  list.innerHTML = items.map(l => {
+    const isEmpty = !l.url;
+    return `<a href="${isEmpty ? '#' : escHTML(l.url)}" ${isEmpty ? '' : 'target="_blank" rel="noopener"'} class="contact-link-row">
+      <span class="cl-platform">${escHTML(l.platform)}</span>
+      <span class="cl-handle">${escHTML(l.handle)}</span>
+      <span class="cl-arr">↗</span>
+    </a>`;
+  }).join('');
 }
 
-function makeLinkRow(link = {}){
+onSnapshot(skillsRef, (snap) => renderSkills(snap.exists() ? snap.data() : null), () => renderSkills(null));
+onSnapshot(linksRef,  (snap) => renderLinks(snap.exists()  ? snap.data() : null), () => renderLinks(null));
+renderSkills(null);
+renderLinks(null);
+
+function updateContactEditAdminUI(){
+  const sb = document.getElementById('contact-edit-skills-btn');
+  const lb = document.getElementById('contact-edit-links-btn');
+  if (sb) sb.classList.toggle('visible', !!currentUser);
+  if (lb) lb.classList.toggle('visible', !!currentUser);
+}
+
+// ── 스킬/링크 편집 모달 ──
+const skillsModal   = document.getElementById('skills-modal');
+const skillsSave    = document.getElementById('skills-save');
+const skillsClose   = document.getElementById('skills-close');
+const skillsCancel  = document.getElementById('skills-cancel');
+const skillsBack    = document.getElementById('skills-backdrop');
+const skillsEditor  = document.getElementById('skills-editor');
+const skillsAddBtn  = document.getElementById('skills-add');
+
+const linksModal    = document.getElementById('links-modal');
+const linksSave     = document.getElementById('links-save');
+const linksClose    = document.getElementById('links-close');
+const linksCancel   = document.getElementById('links-cancel');
+const linksBack     = document.getElementById('links-backdrop');
+const linksEditor   = document.getElementById('links-editor');
+const linksAddBtn   = document.getElementById('links-add');
+
+function makeSkillInputRow(s = {}){
   const row = document.createElement('div');
   row.className = 'ce-link-row';
   row.innerHTML = `
-    <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
-    <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
-    <input type="url"  placeholder="https://..." maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/3;">
+    <input type="text" placeholder="항목 이름" maxlength="30" value="${escHTML(s.name||'')}">
+    <select style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:8px;padding:0.4rem 0.6rem;color:var(--ink);font-family:var(--mono);font-size:0.72rem;">
+      <option value="lime" ${s.type==='lime'?'selected':''}>가능 (라임)</option>
+      <option value="pink" ${s.type==='pink'?'selected':''}>스터디 중 (핑크)</option>
+      <option value="muted" ${s.type==='muted'?'selected':''}>기타 (흐림)</option>
+    </select>
+    <input type="text" placeholder="뱃지 텍스트" maxlength="10" value="${escHTML(s.badge||'')}" style="grid-column:1/3;">
     <button class="ce-link-remove" type="button">×</button>
-  `;
-  // url input 3번째 row
-  const inputs = row.querySelectorAll('input');
-  // reorganize: name | handle | remove / url full width
-  row.innerHTML = `
-    <input type="text" placeholder="이름 (YouTube)" maxlength="20" value="${escHTML(link.name||'')}">
-    <input type="text" placeholder="설명 (@handle)" maxlength="40" value="${escHTML(link.handle||'')}">
-    <button class="ce-link-remove" type="button">×</button>
-    <input type="url" placeholder="URL (https://...)" maxlength="200" value="${escHTML(link.url||'')}" style="grid-column:1/4;">
   `;
   row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
   return row;
 }
 
-function openContactEdit(){
-  // 현재 표시 값 불러오기
-  document.getElementById('ce-label').value = document.getElementById('contact-label').textContent;
-  document.getElementById('ce-desc').value  = document.getElementById('contact-desc').textContent;
-  ceLinksList.innerHTML = '';
-  const anchors = document.querySelectorAll('#contact-socials .social-link');
-  anchors.forEach(a => {
-    makeLinkRow({
-      name:   a.querySelector('.social-name')?.textContent || '',
-      handle: a.querySelector('.social-handle')?.textContent || '',
-      url:    a.getAttribute('href') === '#' ? '' : a.getAttribute('href')
-    });
-    ceLinksList.appendChild(makeLinkRow({
-      name:   a.querySelector('.social-name')?.textContent || '',
-      handle: a.querySelector('.social-handle')?.textContent || '',
-      url:    a.getAttribute('href') === '#' ? '' : a.getAttribute('href')
-    }));
+function makeLinkInputRow(l = {}){
+  const row = document.createElement('div');
+  row.className = 'ce-link-row';
+  row.innerHTML = `
+    <input type="text" placeholder="플랫폼 (YouTube)" maxlength="20" value="${escHTML(l.platform||'')}">
+    <input type="text" placeholder="핸들 (@Churro)" maxlength="40" value="${escHTML(l.handle||'')}">
+    <button class="ce-link-remove" type="button">×</button>
+    <input type="url" placeholder="URL (https://...)" maxlength="200" value="${escHTML(l.url||'')}" style="grid-column:1/4;">
+  `;
+  row.querySelector('.ce-link-remove').addEventListener('click', () => row.remove());
+  return row;
+}
+
+function openModal(modal){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('modal-open'); }
+function closeModal2(modal){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('modal-open'); }
+
+// ── 스킬 모달 ──
+function openSkillsModal(){
+  if (!skillsEditor) return;
+  skillsEditor.innerHTML = '';
+  const rows = document.querySelectorAll('#contact-skills .skill-row');
+  rows.forEach(row => {
+    const name  = row.querySelector('.skill-name')?.textContent || '';
+    const badge = row.querySelector('[class*="skill-badge"]')?.textContent || '';
+    const type  = row.querySelector('.pink-outline') ? 'pink' : row.querySelector('.muted') ? 'muted' : 'lime';
+    skillsEditor.appendChild(makeSkillInputRow({ name, badge, type }));
   });
-  contactEditModal.classList.add('open');
-  contactEditModal.setAttribute('aria-hidden','false');
-  document.body.classList.add('modal-open');
+  openModal(skillsModal);
 }
+if (document.getElementById('contact-edit-skills-btn')) document.getElementById('contact-edit-skills-btn').addEventListener('click', openSkillsModal);
+if (skillsClose)  skillsClose.addEventListener('click',  () => closeModal2(skillsModal));
+if (skillsCancel) skillsCancel.addEventListener('click',  () => closeModal2(skillsModal));
+if (skillsBack)   skillsBack.addEventListener('click',   () => closeModal2(skillsModal));
+if (skillsAddBtn) skillsAddBtn.addEventListener('click', () => skillsEditor.appendChild(makeSkillInputRow()));
 
-function closeContactEdit(){
-  contactEditModal.classList.remove('open');
-  contactEditModal.setAttribute('aria-hidden','true');
-  document.body.classList.remove('modal-open');
-}
-
-contactEditBtn.addEventListener('click', openContactEdit);
-contactEditClose.addEventListener('click', closeContactEdit);
-contactEditCancel.addEventListener('click', closeContactEdit);
-document.getElementById('contact-edit-backdrop').addEventListener('click', closeContactEdit);
-
-ceAddLink.addEventListener('click', () => {
-  if (ceLinksList.children.length >= 6){ toast('링크는 최대 6개까지 가능합니다', 'error'); return; }
-  ceLinksList.appendChild(makeLinkRow());
-});
-
-contactEditSave.addEventListener('click', async () => {
+if (skillsSave) skillsSave.addEventListener('click', async () => {
   if (!currentUser) return;
-  const label = document.getElementById('ce-label').value.trim();
-  const desc  = document.getElementById('ce-desc').value.trim();
-  const links = [];
-  ceLinksList.querySelectorAll('.ce-link-row').forEach(row => {
-    const inputs = row.querySelectorAll('input');
-    const name   = inputs[0].value.trim();
-    const handle = inputs[1].value.trim();
-    const url    = inputs[2].value.trim();
-    if (name || handle || url) links.push({ name, handle, url });
-  });
-  contactEditSave.disabled = true;
-  contactEditSave.textContent = '저장 중...';
+  skillsSave.disabled = true; skillsSave.textContent = '저장 중...';
   try {
-    await setDoc(contactRef, { label, desc, links });
-    toast('Contact 저장 완료', 'success');
-    closeContactEdit();
-  } catch(err){
-    console.error(err);
-    toast('저장 실패', 'error');
-  } finally {
-    contactEditSave.disabled = false;
-    contactEditSave.textContent = '저장하기';
-  }
+    const items = [];
+    skillsEditor.querySelectorAll('.ce-link-row').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const sel    = row.querySelector('select');
+      const name   = inputs[0]?.value.trim();
+      const badge  = inputs[1]?.value.trim();
+      const type   = sel ? sel.value : 'lime';
+      if (name) items.push({ name, badge: badge||'가능', type });
+    });
+    await setDoc(skillsRef, { items });
+    toast('저장 완료', 'success');
+    closeModal2(skillsModal);
+  } catch(err){ console.error(err); toast('저장 실패', 'error'); }
+  finally { skillsSave.disabled = false; skillsSave.textContent = '저장하기'; }
 });
+
+// ── 링크 모달 ──
+function openLinksModal(){
+  if (!linksEditor) return;
+  linksEditor.innerHTML = '';
+  const rows = document.querySelectorAll('#contact-links-list .contact-link-row');
+  rows.forEach(row => {
+    const platform = row.querySelector('.cl-platform')?.textContent || '';
+    const handle   = row.querySelector('.cl-handle')?.textContent || '';
+    const url      = row.getAttribute('href') === '#' ? '' : row.getAttribute('href');
+    linksEditor.appendChild(makeLinkInputRow({ platform, handle, url }));
+  });
+  openModal(linksModal);
+}
+if (document.getElementById('contact-edit-links-btn')) document.getElementById('contact-edit-links-btn').addEventListener('click', openLinksModal);
+if (linksClose)  linksClose.addEventListener('click',  () => closeModal2(linksModal));
+if (linksCancel) linksCancel.addEventListener('click',  () => closeModal2(linksModal));
+if (linksBack)   linksBack.addEventListener('click',   () => closeModal2(linksModal));
+if (linksAddBtn) linksAddBtn.addEventListener('click', () => linksEditor.appendChild(makeLinkInputRow()));
+
+if (linksSave) linksSave.addEventListener('click', async () => {
+  if (!currentUser) return;
+  linksSave.disabled = true; linksSave.textContent = '저장 중...';
+  try {
+    const items = [];
+    linksEditor.querySelectorAll('.ce-link-row').forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const platform = inputs[0]?.value.trim();
+      const handle   = inputs[1]?.value.trim();
+      const url      = inputs[2]?.value.trim();
+      if (platform || handle) items.push({ platform, handle, url });
+    });
+    await setDoc(linksRef, { items });
+    toast('저장 완료', 'success');
+    closeModal2(linksModal);
+  } catch(err){ console.error(err); toast('저장 실패', 'error'); }
+  finally { linksSave.disabled = false; linksSave.textContent = '저장하기'; }
+});
+
+// email copy
+(function(){
+  const btn = document.getElementById('email-copy');
+  const tip = document.getElementById('email-tooltip');
+  if (!btn || !tip) return;
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText('k4rahee@naver.com');
+      tip.classList.add('show'); tip.textContent = 'Copied';
+      setTimeout(() => tip.classList.remove('show'), 1800);
+    } catch(_){ tip.textContent = 'Failed'; tip.classList.add('show'); setTimeout(() => tip.classList.remove('show'), 1800); }
+  });
+})();
 const statusPanel = document.getElementById('status-panel');
 const statusToggle = document.getElementById('status-toggle');
 const statusLabel = document.getElementById('status-label');
