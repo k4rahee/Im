@@ -2950,6 +2950,369 @@
     border-top: 1px solid var(--line);
   }
 
+  /* Panel header — when + edit btn 같은 줄 */
+  .panel-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .panel-media-edit-btn{
+    display: none;
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .panel-media-edit-btn.visible{ display: inline-block; }
+  .panel-media-edit-btn:hover{
+    border-color: var(--lime);
+    color: var(--lime);
+    border-style: solid;
+  }
+
+  /* panel-row 단일 칼럼 vertical stack — 텍스트 정렬 통일 */
+  .panel-row{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+  .panel-row > div{ width: 100%; }
+  .panel-row #panel-stat{ text-align: left; }
+
+  /* ============== PROJECT PANEL MEDIA GRID ============== */
+  .panel-media{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2.2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease 0.25s, transform 0.6s ease 0.25s;
+    perspective: 1200px;
+  }
+  .project-panel.visible .panel-media{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .panel-media:empty{ display: none; }
+  @media (max-width: 768px){
+    .panel-media{ grid-template-columns: 1fr; gap: 0.8rem; }
+  }
+
+  /* 미디어 카드 — 더 동적인 등장 + 살아있는 idle */
+  .media-tile{
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(60px) scale(0.85) rotateX(-12deg);
+    transform-origin: center bottom;
+    transform-style: preserve-3d;
+    transition:
+      opacity 0.7s cubic-bezier(.2,.8,.25,1),
+      transform 0.7s cubic-bezier(.2,.8,.25,1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+    will-change: transform;
+  }
+  /* 카드별 시작점 살짝 다르게 — stagger + 회전 다양화 */
+  .media-tile:nth-child(1){ transform: translateY(60px) scale(0.85) rotateX(-12deg) rotateZ(-3deg); }
+  .media-tile:nth-child(2){ transform: translateY(60px) scale(0.85) rotateX(-12deg) rotateZ(0deg); }
+  .media-tile:nth-child(3){ transform: translateY(60px) scale(0.85) rotateX(-12deg) rotateZ(3deg); }
+  .project-panel.visible .media-tile{
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg) rotateZ(0deg);
+  }
+  .project-panel.visible .media-tile:nth-child(1){ transition-delay: 0.35s, 0.35s, 0s, 0s; }
+  .project-panel.visible .media-tile:nth-child(2){ transition-delay: 0.5s, 0.5s, 0s, 0s; }
+  .project-panel.visible .media-tile:nth-child(3){ transition-delay: 0.65s, 0.65s, 0s, 0s; }
+
+  /* 호버 시 강한 인터랙션 */
+  .media-tile:hover{
+    transform: translateY(-10px) scale(1.03);
+    border-color: rgba(212, 255, 58, 0.55);
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.5),
+      0 0 50px rgba(212, 255, 58, 0.22);
+  }
+
+  /* 미세한 glow pulse — idle 상태에서도 살아있는 느낌 */
+  .project-panel.visible .media-tile{
+    animation: tileGlowPulse 4s ease-in-out infinite;
+    animation-delay: 1.2s; /* entry 끝난 후 시작 */
+  }
+  .project-panel.visible .media-tile:nth-child(2){ animation-delay: 1.5s; }
+  .project-panel.visible .media-tile:nth-child(3){ animation-delay: 1.8s; }
+  .media-tile:hover{ animation: none; }
+  @keyframes tileGlowPulse{
+    0%, 100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); }
+    50%      { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25), 0 0 24px rgba(212, 255, 58, 0.08); }
+  }
+
+  .media-tile img,
+  .media-tile video,
+  .media-tile iframe{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    display: block;
+    transition: transform 0.6s cubic-bezier(.2,.7,.3,1);
+  }
+  /* idle Ken Burns — 미디어 자체가 살아 움직임 */
+  .media-tile img,
+  .media-tile video{
+    animation: kenBurns 14s ease-in-out infinite alternate;
+  }
+  .media-tile:nth-child(2) img,
+  .media-tile:nth-child(2) video{ animation-delay: -4s; }
+  .media-tile:nth-child(3) img,
+  .media-tile:nth-child(3) video{ animation-delay: -8s; }
+  .media-tile:hover img,
+  .media-tile:hover video{
+    animation: none;
+    transform: scale(1.1);
+  }
+  @keyframes kenBurns{
+    0%   { transform: scale(1) translate(0, 0); }
+    50%  { transform: scale(1.04) translate(-1.5%, -0.8%); }
+    100% { transform: scale(1.06) translate(1%, -1.2%); }
+  }
+
+  .media-tile .media-tile-overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 60%, rgba(0, 0, 0, 0.75) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .media-tile:hover .media-tile-overlay{ opacity: 1; }
+
+  .media-tile-type-badge{
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--lime);
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    pointer-events: none;
+    border: 1px solid rgba(212, 255, 58, 0.3);
+    z-index: 2;
+  }
+
+  /* 영상 재생 아이콘 (이미지 위에 영상 표시) */
+  .media-tile .play-icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: transform 0.4s cubic-bezier(.2,.8,.25,1), background 0.3s ease, box-shadow 0.3s ease;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: playIconPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes playIconPulse{
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212, 255, 58, 0.4); }
+    50%      { box-shadow: 0 0 0 12px rgba(212, 255, 58, 0); }
+  }
+  .media-tile .play-icon::before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 14px solid var(--lime);
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    margin-left: 4px;
+    filter: drop-shadow(0 0 6px rgba(212, 255, 58, 0.6));
+  }
+  .media-tile:hover .play-icon{
+    transform: translate(-50%, -50%) scale(1.25);
+    background: rgba(0, 0, 0, 0.85);
+    animation: none;
+  }
+
+  /* Placeholder (미디어 비어있을 때) */
+  .media-tile.placeholder{
+    border-style: dashed;
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.015);
+    cursor: default;
+    animation: none;
+  }
+  .media-tile.placeholder:hover{
+    transform: none;
+    border-color: rgba(212, 255, 58, 0.3);
+    background: rgba(212, 255, 58, 0.025);
+    box-shadow: none;
+  }
+  .media-tile.placeholder .ph-content{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .media-tile.placeholder .ph-icon{
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 300;
+    transition: transform 0.3s ease;
+  }
+  .media-tile.placeholder:hover .ph-icon{ transform: scale(1.2) rotate(90deg); }
+
+  body.light-mode .media-tile{
+    background: rgba(0, 0, 0, 0.025);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+  body.light-mode .media-tile:hover{
+    border-color: rgba(107, 145, 0, 0.5);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15), 0 0 40px rgba(107, 145, 0, 0.15);
+  }
+  body.light-mode .media-tile-type-badge{
+    background: rgba(255, 255, 255, 0.85);
+    color: #6b9100;
+    border-color: rgba(107, 145, 0, 0.3);
+  }
+  body.light-mode .media-tile.placeholder{
+    border-color: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.015);
+  }
+  body.light-mode .media-tile.placeholder .ph-content{ color: rgba(0, 0, 0, 0.3); }
+  body.light-mode .media-tile.placeholder .ph-icon{ color: rgba(0, 0, 0, 0.2); }
+
+  /* ============== MEDIA LIGHTBOX ============== */
+  .media-lightbox{
+    position: fixed;
+    inset: 0;
+    z-index: 9700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    pointer-events: none;
+  }
+  .media-lightbox.open{ pointer-events: auto; }
+  .media-lightbox-backdrop{
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .media-lightbox.open .media-lightbox-backdrop{ opacity: 1; }
+  .media-lightbox-content{
+    position: relative;
+    max-width: 92vw;
+    max-height: 88vh;
+    transform: scale(0.7) translateY(40px);
+    opacity: 0;
+    transition:
+      transform 0.5s cubic-bezier(.34, 1.56, .64, 1),
+      opacity 0.35s ease;
+  }
+  .media-lightbox.open .media-lightbox-content{
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  .media-lightbox-body img,
+  .media-lightbox-body video{
+    max-width: 92vw;
+    max-height: 88vh;
+    border-radius: 14px;
+    display: block;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+  }
+  .media-lightbox-body iframe{
+    width: min(92vw, 1280px);
+    height: min(calc(92vw * 0.5625), 720px);
+    border: none;
+    border-radius: 14px;
+    background: #000;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+  }
+  .media-lightbox-close{
+    position: absolute;
+    top: -3.2rem;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: all 0.3s cubic-bezier(.2,.7,.3,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .media-lightbox-close:hover{
+    border-color: var(--lime);
+    color: var(--lime);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 20px rgba(212, 255, 58, 0.4);
+  }
+
+  @media (max-width: 600px){
+    .media-lightbox{ padding: 1rem; }
+    .media-lightbox-close{ top: -2.8rem; width: 34px; height: 34px; font-size: 1.05rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .media-tile{ opacity: 1; transform: none; transition: border-color 0.2s ease; }
+    .media-tile:hover{ transform: none; }
+    .media-tile:hover img, .media-tile:hover video{ transform: none; }
+    .media-lightbox-content{ transition: opacity 0.2s ease; }
+  }
+
   @media (max-width: 800px){
     .panel-row{ grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
     .panel-stat{ text-align: left; }
@@ -5047,8 +5410,9 @@ body.light-mode .big-arrow-icon{
 
   <div class="project-panel" id="project-panel">
     <div class="panel-inner">
-      <div class="panel-meta">
+      <div class="panel-header">
         <span class="panel-when" id="panel-when"></span>
+        <button class="panel-media-edit-btn" id="panel-media-edit-btn" type="button" title="미디어 편집" data-card-idx="0">✎ 미디어</button>
       </div>
       <div class="panel-row">
         <div>
@@ -5057,10 +5421,46 @@ body.light-mode .big-arrow-icon{
         </div>
         <div id="panel-stat"></div>
       </div>
-      <div class="panel-links" id="panel-links"></div>
+      <div class="panel-links" id="panel-links" style="display:none;"></div>
+      <div class="panel-media" id="panel-media"></div>
     </div>
   </div>
 </section>
+
+<!-- Project Media Edit Modal -->
+<div class="contact-edit-modal" id="proj-media-modal" aria-hidden="true">
+  <div class="contact-edit-backdrop" id="proj-media-backdrop"></div>
+  <div class="contact-edit-panel">
+    <button class="contact-edit-close" id="proj-media-close" type="button">×</button>
+    <h3 class="write-heading">프로젝트 미디어 편집</h3>
+    <div class="media-helper" style="margin-bottom:0.8rem;">사진 / YouTube / Vimeo / mp4 URL — 비워두면 placeholder 표시</div>
+    <div class="write-row">
+      <label class="write-label">Media 1</label>
+      <input class="write-input" id="pm-url-0" type="url" placeholder="https://...">
+    </div>
+    <div class="write-row">
+      <label class="write-label">Media 2</label>
+      <input class="write-input" id="pm-url-1" type="url" placeholder="https://...">
+    </div>
+    <div class="write-row">
+      <label class="write-label">Media 3</label>
+      <input class="write-input" id="pm-url-2" type="url" placeholder="https://...">
+    </div>
+    <div class="write-foot" style="margin-top:1.2rem;">
+      <button type="button" class="write-btn-cancel" id="pm-cancel">취소</button>
+      <button type="button" class="write-btn-save" id="pm-save">저장하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Media Lightbox (이미지/영상 풀스크린 보기) -->
+<div class="media-lightbox" id="media-lightbox" aria-hidden="true">
+  <div class="media-lightbox-backdrop" id="media-lightbox-backdrop"></div>
+  <div class="media-lightbox-content" id="media-lightbox-content">
+    <button class="media-lightbox-close" id="media-lightbox-close" aria-label="닫기">×</button>
+    <div class="media-lightbox-body" id="media-lightbox-body"></div>
+  </div>
+</div>
 
 <!-- ============== NOW FOCUS ON ============== -->
 
@@ -5410,7 +5810,7 @@ body.light-mode .big-arrow-icon{
   <div class="contact-edit-panel">
     <button class="contact-edit-close" id="music-admin-close" type="button">×</button>
     <h3 class="write-heading">플레이리스트 관리</h3>
-    <div class="media-helper" style="margin-bottom:0.8rem;">MP3 직접 링크 URL을 입력하세요. (GitHub Raw, 외부 스토리지 등)</div>
+    <div class="media-helper" style="margin-bottom:0.8rem;">YouTube URL · MP3 직접 링크 · 또는 파일 업로드</div>
     <div id="music-track-list"></div>
     <button class="media-add-btn" id="music-add-track" type="button" style="margin-top:0.5rem;">+ 트랙 추가</button>
     <div class="write-foot" style="margin-top:1.2rem;">
@@ -5598,6 +5998,117 @@ body.light-mode .big-arrow-icon{
 
     const MUSIC_REF = doc(db, 'site', 'playlist');
 
+    // ============ YouTube IFrame Player 통합 ============
+    let ytPlayer = null;
+    let ytReady = false;
+    let ytQueuedAction = null; // YT 준비 전 들어온 명령 임시 저장
+    let ytProgressInterval = null;
+
+    function isYouTubeUrl(url){
+      return /(?:youtube\.com|youtu\.be)/i.test(url || '');
+    }
+    function ytIdFromUrl(url){
+      const m = (url||'').match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]+)/);
+      return m ? m[1] : null;
+    }
+
+    // YouTube IFrame API 로드
+    function loadYouTubeAPI(){
+      if (window.YT && window.YT.Player) return Promise.resolve();
+      if (window._ytApiLoading) return window._ytApiLoading;
+      window._ytApiLoading = new Promise((resolve) => {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.body.appendChild(tag);
+        window.onYouTubeIframeAPIReady = function(){ resolve(); };
+      });
+      return window._ytApiLoading;
+    }
+
+    function ensureYTPlayer(){
+      if (ytPlayer) return Promise.resolve();
+      return loadYouTubeAPI().then(() => new Promise((resolve) => {
+        // 숨겨진 div 생성
+        let host = document.getElementById('yt-music-host');
+        if (!host){
+          host = document.createElement('div');
+          host.id = 'yt-music-host';
+          host.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;pointer-events:none;';
+          document.body.appendChild(host);
+        }
+        ytPlayer = new YT.Player(host, {
+          height: '1', width: '1',
+          videoId: '',
+          playerVars: { autoplay: 0, controls: 0, disablekb: 1, fs: 0, modestbranding: 1, playsinline: 1 },
+          events: {
+            onReady: () => {
+              ytReady = true;
+              if (ytQueuedAction){ const a = ytQueuedAction; ytQueuedAction = null; a(); }
+              resolve();
+            },
+            onStateChange: (e) => {
+              // 0: ended, 1: playing, 2: paused, 3: buffering, 5: cued
+              if (e.data === YT.PlayerState.ENDED) playIdx(getValidTrackIdx(currentIdx, 1));
+              if (e.data === YT.PlayerState.PLAYING){
+                isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+                startYTProgress();
+              }
+              if (e.data === YT.PlayerState.PAUSED){
+                isPlaying = false; playBtn.textContent = '▶'; disc.classList.remove('spinning');
+                stopYTProgress();
+              }
+            },
+            onError: (e) => {
+              console.error('[music] YouTube error:', e.data);
+              if (typeof toast === 'function') toast('YouTube 재생 오류 (권한/제한 영상)', 'error');
+            }
+          }
+        });
+      }));
+    }
+
+    function startYTProgress(){
+      stopYTProgress();
+      ytProgressInterval = setInterval(() => {
+        if (!ytPlayer || !ytReady) return;
+        const cur = ytPlayer.getCurrentTime ? ytPlayer.getCurrentTime() : 0;
+        const dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
+        if (dur > 0) progBar.style.width = (cur / dur * 100) + '%';
+      }, 250);
+    }
+    function stopYTProgress(){
+      if (ytProgressInterval){ clearInterval(ytProgressInterval); ytProgressInterval = null; }
+    }
+
+    // 통합 player 인터페이스
+    let currentPlayerType = 'audio'; // 'audio' | 'youtube'
+    function pauseAudio(){ try { audio.pause(); } catch(_){} }
+    function pauseYT(){ try { if (ytPlayer && ytReady) ytPlayer.pauseVideo(); } catch(_){} }
+    function pauseAll(){ pauseAudio(); pauseYT(); stopYTProgress(); }
+
+    function playUrl(url){
+      if (!url) return Promise.reject(new Error('URL 없음'));
+      if (isYouTubeUrl(url)){
+        const id = ytIdFromUrl(url);
+        if (!id) return Promise.reject(new Error('YouTube ID 추출 실패'));
+        currentPlayerType = 'youtube';
+        pauseAudio();
+        return ensureYTPlayer().then(() => {
+          ytPlayer.loadVideoById(id);
+          ytPlayer.setVolume(40);
+          // loadVideoById는 자동 재생되지만, autoplay 정책으로 막힐 수 있음
+          // playVideo 명시적 호출
+          setTimeout(() => { try { ytPlayer.playVideo(); } catch(_){} }, 100);
+        });
+      } else {
+        currentPlayerType = 'audio';
+        pauseYT();
+        audio.src = url;
+        audio.volume = 0.4;
+        return audio.play();
+      }
+    }
+
     function renderTrack(t){
       titleEl.textContent  = t.title  || '제목 없음';
       artistEl.textContent = t.artist || '—';
@@ -5644,21 +6155,64 @@ body.light-mode .big-arrow-icon{
     }
 
     function playIdx(idx){
-      if (!tracks[idx] || !tracks[idx].url) return;
+      if (!tracks[idx]){ if (typeof toast === 'function') toast('트랙이 없습니다', 'error'); return; }
+      if (!tracks[idx].url){ if (typeof toast === 'function') toast('트랙 URL이 비어있습니다', 'error'); return; }
       currentIdx = idx;
-      audio.src = tracks[idx].url;
-      audio.play().then(() => {
-        isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+      playUrl(tracks[idx].url).then(() => {
+        if (currentPlayerType === 'audio'){
+          isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+        }
+        // YouTube는 onStateChange에서 처리됨
         renderTrack(tracks[idx]); renderPlaylist();
-      }).catch(() => {});
+      }).catch((err) => {
+        console.error('[music] play failed:', err);
+        if (typeof toast === 'function') toast('재생 실패: ' + (err.name || err.message || '오류'), 'error');
+      });
     }
 
     function togglePlay(){
-      if (!tracks.length || !tracks[currentIdx]?.url) return;
-      if (isPlaying){ audio.pause(); isPlaying = false; playBtn.textContent = '▶'; disc.classList.remove('spinning'); }
-      else {
-        if (!audio.src || audio.src === window.location.href) audio.src = tracks[currentIdx].url;
-        audio.play().then(() => { isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning'); }).catch(()=>{});
+      if (!tracks.length){
+        if (typeof toast === 'function') toast('Firestore 플레이리스트가 비어있습니다', 'error');
+        return;
+      }
+      const t = tracks[currentIdx];
+      if (!t || !t.url){
+        const firstValid = tracks.findIndex(x => x && x.url);
+        if (firstValid >= 0){ currentIdx = firstValid; }
+        else {
+          if (typeof toast === 'function') toast('재생 가능한 트랙이 없습니다', 'error');
+          return;
+        }
+      }
+      const cur = tracks[currentIdx];
+      if (isPlaying){
+        pauseAll();
+        isPlaying = false; playBtn.textContent = '▶'; disc.classList.remove('spinning');
+      } else {
+        // 이미 같은 트랙 로드된 audio면 그냥 재개
+        if (currentPlayerType === 'audio' && audio.src && audio.src !== window.location.href && !isYouTubeUrl(cur.url)){
+          audio.play().then(() => {
+            isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+            renderTrack(cur); renderPlaylist();
+          }).catch((err) => {
+            console.error('[music] play failed:', err);
+            if (typeof toast === 'function') toast('재생 실패: ' + (err.name || '오류'), 'error');
+          });
+        } else if (currentPlayerType === 'youtube' && ytPlayer && ytReady && !isYouTubeUrl(cur.url) === false){
+          // YouTube 트랙 재개
+          try { ytPlayer.playVideo(); renderTrack(cur); renderPlaylist(); } catch(e){}
+        } else {
+          // 새로 로드
+          playUrl(cur.url).then(() => {
+            if (currentPlayerType === 'audio'){
+              isPlaying = true; playBtn.textContent = '⏸'; disc.classList.add('spinning');
+            }
+            renderTrack(cur); renderPlaylist();
+          }).catch((err) => {
+            console.error('[music] play failed:', err);
+            if (typeof toast === 'function') toast('재생 실패: ' + (err.name || '오류'), 'error');
+          });
+        }
       }
     }
 
@@ -5723,10 +6277,17 @@ body.light-mode .big-arrow-icon{
     onSnapshot(MUSIC_REF, (snap) => {
       const data = snap.exists() ? snap.data() : null;
       const newTracks = (data && data.tracks && data.tracks.length) ? data.tracks : DEFAULT_TRACKS;
+      console.log('[music] tracks loaded:', newTracks.length, 'tracks. URLs:', newTracks.map(t => t && t.url ? '✓' : '✗').join(' '));
       tracks = newTracks;
+      // currentIdx가 무효하거나 url 없으면 첫 유효 트랙으로
+      if (!tracks[currentIdx] || !tracks[currentIdx].url){
+        const firstValid = tracks.findIndex(t => t && t.url);
+        if (firstValid >= 0) currentIdx = firstValid;
+      }
       renderTrack(tracks[currentIdx] || tracks[0]);
       renderPlaylist();
-    }, () => {
+    }, (err) => {
+      console.error('[music] Firestore snapshot error:', err);
       tracks = DEFAULT_TRACKS;
       renderTrack(tracks[0]);
       renderPlaylist();
@@ -5753,7 +6314,7 @@ body.light-mode .big-arrow-icon{
       function makeTrackRow(t={}){
         const row = document.createElement('div');
         row.className = 'status-edit-row';
-        row.style.cssText = 'flex-direction:column;gap:0.3rem;margin-bottom:0.6rem;padding:0.8rem;border:1px solid var(--line);border-radius:10px;';
+        row.style.cssText = 'flex-direction:column;gap:0.4rem;margin-bottom:0.6rem;padding:0.8rem;border:1px solid var(--line);border-radius:10px;';
         const trackMode = t.mode || 'both';
         row.innerHTML = `
           <div style="display:flex;gap:0.4rem;">
@@ -5761,7 +6322,12 @@ body.light-mode .big-arrow-icon{
             <input style="flex:1;" type="text" placeholder="아티스트" maxlength="40" value="${(t.artist||'').replace(/"/g,'&quot;')}">
             <button type="button" style="width:28px;height:28px;flex-shrink:0;border:1px solid var(--line);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink-3);font-size:0.8rem;" class="track-remove">×</button>
           </div>
-          <input type="url" placeholder="MP3 URL (https://...)" style="width:100%;box-sizing:border-box;" value="${(t.url||'').replace(/"/g,'&quot;')}">
+          <div style="display:flex;gap:0.4rem;align-items:center;">
+            <input type="url" class="track-url" placeholder="YouTube URL 또는 MP3 직접 링크" style="flex:1;box-sizing:border-box;" value="${(t.url||'').replace(/"/g,'&quot;')}">
+            <button type="button" class="track-upload-btn" style="flex-shrink:0;height:32px;padding:0 0.7rem;border:1px solid var(--line);background:rgba(212,255,58,0.06);color:var(--lime);border-radius:6px;cursor:pointer;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.05em;text-transform:uppercase;font-weight:600;">📁 업로드</button>
+            <input type="file" class="track-file-input" accept="audio/*,.mp3,.wav,.m4a,.ogg" style="display:none;">
+          </div>
+          <div class="track-status" style="font-family:var(--mono);font-size:0.58rem;color:var(--ink-3);min-height:0.9rem;letter-spacing:0.04em;"></div>
           <div style="display:flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);letter-spacing:0.06em;">
             <span>모드:</span>
             <select class="track-mode" style="background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:6px;padding:0.3rem 0.5rem;color:var(--ink);font-family:var(--mono);font-size:0.65rem;">
@@ -5772,6 +6338,48 @@ body.light-mode .big-arrow-icon{
           </div>
         `;
         row.querySelector('.track-remove').addEventListener('click', () => row.remove());
+
+        // 파일 업로드 핸들러
+        const uploadBtn = row.querySelector('.track-upload-btn');
+        const fileInput = row.querySelector('.track-file-input');
+        const urlInput  = row.querySelector('.track-url');
+        const statusEl  = row.querySelector('.track-status');
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          if (file.size > 30 * 1024 * 1024){
+            statusEl.textContent = '❌ 파일이 너무 큽니다 (30MB 초과)';
+            statusEl.style.color = '#ff4488';
+            return;
+          }
+          if (typeof window.requireAdmin === 'function' && !window.requireAdmin()){
+            statusEl.textContent = '로그인 필요';
+            return;
+          }
+          uploadBtn.disabled = true;
+          uploadBtn.textContent = '업로드 중...';
+          statusEl.style.color = 'var(--lime)';
+          statusEl.textContent = '⏳ 업로드 중... ' + file.name;
+          try {
+            const safeName = file.name.replace(/[^\w.\-]/g, '_');
+            const path = `music/${Date.now()}_${safeName}`;
+            const fileRef = window.storageRef(window.storage, path);
+            const snap = await window.uploadBytes(fileRef, file);
+            const url = await window.getDownloadURL(snap.ref);
+            urlInput.value = url;
+            statusEl.textContent = '✓ 업로드 완료';
+            statusEl.style.color = 'var(--lime)';
+          } catch(err){
+            console.error('[music] upload failed:', err);
+            statusEl.textContent = '❌ 업로드 실패: ' + (err.code || err.message || '알 수 없음');
+            statusEl.style.color = '#ff4488';
+          } finally {
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = '📁 업로드';
+          }
+        });
+
         return row;
       }
 
@@ -5797,11 +6405,12 @@ body.light-mode .big-arrow-icon{
         const rows = trackList.querySelectorAll('.status-edit-row');
         const newTracks = [];
         rows.forEach(row => {
-          const inputs = row.querySelectorAll('input');
+          const textInputs = row.querySelectorAll('input[type="text"]');
+          const urlInput = row.querySelector('.track-url');
           const modeSelect = row.querySelector('.track-mode');
-          const title = inputs[0].value.trim();
-          const artist = inputs[1].value.trim();
-          const url = inputs[2].value.trim();
+          const title = textInputs[0] ? textInputs[0].value.trim() : '';
+          const artist = textInputs[1] ? textInputs[1].value.trim() : '';
+          const url = urlInput ? urlInput.value.trim() : '';
           const mode = modeSelect ? modeSelect.value : 'both';
           if (url) newTracks.push({ title, artist, url, mode });
         });
@@ -5899,40 +6508,174 @@ body.light-mode .big-arrow-icon{
     const panelNote = document.getElementById('panel-note');
     const panelStat = document.getElementById('panel-stat');
     const panelLinks = document.getElementById('panel-links');
+    const panelMedia = document.getElementById('panel-media');
+    const panelMediaEditBtn = document.getElementById('panel-media-edit-btn');
     const data = [
       {
         when: '2024. 07 — 2025. 07 · 영상 23개',
         title: '<em>애니 추천</em> 채널',
         note: '',
-        stat: '<span class="panel-stat">1,131,549<sup>회 조회수</sup></span>',
-        links: '<a href="https://www.youtube.com/@Churro/featured" target="_blank" rel="noopener" class="link-pill">YouTube 채널<span class="arr">↗</span></a>'
+        stat: '<span class="panel-stat">1,131,549<sup>회 조회수</sup></span>'
       },
       {
         when: '2025. 07 — 2025. 09 · 방송 150시간+',
         title: '<em>생방송</em> 운영',
         note: '',
-        stat: '<span class="panel-stat pink">150<sup>+ 시청자</sup></span>',
-        links: ''
+        stat: '<span class="panel-stat pink">150<sup>+ 시청자</sup></span>'
       },
       {
         when: '2026. 01 — 2026. 02 · 영상 9개',
         title: '<em>메이플</em> + 서브컬쳐',
         note: '',
-        stat: '<span class="panel-stat">423,645<sup>회 조회수</sup></span>',
-        links: '<a href="https://www.youtube.com/@Churro" target="_blank" rel="noopener" class="link-pill">YouTube 채널<span class="arr">↗</span></a>'
+        stat: '<span class="panel-stat">423,645<sup>회 조회수</sup></span>'
       },
       {
         when: '2023 — Now · 영상 · 인트로 · 애니메이션',
         title: '<em>콘텐츠 제작</em> Commission',
         note: '',
-        stat: '<span class="panel-stat text-only">법무법인 대한중앙, 라키아 선수 외 다수 스트리머·유튜버 협업</span>',
-        links: '<a href="https://www.youtube.com/watch?v=l5ARvE4VS8o" target="_blank" rel="noopener" class="link-pill">법무법인 대한중앙<span class="arr">↗</span></a>'
+        stat: '<span class="panel-stat text-only">법무법인 대한중앙, 라키아 선수 외 다수 스트리머·유튜버 협업</span>'
       }
     ];
+
+    // 프로젝트별 미디어 상태 [4 카드 × 3 URL]
+    let projectMedia = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+      ['https://www.youtube.com/watch?v=l5ARvE4VS8o', '', '']
+    ];
+
+    // ── 미디어 헬퍼 ──
+    function detectMediaType(url){
+      if (!url) return 'placeholder';
+      const lower = url.toLowerCase();
+      if (lower.match(/youtube\.com|youtu\.be/)) return 'youtube';
+      if (lower.match(/vimeo\.com/)) return 'vimeo';
+      if (lower.match(/\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/)) return 'image';
+      if (lower.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/)) return 'video';
+      return 'image';
+    }
+    function youtubeId(url){
+      const m = url && url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]+)/);
+      return m ? m[1] : null;
+    }
+    function youtubeEmbedUrl(url){
+      const id = youtubeId(url);
+      return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : url;
+    }
+    function youtubeThumb(url){
+      const id = youtubeId(url);
+      return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : null;
+    }
+    function vimeoId(url){
+      const m = url && url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+      return m ? m[1] : null;
+    }
+    function escAttr(s){ return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+    function renderMediaTile(media, idx){
+      if (!media || !media.url){
+        return `
+          <div class="media-tile placeholder" data-idx="${idx}">
+            <div class="ph-content">
+              <span class="ph-icon">+</span>
+              <span>Media ${idx + 1}</span>
+            </div>
+          </div>
+        `;
+      }
+      const url = media.url;
+      const type = detectMediaType(url);
+      let inner = '';
+      let badge = 'Image';
+      if (type === 'youtube'){
+        const thumb = youtubeThumb(url);
+        inner = `<img src="${escAttr(thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"><div class="play-icon"></div>`;
+        badge = 'Video';
+      } else if (type === 'vimeo'){
+        inner = `<div style="width:100%;height:100%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-family:var(--mono);font-size:0.65rem;">VIMEO</div><div class="play-icon"></div>`;
+        badge = 'Video';
+      } else if (type === 'video'){
+        inner = `<video src="${escAttr(url)}" muted loop playsinline preload="metadata"></video><div class="play-icon"></div>`;
+        badge = 'Video';
+      } else {
+        inner = `<img src="${escAttr(url)}" alt="" loading="lazy">`;
+        badge = 'Image';
+      }
+      return `
+        <div class="media-tile" data-url="${escAttr(url)}" data-type="${type}" data-idx="${idx}" role="button" tabindex="0" aria-label="미디어 ${idx + 1} 크게 보기">
+          ${inner}
+          <div class="media-tile-overlay"></div>
+          <span class="media-tile-type-badge">${badge}</span>
+        </div>
+      `;
+    }
+
+    // ── Lightbox ──
+    const lightbox = document.getElementById('media-lightbox');
+    const lightboxBody = document.getElementById('media-lightbox-body');
+    const lightboxClose = document.getElementById('media-lightbox-close');
+    const lightboxBackdrop = document.getElementById('media-lightbox-backdrop');
+
+    function openLightbox(url, type){
+      let inner = '';
+      if (type === 'youtube'){
+        inner = `<iframe src="${escAttr(youtubeEmbedUrl(url))}" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>`;
+      } else if (type === 'vimeo'){
+        const id = vimeoId(url);
+        inner = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
+      } else if (type === 'video'){
+        inner = `<video src="${escAttr(url)}" controls autoplay></video>`;
+      } else {
+        inner = `<img src="${escAttr(url)}" alt="">`;
+      }
+      lightboxBody.innerHTML = inner;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      setTimeout(() => { lightboxBody.innerHTML = ''; }, 400); // 애니메이션 끝난 후 정리 (영상 멈춤)
+    }
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    });
+
+    // ── 패널 미디어 클릭 핸들러 ──
+    panelMedia.addEventListener('click', (e) => {
+      const tile = e.target.closest('.media-tile');
+      if (!tile || tile.classList.contains('placeholder')) return;
+      openLightbox(tile.dataset.url, tile.dataset.type);
+    });
+    panelMedia.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const tile = e.target.closest('.media-tile');
+      if (!tile || tile.classList.contains('placeholder')) return;
+      e.preventDefault();
+      openLightbox(tile.dataset.url, tile.dataset.type);
+    });
+
     let current = -1;
+
+    function renderPanelMedia(idx){
+      const arr = projectMedia[idx] || ['', '', ''];
+      const mediaArr = arr.map(url => url ? { url } : null);
+      panelMedia.innerHTML = mediaArr.map((m, i) => renderMediaTile(m, i)).join('');
+    }
+    // 외부에서 호출 가능 (Firebase listen 콜백, admin 저장 후 갱신)
+    window._refreshProjectMedia = function(){
+      if (current >= 0) renderPanelMedia(current);
+    };
+
     items.forEach((item, i) => {
       item.addEventListener('click', (e) => {
         if(e.target.closest('a')) return;
+        if(e.target.closest('.hidden-star')) return;
         if(current === i){
           current = -1;
           items.forEach(el => el.classList.remove('active','inactive'));
@@ -5947,12 +6690,100 @@ body.light-mode .big-arrow-icon{
         panelNote.innerHTML = d.note;
         panelNote.style.display = d.note ? 'block' : 'none';
         panelStat.innerHTML = d.stat;
-        panelLinks.innerHTML = d.links;
-        panelLinks.style.display = d.links ? 'flex' : 'none';
+        if (panelLinks) panelLinks.style.display = 'none'; // links 제거됨
+
+        // 미디어 그리드 렌더링 (projectMedia 상태 기반)
+        renderPanelMedia(i);
+
+        // 어드민 편집 버튼 — 현재 카드 idx 저장
+        if (panelMediaEditBtn) panelMediaEditBtn.dataset.cardIdx = i;
+
         panel.classList.add('visible');
         setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
       });
     });
+
+    // ── Firebase: project media 데이터 listen ──
+    whenFirebaseReady(function(){
+      window.onSnapshot(window.doc(window.db, 'site', 'project_media'), (snap) => {
+        if (!snap.exists()) return;
+        const d = snap.data();
+        if (!Array.isArray(d.list)) return;
+        d.list.forEach((item, i) => {
+          if (i >= projectMedia.length) return;
+          projectMedia[i] = [
+            (item && item.m0) || '',
+            (item && item.m1) || '',
+            (item && item.m2) || ''
+          ];
+        });
+        // 패널 열려있으면 즉시 다시 렌더
+        if (current >= 0) renderPanelMedia(current);
+      });
+    });
+
+    // ── 어드민 편집 모달 ──
+    window._projectMediaAdminInit = function(){
+      if (!panelMediaEditBtn) return;
+      if (panelMediaEditBtn._initDone) return;
+      panelMediaEditBtn._initDone = true;
+      const modal     = document.getElementById('proj-media-modal');
+      const backdrop  = document.getElementById('proj-media-backdrop');
+      const closeBtn  = document.getElementById('proj-media-close');
+      const cancelBtn = document.getElementById('pm-cancel');
+      const saveBtn   = document.getElementById('pm-save');
+      const inputs = [
+        document.getElementById('pm-url-0'),
+        document.getElementById('pm-url-1'),
+        document.getElementById('pm-url-2')
+      ];
+      let editingIdx = 0;
+
+      const open = () => {
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+        editingIdx = parseInt(panelMediaEditBtn.dataset.cardIdx || '0', 10);
+        const arr = projectMedia[editingIdx] || ['', '', ''];
+        inputs.forEach((inp, i) => { inp.value = arr[i] || ''; });
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden','false');
+        document.body.classList.add('modal-open');
+      };
+      const close = () => {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden','true');
+        document.body.classList.remove('modal-open');
+      };
+
+      panelMediaEditBtn.addEventListener('click', open);
+      closeBtn.addEventListener('click', close);
+      cancelBtn.addEventListener('click', close);
+      backdrop.addEventListener('click', close);
+      saveBtn.addEventListener('click', async () => {
+        if (typeof window.requireAdmin === 'function' && !window.requireAdmin()) return;
+        saveBtn.disabled = true; saveBtn.textContent = '저장 중...';
+        try {
+          // 현재 projectMedia 상태를 모두 list 형태로 직렬화
+          const newArr = inputs.map(inp => (inp.value || '').trim());
+          projectMedia[editingIdx] = newArr;
+          // 전체 list를 Firestore 객체 배열로
+          const listToSave = projectMedia.map(arr => ({
+            m0: arr[0] || '',
+            m1: arr[1] || '',
+            m2: arr[2] || ''
+          }));
+          await window.setDoc(window.doc(window.db, 'site', 'project_media'), { list: listToSave });
+          if (typeof toast === 'function') toast('미디어 저장 완료', 'success');
+          // 즉시 다시 렌더
+          if (current === editingIdx) renderPanelMedia(editingIdx);
+          close();
+        } catch(err){
+          if (typeof toast === 'function') toast('저장 실패', 'error');
+          console.error(err);
+        } finally {
+          saveBtn.disabled = false; saveBtn.textContent = '저장하기';
+        }
+      });
+    };
   })();
   (function(){
     const carousel = document.getElementById('carousel');
@@ -6453,7 +7284,8 @@ const storage = getStorage(app);
 // (모듈 import는 모듈 스코프에 갇혀있어 일반 스크립트에서 ReferenceError 발생)
 Object.assign(window, {
   doc, db, setDoc, onSnapshot, getDoc, updateDoc, addDoc, deleteDoc,
-  collection, query, orderBy, serverTimestamp, increment
+  collection, query, orderBy, serverTimestamp, increment,
+  storage, storageRef, uploadBytes, getDownloadURL
 });
 window.dispatchEvent(new Event('firebase-ready'));
 
@@ -6573,11 +7405,14 @@ onAuthStateChanged(auth, (user) => {
   // init은 한 번만 실행 (idempotent), 핸들러 등록만 해두고 클릭 시 requireAdmin() 게이트
   if (typeof window._heroVideoAdminInit === 'function') window._heroVideoAdminInit();
   if (typeof window._musicAdminInit === 'function') window._musicAdminInit();
+  if (typeof window._projectMediaAdminInit === 'function') window._projectMediaAdminInit();
   // 어드민 버튼 visible 토글 — 로그인 시에만 표시
   const heroEditBtn = document.getElementById('hero-video-edit-btn');
   const musicEditBtn = document.getElementById('music-admin-btn');
+  const projMediaEditBtn = document.getElementById('panel-media-edit-btn');
   if (heroEditBtn) heroEditBtn.classList.toggle('visible', !!user);
   if (musicEditBtn) musicEditBtn.classList.toggle('visible', !!user);
+  if (projMediaEditBtn) projMediaEditBtn.classList.toggle('visible', !!user);
   if (modal.classList.contains('open') && modal.classList.contains('read-mode') && currentReadPost){
     refreshModalActions();
   }
