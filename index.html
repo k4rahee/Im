@@ -4784,77 +4784,162 @@
   /* ── Star Quest 블록 ── */
   .status-quest-block{
     margin-top: 0;
-    padding: 0.65rem 1.2rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 0.55rem 1.1rem 0.6rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
   }
   .status-quest-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.6rem;
-    margin-bottom: 0.35rem;
+    gap: 0.4rem;
+    margin-bottom: 0.4rem;
   }
   .status-quest-label{
     font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
+    font-size: 0.52rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--lime);
-    font-weight: 600;
-    opacity: 0.85;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  /* 라벨 앞 깜빡이는 점 */
+  .status-quest-label::before{
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 5px var(--lime-glow);
+    animation: statusPulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .sq-header-right{
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
   }
   .status-quest-count{
     font-family: var(--mono);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     color: var(--ink-3);
     font-variant-numeric: tabular-nums;
     opacity: 0.6;
   }
   .status-quest-count.unlocked{
     color: var(--pink);
-    font-weight: 600;
+    font-weight: 700;
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(255,68,136,0.4);
+  }
+  /* ↺ 재탐색 버튼 */
+  .sq-reset-btn{
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px;
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    padding: 0.15rem 0.35rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1;
+    opacity: 0.7;
+  }
+  .sq-reset-btn:hover{
+    border-color: var(--lime);
+    color: var(--lime);
     opacity: 1;
   }
-  /* 별 컨테이너 — 발견된 별만 노출 */
+  .sq-reset-btn.spinning{
+    animation: sqResetSpin 0.5s ease;
+  }
+  @keyframes sqResetSpin{
+    from{ transform: rotate(0deg); }
+    to  { transform: rotate(360deg); }
+  }
+
+  /* Phase 구분 블록 */
+  .sq-phase{
+    margin-bottom: 0.3rem;
+  }
+  .sq-phase-label{
+    font-family: var(--mono);
+    font-size: 0.45rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.2rem;
+  }
+  .sq-phase-unlock{
+    background: var(--lime);
+    color: var(--bg);
+    font-size: 0.38rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    animation: sqUnlockPulse 2s ease-in-out infinite;
+  }
+  @keyframes sqUnlockPulse{
+    0%,100%{ opacity: 1; }
+    50%{ opacity: 0.6; }
+  }
+
+  /* Phase II: 기본 닫힘 → 5개 발견 시 슬라이드 다운 */
+  .sq-phase-2{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(.2,.9,.3,1), opacity 0.4s ease;
+    opacity: 0;
+  }
+  .sq-phase-2.unlocked{
+    max-height: 80px;
+    opacity: 1;
+  }
+
+  /* 별 컨테이너 */
   .status-quest-stars{
     display: flex;
-    gap: 0.4rem;
-    font-size: 0.85rem;
+    gap: 0.3rem;
+    font-size: 0.7rem;
     line-height: 1;
-    margin-bottom: 0.35rem;
-    min-height: 1em; /* 0개일 때도 공간 유지 */
+    margin-bottom: 0.15rem;
+    min-height: 0.8rem;
   }
-  /* 기본: 완전 숨김 — 개수 유추 불가 */
   .status-quest-stars .sq{
     display: none;
     color: var(--pink);
-    text-shadow: 0 0 8px rgba(255,68,136,0.6);
+    text-shadow: 0 0 6px rgba(255,68,136,0.5);
     font-family: var(--mono);
     width: auto;
-    transition: none;
   }
-  /* 발견 시: 노출 + 크기 정상화 */
-  .status-quest-stars .sq.found{
-    display: inline-block;
-  }
-  /* 방금 발견된 별 — 뿅 이펙트 */
+  .status-quest-stars .sq.found{ display: inline-block; }
   .status-quest-stars .sq.sq-pop{
     animation: sqPop 0.7s cubic-bezier(.3,1.5,.5,1) forwards;
   }
   @keyframes sqPop{
-    0%  { transform: scale(0) rotate(-40deg); opacity:0; filter: blur(4px); }
-    55% { transform: scale(1.5) rotate(8deg);  opacity:1; filter: blur(0); }
-    100%{ transform: scale(1) rotate(0deg);    opacity:1; filter: blur(0); }
+    0%  { transform: scale(0) rotate(-40deg); opacity:0; filter:blur(4px); }
+    55% { transform: scale(1.6) rotate(8deg); opacity:1; filter:blur(0); }
+    100%{ transform: scale(1)   rotate(0deg); opacity:1; }
   }
+
   .status-quest-hint{
     font-family: var(--mono);
-    font-size: 0.5rem;
-    line-height: 1.4;
+    font-size: 0.45rem;
     color: var(--ink-3);
-    opacity: 0.5;
+    opacity: 0.4;
     letter-spacing: 0.03em;
+    margin-top: 0.3rem;
   }
   body.light-mode .status-quest-stars .sq.found{ color: #d63384; text-shadow: none; }
+  body.light-mode .sq-phase-label{ opacity: 0.4; }
   .status-edit-form{ display: none; margin: 0 1.2rem 1rem; }
   .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.5rem; }
   .status-edit-row{
@@ -4924,17 +5009,22 @@
     }
   }
 
-  /* ── 모바일 전용 유틸 nav (KO/EN + 관리자 로그인) ── */
-  .status-mobile-nav{
+  /* ── 모바일 전용 유틸 바 — 하단 왼쪽 고정 ── */
+  .mobile-util-bar{
     display: none;
+    position: fixed;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    left: 1rem;
+    z-index: var(--z-floating);
     align-items: center;
     gap: 0.4rem;
-    justify-content: flex-end;
   }
   @media (max-width: 700px){
-    .status-mobile-nav{ display: flex; }
+    .mobile-util-bar{ display: flex; }
     .topbar .lang-switch,
     .topbar .admin-lock{ display: none !important; }
+    .status-mobile-nav{ display: none !important; }
+  }
   }
   .sm-lang{
     background: rgba(10,10,13,0.88);
@@ -4976,6 +5066,59 @@
   .sm-lock.authed{ color: var(--lime); border-color: rgba(212,255,58,0.3); }
   body.light-mode .sm-lang,
   body.light-mode .sm-lock{ background: rgba(255,255,255,0.9); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+
+  /* ── Hunt Mode 오버레이 ── */
+  .hunt-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-secret);
+    background: rgba(0,0,0,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .hunt-overlay.active{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .hunt-inner{
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(.2,1,.4,1);
+  }
+  .hunt-overlay.active .hunt-inner{ transform: scale(1); }
+  .hunt-glyph{
+    font-size: 3rem;
+    color: var(--lime);
+    text-shadow: 0 0 40px var(--lime-glow), 0 0 80px rgba(212,255,58,0.2);
+    animation: huntGlyphSpin 2s linear infinite;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  @keyframes huntGlyphSpin{
+    from{ transform: rotate(0deg); }
+    to  { transform: rotate(360deg); }
+  }
+  .hunt-title{
+    font-family: var(--display);
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+  .hunt-sub{
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    opacity: 0.7;
+  }
 
   /* ============== VIEWS COUNT ============== */
   .thought-views{
@@ -7152,7 +7295,7 @@ body.light-mode .big-arrow-icon svg path{
   <div class="wrap">
     <div class="sec-head reveal">
       <span><span class="num">01</span> &nbsp;/&nbsp; <span class="name" data-i18n="sec.about.name">About Me</span></span>
-      <span data-i18n="sec.about.right">Origin</span>
+      <span><span data-i18n="sec.about.right">Origin</span> <span class="hidden-star" data-star-id="6" title="?">✦</span></span>
     </div>
 
 <div class="about-grid">
@@ -7215,7 +7358,7 @@ body.light-mode .big-arrow-icon svg path{
   <div class="wrap">
     <div class="sec-head reveal">
       <span><span class="num">02</span> &nbsp;/&nbsp; <span class="name" data-i18n="sec.work.name">Work History</span></span>
-      <span data-i18n="sec.work.right">2014 → 2025</span>
+      <span><span data-i18n="sec.work.right">2014 → 2025</span> <span class="hidden-star" data-star-id="7" title="?">✦</span></span>
     </div>
 
 <h2 class="sec-heading reveal"><span data-i18n="sec.work.title">Work</span> <em data-i18n="sec.work.title2">History.</em></h2>
@@ -7346,7 +7489,7 @@ body.light-mode .big-arrow-icon svg path{
   <div class="wrap">
     <div class="sec-head reveal">
       <span><span class="num">04</span> &nbsp;/&nbsp; <span class="name" data-i18n="sec.now.name">Now Focus On</span></span>
-      <span data-i18n="sec.now.right">Currently</span>
+      <span><span data-i18n="sec.now.right">Currently</span> <span class="hidden-star" data-star-id="8" title="?">✦</span></span>
     </div>
 
 <h2 class="sec-heading reveal"><span data-i18n="sec.now.title">Now</span> <em data-i18n="sec.now.title2">Focus On.</em></h2>
@@ -7531,7 +7674,7 @@ body.light-mode .big-arrow-icon svg path{
   <div class="wrap">
     <div class="sec-head reveal">
       <span><span class="num">06</span> &nbsp;/&nbsp; <span class="name" data-i18n="sec.contact.name">Contact</span></span>
-      <span data-i18n="sec.contact.right">Say hi</span>
+      <span><span data-i18n="sec.contact.right">Say hi</span> <span class="hidden-star" data-star-id="9" title="?">✦</span></span>
     </div>
 
     <div class="contact-grid">
@@ -7620,9 +7763,30 @@ body.light-mode .big-arrow-icon svg path{
     <span>© 2026 · k4rahee@naver.com <span class="hidden-star" data-star-id="5" title="?">✦</span></span>
   </div>
   <div class="footer-easter" aria-hidden="true">
-    <span>↑</span><span>↑</span><span>↓</span><span>↓</span><span>←</span><span>→</span><span>←</span><span>→</span>
+    <span>↑</span><span>↑</span><span>↓</span><span>↓</span><span>←</span><span>→</span><span>←</span><span>→</span><span class="hidden-star" data-star-id="10" title="?" style="font-size:0.65rem;opacity:0.3;">✦</span>
   </div>
 </footer>
+
+<!-- ============== 모바일 전용 유틸 바 (하단 왼쪽 고정) ============== -->
+<div class="mobile-util-bar" id="mobile-util-bar">
+  <button class="sm-lang" id="sm-lang" type="button" aria-label="언어 전환">
+    <span class="sm-lang-opt" data-lang="ko">KO</span>
+    <span class="sm-lang-sep">/</span>
+    <span class="sm-lang-opt" data-lang="en">EN</span>
+  </button>
+  <button class="sm-lock" id="sm-lock" type="button" aria-label="관리자 로그인">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  </button>
+</div>
+
+<!-- ============== HUNT MODE 오버레이 ============== -->
+<div class="hunt-overlay" id="hunt-overlay" aria-hidden="true">
+  <div class="hunt-inner">
+    <div class="hunt-glyph">✦</div>
+    <div class="hunt-title">HUNT INITIATED</div>
+    <div class="hunt-sub">별이 새로운 위치로 이동했습니다</div>
+  </div>
+</div>
 
 <!-- ============== MUSIC PLAYER ============== -->
 <div class="music-player" id="music-player">
@@ -7794,18 +7958,6 @@ body.light-mode .big-arrow-icon svg path{
 </div>
 
 <div class="status-widget" id="status-widget">
-
-  <!-- 모바일 전용: KO/EN + 관리자 로그인 (topbar에서 옮겨온 것) -->
-  <div class="status-mobile-nav" id="status-mobile-nav">
-    <button class="sm-lang" id="sm-lang" type="button" aria-label="언어 전환">
-      <span class="sm-lang-opt" data-lang="ko">KO</span>
-      <span class="sm-lang-sep">/</span>
-      <span class="sm-lang-opt" data-lang="en">EN</span>
-    </button>
-    <button class="sm-lock" id="sm-lock" type="button" aria-label="관리자 로그인">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    </button>
-  </div>
   <div class="status-panel" id="status-panel">
 
     <!-- ── 패널 헤더: 큰 날짜/시간 ── -->
@@ -7837,20 +7989,36 @@ body.light-mode .big-arrow-icon svg path{
 
     </div><!-- /status-body -->
 
-    <!-- ── Star Quest (별 퀘스트) — 별을 발견 안 했을 땐 ?/? 표시 ── -->
+    <!-- ── Star Quest 10개 / Phase I→II 확장 ── -->
     <div class="status-quest-block">
       <div class="status-quest-header">
-        <span class="status-quest-label">★ Star Quest</span>
-        <span class="status-quest-count" id="status-quest-count">?/?</span>
+        <span class="status-quest-label">✦ STAR QUEST</span>
+        <div class="sq-header-right">
+          <span class="status-quest-count" id="status-quest-count"></span>
+          <button class="sq-reset-btn" id="sq-reset-btn" title="별 위치 재배치 + 재탐색">↺</button>
+        </div>
       </div>
-      <div class="status-quest-stars" id="status-quest-stars">
-        <span class="sq" data-i="1">·</span>
-        <span class="sq" data-i="2">·</span>
-        <span class="sq" data-i="3">·</span>
-        <span class="sq" data-i="4">·</span>
-        <span class="sq" data-i="5">·</span>
+      <div class="sq-phase sq-phase-1" id="sq-phase-1">
+        <span class="sq-phase-label">PHASE I</span>
+        <div class="status-quest-stars" id="status-quest-stars">
+          <span class="sq" data-i="1">★</span>
+          <span class="sq" data-i="2">★</span>
+          <span class="sq" data-i="3">★</span>
+          <span class="sq" data-i="4">★</span>
+          <span class="sq" data-i="5">★</span>
+        </div>
       </div>
-      <div class="status-quest-hint">사이트에 숨겨진 이스터에그를 발견해보세요</div>
+      <div class="sq-phase sq-phase-2" id="sq-phase-2">
+        <span class="sq-phase-label">PHASE II <span class="sq-phase-unlock">UNLOCKED</span></span>
+        <div class="status-quest-stars" id="status-quest-stars-2">
+          <span class="sq" data-i="6">★</span>
+          <span class="sq" data-i="7">★</span>
+          <span class="sq" data-i="8">★</span>
+          <span class="sq" data-i="9">★</span>
+          <span class="sq" data-i="10">★</span>
+        </div>
+      </div>
+      <div class="status-quest-hint">사이트 곳곳에 숨겨진 별을 찾아보세요</div>
     </div>
 
     <button class="status-edit-btn" id="status-edit-btn">✎ 수정</button>
@@ -8190,9 +8358,8 @@ body.light-mode .big-arrow-icon svg path{
       // 좌측: "Personal Branding · 04.28 화"
       leftEl.textContent = `Personal Branding · ${month}.${day} ${dow}`;
 
-      // 우측: 이메일 + 현재 활동 상태 (작은 글자로)
-      const ctx = timeContext(h);
-      rightEl.innerHTML = `<span class="hero-meta-status">${hh}:${mm} · ${ctx.en}</span> · k4rahee@naver.com`;
+      // 우측: 이메일만 (시간은 상태창으로 이동)
+      rightEl.innerHTML = `k4rahee@naver.com`;
     }
 
     update();
@@ -11685,196 +11852,274 @@ statusSaveBtn.addEventListener('click', async () => {
   }
 });
 
-// ============== HIDDEN STARS + STAR LOG (별 수집 시스템) ==============
+// ============== HIDDEN STARS + STAR LOG (10개 / 랜덤 재배치 / 스트릭) ==============
 (function(){
-  const STORAGE_KEY = 'churro-stars-v1';
-  const TOTAL_STARS = 5;
-  const PREFERS_REDUCED_STAR = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const STORAGE_KEY  = 'churro-stars-v1';
+  const TOTAL_STARS  = 10;
+  const PHASE_THRESH = 5;   // Phase II 해금 기준
 
-  // 수집된 별 ID 로드
+  // ── 별별 메시지 ──
+  const STAR_MSGS = [
+    '첫 별 발견! 탐험 시작 🌟',
+    '두 번째! 감각이 있는데요',
+    '세 번째, 진짜 탐험가의 시작',
+    '네 번째... 혹시 페이지 다 뒤졌어요?',
+    '다섯 번째! ✦ PHASE II 해금!',
+    '여섯 번째 — 새 구역 진입',
+    '일곱 번째, 이 정도면 전설',
+    '여덟 번째! 두 개 남았어요 👀',
+    '아홉 번째... 라스트 원!',
+    '★ ALL STARS FOUND! 진정한 탐험가 ✦',
+  ];
+
+  // ── 랜덤 재배치용 구역 정의 (section, top%, left% 범위) ──
+  const ZONES = [
+    { sel: '.hero',      t1:25, t2:75, l1:8,  l2:88 },
+    { sel: '#about',     t1:20, t2:80, l1:5,  l2:90 },
+    { sel: '#work',      t1:20, t2:80, l1:5,  l2:90 },
+    { sel: '#projects',  t1:15, t2:70, l1:5,  l2:88 },
+    { sel: '#now',       t1:20, t2:80, l1:5,  l2:90 },
+    { sel: '#thoughts',  t1:20, t2:75, l1:5,  l2:88 },
+    { sel: '#contact',   t1:20, t2:75, l1:5,  l2:88 },
+    { sel: 'footer',     t1:15, t2:85, l1:5,  l2:85 },
+    { sel: '.marquee-wrap',t1:10,t2:90,l1:10, l2:80 },
+    { sel: '#about',     t1:50, t2:90, l1:50, l2:90 }, // about 우하단 (중복 구역 허용 — 위치 다름)
+  ];
+
+  // ── localStorage에서 수집 별 로드 ──
   let collected = new Set();
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) collected = new Set(JSON.parse(saved).map(Number));
   } catch(_) {}
 
-  // Star Log UI 생성
+  // ── 스트릭 추적 ──
+  let lastStarTime = 0;
+  let streakCount  = 0;
+  const STREAK_WIN = 30000;
+
+  // ── Star Log UI (기존 코드와 호환) ──
   const log = document.createElement('div');
   log.className = 'star-log';
   log.setAttribute('role', 'status');
   log.setAttribute('aria-label', 'Star collection progress');
   log.innerHTML = `
     <span class="star-log-label">★ Star Log</span>
-    <span class="star-log-stars">
-      <span class="s" data-i="1">☆</span>
-      <span class="s" data-i="2">☆</span>
-      <span class="s" data-i="3">☆</span>
-      <span class="s" data-i="4">☆</span>
-      <span class="s" data-i="5">☆</span>
-    </span>
-    <span class="star-log-count">0 / 5</span>
+    <span class="star-log-stars">${Array.from({length:TOTAL_STARS},(_,i)=>`<span class="s" data-i="${i+1}">☆</span>`).join('')}</span>
+    <span class="star-log-count">0 / ${TOTAL_STARS}</span>
   `;
   document.body.appendChild(log);
 
-  // 토스트 생성
-  const toast = document.createElement('div');
-  toast.className = 'star-toast';
-  document.body.appendChild(toast);
+  // ── 토스트 ──
+  const toastEl = document.createElement('div');
+  toastEl.className = 'star-toast';
+  document.body.appendChild(toastEl);
+  let toastTimer = null, toastHideTimer = null;
 
-  let toastTimer = null;
-  let toastHideTimer = null;
   function showToast(msg, isUnlock){
-    // 토스트 내부 구조: 글리프 + 텍스트 + 카운트
-    const parsed = msg; // {glyph, text, count}
-    toast.innerHTML = `
-      <span class="toast-glyph">${parsed.glyph || '✦'}</span>
-      <span class="toast-text">${parsed.text || ''}</span>
-      ${parsed.count ? `<span class="toast-count">${parsed.count}</span>` : ''}
+    toastEl.innerHTML = `
+      <span class="toast-glyph">${msg.glyph || '✦'}</span>
+      <span class="toast-text">${msg.text || ''}</span>
+      ${msg.count ? `<span class="toast-count">${msg.count}</span>` : ''}
     `;
-    toast.classList.toggle('unlock', !!isUnlock);
-    toast.classList.remove('hide');
-    toast.classList.remove('show');
-    void toast.offsetWidth; // reflow
-    toast.classList.add('show');
-    if (toastTimer) clearTimeout(toastTimer);
+    toastEl.classList.toggle('unlock', !!isUnlock);
+    toastEl.classList.remove('hide');
+    toastEl.classList.remove('show');
+    void toastEl.offsetWidth;
+    toastEl.classList.add('show');
+    if (toastTimer)     clearTimeout(toastTimer);
     if (toastHideTimer) clearTimeout(toastHideTimer);
-    const visibleMs = isUnlock ? 4000 : 2200;
+    const ms = isUnlock ? 4200 : 2400;
     toastTimer = setTimeout(() => {
-      toast.classList.remove('show');
-      toast.classList.add('hide');
-      toastHideTimer = setTimeout(() => toast.classList.remove('hide'), 400);
-    }, visibleMs);
+      toastEl.classList.remove('show');
+      toastEl.classList.add('hide');
+      toastHideTimer = setTimeout(() => toastEl.classList.remove('hide'), 400);
+    }, ms);
   }
 
-  function updateLog(justFoundIdx){
+  // ── Star Log 업데이트 ──
+  function updateLog(justFoundId){
     const stars = log.querySelectorAll('.s');
     let count = 0;
     stars.forEach((el, i) => {
       const idx = i + 1;
-      if (collected.has(idx)) {
+      if (collected.has(idx)){
         el.classList.add('on');
         el.textContent = '★';
         count++;
-        if (idx === justFoundIdx) {
+        if (idx === justFoundId){
           el.classList.add('just-found');
           setTimeout(() => el.classList.remove('just-found'), 700);
         }
       }
     });
     const countEl = log.querySelector('.star-log-count');
-    if (count === TOTAL_STARS) {
+    if (count === TOTAL_STARS){
       countEl.textContent = 'unlocked ✦';
       log.classList.add('complete');
       log.setAttribute('title', '클릭해서 시크릿 페이지 진입');
+      log.classList.add('visible');
     } else {
-      countEl.textContent = `${count} / 5`;
+      countEl.textContent = `${count} / ${TOTAL_STARS}`;
     }
-    // ★ default 숨김 정책: star-log는 트리거 버튼(✦)으로만 열림.
-    // 단, count === TOTAL_STARS일 때는 자동 노출 (마지막 별 unlock 보상).
-    if (count === TOTAL_STARS) log.classList.add('visible');
-
-    // 우하단 quest-toggle 버튼 상태 동기화는 외부 script에서 처리 (모듈 실패에 robust)
   }
 
-  // 별 클릭 시 폭발 파티클 (12개 별가루 사방으로)
-  function explodeStarBurst(centerX, centerY){
-    const PARTICLE_COUNT = 14;
-    const colors = ['#ff4488', '#ffb0d8', '#ff80c8', '#ffffff', '#ff6ba8'];
-    const glyphs = ['✦', '✧', '✦', '✧', '·'];
-    for (let i = 0; i < PARTICLE_COUNT; i++){
+  // ── 별 폭발 파티클 ──
+  function explodeBurst(cx, cy){
+    const colors = ['#d4ff3a','#ff4488','#ffb0d8','#ffffff','#8bff5a'];
+    const glyphs = ['✦','✧','★','·','✦'];
+    for (let i = 0; i < 14; i++){
       const p = document.createElement('span');
       p.className = 'star-explode-particle';
-      p.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
-      const angle = (i / PARTICLE_COUNT) * Math.PI * 2 + (Math.random() - 0.5) * 0.4;
-      const dist = 90 + Math.random() * 80;
-      const dx = Math.cos(angle) * dist;
-      const dy = Math.sin(angle) * dist;
-      p.style.left = centerX + 'px';
-      p.style.top = centerY + 'px';
-      p.style.color = colors[Math.floor(Math.random() * colors.length)];
-      p.style.fontSize = (0.55 + Math.random() * 0.95) + 'rem';
-      p.style.setProperty('--ex-dx', dx + 'px');
-      p.style.setProperty('--ex-dy', dy + 'px');
-      p.style.setProperty('--ex-rot', (Math.random() * 720 - 360) + 'deg');
-      p.style.animationDelay = (Math.random() * 80) + 'ms';
+      p.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+      const angle = (i/14)*Math.PI*2 + (Math.random()-0.5)*0.5;
+      const dist  = 80 + Math.random()*100;
+      p.style.cssText = `left:${cx}px;top:${cy}px;color:${colors[Math.floor(Math.random()*colors.length)]};font-size:${0.5+Math.random()*0.9}rem;`;
+      p.style.setProperty('--ex-dx', Math.cos(angle)*dist+'px');
+      p.style.setProperty('--ex-dy', Math.sin(angle)*dist+'px');
+      p.style.setProperty('--ex-rot', (Math.random()*720-360)+'deg');
+      p.style.animationDelay = (Math.random()*80)+'ms';
       document.body.appendChild(p);
-      setTimeout(() => { try { p.remove(); } catch(_) {} }, 1100);
+      setTimeout(() => p.remove(), 1100);
     }
   }
 
+  // ── 별 수집 ──
   function collectStar(id, el){
     id = parseInt(id, 10);
     if (collected.has(id)) return;
     collected.add(id);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...collected])); } catch(_) {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...collected])); } catch(_){}
 
-    // 별 위치에서 폭발 (clientRect 사용)
     const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      explodeStarBurst(cx, cy);
-    }
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top  + rect.height/2;
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) explodeBurst(cx, cy);
 
     el.classList.add('found');
-    setTimeout(() => { try { el.remove(); } catch(_) {} }, 700);
+    setTimeout(() => { try { el.remove(); } catch(_){} }, 700);
 
-    showToast({ glyph: '✦', text: 'Star found', count: `${collected.size} / ?` });
+    // ── 스트릭 ──
+    const now = Date.now();
+    if (now - lastStarTime < STREAK_WIN){ streakCount++; } else { streakCount = 1; }
+    lastStarTime = now;
+
+    const msg = STAR_MSGS[(id-1) % STAR_MSGS.length];
+    const isAll = collected.size === TOTAL_STARS;
+
+    if (streakCount >= 3){
+      showToast({ glyph:'🔥', text:`BLAZING ×${streakCount}`, count: msg }, false);
+    } else {
+      showToast({ glyph:'✦', text: msg, count: collected.size < TOTAL_STARS ? `★×${collected.size}` : '' }, isAll);
+    }
     updateLog(id);
-
-    // 사운드: 별 줍는 종소리
     if (window.Sound) window.Sound.play('star');
 
-    // ── 상태창 자동 오픈 + 별 뿅 이펙트 ──
+    // Phase II 해금 시 추가 토스트
+    if (collected.size === PHASE_THRESH){
+      setTimeout(() => showToast({ glyph:'⭐', text:'PHASE II UNLOCKED', count:'5 more stars!' }, true), 1200);
+    }
+
+    // ── 상태창 오픈 + 별 뿅 ──
     if (typeof window._openStatusPanel === 'function') window._openStatusPanel();
     setTimeout(() => {
       if (typeof window.syncStarQuest === 'function') window.syncStarQuest();
-      // 방금 추가된 별에 pop 애니메이션
-      const sqEl = document.querySelector(`#status-quest-stars .sq[data-i="${id}"]`);
+      const sqEl = document.querySelector(`#status-quest-stars .sq[data-i="${id}"], #status-quest-stars-2 .sq[data-i="${id}"]`);
       if (sqEl){ sqEl.classList.add('sq-pop'); setTimeout(() => sqEl.classList.remove('sq-pop'), 800); }
-    }, 180);
+    }, 200);
 
-    if (collected.size === TOTAL_STARS) {
-      // 사운드: 5개 다 모음 — 팡파레 (약간 딜레이)
+    if (isAll){
       if (window.Sound) setTimeout(() => window.Sound.play('starComplete'), 300);
-      setTimeout(() => {
-        showToast({ glyph: '✦', text: 'All stars found!' }, true);
-      }, 800);
-      setTimeout(() => {
-        // star-log 클릭 유도 메시지
-        if (typeof toast === 'function') toast('★ Star Log를 클릭해봐요', 'success');
-      }, 2400);
-      // footer 힌트 강조
       const hint = document.querySelector('.footer-easter');
-      if (hint){
-        hint.style.opacity = '1';
-        hint.style.transition = 'opacity 0.6s ease';
-        hint.style.color = 'var(--lime)';
-        hint.style.textShadow = '0 0 10px var(--lime-glow)';
-      }
+      if (hint){ hint.style.opacity='1'; hint.style.color='var(--lime)'; hint.style.textShadow='0 0 10px var(--lime-glow)'; }
     }
   }
 
-  // 별 클릭 — 이벤트 위임 (동적으로 생성된 별도 작동)
+  // ── 수집된 별 DOM에서 제거 ──
   function removeCollectedStars(){
     document.querySelectorAll('.hidden-star').forEach(el => {
-      const id = parseInt(el.dataset.starId, 10);
-      if (collected.has(id)) {
-        try { el.remove(); } catch(_) {}
-      }
+      if (collected.has(parseInt(el.dataset.starId,10))) try{ el.remove(); }catch(_){}
     });
   }
   removeCollectedStars();
-  // 동적으로 카드 렌더 후 호출 가능
   window._removeCollectedStars = removeCollectedStars;
 
+  // ── 랜덤 재배치 시스템 ──
+  function placeStarsRandom(){
+    // 기존 dynamic 별 제거
+    document.querySelectorAll('.hidden-star.dynamic').forEach(el => { try{ el.remove(); }catch(_){} });
+
+    // 구역 섞기 (각 별이 다른 구역에 배치)
+    const shuffled = [...ZONES].sort(() => Math.random()-0.5);
+
+    shuffled.forEach((zone, idx) => {
+      const starId = idx + 1;
+      if (collected.has(starId)) return; // 이미 수집된 건 배치 안 함
+
+      const section = document.querySelector(zone.sel);
+      if (!section) return;
+
+      // section이 position:static이면 relative로
+      if (getComputedStyle(section).position === 'static'){
+        section.style.position = 'relative';
+      }
+
+      const star = document.createElement('span');
+      star.className = 'hidden-star dynamic';
+      star.dataset.starId = starId;
+      star.title = '?';
+      star.textContent = '✦';
+      star.style.cssText = `
+        position:absolute;
+        top:${zone.t1 + Math.random()*(zone.t2-zone.t1)}%;
+        left:${zone.l1 + Math.random()*(zone.l2-zone.l1)}%;
+        z-index:5;
+        font-size:1rem;
+        cursor:pointer;
+        pointer-events:auto;
+      `;
+      section.appendChild(star);
+    });
+  }
+
+  // ── 초기화 버튼 ──
+  const resetBtn = document.getElementById('sq-reset-btn');
+  if (resetBtn){
+    resetBtn.addEventListener('click', () => {
+      // 기존 html 별 + dynamic 별 모두 제거
+      document.querySelectorAll('.hidden-star').forEach(el => { try{ el.remove(); }catch(_){} });
+      // 수집 기록 초기화
+      collected.clear();
+      try { localStorage.removeItem(STORAGE_KEY); } catch(_){}
+      streakCount = 0; lastStarTime = 0;
+
+      // 회전 애니메이션
+      resetBtn.classList.add('spinning');
+      setTimeout(() => resetBtn.classList.remove('spinning'), 500);
+
+      // Hunt Mode 오버레이
+      const overlay = document.getElementById('hunt-overlay');
+      if (overlay){
+        overlay.classList.add('active');
+        setTimeout(() => overlay.classList.remove('active'), 2200);
+      }
+
+      // 별 랜덤 배치 (overlay 중 실행)
+      setTimeout(() => {
+        placeStarsRandom();
+        if (typeof window.syncStarQuest === 'function') window.syncStarQuest();
+        updateLog();
+      }, 400);
+    });
+  }
+
+  // ── 이벤트 위임 ──
   document.body.addEventListener('click', (e) => {
     const star = e.target.closest('.hidden-star');
     if (!star) return;
     const id = parseInt(star.dataset.starId, 10);
     if (isNaN(id) || collected.has(id)) return;
-    e.stopPropagation();
-    e.preventDefault();
+    e.stopPropagation(); e.preventDefault();
     collectStar(id, star);
   }, true);
   document.body.addEventListener('touchend', (e) => {
@@ -11882,27 +12127,24 @@ statusSaveBtn.addEventListener('click', async () => {
     if (!star) return;
     const id = parseInt(star.dataset.starId, 10);
     if (isNaN(id) || collected.has(id)) return;
-    e.stopPropagation();
-    e.preventDefault();
+    e.stopPropagation(); e.preventDefault();
     collectStar(id, star);
   }, { passive: false, capture: true });
 
-  // Star Log 클릭 시 시크릿 진입 (5개 모았을 때만)
+  // Star Log → 시크릿 진입
   log.addEventListener('click', () => {
     if (collected.size < TOTAL_STARS) return;
-    if (typeof openSecret === 'function') {
-      openSecret();
-    }
+    if (typeof openSecret === 'function') openSecret();
   });
 
-  // 초기 상태 반영
   updateLog();
 
-  // 디버그용 리셋 (콘솔에서 호출 가능)
   window._resetStars = function(){
-    try { localStorage.removeItem(STORAGE_KEY); } catch(_) {}
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(_){}
     location.reload();
   };
+})();
+
 })();
 
 // ============== PROJECTS 카드 HOVER 별 파티클 ==============
@@ -13246,46 +13488,35 @@ document.addEventListener('keydown', (e) => {
 ===================================================== -->
 <script>
 (function(){
-  const dateEl = document.getElementById('dt-date');
-  const dayEl  = document.getElementById('dt-day');
-  const timeEl = document.getElementById('dt-time');
-  const spDt   = document.getElementById('sp-datetime');
+  const spDt = document.getElementById('sp-datetime');
+  if (!spDt) return;
 
   const DAY_KO = ['일','월','화','수','목','금','토'];
   const DAY_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
 
-  function update(){
+  function updateSpDt(){
     const now = new Date();
     const lang = (window.getLang && window.getLang()) || 'ko';
-    const Y = now.getFullYear();
-    const M = pad(now.getMonth() + 1);
-    const D = pad(now.getDate());
-    const h = pad(now.getHours());
-    const m = pad(now.getMinutes());
-    const s = pad(now.getSeconds());
-    const dayName = (lang === 'en' ? DAY_EN : DAY_KO)[now.getDay()];
-
-    if (dateEl){ dateEl.textContent = `${Y}.${M}.${D}`; }
-    if (dayEl)  { dayEl.textContent  = dayName; }
-    if (timeEl) { timeEl.textContent = `${h}:${m}:${s}`; }
-
-    // 상태창 헤더: MM/DD(요일) HH:mm 형식으로 크게
-    if (spDt){
-      if (lang === 'en'){
-        spDt.textContent = `${M}/${D}(${dayName}) ${h}:${m}`;
-      } else {
-        spDt.textContent = `${M}/${D}(${dayName}) ${h}:${m}`;
-      }
-    }
+    const M   = pad(now.getMonth() + 1);
+    const D   = pad(now.getDate());
+    const h   = pad(now.getHours());
+    const m   = pad(now.getMinutes());
+    const day = (lang === 'en' ? DAY_EN : DAY_KO)[now.getDay()];
+    spDt.textContent = `${M}/${D}(${day}) ${h}:${m}`;
   }
-  update();
-  setInterval(update, 1000);
 
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) update();
-  });
+  // DOM 준비 후 즉시 실행, 이후 1분 단위 갱신
+  updateSpDt();
+  setInterval(updateSpDt, 1000);
+
+  // 언어 전환 시에도 즉시 갱신
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) updateSpDt(); });
+
+  // getLang이 나중에 정의되는 경우를 대비해 300ms 후 한 번 더
+  setTimeout(updateSpDt, 300);
+  setTimeout(updateSpDt, 1000);
 })();
 </script>
 
@@ -13297,9 +13528,7 @@ document.addEventListener('keydown', (e) => {
 ===================================================== -->
 <script>
 (function(){
-  const stars   = document.querySelectorAll('#status-quest-stars .sq');
   const countEl = document.getElementById('status-quest-count');
-  if (!countEl || !stars.length) return;
 
   function getCollected(){
     try {
@@ -13312,32 +13541,44 @@ document.addEventListener('keydown', (e) => {
   function syncQuest(){
     const collected = getCollected();
     const count = collected.size;
-    const TOTAL = 5;
+    const TOTAL = 10;
+    const PHASE = 5;
 
-    stars.forEach((el, idx) => {
-      const i = idx + 1;
-      if (collected.has(i)){
-        el.textContent = '★';
-        el.classList.add('found');
-      } else {
-        el.textContent = '★'; // 내용은 동일, 그러나 found 없으면 display:none
-        el.classList.remove('found');
-      }
+    // Phase I 별 (1~5)
+    const p1Stars = document.querySelectorAll('#status-quest-stars .sq');
+    p1Stars.forEach(el => {
+      const i = parseInt(el.dataset.i, 10);
+      el.textContent = '★';
+      el.classList.toggle('found', collected.has(i));
     });
 
-    // count 표시: 0개면 완전 숨김, 발견 중이면 "★×N", 완성이면 특별 표시
-    if (count === 0){
-      countEl.textContent = '';
-      countEl.style.display = 'none';
-      countEl.classList.remove('unlocked');
-    } else if (count < TOTAL){
-      countEl.textContent = `★ × ${count}`;
-      countEl.style.display = '';
-      countEl.classList.remove('unlocked');
-    } else {
-      countEl.textContent = `★ × ${TOTAL} ✦`;
-      countEl.style.display = '';
-      countEl.classList.add('unlocked');
+    // Phase II 별 (6~10)
+    const p2Stars = document.querySelectorAll('#status-quest-stars-2 .sq');
+    p2Stars.forEach(el => {
+      const i = parseInt(el.dataset.i, 10);
+      el.textContent = '★';
+      el.classList.toggle('found', collected.has(i));
+    });
+
+    // Phase II 블록 해금
+    const phase2 = document.getElementById('sq-phase-2');
+    if (phase2) phase2.classList.toggle('unlocked', count >= PHASE);
+
+    // count 표시
+    if (countEl){
+      if (count === 0){
+        countEl.textContent = '';
+        countEl.style.display = 'none';
+        countEl.classList.remove('unlocked');
+      } else if (count < TOTAL){
+        countEl.textContent = `★×${count}`;
+        countEl.style.display = '';
+        countEl.classList.remove('unlocked');
+      } else {
+        countEl.textContent = `ALL ✦`;
+        countEl.style.display = '';
+        countEl.classList.add('unlocked');
+      }
     }
   }
   syncQuest();
