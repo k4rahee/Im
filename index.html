@@ -4671,96 +4671,79 @@
   /* ── 패널 헤더 ── */
   .status-panel-header{
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
-    padding: 1rem 1.2rem 0.9rem;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    background: rgba(255,255,255,0.015);
+    padding: 0.85rem 1.15rem 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  .sp-header-main{ display: flex; flex-direction: column; gap: 0.25rem; }
+  .sp-header-main{ display: flex; flex-direction: column; gap: 0.18rem; }
   .sp-datetime{
     font-family: var(--display);
-    font-size: 1.45rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--ink);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
-  .sp-subtitle{
+  /* sp-subtitle 제거 — CHURRO's STATUS 불필요 */
+  .sp-subtitle{ display: none; }
+  .status-panel-online{
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     font-family: var(--mono);
-    font-size: 0.5rem;
-    letter-spacing: 0.16em;
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ink-3);
     opacity: 0.6;
   }
-  .status-panel-title{
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .status-panel-title::before{
+  .status-panel-online::before{
     content: '';
     display: inline-block;
     width: 5px; height: 5px;
     border-radius: 50%;
     background: var(--lime);
-    box-shadow: 0 0 6px var(--lime-glow);
+    box-shadow: 0 0 5px var(--lime-glow);
     animation: statusPulse 2s ease-in-out infinite;
-  }
-  .status-panel-online{
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    color: var(--lime);
-    opacity: 0.75;
-    padding: 0.25rem 0.55rem;
-    border: 1px solid rgba(212,255,58,0.25);
-    border-radius: 999px;
-    align-self: flex-start;
+    flex-shrink: 0;
   }
 
   /* ── 패널 내용 행 ── */
-  .status-body{
-    padding: 0.4rem 0 0.2rem;
-  }
+  .status-body{ padding: 0.25rem 0; }
   .status-row{
     display: flex;
     align-items: baseline;
-    gap: 0.6rem;
-    padding: 0.7rem 1.2rem;
+    padding: 0.55rem 1.15rem;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     transition: background 0.15s ease;
+    gap: 0.75rem;
   }
   .status-row:last-child{ border-bottom: none; }
-  .status-row:hover{ background: rgba(255,255,255,0.025); }
+  .status-row:hover{ background: rgba(255,255,255,0.02); }
   .status-key{
     font-family: var(--mono);
-    font-size: 0.52rem;
-    letter-spacing: 0.1em;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.28);
+    color: rgba(255,255,255,0.3);
     flex-shrink: 0;
-    min-width: 46px;
-    padding-top: 2px;
+    min-width: 48px;
+    padding-top: 1px;
   }
   .status-val{
     font-family: var(--display);
-    font-size: 1.05rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--ink);
-    line-height: 1.3;
+    line-height: 1.35;
     word-break: break-word;
+    flex: 1;
   }
   .status-val.lime{
     color: var(--lime);
-    text-shadow: 0 0 20px rgba(212,255,58,0.25);
+    text-shadow: 0 0 16px rgba(212,255,58,0.2);
   }
   .status-edit-btn{
     display: none;
@@ -4915,8 +4898,8 @@
   }
   .status-quest-stars .sq{
     display: none;
-    color: var(--pink);
-    text-shadow: 0 0 6px rgba(255,68,136,0.5);
+    color: var(--lime);
+    text-shadow: 0 0 5px rgba(212,255,58,0.4);
     font-family: var(--mono);
     width: auto;
   }
@@ -4929,6 +4912,14 @@
     55% { transform: scale(1.6) rotate(8deg); opacity:1; filter:blur(0); }
     100%{ transform: scale(1)   rotate(0deg); opacity:1; }
   }
+  /* 초기화 시 별 흩어지는 이펙트 */
+  .status-quest-stars .sq.sq-scatter{
+    animation: sqScatter 0.5s cubic-bezier(.4,.1,.6,1) forwards;
+  }
+  @keyframes sqScatter{
+    0%  { transform: scale(1) translate(0,0) rotate(0deg); opacity:1; }
+    100%{ transform: scale(0) translate(var(--sx),var(--sy)) rotate(var(--sr)); opacity:0; }
+  }
 
   .status-quest-hint{
     font-family: var(--mono);
@@ -4938,7 +4929,7 @@
     letter-spacing: 0.03em;
     margin-top: 0.3rem;
   }
-  body.light-mode .status-quest-stars .sq.found{ color: #d63384; text-shadow: none; }
+  body.light-mode .status-quest-stars .sq.found{ color: var(--lime); text-shadow: none; }
   body.light-mode .sq-phase-label{ opacity: 0.4; }
   .status-edit-form{ display: none; margin: 0 1.2rem 1rem; }
   .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.5rem; }
@@ -4985,11 +4976,12 @@
     .status-widget{
       bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
       right: 1rem;
-      max-width: 60vw;
+      /* max-width 제거 — panel은 자체 max-width: 85vw로 제어 */
+      align-items: flex-end;
     }
-    .status-panel{ min-width: 240px; max-width: 85vw; }
-    .status-toggle{ font-size: 0.65rem; padding: 0.5rem 0.85rem; }
-    .theme-toggle{ width: 34px; height: 34px; font-size: 0.85rem; border-radius: 9px; }
+    .status-panel{ min-width: 260px; max-width: 88vw; right: 0; }
+    .status-toggle{ font-size: 0.65rem; padding: 0.5rem 0.85rem; touch-action: manipulation; }
+    .theme-toggle{ width: 34px; height: 34px; font-size: 0.85rem; border-radius: 9px; touch-action: manipulation; }
     /* 모바일 토글 row: 가로로 깔끔하게 */
     .status-btn-row{
       flex-wrap: nowrap;
@@ -5024,7 +5016,6 @@
     .topbar .lang-switch,
     .topbar .admin-lock{ display: none !important; }
     .status-mobile-nav{ display: none !important; }
-  }
   }
   .sm-lang{
     background: rgba(10,10,13,0.88);
@@ -5356,32 +5347,50 @@
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 0.5rem;
+    gap: 0.45rem;
     pointer-events: none;
     z-index: var(--z-secret);
   }
+  /* 화살표: 항상 은은하게 존재, 배경처럼 */
   .secret-arrow{
-    font-size: 1.2rem;
-    color: var(--lime);
-    text-shadow: 0 0 12px var(--lime-glow);
-    opacity: 0;
-    transform: scale(0.4);
-    transition: none;
+    font-size: 0.95rem;
+    color: var(--ink-3);
+    opacity: 0.07;
+    transform: scale(1);
+    transition: opacity 0.3s ease, color 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease;
     font-family: var(--display);
-    font-weight: 700;
+    font-weight: 400;
+    user-select: none;
   }
-  .secret-arrow.pop{
-    animation: arrowPop 0.55s cubic-bezier(.2,.7,.3,1) forwards;
+  /* 올바른 키 입력 시 — 초록으로 */
+  .secret-arrow.active{
+    color: var(--lime);
+    opacity: 1;
+    text-shadow: 0 0 10px var(--lime-glow), 0 0 20px rgba(212,255,58,0.3);
+    transform: scale(1.3);
+    animation: arrowActivePop 0.45s cubic-bezier(.2,.8,.3,1) forwards;
   }
-  .secret-arrow.done{
+  @keyframes arrowActivePop{
+    0%  { transform: scale(0.8) translateY(3px); opacity:0.5; }
+    50% { transform: scale(1.4) translateY(-2px); opacity:1; }
+    100%{ transform: scale(1.2); opacity:1; }
+  }
+  /* 틀린 키 입력 시 — 잠깐 붉게 흔들림 */
+  .secret-arrow.wrong{
     color: var(--pink);
-    text-shadow: 0 0 12px var(--pink-glow);
+    opacity: 0.5;
+    animation: arrowWrong 0.35s ease forwards;
   }
-  @keyframes arrowPop{
-    0%  { opacity:0; transform: scale(0.3) translateY(6px); }
-    30% { opacity:1; transform: scale(1.3) translateY(-2px); }
-    60% { opacity:1; transform: scale(1);  }
-    100%{ opacity:0; transform: scale(0.8) translateY(-4px); }
+  @keyframes arrowWrong{
+    0%,100%{ transform: translateX(0); }
+    25%{ transform: translateX(-3px); }
+    75%{ transform: translateX(3px); }
+  }
+  /* 전체 시퀀스 완료 */
+  .secret-arrow.done{
+    color: var(--lime);
+    opacity: 1;
+    text-shadow: 0 0 12px var(--lime-glow);
   }
   .reveal{
     opacity: 0;
@@ -6399,8 +6408,8 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
 /* ============== HIDDEN STARS + STAR LOG (별 수집 시스템) ============== */
 .hidden-star{
   display: inline-block;
-  font-size: 1.45rem;
-  color: var(--pink);
+  font-size: 1rem;
+  color: var(--lime);
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
@@ -6408,44 +6417,40 @@ body.rahee-secret-darkweb-mode .rahee-darkweb-redacted::after{
   pointer-events: auto;
   line-height: 1;
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.25s ease, text-shadow 0.25s ease;
-  filter: drop-shadow(0 0 4px rgba(255, 68, 136, 0.4));
+  position: relative;
+  z-index: var(--z-toast);
+  transition: opacity 0.4s ease, transform 0.2s ease;
+  filter: drop-shadow(0 0 3px rgba(212,255,58,0.3));
 }
-
-/* 데스크톱: 섹션 전체 hover 시 등장 (마우스가 영역 어디든 가면 보임) */
+/* 데스크톱: 섹션 hover 시 등장 */
 @media (hover: hover){
   section:hover .hidden-star,
   .micro-top:hover .hidden-star,
   footer:hover .hidden-star{
-    opacity: 0.55;
+    opacity: 0.5;
   }
 }
-
-/* 터치 기기: 살짝 보이게 (탐색 가능) */
+/* 터치 기기: 항상 약간 보이게 */
 @media (hover: none){
-  .hidden-star{ opacity: 0.4; }
+  .hidden-star{ opacity: 0.35; }
 }
-
 .hidden-star:hover,
 .hidden-star:focus-visible{
   opacity: 1 !important;
-  transform: scale(1.5) rotate(20deg);
-  text-shadow:
-    0 0 10px var(--pink),
-    0 0 20px var(--pink),
-    0 0 30px rgba(255, 68, 136, 0.6);
+  transform: scale(1.4) rotate(15deg);
+  filter: drop-shadow(0 0 8px rgba(212,255,58,0.6));
   outline: none;
 }
 .hidden-star.found{
   pointer-events: none;
-  animation: starFoundPop 0.7s cubic-bezier(.3,.7,.4,1) forwards;
+  animation: starFoundPop 0.6s cubic-bezier(.3,.7,.4,1) forwards;
 }
 @keyframes starFoundPop{
-  0%   { opacity: 1; transform: scale(1) rotate(0deg); }
-  35%  { opacity: 1; transform: scale(2.6) rotate(180deg); text-shadow: 0 0 30px var(--pink), 0 0 50px var(--pink), 0 0 70px rgba(255, 68, 136, 0.8); }
-  100% { opacity: 0; transform: scale(0) rotate(540deg); }
+  0%  { opacity:1; transform: scale(1); }
+  40% { opacity:1; transform: scale(2.2) rotate(180deg); filter: drop-shadow(0 0 16px rgba(212,255,58,0.8)); }
+  100%{ opacity:0; transform: scale(0) rotate(540deg); }
 }
-body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(214, 51, 132, 0.5)); }
+body.light-mode .hidden-star{ color: var(--lime); filter: none; }
 
 /* 별 클릭 시 폭발 파티클 */
 .star-explode-particle{
@@ -6566,178 +6571,127 @@ body.light-mode .hidden-star{ color: #d63384; filter: drop-shadow(0 0 4px rgba(2
 
 /* Star Log UI — 더 이상 사용 안 함 (status-panel 안의 Star Quest로 통합됨) */
 .star-log{
-  display: none !important;
+  display: none !important; /* 현재 미사용 — status panel 통합 */
 }
 .star-log-label{
-  letter-spacing: 0.04em;
-  color: var(--pink);
+  letter-spacing: 0.06em;
+  color: var(--lime);
   font-weight: 600;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 }
 .star-log-stars{
   display: flex;
   gap: 0.2rem;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1;
 }
 .star-log-stars .s{
-  color: rgba(255, 255, 255, 0.18);
-  transition: color 0.4s ease, text-shadow 0.4s ease, transform 0.4s ease;
+  color: rgba(255, 255, 255, 0.12);
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 .star-log-stars .s.on{
-  color: var(--pink);
-  text-shadow: 0 0 8px var(--pink), 0 0 16px rgba(255, 68, 136, 0.6);
+  color: var(--lime);
+  text-shadow: 0 0 8px var(--lime-glow);
 }
 .star-log-stars .s.just-found{
-  animation: justFound 0.7s cubic-bezier(.3,.7,.4,1);
+  animation: justFound 0.6s cubic-bezier(.3,.7,.4,1);
 }
 @keyframes justFound{
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.8) rotate(-30deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0%  { transform: scale(1); }
+  40% { transform: scale(1.6) rotate(-20deg); }
+  100%{ transform: scale(1) rotate(0deg); }
 }
 .star-log-count{
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.4);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0;
   font-family: var(--mono);
 }
 .star-log.complete{
-  border-color: rgba(255, 68, 136, 0.6);
-  background: linear-gradient(135deg, rgba(255, 68, 136, 0.18), rgba(20, 10, 18, 0.9));
+  border-color: rgba(212,255,58,0.3);
   cursor: pointer;
   pointer-events: auto;
-  animation: completeGlow 2.4s ease-in-out infinite;
 }
-.star-log.complete:hover{
-  background: linear-gradient(135deg, rgba(255, 68, 136, 0.28), rgba(20, 10, 18, 0.95));
-  transform: translateY(-2px);
-}
-.star-log.complete .star-log-count{
-  color: var(--pink);
-  font-weight: 600;
-}
-@keyframes completeGlow{
-  0%, 100% { box-shadow: 0 0 0 rgba(255, 68, 136, 0); }
-  50%      { box-shadow: 0 0 30px rgba(255, 68, 136, 0.5); }
-}
-body.light-mode .star-log{
-  background: rgba(255, 250, 252, 0.92);
-  border-color: rgba(214, 51, 132, 0.2);
-  color: rgba(0, 0, 0, 0.7);
-}
-body.light-mode .star-log-stars .s{ color: rgba(0, 0, 0, 0.18); }
-body.light-mode .star-log-stars .s.on{ color: #d63384; text-shadow: 0 0 8px rgba(214, 51, 132, 0.6); }
-body.light-mode .star-log-label{ color: #d63384; }
-body.light-mode .star-log-count{ color: rgba(0, 0, 0, 0.5); }
+.star-log.complete .star-log-count{ color: var(--lime); font-weight: 600; }
+body.light-mode .star-log-stars .s{ color: rgba(0,0,0,0.12); }
+body.light-mode .star-log-stars .s.on{ color: var(--lime); text-shadow: none; }
+body.light-mode .star-log-label{ color: var(--lime); }
 
-/* Star Found 토스트 — 화면 중앙, 트렌디한 글래스모피즘 + 핑크 */
+/* ── Star Found 토스트 — 2026: 하단 중앙 슬라이드업, 클린 글라스 ── */
 .star-toast{
   position: fixed;
-  top: 50%;
+  bottom: 2rem;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.3) rotate(-8deg);
-  z-index: 9000;
-  background:
-    linear-gradient(135deg, rgba(255, 68, 136, 0.18) 0%, rgba(255, 176, 216, 0.08) 50%, rgba(120, 60, 200, 0.12) 100%),
-    rgba(20, 10, 25, 0.7);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border: 1px solid rgba(255, 68, 136, 0.35);
-  border-radius: 100px;
-  padding: 1.2rem 2.4rem;
-  font-family: var(--display);
-  font-size: 1.55rem;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: -0.015em;
-  text-shadow: 0 0 20px rgba(255, 68, 136, 0.6);
-  box-shadow:
-    0 20px 60px rgba(255, 68, 136, 0.35),
-    0 0 100px rgba(255, 68, 136, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0 rgba(255, 68, 136, 0.15);
-  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+  z-index: var(--z-toast);
+  background: rgba(10,10,13,0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 0.65rem 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
   pointer-events: none;
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.6rem;
+  opacity: 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 0 transparent;
+  /* lime 상단 액센트 */
+  border-top: 1.5px solid var(--lime);
 }
 .star-toast .toast-glyph{
   display: inline-block;
-  font-size: 1.4em;
-  color: var(--pink);
-  text-shadow: 0 0 14px var(--pink), 0 0 24px rgba(255, 68, 136, 0.8);
-  animation: toastGlyphSpin 3s linear infinite;
+  font-size: 0.85rem;
+  color: var(--lime);
 }
-@keyframes toastGlyphSpin{
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.15); }
-  100% { transform: rotate(360deg) scale(1); }
+.star-toast .toast-text{
+  color: var(--ink);
+  font-size: 0.72rem;
 }
 .star-toast .toast-count{
   font-family: var(--mono);
-  font-size: 0.8em;
-  letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-  margin-left: 0.3rem;
-  padding: 0.2rem 0.7rem;
-  background: rgba(255, 68, 136, 0.2);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 68, 136, 0.3);
+  font-size: 0.62rem;
+  color: var(--lime);
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  background: rgba(212,255,58,0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(212,255,58,0.2);
 }
 .star-toast.show{
-  animation: starToastEnter 0.85s cubic-bezier(.34, 1.56, .64, 1) forwards;
+  animation: starToastIn 0.4s cubic-bezier(.2,.9,.3,1) forwards;
 }
-@keyframes starToastEnter{
-  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-8deg); }
-  55%  { opacity: 1; transform: translate(-50%, -50%) scale(1.12) rotate(2deg); }
-  75%  { transform: translate(-50%, -50%) scale(0.96) rotate(-0.5deg); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+@keyframes starToastIn{
+  from{ opacity:0; transform: translateX(-50%) translateY(16px); }
+  to  { opacity:1; transform: translateX(-50%) translateY(0); }
 }
 .star-toast.hide{
-  animation: starToastExit 0.4s cubic-bezier(.4, 0, .8, .4) forwards;
+  animation: starToastOut 0.3s ease forwards;
 }
-@keyframes starToastExit{
-  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2) translateY(-20px); }
+@keyframes starToastOut{
+  from{ opacity:1; transform: translateX(-50%) translateY(0); }
+  to  { opacity:0; transform: translateX(-50%) translateY(-8px); }
 }
+/* unlock 시 — lime 강조 */
 .star-toast.unlock{
-  font-size: 2rem;
-  padding: 1.6rem 3.2rem;
-  background:
-    linear-gradient(135deg, rgba(255, 68, 136, 0.32) 0%, rgba(255, 176, 216, 0.18) 50%, rgba(120, 60, 200, 0.22) 100%),
-    rgba(20, 10, 25, 0.75);
-  border-color: rgba(255, 68, 136, 0.55);
-  text-shadow: 0 0 28px rgba(255, 68, 136, 0.9), 0 0 56px rgba(255, 68, 136, 0.5);
-  box-shadow:
-    0 20px 80px rgba(255, 68, 136, 0.5),
-    0 0 160px rgba(255, 68, 136, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  padding: 0.8rem 1.4rem;
+  font-size: 0.78rem;
+  border-top-color: var(--lime);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,255,58,0.08);
 }
-.star-toast.unlock.show{
-  animation: starToastEnter 0.85s cubic-bezier(.34, 1.56, .64, 1) forwards,
-             starToastUnlockFloat 3s ease-in-out 0.85s infinite;
-}
-@keyframes starToastUnlockFloat{
-  0%, 100% { box-shadow: 0 20px 80px rgba(255, 68, 136, 0.5), 0 0 160px rgba(255, 68, 136, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
-  50%      { box-shadow: 0 30px 100px rgba(255, 68, 136, 0.7), 0 0 200px rgba(255, 68, 136, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
-}
-
+.star-toast.unlock .toast-glyph{ font-size: 1rem; }
 body.light-mode .star-toast{
-  background:
-    linear-gradient(135deg, rgba(255, 68, 136, 0.12) 0%, rgba(255, 176, 216, 0.06) 50%, rgba(120, 60, 200, 0.08) 100%),
-    rgba(255, 250, 252, 0.85);
-  color: #1a0a18;
-  border-color: rgba(214, 51, 132, 0.4);
-  text-shadow: 0 0 14px rgba(214, 51, 132, 0.4);
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(0,0,0,0.08);
+  border-top-color: var(--lime);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  color: var(--ink-2);
 }
-body.light-mode .star-toast .toast-glyph{ color: #d63384; text-shadow: 0 0 14px #d63384; }
-body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 51, 132, 0.15); border-color: rgba(214, 51, 132, 0.35); }
-
 /* Projects 카드 hover 시 작은 별 파티클 */
 .hover-sparkle{
   position: fixed;
@@ -6757,24 +6711,8 @@ body.light-mode .star-toast .toast-count{ color: #1a0a18; background: rgba(214, 
 }
 
 @media (max-width: 768px){
-  .star-log{
-    /* 우상단(퀘스트 위치) — left/bottom override 제거 */
-    left: auto;
-    bottom: auto;
-    right: 1rem;
-    top: 4rem;
-    padding: 0.45rem 0.6rem;
-    font-size: 0.6rem;
-    gap: 0.45rem;
-  }
-  .star-log-label{ font-size: 0.58rem; }
-  .star-log-stars{ font-size: 0.78rem; }
-  .star-toast{
-    font-size: 1.1rem;
-    padding: 1.2rem 2rem;
-    letter-spacing: 0.14em;
-  }
-  .star-toast.unlock{ font-size: 1.3rem; padding: 1.4rem 2.2rem; }
+  .star-log{ right: 1rem; top: 4rem; left: auto; bottom: auto; padding: 0.45rem 0.6rem; }
+  .star-toast{ bottom: 5rem; font-size: 0.68rem; padding: 0.6rem 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -8408,7 +8346,7 @@ body.light-mode .big-arrow-icon svg path{
   // 시그니처 버튼 클릭 시 ✦ 미니 파티클 폭발 — SVG로 항상 선명.
   (function(){
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const COLORS = ['#d4ff3a', '#ff4488', '#ffffff', '#ffb0d8'];
+    const COLORS = ['#d4ff3a', '#ffffff', '#f0ffb0', '#d4ff3a'];
     // 4-pointed star SVG path (✦ 모양 — 벡터라 어느 크기든 선명, fill/stroke는 CSS에서 정의)
     const SPARKLE_SVG = '<svg viewBox="-12 -12 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0,-10 L2.5,-2.5 L10,0 L2.5,2.5 L0,10 L-2.5,2.5 L-10,0 L-2.5,-2.5 Z"/></svg>';
     const DOT_SVG = '<svg viewBox="-6 -6 12 12" xmlns="http://www.w3.org/2000/svg"><circle cx="0" cy="0" r="3"/></svg>';
@@ -11493,7 +11431,7 @@ function spawnParticles(){
   const angles = [0, 60, 120, 180, 240, 300];
   angles.forEach((deg, i) => {
     const p = document.createElement('span');
-    p.className = 'particle ' + (Math.random() < 0.4 ? 'pink' : '');
+    p.className = 'particle';
     p.textContent = '✦';
     const distance = 30 + Math.random() * 18;
     const rad = (deg + Math.random() * 30 - 15) * Math.PI / 180;
@@ -11966,8 +11904,8 @@ statusSaveBtn.addEventListener('click', async () => {
 
   // ── 별 폭발 파티클 ──
   function explodeBurst(cx, cy){
-    const colors = ['#d4ff3a','#ff4488','#ffb0d8','#ffffff','#8bff5a'];
-    const glyphs = ['✦','✧','★','·','✦'];
+    const colors = ['#d4ff3a','#ffffff','#d4ff3a','#f0ffb0','#ffffff'];
+    const glyphs = ['✦','✧','✦','·','✦'];
     for (let i = 0; i < 14; i++){
       const p = document.createElement('span');
       p.className = 'star-explode-particle';
@@ -12086,30 +12024,62 @@ statusSaveBtn.addEventListener('click', async () => {
   const resetBtn = document.getElementById('sq-reset-btn');
   if (resetBtn){
     resetBtn.addEventListener('click', () => {
-      // 기존 html 별 + dynamic 별 모두 제거
-      document.querySelectorAll('.hidden-star').forEach(el => { try{ el.remove(); }catch(_){} });
-      // 수집 기록 초기화
-      collected.clear();
-      try { localStorage.removeItem(STORAGE_KEY); } catch(_){}
-      streakCount = 0; lastStarTime = 0;
-
-      // 회전 애니메이션
       resetBtn.classList.add('spinning');
       setTimeout(() => resetBtn.classList.remove('spinning'), 500);
 
-      // Hunt Mode 오버레이
-      const overlay = document.getElementById('hunt-overlay');
-      if (overlay){
-        overlay.classList.add('active');
-        setTimeout(() => overlay.classList.remove('active'), 2200);
-      }
+      // 1. 패널 내 발견된 별들 scatter 이펙트
+      const foundSqs = document.querySelectorAll('.sq.found');
+      foundSqs.forEach(el => {
+        const sx = (Math.random()*160 - 80) + 'px';
+        const sy = (Math.random()*160 - 80) + 'px';
+        const sr = (Math.random()*720 - 360) + 'deg';
+        el.style.setProperty('--sx', sx);
+        el.style.setProperty('--sy', sy);
+        el.style.setProperty('--sr', sr);
+        el.classList.add('sq-scatter');
+      });
 
-      // 별 랜덤 배치 (overlay 중 실행)
+      // 2. scatter 이후 모든 상태 초기화
       setTimeout(() => {
-        placeStarsRandom();
-        if (typeof window.syncStarQuest === 'function') window.syncStarQuest();
+        // 수집 기록 초기화
+        collected.clear();
+        try { localStorage.removeItem(STORAGE_KEY); } catch(_){}
+        streakCount = 0; lastStarTime = 0;
+
+        // DOM 명시적 클리어 (scatter 클래스 제거 + found 제거)
+        document.querySelectorAll('.sq').forEach(el => {
+          el.classList.remove('found','sq-scatter','sq-pop');
+          el.style.removeProperty('--sx');
+          el.style.removeProperty('--sy');
+          el.style.removeProperty('--sr');
+        });
+        // Phase II 닫기
+        const phase2 = document.getElementById('sq-phase-2');
+        if (phase2) phase2.classList.remove('unlocked');
+        // count 숨기기
+        const countEl = document.getElementById('status-quest-count');
+        if (countEl){ countEl.textContent = ''; countEl.style.display = 'none'; countEl.classList.remove('unlocked'); }
+
+        // 기존 HTML 별 + dynamic 별 모두 제거
+        document.querySelectorAll('.hidden-star').forEach(el => { try{ el.remove(); }catch(_){} });
+
+        // star-log 초기화
         updateLog();
-      }, 400);
+
+        // Hunt Mode 오버레이
+        const overlay = document.getElementById('hunt-overlay');
+        if (overlay){
+          overlay.classList.add('active');
+          setTimeout(() => overlay.classList.remove('active'), 2400);
+        }
+
+        // 별 랜덤 재배치
+        setTimeout(() => {
+          placeStarsRandom();
+          if (typeof window.syncStarQuest === 'function') window.syncStarQuest();
+        }, 300);
+
+      }, 550); // scatter 애니메이션 완료 후
     });
   }
 
@@ -12213,11 +12183,23 @@ function getArrowEl(i){ return document.getElementById('sa-' + i); }
 function flashArrow(i, done = false){
   const el = getArrowEl(i);
   if (!el) return;
+  // 이전 상태 초기화
+  el.classList.remove('active','wrong','done');
+  void el.offsetWidth;
   if (done) el.classList.add('done');
-  el.classList.remove('pop');
-  void el.offsetWidth; // reflow
-  el.classList.add('pop');
-  setTimeout(() => { el.classList.remove('pop','done'); }, 600);
+  else el.classList.add('active');
+  setTimeout(() => { el.classList.remove('active','done'); }, 700);
+}
+
+function wrongArrow(){
+  // 모든 화살표 wrong 표시 후 초기화
+  const els = document.querySelectorAll('.secret-arrow');
+  els.forEach(el => {
+    el.classList.remove('active','done');
+    void el.offsetWidth;
+    el.classList.add('wrong');
+    setTimeout(() => el.classList.remove('wrong'), 400);
+  });
 }
 
 let raheeCreepRunning = false;
@@ -12651,14 +12633,21 @@ const ARROW_KEY_MAP = {
 };
 
 document.addEventListener('keydown', (e) => {
+  // 텍스트 입력 중에는 코나미/화살표 효과 완전 차단
+  const tag = e.target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+
   if (raheeSecretDarkwebActive || secretOverlay.classList.contains('open')) return;
 
-  // 방향키 누르면 거대 화살표 표시 (코나미 시퀀스와 무관하게 항상)
+  // 방향키 누르면 거대 화살표 표시
   if (ARROW_KEY_MAP[e.key]){
     showBigArrow(e.key);
   }
 
-  if (!KONAMI.includes(e.key)) { konamiIdx = 0; return; }
+  if (!KONAMI.includes(e.key)){
+    if (konamiIdx > 0){ wrongArrow(); konamiIdx = 0; }
+    return;
+  }
   e.preventDefault();
   if (e.key === KONAMI[konamiIdx]){
     flashArrow(konamiIdx);
@@ -12667,6 +12656,7 @@ document.addEventListener('keydown', (e) => {
     konamiResetTimer = setTimeout(() => { konamiIdx = 0; }, 2000);
     if (konamiIdx === KONAMI.length) openSecret();
   } else {
+    wrongArrow();
     konamiIdx = 0;
   }
 });
