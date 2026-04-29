@@ -4671,11 +4671,29 @@
   /* ── 패널 헤더 ── */
   .status-panel-header{
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    padding: 0.8rem 1.2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    background: rgba(212,255,58,0.03);
+    padding: 1rem 1.2rem 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.015);
+  }
+  .sp-header-main{ display: flex; flex-direction: column; gap: 0.25rem; }
+  .sp-datetime{
+    font-family: var(--display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .sp-subtitle{
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    opacity: 0.6;
   }
   .status-panel-title{
     font-family: var(--mono);
@@ -4698,45 +4716,52 @@
   }
   .status-panel-online{
     font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.08em;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
     color: var(--lime);
-    opacity: 0.8;
+    opacity: 0.75;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid rgba(212,255,58,0.25);
+    border-radius: 999px;
+    align-self: flex-start;
   }
 
   /* ── 패널 내용 행 ── */
   .status-body{
-    padding: 0.5rem 0;
+    padding: 0.4rem 0 0.2rem;
   }
   .status-row{
     display: flex;
-    align-items: flex-start;
-    gap: 0;
-    padding: 0.65rem 1.2rem;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.7rem 1.2rem;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     transition: background 0.15s ease;
   }
   .status-row:last-child{ border-bottom: none; }
-  .status-row:first-child{ padding-top: 0.65rem; }
-  .status-row:hover{ background: rgba(255,255,255,0.02); }
+  .status-row:hover{ background: rgba(255,255,255,0.025); }
   .status-key{
     font-family: var(--mono);
-    font-size: 0.6rem;
+    font-size: 0.52rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: rgba(255,255,255,0.28);
     flex-shrink: 0;
-    padding-top: 3px;
-    min-width: 60px;
+    min-width: 46px;
+    padding-top: 2px;
   }
   .status-val{
     font-family: var(--display);
-    font-size: 0.88rem;
+    font-size: 1.05rem;
+    font-weight: 600;
     color: var(--ink);
-    line-height: 1.4;
+    line-height: 1.3;
     word-break: break-word;
   }
-  .status-val.lime{ color: var(--lime); }
+  .status-val.lime{
+    color: var(--lime);
+    text-shadow: 0 0 20px rgba(212,255,58,0.25);
+  }
   .status-edit-btn{
     display: none;
     width: calc(100% - 2.4rem);
@@ -4756,66 +4781,80 @@
   .status-edit-btn.visible{ display: block; }
   .status-edit-btn:hover{ border-color: var(--lime); color: var(--lime); }
 
-  /* ── Star Quest 블록 (status-panel 안에 통합됨) ── */
+  /* ── Star Quest 블록 ── */
   .status-quest-block{
     margin-top: 0;
-    padding: 0.8rem 1.2rem 0.8rem;
+    padding: 0.65rem 1.2rem;
     border-top: 1px solid rgba(255,255,255,0.06);
-    background: rgba(255,68,136,0.03);
   }
   .status-quest-header{
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.6rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
   }
   .status-quest-label{
     font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--pink);
+    color: var(--lime);
     font-weight: 600;
+    opacity: 0.85;
   }
   .status-quest-count{
     font-family: var(--mono);
-    font-size: 0.62rem;
+    font-size: 0.55rem;
     color: var(--ink-3);
     font-variant-numeric: tabular-nums;
+    opacity: 0.6;
   }
   .status-quest-count.unlocked{
     color: var(--pink);
     font-weight: 600;
+    opacity: 1;
   }
+  /* 별 컨테이너 — 발견된 별만 노출 */
   .status-quest-stars{
     display: flex;
-    gap: 0.35rem;
-    font-size: 1.1rem;
+    gap: 0.4rem;
+    font-size: 0.85rem;
     line-height: 1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
+    min-height: 1em; /* 0개일 때도 공간 유지 */
   }
+  /* 기본: 완전 숨김 — 개수 유추 불가 */
   .status-quest-stars .sq{
-    color: rgba(255, 255, 255, 0.18);
-    transition: color 0.4s ease, text-shadow 0.4s ease, transform 0.3s ease;
-    width: 1em;
-    text-align: center;
-    font-family: var(--mono);
-  }
-  .status-quest-stars .sq.found{
+    display: none;
     color: var(--pink);
-    text-shadow: 0 0 6px var(--pink), 0 0 12px rgba(255, 68, 136, 0.5);
+    text-shadow: 0 0 8px rgba(255,68,136,0.6);
+    font-family: var(--mono);
+    width: auto;
+    transition: none;
+  }
+  /* 발견 시: 노출 + 크기 정상화 */
+  .status-quest-stars .sq.found{
+    display: inline-block;
+  }
+  /* 방금 발견된 별 — 뿅 이펙트 */
+  .status-quest-stars .sq.sq-pop{
+    animation: sqPop 0.7s cubic-bezier(.3,1.5,.5,1) forwards;
+  }
+  @keyframes sqPop{
+    0%  { transform: scale(0) rotate(-40deg); opacity:0; filter: blur(4px); }
+    55% { transform: scale(1.5) rotate(8deg);  opacity:1; filter: blur(0); }
+    100%{ transform: scale(1) rotate(0deg);    opacity:1; filter: blur(0); }
   }
   .status-quest-hint{
     font-family: var(--mono);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     line-height: 1.4;
     color: var(--ink-3);
-    opacity: 0.75;
+    opacity: 0.5;
     letter-spacing: 0.03em;
   }
-  body.light-mode .status-quest-stars .sq{ color: rgba(0,0,0,0.15); }
-  body.light-mode .status-quest-stars .sq.found{ color: #d63384; }
+  body.light-mode .status-quest-stars .sq.found{ color: #d63384; text-shadow: none; }
   .status-edit-form{ display: none; margin: 0 1.2rem 1rem; }
   .status-edit-form.open{ display: flex; flex-direction: column; gap: 0.5rem; }
   .status-edit-row{
@@ -4884,6 +4923,59 @@
       transform: translateX(-50%) translateY(0);
     }
   }
+
+  /* ── 모바일 전용 유틸 nav (KO/EN + 관리자 로그인) ── */
+  .status-mobile-nav{
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: flex-end;
+  }
+  @media (max-width: 700px){
+    .status-mobile-nav{ display: flex; }
+    .topbar .lang-switch,
+    .topbar .admin-lock{ display: none !important; }
+  }
+  .sm-lang{
+    background: rgba(10,10,13,0.88);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.35rem 0.65rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    cursor: pointer;
+    backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .sm-lang:hover{ border-color: rgba(212,255,58,0.3); color: var(--ink); }
+  .sm-lang-opt{ opacity: 0.5; }
+  .sm-lang-opt.active{ opacity: 1; color: var(--lime); font-weight: 700; }
+  .sm-lang-sep{ opacity: 0.3; font-size: 0.55rem; }
+  .sm-lock{
+    background: rgba(10,10,13,0.88);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    width: 32px; height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ink-3);
+    backdrop-filter: blur(16px);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .sm-lock svg{ width: 13px; height: 13px; }
+  .sm-lock:hover{ border-color: rgba(212,255,58,0.3); color: var(--lime); }
+  .sm-lock.authed{ color: var(--lime); border-color: rgba(212,255,58,0.3); }
+  body.light-mode .sm-lang,
+  body.light-mode .sm-lock{ background: rgba(255,255,255,0.9); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
 
   /* ============== VIEWS COUNT ============== */
   .thought-views{
@@ -7702,11 +7794,26 @@ body.light-mode .big-arrow-icon svg path{
 </div>
 
 <div class="status-widget" id="status-widget">
+
+  <!-- 모바일 전용: KO/EN + 관리자 로그인 (topbar에서 옮겨온 것) -->
+  <div class="status-mobile-nav" id="status-mobile-nav">
+    <button class="sm-lang" id="sm-lang" type="button" aria-label="언어 전환">
+      <span class="sm-lang-opt" data-lang="ko">KO</span>
+      <span class="sm-lang-sep">/</span>
+      <span class="sm-lang-opt" data-lang="en">EN</span>
+    </button>
+    <button class="sm-lock" id="sm-lock" type="button" aria-label="관리자 로그인">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </button>
+  </div>
   <div class="status-panel" id="status-panel">
 
-    <!-- ── 패널 헤더 ── -->
+    <!-- ── 패널 헤더: 큰 날짜/시간 ── -->
     <div class="status-panel-header">
-      <span class="status-panel-title">Status</span>
+      <div class="sp-header-main">
+        <div class="sp-datetime" id="sp-datetime">—</div>
+        <div class="sp-subtitle">CHURRO's STATUS</div>
+      </div>
       <span class="status-panel-online">ONLINE</span>
     </div>
 
@@ -9494,8 +9601,10 @@ body.light-mode .big-arrow-icon svg path{
         const starHtml = (i === 0)
           ? `<span class="hidden-star" data-star-id="3" title="?" style="position:absolute; top:10px; right:12px; z-index:5; font-size:1.05rem;">✦</span>`
           : '';
-        // title은 admin이 plain text로 입력 (HTML escape 적용 — span class 노출 방지)
-        const titleSafe = String(p.title || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        // title은 <em>/<strong> 허용, 나머지는 escape
+        const titleSafe = String(p.title || '')
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/&lt;(\/?)(em|strong)&gt;/gi, '<$1$2>');
         return `
           <div class="item${extraClass}" data-idx="${i}" style="position:relative;">
             ${starHtml}
@@ -11518,8 +11627,17 @@ trackedOnSnapshot(statusRef, (snap) => {
 statusToggle.addEventListener('click', () => {
   statusOpen = !statusOpen;
   statusPanel.classList.toggle('open', statusOpen);
-  statusLabel.textContent = statusOpen ? '닫기' : '상태 보기';
+  statusLabel.textContent = statusOpen ? '닫기' : '상태창';
 });
+
+// 외부(별 수집 등)에서 패널을 강제 오픈할 수 있도록 노출
+window._openStatusPanel = function(){
+  if (!statusOpen){
+    statusOpen = true;
+    statusPanel.classList.add('open');
+    statusLabel.textContent = '닫기';
+  }
+};
 
 // 관리자 수정 버튼
 function updateStatusAdminUI(){
@@ -11701,11 +11819,20 @@ statusSaveBtn.addEventListener('click', async () => {
     el.classList.add('found');
     setTimeout(() => { try { el.remove(); } catch(_) {} }, 700);
 
-    showToast({ glyph: '✦', text: 'Star found', count: `${collected.size} / 5` });
+    showToast({ glyph: '✦', text: 'Star found', count: `${collected.size} / ?` });
     updateLog(id);
 
     // 사운드: 별 줍는 종소리
     if (window.Sound) window.Sound.play('star');
+
+    // ── 상태창 자동 오픈 + 별 뿅 이펙트 ──
+    if (typeof window._openStatusPanel === 'function') window._openStatusPanel();
+    setTimeout(() => {
+      if (typeof window.syncStarQuest === 'function') window.syncStarQuest();
+      // 방금 추가된 별에 pop 애니메이션
+      const sqEl = document.querySelector(`#status-quest-stars .sq[data-i="${id}"]`);
+      if (sqEl){ sqEl.classList.add('sq-pop'); setTimeout(() => sqEl.classList.remove('sq-pop'), 800); }
+    }, 180);
 
     if (collected.size === TOTAL_STARS) {
       // 사운드: 5개 다 모음 — 팡파레 (약간 딜레이)
@@ -13071,12 +13198,42 @@ document.addEventListener('keydown', (e) => {
   window.getLang = () => currentLang;
   window.setLang = setLang;
 
-  // 토글 버튼
+  // 토글 버튼 (topbar)
   const langSwitchBtn = document.getElementById('lang-switch');
   if (langSwitchBtn){
     langSwitchBtn.addEventListener('click', () => {
       setLang(currentLang === 'ko' ? 'en' : 'ko');
     });
+  }
+  // 모바일 복제 버튼
+  const smLang = document.getElementById('sm-lang');
+  if (smLang){
+    smLang.addEventListener('click', () => {
+      setLang(currentLang === 'ko' ? 'en' : 'ko');
+    });
+    // active 상태 동기화 — applyI18n 실행 때 같이 처리
+    const _origApply = applyI18n;
+    applyI18n = function(){
+      _origApply();
+      smLang.querySelectorAll('.sm-lang-opt').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === currentLang);
+      });
+    };
+  }
+  // 모바일 관리자 잠금 버튼 — admin-lock과 같은 동작
+  const smLock = document.getElementById('sm-lock');
+  if (smLock){
+    smLock.addEventListener('click', () => {
+      const origLock = document.getElementById('admin-lock');
+      if (origLock) origLock.click();
+    });
+    // authed 상태 동기화
+    const _obs = new MutationObserver(() => {
+      const origLock = document.getElementById('admin-lock');
+      if (origLock) smLock.classList.toggle('authed', origLock.classList.contains('authed'));
+    });
+    const origLock = document.getElementById('admin-lock');
+    if (origLock) _obs.observe(origLock, { attributes: true, attributeFilter: ['class'] });
   }
   // 첫 적용
   applyI18n();
@@ -13092,7 +13249,7 @@ document.addEventListener('keydown', (e) => {
   const dateEl = document.getElementById('dt-date');
   const dayEl  = document.getElementById('dt-day');
   const timeEl = document.getElementById('dt-time');
-  if (!dateEl || !timeEl) return;
+  const spDt   = document.getElementById('sp-datetime');
 
   const DAY_KO = ['일','월','화','수','목','금','토'];
   const DAY_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -13110,18 +13267,22 @@ document.addEventListener('keydown', (e) => {
     const s = pad(now.getSeconds());
     const dayName = (lang === 'en' ? DAY_EN : DAY_KO)[now.getDay()];
 
-    if (lang === 'en'){
-      dateEl.textContent = `${Y}.${M}.${D}`;
-    } else {
-      dateEl.textContent = `${Y}.${M}.${D}`;
+    if (dateEl){ dateEl.textContent = `${Y}.${M}.${D}`; }
+    if (dayEl)  { dayEl.textContent  = dayName; }
+    if (timeEl) { timeEl.textContent = `${h}:${m}:${s}`; }
+
+    // 상태창 헤더: MM/DD(요일) HH:mm 형식으로 크게
+    if (spDt){
+      if (lang === 'en'){
+        spDt.textContent = `${M}/${D}(${dayName}) ${h}:${m}`;
+      } else {
+        spDt.textContent = `${M}/${D}(${dayName}) ${h}:${m}`;
+      }
     }
-    if (dayEl) dayEl.textContent = dayName;
-    timeEl.textContent = `${h}:${m}:${s}`;
   }
   update();
   setInterval(update, 1000);
 
-  // 탭이 다시 보일 때 즉시 갱신 (정확도 보장)
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) update();
   });
@@ -13155,29 +13316,32 @@ document.addEventListener('keydown', (e) => {
 
     stars.forEach((el, idx) => {
       const i = idx + 1;
-      // 발견된 별만 ★ 핑크, 나머지는 · 점
       if (collected.has(i)){
         el.textContent = '★';
         el.classList.add('found');
       } else {
-        el.textContent = '·';
+        el.textContent = '★'; // 내용은 동일, 그러나 found 없으면 display:none
         el.classList.remove('found');
       }
     });
 
+    // count 표시: 0개면 완전 숨김, 발견 중이면 "★×N", 완성이면 특별 표시
     if (count === 0){
-      countEl.textContent = '?/?';
+      countEl.textContent = '';
+      countEl.style.display = 'none';
       countEl.classList.remove('unlocked');
     } else if (count < TOTAL){
-      // 발견한 만큼은 보여주되, 전체 개수는 미스터리로 (?/?로는 너무 흐릿하니 발견수만 표시)
-      countEl.textContent = `${count} / ?`;
+      countEl.textContent = `★ × ${count}`;
+      countEl.style.display = '';
       countEl.classList.remove('unlocked');
     } else {
-      countEl.textContent = `${TOTAL} / ${TOTAL} ✦`;
+      countEl.textContent = `★ × ${TOTAL} ✦`;
+      countEl.style.display = '';
       countEl.classList.add('unlocked');
     }
   }
   syncQuest();
+  window.syncStarQuest = syncQuest;
   // 별이 발견될 수 있으니 주기적으로 동기화
   setInterval(syncQuest, 2000);
   // 페이지 다시 보일 때도 즉시
